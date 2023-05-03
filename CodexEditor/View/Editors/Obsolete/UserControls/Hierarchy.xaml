@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="CodexEditor.View.MainWindow.UserControls.Hierarchy"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CodexEditor.View.MainWindow.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="{DynamicResource PrimaryBorderColour}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <!-- Tool bar -->
+        <Grid Grid.Row="0" Background="{DynamicResource SecondaryColour}" Margin="0,0,0,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <local:CFXInputBox Grid.Column="1" Margin="6"></local:CFXInputBox>
+        </Grid>
+        
+        <!-- Entity list -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!-- Per entity hide button list -->
+            <Grid Grid.Column="0" Background="{DynamicResource PrimaryColour}">
+                
+            </Grid>
+            
+            <!-- Entity list -->
+            <Grid Grid.Column="1" Background="{DynamicResource SecondaryColour}">
+                
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,5 @@
+- Implement IDisposable interface
+- Define own platform, IDE and compiler independent macros
+- Write build scripts
+- Organize VS project
+- dont fuck up!

@@ -1,0 +1,38 @@
+﻿<Window x:Class="CodexEditor.Views.ProjectBrowser.ProjectBrowser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CodexEditor.Views.ProjectBrowser" 
+        xmlns:gameproject="clr-namespace:CodexEditor.View.GameProject"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        Title="ProjectBrowser" 
+        Height="500" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <StackPanel 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="10">
+                <ToggleButton x:Name="newProjectBtn" Click="ToggleButton_Click" Content="New Project" FontSize="32" />
+                <ToggleButton x:Name="openProjectBtn" Click="ToggleButton_Click" Content="Open Project" FontSize="32" IsChecked="True" Margin="30,0,0,0" />
+            </StackPanel>
+        </Grid>
+        <StackPanel 
+            x:Name="browserContent"
+            Grid.Row="1" 
+            Orientation="Horizontal">
+            <gameproject:OpenProject x:Name="openProjectView" Width="800" />
+            <gameproject:NewProjectView x:Name="newProjectView" Width="800"/>
+        </StackPanel>
+    </Grid>
+</Window>

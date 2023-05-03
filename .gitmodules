@@ -1,0 +1,13 @@
+[submodule "CODEX/vendor/fmt"]
+	path = CODEX/vendor/fmt
+	url = https://github.com/fmtlib/fmt.git
+[submodule "CODEX/vendor/yaml-cpp"]
+	path = CODEX/vendor/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "CODEX/vendor/SDL"]
+	path = CODEX/vendor/SDL
+	url = https://github.com/NeddX/SDL.git
+	branch = release-2.26.x
+[submodule "CODEX/vendor/MGL"]
+	path = CODEX/vendor/MGL
+	url = https://github.com/NeddX/MGL.git

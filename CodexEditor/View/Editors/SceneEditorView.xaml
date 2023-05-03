@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="CodexEditor.View.Editors.SceneEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CodexEditor.View.Editors"
+             xmlns:shared="clr-namespace:CodexEditor.View.Shared"
+             mc:Ignorable="d" 
+             Focusable="True"
+             Loaded="UserControl_Loaded"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding UndoCmd}" Key="Z" Modifiers="Ctrl"/>
+        <KeyBinding Command="{Binding RedoCmd}" Key="X" Modifiers="Ctrl"/>
+        <KeyBinding Command="{Binding SaveCmd}" Key="S" Modifiers="Ctrl"/>
+    </UserControl.InputBindings>
+    <Grid Background="{DynamicResource PrimaryColour}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Content="Undo" Width="50" Height="20" Margin="10,0,0,0"
+                    Command="{Binding UndoCmd}"/>
+            <Button Content="Redo" Width="50" Height="20" Margin="10,0,0,0"
+                    Command="{Binding RedoCmd}"/>
+        </StackPanel>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <GridSplitter Grid.Row="1" Height="5"
+                              HorizontalAlignment="Stretch" 
+                              VerticalAlignment="Top"/>
+
+                <TabControl Grid.Row="1" Background="Transparent"
+                            Margin="5">
+                    <TabItem Header="Unredoable history">
+                        <shared:UnredoableListView 
+                            DataContext="{Binding Unredoable}"
+                            Grid.Row="5"/>
+                    </TabItem>
+                    <TabItem Header="Logger">
+                        <shared:LoggerView/>
+                    </TabItem>
+                </TabControl>
+
+            </Grid>
+
+            <GridSplitter Grid.Column="1" Width="5"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Stretch"/>
+
+            <Grid Grid.Column="1"
+                  Margin="5,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <GridSplitter Grid.Row="1" Height="5"
+                              HorizontalAlignment="Stretch" 
+                              VerticalAlignment="Top"/>
+
+                <local:SceneHierarchy Grid.Row="0" Margin="5"/>
+                <local:EntityView Grid.Row="1" Margin="5"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

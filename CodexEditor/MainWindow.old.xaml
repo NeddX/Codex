@@ -1,0 +1,141 @@
+﻿<Window x:Class="CL.CodexEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CodexEditor"
+        xmlns:UserControls="clr-namespace:CodexEditor.View.MainWindow.UserControls"
+        mc:Ignorable="d"
+        Loaded="Window_OnLoaded"
+        Closing="Window_OnClosing"
+        Title="MainWindow" 
+        Width="1280" 
+        Height="720" 
+        Background="Black"
+        WindowStartupLocation="CenterScreen">
+    <Grid x:Name="Global_Grid" Background="{DynamicResource PrimaryBorderColour}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- Top Grid -->
+		<Grid x:Name="Top_Grid" Grid.Row="0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="0.7*"></RowDefinition>
+				<RowDefinition></RowDefinition>
+			</Grid.RowDefinitions>
+			
+			<UserControls:MenuBar Grid.Row="0"></UserControls:MenuBar>
+			<Rectangle Fill="{DynamicResource PrimaryColour}" Grid.Row="1"></Rectangle>
+		</Grid>
+		
+		<!-- Middle Grid -->
+		<Grid x:Name="Middle_Grid" Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition></ColumnDefinition>
+				<ColumnDefinition Width="300"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+
+			<Grid x:Name="General_Grid" Grid.Column="0">
+				<Grid.RowDefinitions>
+					<RowDefinition></RowDefinition>
+					<RowDefinition Height="0.6*"></RowDefinition>
+				</Grid.RowDefinitions>
+
+				<Grid x:Name="Scene_Grid" Grid.Row="0" 
+                      Background="{DynamicResource PrimaryColour}">
+                    <Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>
+
+                    <TabControl
+                        Background="{DynamicResource PrimaryColour}"
+                        Style="{DynamicResource TabControlStyle}">
+                        <TabItem Header="Scene"
+                                 Style="{DynamicResource TabItemStyle}">
+                            <Grid Background="{DynamicResource SecondaryColour}">
+                                <Border 
+                                    x:Name="EngineBorderHost" 
+                                    Background="DarkGray" 
+                                    Grid.Column="1"
+                                    Margin="0"
+                                    Focusable="True"></Border>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+				
+				<!-- Asset Explorer -->
+				<Grid x:Name="FileExplorer_Grid" 
+                      Grid.Row="1"
+                      Background="{DynamicResource PrimaryColour}">
+                    <TabControl
+                        Background="{DynamicResource PrimaryColour}"
+                        Style="{DynamicResource TabControlStyle}">
+                        <TabItem Header="Project Files"
+                                 Style="{DynamicResource TabItemStyle}">
+                            <Grid Background="{DynamicResource SecondaryColour}">
+                                <UserControls:AssetManager></UserControls:AssetManager>    
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+					<!--<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="250"></ColumnDefinition>
+						<ColumnDefinition></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+
+					<Border Background="{DynamicResource SecondaryColour}" 
+                            Grid.Column="0"
+                            ></Border>
+					<Border Background="{DynamicResource PrimaryColour}" 
+                            Grid.Column="1"
+                            ></Border>-->
+				</Grid>
+			</Grid>
+			
+			<!-- Entity Property Tab -->
+			<Grid x:Name="EntityProperty_Grid" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1" Background="{DynamicResource PrimaryColour}">
+                    <TabControl 
+                        Grid.Row="1" 
+                        Background="{DynamicResource PrimaryColour}"
+                        Style="{DynamicResource TabControlStyle}">
+                        <TabItem Header="Hierarchy" 
+                                 Style="{DynamicResource TabItemStyle}">
+                            <UserControls:Hierarchy Grid.Row="1"></UserControls:Hierarchy>
+                        </TabItem>
+                        <TabItem Header="Properties"
+                                 Style="{DynamicResource TabItemStyle}">
+                            <Grid Background="{DynamicResource SecondaryColour}">
+                                <Label Content="no properties bro" Foreground="White"></Label>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+                <Grid 
+                    Background="{DynamicResource PrimaryColour}" 
+                    Grid.Row="0">
+                    <TabControl 
+                        Grid.Row="1" 
+                        Background="{DynamicResource SecondaryColour}"
+                        Style="{DynamicResource TabControlStyle}">
+                        <TabItem Header="Properties" 
+                                 Style="{DynamicResource TabItemStyle}">
+                            <!--<UserControls:EntityProperties Grid.Row="1"></UserControls:EntityProperties>-->
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+			</Grid>
+		</Grid>
+		
+		<!-- Bottom Grid -->
+		<Grid x:Name="Bottom_Grid" Grid.Row="2">
+			<Rectangle Fill="{DynamicResource PrimaryColour}"></Rectangle>
+		</Grid>
+	</Grid>
+</Window>

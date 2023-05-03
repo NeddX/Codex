@@ -1,0 +1,35 @@
+#ifndef CODEX_SCENE_SPRITE_H
+#define CODEX_SCENE_SPRITE_H
+
+#include "../../Core/Geomtryd.h"
+#include "../../Renderer/Texture2D.h"
+
+namespace Codex
+{
+	class Sprite
+	{
+	private:
+		std::shared_ptr<Texture2D> m_Texture;
+		Rectf m_SrcRect;
+		Rectf m_DestRect;
+
+	public:
+		Sprite(std::shared_ptr<Texture2D> texture) :
+			m_Texture(texture)
+		{
+			m_SrcRect = { 0.0f, 0.0f, (float)(texture->GetWidth()), (float)(texture->GetHeight()) };
+		}
+		Sprite(std::shared_ptr<Texture2D> texture, const Rectf textureCoords) :
+			m_Texture(texture), m_SrcRect(textureCoords)
+		{
+
+		}
+
+	public:
+		inline std::shared_ptr<Texture2D> GetTexture() const			{ return m_Texture; }
+		inline Rectf GetTextureCoords() const							{ return m_SrcRect; }
+		inline void SetTextureCoords(const Rectf textureCoords)			{ m_SrcRect = textureCoords; }
+	};
+}
+
+#endif // CODEX_SCENE_SPRITE_H
