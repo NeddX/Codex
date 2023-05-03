@@ -11,3 +11,16 @@
 [submodule "CODEX/vendor/MGL"]
 	path = CODEX/vendor/MGL
 	url = https://github.com/NeddX/MGL.git
+[submodule "CLEFX/vendor/fmt"]
+	path = CLEFX/vendor/fmt
+	url = https://github.com/fmtlib/fmt
+[submodule "Codex/vendor/yaml-cpp"]
+	path = Codex/vendor/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "Codex/vendor/SDL"]
+	path = Codex/vendor/SDL
+	url = https://github.com/NeddX/SDL.git
+	branch = release-2.26.x
+[submodule "Codex/vendor/fmt"]
+	path = Codex/vendor/fmt
+	url = https://github.com/fmtlib/fmt.git
