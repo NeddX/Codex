@@ -3,6 +3,7 @@
 .idea/
 .vscode/
 .cache/
+.ignore/
 compile_commands.json
 
 ## Ignore Visual Studio temporary files, build results, and
