@@ -1,8 +1,8 @@
 #ifndef CODEX_SCENE_SPRITE_H
 #define CODEX_SCENE_SPRITE_H
 
-#include "../../Core/Geomtryd.h"
-#include "../../Renderer/Texture2D.h"
+#include "../Core/Geomtryd.h"
+#include "../Renderer/Texture2D.h"
 
 namespace Codex
 {
