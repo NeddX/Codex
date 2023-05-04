@@ -1,63 +1,32 @@
 ﻿using System;
-using System.Runtime.InteropServices;
+using CodexEditor.ViewModel.ECS;
+using CodexEngine;
+using CodexEngine.Structs;
 
 namespace CodexEditor.CoreAPI
 {
 	public static class EngineAPI
-    {
-        public const string m_EngineDll = @"../../../../builds/vs2022/CodexAPI/Debug/CodexAPI.dll";
-
-        [StructLayout(LayoutKind.Sequential)]
-		public struct WindowProperties
+	{
+		public static uint CreateEntity(Entity entity)
 		{
-			[MarshalAs(UnmanagedType.LPStr)]
-			public string Title;
-			public int Width;
-			public int Height;
-			public int PosX;
-			public int PosY;
-			public int FrameCap;
-			public UInt32 Flags;
-			public bool Vsync;
+			EntityDescriptor desc = new EntityDescriptor();
 
-			public WindowProperties(
-				string title = "hello from c#",
-				int width = 1280,
-				int height = 720,
-				int posX = 0,
-				int posY = 0,
-				int frameCap = 0,
-				UInt32 flags = 2,
-				bool vsync = true
-				)
 			{
-				Title = title;
-				Width = width;
-				Height = height;
-				PosX = posX;
-				PosY = posY;
-				FrameCap = frameCap;
-				Flags = flags;
-				Vsync = vsync;
+				var transformComponent	= entity.GetComponent<TransformComponent>();
+				desc.Transform.Position = transformComponent.Position;
+				desc.Transform.Rotation = transformComponent.Rotation;
+				desc.Transform.Scale	= transformComponent.Scale;
+
+				var tagComponent		= entity.GetComponent<TagComponent>();
+				desc.Tag.Tag = tagComponent.Tag;
 			}
+
+			return CodexAPI.CreateEntity(desc);
 		}
 
-		// Engine API Imports
-		[DllImport(m_EngineDll)]
-		public static extern IntPtr GetInstance();
-		[DllImport(m_EngineDll)]
-		public static extern void CreateWindow(IntPtr inst, ref WindowProperties props, nint nativeHandle = 0); // dont touch the last parameter
-		[DllImport(m_EngineDll)]
-		public static extern void CreateChildWindow(IntPtr inst, ref WindowProperties props, nint parentHandle, ref nint handle);
-		[DllImport(m_EngineDll)]
-		public static extern void Dispose(IntPtr inst);
-		[DllImport(m_EngineDll)]
-		public static extern IntPtr ReadBackBufferTo(IntPtr inst);
-		[DllImport(m_EngineDll)]
-		public static extern void StartEngineThread(IntPtr inst);
-		[DllImport(m_EngineDll)]
-		public static extern void Update(IntPtr inst);
-        [DllImport(m_EngineDll)]
-        public static extern void ResizeViewport(IntPtr inst, int newWidth, int newHeight);
-    }
+		public static void RemoveEntity(Entity entity)
+		{
+			CodexAPI.RemoveEntity(entity.EntityID);
+		}
+	}
 }

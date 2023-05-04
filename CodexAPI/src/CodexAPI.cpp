@@ -1,66 +1,54 @@
 #include "CodexAPI.h"
 
-Codex::Window* GetInstance()
+extern Codex::Window* g_WindowInstance;
+
+void Init()
 {
-	auto* inst = Codex::Window::CreateWindow();
-	return inst;
+	if (g_WindowInstance == nullptr)
+		g_WindowInstance = Codex::Window::CreateWindow();
 }
 
-Codex::Window* CreateChildWindow(
-	Codex::Window* inst,
-	const Codex::Window::Properties& properties,
-	const void* parentHandle,
-	void*& handle)
+void CreateWindow(const Codex::Window::Properties& properties, const void* nativeWindow)
 {
-    // Create a native win32 window and then pass the control to SDL
+	g_WindowInstance->Init(properties, nativeWindow);
+}
 
-    HINSTANCE win_inst = GetModuleHandle(NULL);
-    WNDCLASS wc = {};
-    wc.lpfnWndProc = DefWindowProc;
-    wc.hInstance = win_inst;
-    wc.lpszClassName = properties.title;
-    RegisterClass(&wc);
+void Destroy()
+{
+	g_WindowInstance->Destroy();
+}
 
-    // Create native Win32 window
-    handle = CreateWindowEx(
-        0,
-        properties.title,
-        properties.title,
-        WS_CHILD | WS_VISIBLE,
-        CW_USEDEFAULT, CW_USEDEFAULT,
-        properties.width, properties.height,
-        (HWND)(parentHandle),
-        NULL,
-        win_inst,
-        NULL
-    );
+void StartEngineThread()
+{
+	g_WindowInstance->Update();
+}
 
-    CreateWindow(inst, properties, handle);
+void Update()
+{
+	g_WindowInstance->ManualUpdate();
+}
 
+void ResizeViewport(int newWidth, int newHeight)
+{
+	g_WindowInstance->OnWindowResize_Event(newWidth, newHeight);
+}
+
+Codex::Scene* GetCurrentScene()
+{
 	return nullptr;
 }
 
-void CreateWindow(Codex::Window* inst, const Codex::Window::Properties& properties, const void* nativeWindow)
+void ChangeScene(int sceneID)
 {
-	inst->Init(properties, nativeWindow);
+
 }
 
-void Dispose(Codex::Window* inst)
+uint32_t CreateEntity(EntityDescriptor* desc)
 {
-	inst->Dispose();
+	return g_WindowInstance->GetCurrentScene()->CreateEntity(desc->tag.tag).GetID();
 }
 
-void StartEngineThread(Codex::Window* inst)
+void RemoveEntity(uint32_t id)
 {
-	inst->Update();
-}
-
-void Update(Codex::Window* inst)
-{
-    inst->ManualUpdate();
-}
-
-void ResizeViewport(Codex::Window* inst, int newWidth, int newHeight)
-{
-    inst->OnWindowResize_Event(newWidth, newHeight);
+	g_WindowInstance->GetCurrentScene()->RemoveEntity(id);
 }

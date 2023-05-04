@@ -14,14 +14,14 @@ namespace Codex
 	struct TagComponent
 	{
 	public:
-		const char* tag;
+		std::string tag;
 
 	public:
 		TagComponent()
 		{
 			tag = "default tag";
 		}
-		TagComponent(const char* tag) : tag(tag)
+		TagComponent(const std::string& tag) : tag(tag)
 		{
 
 		}
@@ -30,12 +30,16 @@ namespace Codex
 	struct TransformComponent
 	{
 	public:
-		Vector2f position;
-		Vector2f scale;
+		Vector3f position;
+		Vector3f rotation; // Use quaternions
+		Vector3f scale;
 
 	public:
-		TransformComponent(Vector2f position = Vector2f(), Vector2f scale = Vector2f(1.0f, 1.0f)) :
-			position(position), scale(scale)
+		TransformComponent(
+			Vector3f position = Vector3f(), 
+			Vector3f rotation = Vector3f(), 
+			Vector3f scale = Vector3f(1.0f, 1.0f, 1.0f)) :
+			position(position), rotation(rotation), scale(scale)
 		{
 
 		}

@@ -28,6 +28,7 @@ namespace Codex
 	public:
 		inline std::shared_ptr<Texture2D> GetTexture() const			{ return m_Texture; }
 		inline Rectf GetTextureCoords() const							{ return m_SrcRect; }
+		inline void SetTexture(std::shared_ptr<Texture2D> texture)		{ m_Texture = texture; }
 		inline void SetTextureCoords(const Rectf textureCoords)			{ m_SrcRect = textureCoords; }
 	};
 }

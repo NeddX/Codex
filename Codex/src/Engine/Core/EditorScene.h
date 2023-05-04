@@ -10,6 +10,7 @@ namespace Codex
 {
 	class EditorScene : public Scene
 	{
+#ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
 	public:
 		void* operator new(size_t size)
 		{
@@ -23,9 +24,10 @@ namespace Codex
 			fmt::println("[Memory] :: Deallocated memory.\n\tFile: {}\n\tLine: {}\n\tAddress: {}", __FILE__, __LINE__, ptr);
 			std::free(ptr);
 		}
+#endif
 
 	private:
-		SpriteBatchRenderer* m_SpriteBatch;
+		std::shared_ptr<SpriteBatchRenderer> m_SpriteBatch;
 		std::shared_ptr<Shader> m_Shader;
 
 	public:

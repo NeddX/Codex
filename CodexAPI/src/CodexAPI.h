@@ -2,29 +2,74 @@
 #define CLIAPI_H
 
 #if defined(_WIN32) || defined(__CYGWIN__)
-#   define CFX_EXPORT __declspec(dllexport)
+#   define CODEX_EXPORT __declspec(dllexport)
 #else
-#   define CFX_EXPORT __attribute__((visibility("default")))
+#   define CODEX_EXPORT __attribute__((visibility("default")))
 #endif
+#define ARRAY_COUNT(x) sizeof(x) / sizeof(x[0])
 
 #include <Codex.h>
 #include <cstdint>
 
+Codex::Window* g_WindowInstance = nullptr;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-	 
-	CFX_EXPORT Codex::Window* GetInstance();
-	CFX_EXPORT Codex::Window* CreateChildWindow(
-		Codex::Window* inst, 
-		const Codex::Window::Properties& properties,
-		const void* parentHandle,
-		void*& handle);
-	CFX_EXPORT void CreateWindow(Codex::Window* inst, const Codex::Window::Properties& properties, const void* nativeWindow = nullptr);
-	CFX_EXPORT void Dispose(Codex::Window* inst);
-	CFX_EXPORT void StartEngineThread(Codex::Window* inst);
-	CFX_EXPORT void Update(Codex::Window* inst);
-	CFX_EXPORT void ResizeViewport(Codex::Window* inst, int newWidth, int newHeight);
+	namespace
+	{
+		struct TransformComponent
+		{
+		public:
+			float position[3];
+			float rotation[3];
+			float scale[3];
+			
+		public:
+			Codex::TransformComponent ToNative()
+			{
+				Codex::TransformComponent c;
+				std::memcpy(Codex::ValuePtr(c.position),	position,	sizeof(float) * ARRAY_COUNT(position));
+				std::memcpy(Codex::ValuePtr(c.rotation),	rotation,	sizeof(float) * ARRAY_COUNT(rotation));
+				std::memcpy(Codex::ValuePtr(c.scale),		scale,		sizeof(float) * ARRAY_COUNT(scale));
+				return c;
+			}
+		};
+
+		struct TagComponent
+		{
+		public:
+			const char* tag;
+		
+		public:
+			Codex::TagComponent ToNative()
+			{
+				return Codex::TagComponent(tag);
+			}
+		};
+
+		struct EntityDescriptor
+		{
+			TransformComponent transform;
+			TagComponent tag;
+		};
+	}
+
+	// Window class
+	CODEX_EXPORT void Init();
+	CODEX_EXPORT void CreateWindow(const Codex::Window::Properties& proFperties, const void* nativeWindow = nullptr);
+	CODEX_EXPORT void Destroy();
+	CODEX_EXPORT void StartEngineThread();
+	CODEX_EXPORT void Update();
+	CODEX_EXPORT void ResizeViewport(int newWidth, int newHeight);
+	CODEX_EXPORT Codex::Scene* GetCurrentScene();
+	CODEX_EXPORT void ChangeScene(int sceneID);
+
+	// Scene class
+	CODEX_EXPORT uint32_t CreateEntity(EntityDescriptor* desc);
+	CODEX_EXPORT void RemoveEntity(uint32_t id);
+
+	// Entity Component System
 
 #ifdef __cplusplus
 }

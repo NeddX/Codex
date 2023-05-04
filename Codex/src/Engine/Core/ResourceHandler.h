@@ -52,7 +52,7 @@ namespace Codex
 				TextureProperties props;
 				props.textureFilterMode = TextureFilterMode::PIXELATE;
 
-				std::shared_ptr<Texture2D> texture = std::shared_ptr<Texture2D>(new Texture2D(filePath, props));
+				std::shared_ptr<Texture2D> texture = std::make_shared<Texture2D>(filePath, props);
 				m_Resources[id] = std::static_pointer_cast<IResource>(texture);
 				fs.close();
 				fmt::println("[ResourceHandler] >> File: '{}' ID: {}", filePath, id);
@@ -72,7 +72,7 @@ namespace Codex
 			if (fs.is_open())
 			{
 				size_t id = util::Crypto::DJB2Hash(filePath);
-				std::shared_ptr<Shader> texture = std::shared_ptr<Shader>(new Shader(filePath));
+				std::shared_ptr<Shader> texture = std::make_shared<Shader>(filePath);
 				m_Resources[id] = std::static_pointer_cast<IResource>(texture);
 				fs.close();
 				fmt::println("[ResourceHandler] >> File: '{}' ID: {}", filePath, id);

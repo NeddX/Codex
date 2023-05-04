@@ -6,7 +6,7 @@ namespace Codex
         m_Renderer(renderer), m_Width(width), m_Height(height)
     {
         m_Running = false;
-        m_Camera = std::unique_ptr<Camera>(new Camera(width, height));
+        m_Camera = std::make_unique<Camera>(width, height);
         //m_ActiveEntity = nullptr;
     }
 

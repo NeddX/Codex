@@ -15,7 +15,7 @@ namespace Codex
 	// Forward declarations
 	class Window;
 
-	class Scene : public IDisposable
+	class Scene
 	{
 		friend class Window;
 
@@ -25,7 +25,6 @@ namespace Codex
 		std::unique_ptr<Camera> m_Camera;
 		Renderer* m_Renderer;
 		EntityManager m_Manager;
-		//std::vector<Entity*> m_Entities;
 		//Entity* m_ActiveEntity;
 		
 	private:
@@ -37,6 +36,9 @@ namespace Codex
 
 	public:
 		inline Camera* GetCamera() const { return m_Camera.get(); }
+		inline Entity CreateEntity(const std::string& tag = "default tag") { return m_Manager.CreateEntity(tag); }
+		inline void RemoveEntity(Entity entity) { m_Manager.RemoveEntity(entity); }
+		inline void RemoveEntity(uint32_t entity) { m_Manager.RemoveEntity(Entity((entt::entity)(entity), &m_Manager)); }
 
 	public:
 		void OnWindowResize_Event(int newWidth, int newHeight)
@@ -44,9 +46,6 @@ namespace Codex
 			m_Camera->SetWidth(newWidth);
 			m_Camera->SetHeight(newHeight);
 		}
-
-	public:
-		//void AddEntity(Entity* entity);
 
 	private:
 		virtual void Init();

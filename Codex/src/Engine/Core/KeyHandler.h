@@ -5,10 +5,10 @@
 
 #include "Memory.h"
 
-#define MAX_KEY_COUNT 512
-
 namespace Codex
 {
+	constexpr auto MAX_KEY_COUNT = 512;
+
 	enum class Key
 	{
 
@@ -16,7 +16,7 @@ namespace Codex
 	// Forward decelerations
 	class Window;
 
-	class KeyHandler : public IDisposable
+	class KeyHandler
 	{
 #ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
 	public:
@@ -44,9 +44,6 @@ namespace Codex
 	private:
 		KeyHandler();
 		~KeyHandler();
-	
-	public:	
-		void Dispose() override;
 
 	protected:
 		struct KeyEvent
@@ -57,7 +54,7 @@ namespace Codex
 
 	protected:
 		static void Init() noexcept;
-		static void Deinit() noexcept;
+		static void Destroy() noexcept;
 
 	public:
 		static inline bool IsKeyDown(uint16_t key) noexcept

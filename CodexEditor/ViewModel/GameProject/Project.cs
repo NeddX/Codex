@@ -11,7 +11,7 @@ using System.Windows.Input;
 namespace CodexEditor.ViewModel.GameProject
 {
     [JsonObject("Game")]
-    class Project : ViewModelBase
+    public class Project : ViewModelBase
     {
         [JsonIgnore]
         public static string Extension = ".cfxproj";

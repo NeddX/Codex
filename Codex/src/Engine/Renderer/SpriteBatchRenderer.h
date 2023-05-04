@@ -42,7 +42,7 @@ namespace Codex
 		Shader* m_Shader;
 		std::vector<RenderBatch*> m_Batches;
 
-	protected:
+	public:
 		SpriteBatchRenderer(
 			Shader* shader,
 			const int capacity = BATCH_RENDERER_INITIAL_CAPACITY, 

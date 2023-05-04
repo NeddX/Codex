@@ -36,9 +36,10 @@ namespace mgl
 		uint32_t m_Slot;
 
 	public:
-		inline int GetWidth() 		const { return m_Width; }
-		inline int GetHeight() 		const { return m_Height; }
-		inline uint32_t GetSlot()	const { return m_Slot; }
+		inline int GetWidth() 				const { return m_Width; }
+		inline int GetHeight() 				const { return m_Height; }
+		inline uint32_t GetSlot()			const { return m_Slot; }
+		inline const char* GetFilePath()	const { return m_FilePath; }
 		
 	public:
 		Texture(const char* filePath, const TextureProperties properties = {});

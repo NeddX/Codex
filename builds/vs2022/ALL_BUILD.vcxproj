@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D859F9A2-1A3F-38AE-84E5-C3FE8BA6D771}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\dev\Codex\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/dev/Codex/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeRCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeCCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeCXXCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeRCCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeSystem.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\dev\Codex\builds\vs2022\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/dev/Codex/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeRCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeCCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeCXXCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeRCCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeSystem.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\dev\Codex\builds\vs2022\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/dev/Codex/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeRCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeCCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeCXXCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeRCCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeSystem.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\dev\Codex\builds\vs2022\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/dev/Codex/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeRCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Compiler\MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\Windows.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeCCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeCXXCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeRCCompiler.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\3.25.2\CMakeSystem.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\dev\Codex\builds\vs2022\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\ZERO_CHECK.vcxproj">
+      <Project>{70C30230-F53A-39A1-9CE9-844CD55F374E}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\Codex\Codex.vcxproj">
+      <Project>{33CF9B5E-EA41-307B-81EF-FDA17D99C046}</Project>
+      <Name>Codex</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\Codex\Codex-static.vcxproj">
+      <Project>{71140293-C56F-3A3D-9487-80EADBA70A5D}</Project>
+      <Name>Codex-static</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\CodexAPI\CodexAPI.vcxproj">
+      <Project>{8942ED57-B5DB-3FAF-AA5B-B20BC89CDB04}</Project>
+      <Name>CodexAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\MGL\MGL.vcxproj">
+      <Project>{A1C69237-0841-3FC7-9348-9FD737178568}</Project>
+      <Name>MGL</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\NetNT\NetNT.vcxproj">
+      <Project>{84BC7032-1E2A-3CCB-B254-4470E96D596B}</Project>
+      <Name>NetNT</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\SDL\SDL2.vcxproj">
+      <Project>{C7745634-8446-397D-9EDB-614D1D786716}</Project>
+      <Name>SDL2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\SDL\SDL2-static.vcxproj">
+      <Project>{7EF2E193-0154-3418-9508-FAB63BB7DEDA}</Project>
+      <Name>SDL2-static</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\SDL\SDL2_test.vcxproj">
+      <Project>{A12587AE-17EF-3F66-B75D-0446FB63C7EB}</Project>
+      <Name>SDL2_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\SDL\SDL2main.vcxproj">
+      <Project>{2AA3ED83-8853-39AD-80AA-34E97C6C343A}</Project>
+      <Name>SDL2main</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\TestGame\TestGame.vcxproj">
+      <Project>{2B031256-6043-31DC-916F-E049756A1CE2}</Project>
+      <Name>TestGame</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\fmt\fmt.vcxproj">
+      <Project>{748EE25A-4C95-3F5C-8CF0-7B31E509EE27}</Project>
+      <Name>fmt</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\yaml-cpp\yaml-cpp.vcxproj">
+      <Project>{E47C6141-A3B2-3229-8344-BA5E435FE6BE}</Project>
+      <Name>yaml-cpp</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\yaml-cpp\util\yaml-cpp-parse.vcxproj">
+      <Project>{EC0E7DC7-9CB0-3A38-B48A-CEFC6F94E6D5}</Project>
+      <Name>yaml-cpp-parse</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\yaml-cpp\util\yaml-cpp-read.vcxproj">
+      <Project>{0BABD6E1-A29A-30B5-A6CA-F3613918212A}</Project>
+      <Name>yaml-cpp-read</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\yaml-cpp\util\yaml-cpp-sandbox.vcxproj">
+      <Project>{B325B06A-994C-3F17-9EC3-E4906D3A9A87}</Project>
+      <Name>yaml-cpp-sandbox</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

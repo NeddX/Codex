@@ -6,7 +6,7 @@ namespace Codex
 	SDL_Window* Window::m_SdlWindow						= nullptr;
 	SDL_GLContext Window::m_GlContext					= nullptr;
 	SDL_Event Window::m_SdlEvent;
-	Scene* Window::m_CurrentScene						= nullptr;
+	std::unique_ptr<Scene> Window::m_CurrentScene		= nullptr;
 	std::unique_ptr<Renderer> Window::m_Renderer		= nullptr;
 	std::unique_ptr<EditorLayer> Window::m_EditorLayer	= nullptr;
 
@@ -17,11 +17,9 @@ namespace Codex
 
 	Window::~Window()
 	{
-		delete m_CurrentScene;
-
 		m_Running = false;
-		KeyHandler::Deinit();
-		MouseHandler::Deinit();
+		KeyHandler::Destroy();
+		MouseHandler::Destroy();
 		SDL_GL_DeleteContext(m_GlContext);
 		SDL_DestroyWindow(m_SdlWindow);
 		SDL_Quit();
@@ -107,7 +105,7 @@ namespace Codex
 		}
 
 		// Create the renderer
-		m_Renderer = std::unique_ptr<Renderer>(new Renderer(m_Width, m_Height));
+		m_Renderer = std::make_unique<Renderer>(m_Width, m_Height);
 
 		// Create the editor layer TODO: Do this when in editor mode
 		m_EditorLayer = std::make_unique<EditorLayer>("editor_layer", m_Renderer.get());
@@ -299,7 +297,7 @@ namespace Codex
 		if (deltaTime != -1.0f) m_CurrentScene->Update(deltaTime);
 
 		// Update editor layer TODO: Implement this inside the Editor itself
-		m_EditorLayer->Update(deltaTime, m_CurrentScene);
+		m_EditorLayer->Update(deltaTime, m_CurrentScene.get());
 
 		// Exit 
 		if (KeyHandler::IsKeyDown(SDLK_ESCAPE)) m_Running = false;
@@ -319,11 +317,11 @@ namespace Codex
 		switch (sceneID)
 		{
 			case 0:
-				m_CurrentScene = new EditorScene(m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);					
+				m_CurrentScene = std::make_unique<EditorScene>(m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);					
 				m_CurrentScene->Init();
 				break;
 			case 1:
-				m_CurrentScene = new LevelScene(m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);
+				m_CurrentScene = std::make_unique<EditorScene>(m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);
 				m_CurrentScene->Init();
 				break;
 			default:
@@ -331,9 +329,9 @@ namespace Codex
 		}
 	}
 
-	void Window::Dispose()
+	void Window::Destroy()
 	{
-		delete this;
+		delete m_Instance;
 		fmt::println("Window disposed");
 	}
 

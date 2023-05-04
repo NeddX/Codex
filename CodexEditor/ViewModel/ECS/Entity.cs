@@ -1,4 +1,5 @@
-﻿using CodexEditor.Util;
+﻿using CodexEditor.CoreAPI;
+using CodexEditor.Util;
 using CodexEditor.ViewModel.GameProject;
 using Newtonsoft.Json;
 using System;
@@ -7,11 +8,51 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
+using CodexEngine;
 
 namespace CodexEditor.ViewModel.ECS
 {
-    class Entity : ViewModelBase
+    public class Entity : ViewModelBase
     {
+        public const uint INVALID_ENTITY_ID = 0;
+
+        public uint _entityID = INVALID_ENTITY_ID;
+        public uint EntityID
+        {
+            get => _entityID;
+            set
+            {
+                if (_entityID != value)
+                {
+                    _entityID = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _isActive;
+        public bool IsActive
+        {
+            get => _isActive;
+            set
+            {
+                if (_isActive != value)
+                {
+                    _isActive = value;
+                    if (_isActive)
+					{
+						EntityID = EngineAPI.CreateEntity(this);
+                        Logger.Log(MessageType.Info, $"Created entt id: {EntityID}");
+					}
+                    else
+					{
+						Logger.Log(MessageType.Info, $"Destroyed entt id: {EntityID}");
+						EngineAPI.RemoveEntity(this);
+					}
+                }
+            }
+        }
+
         private string _name;
         public string Name
         {
@@ -41,7 +82,7 @@ namespace CodexEditor.ViewModel.ECS
         private bool _visible;
         public bool Visible
 		{
-			// TODO: do the undo redo and multiselection thing with Visible property as well
+			// TODO: do the undo redo and multi selection thing with Visible property as well
 			// should be same as Enabled property
 			get => _visible;
             set
@@ -60,6 +101,9 @@ namespace CodexEditor.ViewModel.ECS
         private ObservableCollection<Component> _components = new ObservableCollection<Component>();
         [JsonIgnore]
         public ReadOnlyObservableCollection<Component> Components { get; private set; }
+
+        public Component GetComponent(Type type) => Components.FirstOrDefault(x => x.GetType() == type);
+        public T GetComponent<T>() where T : Component => GetComponent(typeof(T)) as T;
         
         public Entity(Scene scene)
         {
@@ -67,6 +111,7 @@ namespace CodexEditor.ViewModel.ECS
             ParentScene = scene;
             _enabled = true;
             _components.Add(new TransformComponent(this));
+            _components.Add(new TagComponent(this));
             OnDeserialized(new StreamingContext());
         }
 

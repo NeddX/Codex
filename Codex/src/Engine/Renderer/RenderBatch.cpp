@@ -11,20 +11,20 @@ namespace Codex
 		m_Verticies = new float[maxQuadCount * VERTEX_SIZE];
 		m_TextureList.resize(m_MaxTextureSlotCount);
 
-		m_Vao = std::unique_ptr<mgl::VertexArray>(new mgl::VertexArray());
+		m_Vao = std::make_unique<mgl::VertexArray>();
 		m_Vao->Bind();
 
-		m_Vbo = std::unique_ptr<mgl::VertexBuffer>(new mgl::VertexBuffer());
+		m_Vbo = std::make_unique<mgl::VertexBuffer>();
 		m_Vbo->Bind();
 		m_Vbo->SetBuffer<float>(nullptr, VERTEX_SIZE * sizeof(float) * maxQuadCount, BufferUsage::DYNAMIC_DRAW); // you basically allocate space and then upload the data
 
-		m_Ebo = std::unique_ptr<mgl::IndexBuffer>(new mgl::IndexBuffer());
+		m_Ebo = std::make_unique<mgl::IndexBuffer>();
 		m_Ebo->Bind();
 		size_t size = 0;
 		uint32_t* index_buffer_data = GenerateIndicies(size);
 		m_Ebo->SetBuffer(index_buffer_data, size);
 
-		m_Layout = std::unique_ptr<mgl::VertexBufferLayout>(new mgl::VertexBufferLayout());
+		m_Layout = std::make_unique<mgl::VertexBufferLayout>();
 		m_Layout->Push<float>(3);
 		m_Layout->Push<float>(4);
 		m_Layout->Push<float>(2);

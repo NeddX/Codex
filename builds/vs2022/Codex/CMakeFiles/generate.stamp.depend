@@ -1,0 +1,6 @@
+# CMake generation dependency list for this directory.
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/FindOpenGL.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/FindPackageHandleStandardArgs.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/FindPackageMessage.cmake
+D:/dev/Codex/Codex/CMakeLists.txt
+D:/dev/Codex/builds/vs2022/CMakeFiles/cmake.verify_globs

@@ -5,7 +5,7 @@
 
 namespace Codex
 {
-	class IDisposable
+	/*class IDisposable
 	{
 	protected:
 		bool m_Disposed = false;
@@ -15,7 +15,7 @@ namespace Codex
 
 	public:
 		virtual void Dispose();
-	};
+	};*/
 
 	template<typename T>
 	class ManagedResource

@@ -2,7 +2,7 @@
   "profiles": {
     "CodexEditor": {
       "commandName": "Project",
-      "nativeDebugging": false
+      "nativeDebugging": true
     }
   }
 }

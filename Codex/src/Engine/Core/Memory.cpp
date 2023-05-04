@@ -2,7 +2,7 @@
 
 namespace Codex
 {
-	IDisposable::~IDisposable()
+	/*IDisposable::~IDisposable()
 	{
 		fmt::println("Disposable destructor called.");
 	}
@@ -11,5 +11,5 @@ namespace Codex
 	{
 		fmt::println("Dispose called.");
 		delete this;
-	}
+	}*/
 }

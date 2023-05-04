@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A1C69237-0841-3FC7-9348-9FD737178568}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>MGL</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\dev\Codex\builds\vs2022\MGL\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MGL.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MGL</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\dev\Codex\builds\vs2022\MGL\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MGL.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MGL</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\dev\Codex\builds\vs2022\MGL\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">MGL.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">MGL</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\dev\Codex\builds\vs2022\MGL\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">MGL.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">MGL</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-debug;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-debug;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-debug;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-release;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-release;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-release;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-minsizerel;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-minsizerel;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-minsizerel;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-relwithdebinfo;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-relwithdebinfo;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\SDL\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\include;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\stb;D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glm\glm;D:\dev\Codex\include;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-relwithdebinfo;D:\dev\Codex\Codex\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\dev\Codex\Codex\vendor\MGL\MGL\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/MGL/MGL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\dev\Codex\builds\vs2022\MGL\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/MGL/MGL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\dev\Codex\builds\vs2022\MGL\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/MGL/MGL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\dev\Codex\builds\vs2022\MGL\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/MGL/MGL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\dev\Codex\builds\vs2022\MGL\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Constants.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Geometry.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\IndexBuffer.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Renderer.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Shader.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Texture.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\VertexArray.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\VertexBuffer.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\VertexBufferLayout.h" />
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Geometry.cpp" />
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\IndexBuffer.cpp" />
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Renderer.cpp" />
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Shader.cpp" />
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Texture.cpp" />
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\VertexArray.cpp" />
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\VertexBuffer.cpp" />
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\stb_image.cpp" />
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\vendor\glad\src\glad.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\ZERO_CHECK.vcxproj">
+      <Project>{70C30230-F53A-39A1-9CE9-844CD55F374E}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\SDL\SDL2-static.vcxproj">
+      <Project>{7EF2E193-0154-3418-9508-FAB63BB7DEDA}</Project>
+      <Name>SDL2-static</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\SDL\SDL2main.vcxproj">
+      <Project>{2AA3ED83-8853-39AD-80AA-34E97C6C343A}</Project>
+      <Name>SDL2main</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -22,16 +22,9 @@ namespace Codex
 			m_Instance = new MouseHandler();
 	}
 
-	void MouseHandler::Deinit() noexcept
+	void MouseHandler::Destroy() noexcept
 	{
-		if (!m_Instance->m_Disposed)
-			m_Instance->Dispose();
-	}
-
-	void MouseHandler::Dispose()
-	{
-		m_Disposed = true;
-		delete this;
+		delete m_Instance;
 	}
 
 	void MouseHandler::EndFrame() noexcept

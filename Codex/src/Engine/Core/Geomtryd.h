@@ -12,6 +12,11 @@ namespace Codex
 	typedef glm::vec4 Vector4f;
 	typedef mgl::Rect Rect;
 	typedef mgl::Rectf Rectf;
+
+	// TODO: This looks retarded, I am sure there's a better way to accomplish this
+	// using templates.
+	inline float* ValuePtr(Vector3f vector) { return glm::value_ptr(vector); }
+	inline float* ValuePtr(Vector2f vector) { return glm::value_ptr(vector); }
 }
 
 #endif // CODEX_CORE_GEOMETRY_DEFS_H

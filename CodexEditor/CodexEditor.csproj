@@ -31,6 +31,8 @@
 
   <ItemGroup>
     <!--<ProjectReference Include="..\builds\vs2022\CodexAPI\CodexAPI.vcxproj" />-->
+    <ProjectReference Include="..\builds\vs2022\CodexAPI\CodexAPI.vcxproj" />
+    <ProjectReference Include="..\CodexAPI\CSharpAPI\CodexEngine.csproj" />
     <ProjectReference Include="..\NetCS\NetCS.csproj" />
   </ItemGroup>
 

@@ -3,7 +3,7 @@
 
 namespace Codex
 {
-	static SpriteSheet* sp = nullptr;
+	static std::unique_ptr<SpriteSheet> sp = nullptr;
 	static std::shared_ptr<Texture2D> m_TestTex = nullptr;
 	static Entity ent((entt::entity)0, nullptr);
 
@@ -14,7 +14,7 @@ namespace Codex
 
 	EditorScene::~EditorScene()
 	{
-		m_Renderer->DisposeSpriteBatchRenderer();
+
 	}
 
 	void EditorScene::Start()
@@ -23,21 +23,13 @@ namespace Codex
 		m_SpriteBatch = m_Renderer->GetSpriteBatchRenderer(m_Shader.get());
 
 		m_TestTex = Resources::Load<Texture2D>("dun_tileset.png");
-		sp = new SpriteSheet(m_TestTex, 16, 16, (m_TestTex->GetWidth() / 16) * (m_TestTex->GetHeight() / 16), 0);
+		sp = std::make_unique<SpriteSheet>(m_TestTex, 16, 16, (m_TestTex->GetWidth() / 16) * (m_TestTex->GetHeight() / 16), 0);
 
 		ent = m_Manager.CreateEntity();
 		auto& a_trans = ent.GetComponent<TransformComponent>();
-		a_trans.position = { 9.0f,0.0f };
-		a_trans.scale = { 5.0f,5.0f };
+		a_trans.position = { 9.0f, 0.0f, 0.0f };
+		a_trans.scale = { 5.0f, 5.0f, 0.0f };
 		ent.AddComponent<SpriteRendererComponent>(sp->GetSpriteAt(377, 117)).SetZIndex(1);
-
-		/*
-		m_Ent = std::unique_ptr<Entity>(new Entity("lol"));
-		auto& a_trans = m_Ent->AddComponent<TransformComponent>();
-		a_trans.position = { 9.0f, 0.0f };
-		a_trans.scale = { 5.0f, 5.0f };
-		m_Ent->AddComponent<SpriteRendererComponent>(sp->GetSpriteAt(377, 117)).SetZIndex(1);
-		this->AddEntity(m_Ent.get());*/
 	}
 
 	void EditorScene::Update(float deltaTime)
@@ -84,17 +76,6 @@ namespace Codex
 				renderer_component.GetZIndex()
 				);
 		}
-
-		/*std::for_each(m_Entities.begin(),
-			std::remove_if(m_Entities.begin(), m_Entities.end(),
-				[](auto* e)
-				{
-					return !e->GetVisible();
-				}),
-			[deltaTime, this](auto* e)
-				{
-					e->Render(deltaTime, m_SpriteBatch);
-				});*/
 
 		m_SpriteBatch->End();
 	}

@@ -1,20 +1,14 @@
 ﻿using CodexEditor.Util;
-using CodexEditor.ViewModel;
 using CodexEditor.ViewModel.ECS;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CodexEditor.ViewModel.GameProject
 {
-	class Scene : ViewModelBase
+	public class Scene : ViewModelBase
 	{
 		private string _name;
 		public string Name
@@ -64,15 +58,21 @@ namespace CodexEditor.ViewModel.GameProject
 			OnDeserialized(new StreamingContext());
 		}
 
-		private void AddEntity(Entity entity)
+		private void AddEntity(Entity entity, int index = -1)
 		{
 			Debug.Assert(entity != null && !_entities.Contains(entity));
-			_entities.Add(entity);
+			entity.IsActive = IsActive;
+			if (index == -1)
+				_entities.Add(entity);
+			else
+			{
+			}
 		}
 
 		private void RemoveEntity(Entity entity)
 		{
 			Debug.Assert(entity != null && _entities.Contains(entity));
+			entity.IsActive = false;
 			_entities.Remove(entity);
 		}
 
@@ -87,13 +87,16 @@ namespace CodexEditor.ViewModel.GameProject
 				OnPropertyChanged();
 			}
 
+			foreach (var entity in _entities)
+				entity.IsActive = IsActive;
+
 			AddEntityCmd = new RelayCommand<Entity>(x =>
 			{
 				AddEntity(x);
 				var entityIndex = _entities.Count - 1;
 				Project.Unredoable.Add(new UnredoableAction(
 					() => RemoveEntity(x),
-					() => _entities.Insert(entityIndex, x),
+					() => AddEntity(x, entityIndex),
 					$"Add {x.Name} in {Name}"
 					));
 			});
@@ -104,7 +107,7 @@ namespace CodexEditor.ViewModel.GameProject
 				var entityIndex = _entities.Count - 1; // handle -1
 				if (entityIndex < 0) return;
 				Project.Unredoable.Add(new UnredoableAction(
-					() => _entities.Insert(entityIndex, x),
+					() => AddEntity(x, entityIndex),
 					() => RemoveEntity(x),
 					$"Removed {x.Name} in {Name}"
 					));

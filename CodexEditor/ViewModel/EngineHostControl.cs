@@ -30,8 +30,8 @@ namespace CodexEditor.ViewModel
 
 		private void EngineThread(object hwndParent)
 		{
-            _engineInst = EngineAPI.GetInstance();
-            var props = new EngineAPI.WindowProperties()
+            _engineInst = OldEngineAPI.GetInstance();
+            var props = new OldEngineAPI.WindowProperties()
             {
                 Width = _renderWidth,
                 Height = _renderHeight,
@@ -42,14 +42,14 @@ namespace CodexEditor.ViewModel
                 Title = "",
                 Flags = 0x00000004 | 0x00000020 | 0x00000002
             };
-            EngineAPI.CreateWindow(_engineInst, ref props, _hwnd);
+            OldEngineAPI.CreateWindow(_engineInst, ref props, _hwnd);
 
             while (_running)
             {
 				HandleResize();
-                EngineAPI.Update(_engineInst);
+                OldEngineAPI.Update(_engineInst);
             }
-            EngineAPI.Dispose(_engineInst);
+            OldEngineAPI.Dispose(_engineInst);
         }
 
 		private void HandleResize()
@@ -61,7 +61,7 @@ namespace CodexEditor.ViewModel
             {
                 _renderWidth = newWidth;
                 _renderHeight = newHeight;
-                EngineAPI.ResizeViewport(_engineInst, _renderWidth, _renderHeight);
+                OldEngineAPI.ResizeViewport(_engineInst, _renderWidth, _renderHeight);
                 /*if (!resize(renderWidth, renderHeight))
                     throw new Exception(GetDllError());*/
             }

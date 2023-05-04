@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CodexEngine": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

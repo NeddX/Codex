@@ -111,10 +111,10 @@ namespace mgl
 
 		m_VertexSource		= new char[vertex_code.size() + 1];
 		m_FragmentSource	= new char[vertex_code.size() + 1];
-		std::memset(m_VertexSource, 0, vertex_code.size() + 1);
-		std::memset(m_FragmentSource, 0, vertex_code.size() + 1);
-		std::strncpy(m_VertexSource, vertex_code.c_str(), vertex_code.size());
-		std::strncpy(m_FragmentSource, fragment_code.c_str(), vertex_code.size());
+		std::memset(m_VertexSource,		0, vertex_code.size() + 1);
+		std::memset(m_FragmentSource,	0, vertex_code.size() + 1);
+		std::strncpy(m_VertexSource,	vertex_code.c_str(),	vertex_code.size());
+		std::strncpy(m_FragmentSource,	fragment_code.c_str(),	vertex_code.size());
 	}
 
 	bool Shader::CompileShader()

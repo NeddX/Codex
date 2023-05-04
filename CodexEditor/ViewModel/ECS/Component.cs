@@ -13,7 +13,7 @@ namespace CodexEditor.ViewModel.ECS
 
 	}
 
-	class Component : ViewModelBase
+	public class Component : ViewModelBase
 	{
 		public Entity Parent { get; set; }
 

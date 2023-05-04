@@ -14,8 +14,9 @@
 
 namespace Codex
 {
-	class Window : public IDisposable
+	class Window
 	{
+#ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
 	public:
 		void* operator new(size_t size)
 		{
@@ -29,6 +30,7 @@ namespace Codex
 			fmt::println("[Memory] :: Deallocated memory.\n\tFile: {}\n\tLine: {}\n\tAddress: {}", __FILE__, __LINE__, ptr);
 			std::free(ptr);
 		}
+#endif
 
 	private:
 		const char* m_Title;
@@ -45,30 +47,23 @@ namespace Codex
 		static SDL_Window* m_SdlWindow;
 		static SDL_GLContext m_GlContext;
 		static SDL_Event m_SdlEvent;
-		static Scene* m_CurrentScene;
+		static std::unique_ptr<Scene> m_CurrentScene;
 		static std::unique_ptr<Renderer> m_Renderer;
 		static std::unique_ptr<EditorLayer> m_EditorLayer;
 
 	private:
 		Window();
-	public:
 		~Window();
 
 	public:
-		inline Scene* GetCurrentScene() const	{ return m_Instance->m_CurrentScene; }
+		inline Scene* GetCurrentScene() const	{ return m_Instance->m_CurrentScene.get(); }
 		inline int GetWidth() const				{ return m_Width; }
 		inline int GetHeight() const			{ return m_Height; }
-		inline uint8_t* ReadBackBufferTo()
-		{
-			uint8_t* buffer = new uint8_t[m_Width * m_Height * 4];
-			glReadPixels(0, 0, m_Width, m_Height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-			return buffer;
-		}
 
 	public:
 		struct Properties
 		{
-			const char* title = "CODEX - Window";
+			const char* title = "Codex - Window";
 			int			width = 1280;
 			int			height = 720;
 			int			posX = SDL_WINDOWPOS_CENTERED;
@@ -97,7 +92,7 @@ namespace Codex
 		void Init(Properties windowInfo = Properties(), const void* nativeWindow = nullptr);
 		void Update();
 		void ManualUpdate();
-		void Dispose() override final;
+		void Destroy();
 
 	public:
 		static void OnWindowResize_Event(int newWidth, int newHeight);

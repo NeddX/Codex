@@ -10,7 +10,7 @@ namespace Codex
 	// Forward decelerations
 	class Window;
 
-	class MouseHandler : public IDisposable
+	class MouseHandler
 	{
 #ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
 	public:
@@ -41,9 +41,6 @@ namespace Codex
 	private:
 		MouseHandler();
 		~MouseHandler();
-	
-	public:
-		void Dispose() override;
 
 	protected:
 		struct MouseEvent
@@ -90,7 +87,7 @@ namespace Codex
 
 	protected:
 		static void Init() noexcept;
-		static void Deinit() noexcept;
+		static void Destroy() noexcept;
 		
 	protected:
 		void EndFrame() noexcept;	

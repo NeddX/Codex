@@ -8,6 +8,4 @@
 #endif
 #endif		
 
-#define CDX_DEBUG_CUSTOM_ALLOCATORS
-
 #endif // CODEX_CORE_CONSTANTS_H

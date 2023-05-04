@@ -17,7 +17,7 @@ namespace Codex
 	public:
 		Shader(const char* filePath)
 		{
-			m_RawShader = std::unique_ptr<mgl::Shader>(new mgl::Shader(filePath));
+			m_RawShader = std::make_unique<mgl::Shader>(filePath);
 		}
 
 	public:

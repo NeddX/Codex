@@ -16,7 +16,7 @@ namespace Codex
 	{
 		friend class EntityManager;
 
-	public:
+	private:
 		entt::entity m_Handle { 0 };
 		EntityManager* m_Manager = nullptr;
 
@@ -28,6 +28,7 @@ namespace Codex
 
 		}
 	public:
+		inline uint32_t GetID() const { return (uint32_t)(m_Handle); }
 		operator bool() const { return m_Handle != entt::entity { 0 }; }
 
 	public:
@@ -58,7 +59,7 @@ namespace Codex
 	{
 		friend class Entity;
 
-	public:
+	private:
 		entt::registry m_Registry;
 
 	public:
@@ -68,12 +69,16 @@ namespace Codex
 		}
 
 	public:
-		Entity CreateEntity(const char* entityTag = "default tag")
+		Entity CreateEntity(const std::string& entityTag = "default tag")
 		{
 			Entity entity(m_Registry.create(), this);
 			entity.AddComponent<TransformComponent>();
 			entity.AddComponent<TagComponent>(entityTag);
 			return entity;
+		}
+		void RemoveEntity(Entity entity)
+		{
+			m_Registry.destroy(entity.m_Handle);
 		}
 		template<typename T>
 		std::vector<Entity> GetAllEntitiesWithComponent()

@@ -1,0 +1,25 @@
+# CMake generation dependency list for this directory.
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/CMakeCInformation.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/CMakeCXXInformation.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/CMakeGenericSystem.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/CMakeInitializeConfigs.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/CMakeLanguageInformation.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/CMakeRCInformation.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/CMakeSystemSpecificInformation.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/CMakeSystemSpecificInitialize.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/Compiler/MSVC-C.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/Compiler/MSVC-CXX.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/Compiler/MSVC.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/Platform/Windows-MSVC-C.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/Platform/Windows-MSVC-CXX.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/Platform/Windows-MSVC.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/Platform/Windows.cmake
+C:/Users/Nedd/scoop/apps/cmake/3.25.2/share/cmake-3.25/Modules/Platform/WindowsPaths.cmake
+D:/dev/Codex/CMakeLists.txt
+D:/dev/Codex/builds/vs2022/CMakeFiles/3.25.2/CMakeCCompiler.cmake
+D:/dev/Codex/builds/vs2022/CMakeFiles/3.25.2/CMakeCXXCompiler.cmake
+D:/dev/Codex/builds/vs2022/CMakeFiles/3.25.2/CMakeRCCompiler.cmake
+D:/dev/Codex/builds/vs2022/CMakeFiles/3.25.2/CMakeSystem.cmake
+D:/dev/Codex/builds/vs2022/CMakeFiles/cmake.verify_globs
