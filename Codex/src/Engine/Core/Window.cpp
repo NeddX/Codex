@@ -1,7 +1,7 @@
 #include "Window.h"
+#include "../Renderer/DebugDraw.h"
 
-namespace Codex
-{	
+namespace Codex {	
 	Window* Window::m_Instance							= nullptr;
 	SDL_Window* Window::m_SdlWindow						= nullptr;
 	SDL_GLContext Window::m_GlContext					= nullptr;
@@ -25,7 +25,7 @@ namespace Codex
 		SDL_Quit();
 	}
 
-	Window* Window::CreateWindow()
+	Window* Window::Get()
 	{
 		if (!m_Instance)
 			m_Instance = new Window();
@@ -111,7 +111,7 @@ namespace Codex
 		m_EditorLayer = std::make_unique<EditorLayer>("editor_layer", m_Renderer.get());
 
 		// Set the background colour, draw that colour onto the back buffer and then swap the buffers
-		m_Renderer->SetClearColour(0.5f, 0.5f, 0.5f, 1.0f);
+		m_Renderer->SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
 		m_Renderer->Clear();
 		SDL_GL_SwapWindow(m_SdlWindow);
 
@@ -135,7 +135,7 @@ namespace Codex
 
 	void Window::SDLCheckError(int line)
 	{
-#ifdef _DEBUG // TODO: REPLACE WITH YOUR OWN DEBUG MACRO FOR CROSS PLATFORM COMPILATION AND EXECUTION
+#ifdef CODEX_CONF_DEBUG
 		const char* error = SDL_GetError();
 		if (*error != 0)
 		{
@@ -156,10 +156,13 @@ namespace Codex
 
 	int Window::SDLEventFilterWatch(void* object, SDL_Event* event)
 	{
+		if (!m_Instance->m_Running) return 0;
+
 		switch (event->type)
 		{
 			case SDL_WINDOWEVENT:
 			{
+
 				switch (event->window.event)
 				{
 					case SDL_WINDOWEVENT_RESIZED:
@@ -242,6 +245,7 @@ namespace Codex
 		{
 			// Update
 			m_Renderer->Clear();
+			DebugDraw::Begin();
 
 			// Handle events
 			while (SDL_PollEvent(&m_SdlEvent))
@@ -257,6 +261,7 @@ namespace Codex
 			}	
 
 			// Update scene
+			DebugDraw::Render();
 			if (deltaTime != -1.0f) m_CurrentScene->Update(deltaTime);
 
 			// Exit 
@@ -279,6 +284,7 @@ namespace Codex
 
 		// Update
 		m_Renderer->Clear();
+		DebugDraw::Begin();
 		
 		// Handle events
 		while (SDL_PollEvent(&m_SdlEvent))
@@ -297,6 +303,7 @@ namespace Codex
 		if (deltaTime != -1.0f) m_CurrentScene->Update(deltaTime);
 
 		// Update editor layer TODO: Implement this inside the Editor itself
+		DebugDraw::Render();
 		m_EditorLayer->Update(deltaTime, m_CurrentScene.get());
 
 		// Exit 

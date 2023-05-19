@@ -3,10 +3,10 @@ D:/dev/Codex/builds/vs2022/CMakeFiles/ALL_BUILD.dir
 D:/dev/Codex/builds/vs2022/CMakeFiles/ZERO_CHECK.dir
 D:/dev/Codex/builds/vs2022/NetNT/CMakeFiles/NetNT.dir
 D:/dev/Codex/builds/vs2022/NetNT/CMakeFiles/INSTALL.dir
-D:/dev/Codex/builds/vs2022/CodexAPI/CMakeFiles/CodexAPI.dir
+D:/dev/Codex/builds/vs2022/CodexAPI/CMakeFiles/CodexNative.dir
 D:/dev/Codex/builds/vs2022/CodexAPI/CMakeFiles/INSTALL.dir
-D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/Codex-static.dir
-D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/Codex.dir
+D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir
+D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine-static.dir
 D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/INSTALL.dir
 D:/dev/Codex/builds/vs2022/SDL/CMakeFiles/sdl_headers_copy.dir
 D:/dev/Codex/builds/vs2022/SDL/CMakeFiles/SDL2main.dir
@@ -24,7 +24,6 @@ D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/Nightly.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/Continuous.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/NightlyMemoryCheck.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/yaml-cpp.dir
-D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/format.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/INSTALL.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/ALL_BUILD.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/util/CMakeFiles/yaml-cpp-sandbox.dir

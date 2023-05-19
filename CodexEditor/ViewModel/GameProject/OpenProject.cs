@@ -6,24 +6,28 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Documents;
 using CodexEditor.Util;
-using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace CodexEditor.ViewModel.GameProject
 {
+	[DataContract]
 	class ProjectData
 	{
+		[DataMember]
 		public string ProjectName { get; set; }
+		[DataMember]
 		public string ProjectPath { get; set; }
+		[DataMember]
 		public DateTime Date { get; set; }
 		public string FullPath { get => $"{ProjectPath}{ProjectName}{Project.Extension}"; }
-		[JsonIgnore]
 		public byte[] Icon { get; set; }
-		[JsonIgnore]
 		public byte[] PreviewImage { get; set; }
 	}
 
+	[DataContract]
 	class ProjectDataList
 	{
+		[DataMember]
 		public List<ProjectData> Projects { get; set; }
 	}
 
@@ -40,7 +44,7 @@ namespace CodexEditor.ViewModel.GameProject
 			{
 				if (!Directory.Exists(_appdata))
 					Directory.CreateDirectory(_appdata);
-				_projectDataPath = Path.Combine(_appdata, "ProjectData.json");
+				_projectDataPath = Path.Combine(_appdata, "ProjectData.xml");
 				Projects = new ReadOnlyObservableCollection<ProjectData>(_projects);
 				ReadProjectData();
 			}

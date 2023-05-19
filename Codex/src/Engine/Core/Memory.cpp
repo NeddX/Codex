@@ -1,7 +1,6 @@
 #include "Memory.h"
 
-namespace Codex
-{
+namespace Codex {
 	/*IDisposable::~IDisposable()
 	{
 		fmt::println("Disposable destructor called.");

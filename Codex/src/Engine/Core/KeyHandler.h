@@ -5,8 +5,7 @@
 
 #include "Memory.h"
 
-namespace Codex
-{
+namespace Codex {
 	constexpr auto MAX_KEY_COUNT = 512;
 
 	enum class Key

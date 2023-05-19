@@ -1,32 +1,36 @@
-﻿using System;
+﻿using CodexEditor.ViewModel.ECS;
+using System;
 using System.IO;
-using Newtonsoft.Json;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Xaml;
+using System.Xml;
 
 namespace CodexEditor.Util
 {
 	public static class Serializer
 	{
-		public static void ToFile<T>(string path, T value, Formatting formatting = Formatting.Indented)
+		public static void ToFile<T>(string path, T value)
 		{
 			try
 			{
-				string jsonn = JsonConvert.SerializeObject(value, formatting);
-				File.WriteAllText(path, jsonn);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-				Logger.Log(MessageType.Error, $"Failed to serialize file {path}: {ex.Message}");
-				throw;
-			}
-		}
+				var settings = new XmlWriterSettings
+				{
+					Indent = true,
+					IndentChars = "\t",
+					NewLineChars = "\n"
+				};
 
-		public static void ToFile<T>(string path, T value, Formatting formatting, JsonSerializerSettings settings)
-		{
-			try
-			{
-				string jsonn = JsonConvert.SerializeObject(value, formatting, settings);
-				File.WriteAllText(path, jsonn);
+				var serializer = new DataContractSerializer(typeof(T)); 
+				using (var memoryStream = new MemoryStream())
+				{
+					using (var xmlWriter = XmlWriter.Create(memoryStream, settings))
+					{
+						serializer.WriteObject(xmlWriter, value);
+					}
+
+					File.WriteAllBytes(path, memoryStream.ToArray());	
+				}
 			}
 			catch (Exception ex)
 			{
@@ -40,31 +44,16 @@ namespace CodexEditor.Util
 		{
 			try
 			{
-				var jsonData = File.ReadAllText(path);
-				var obj = JsonConvert.DeserializeObject<T>(jsonData);
-				return obj;
+				using var fs = new FileStream(path, FileMode.Open);
+				var serializer = new DataContractSerializer(typeof(T));
+				T instance = (T)(serializer.ReadObject(fs));
+				return instance;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
 				Logger.Log(MessageType.Error, $"Failed to deserialize file {path}: {ex.Message}");
 				throw; 
-			}
-		}
-
-		public static T FromFile<T>(string path, JsonSerializerSettings settings)
-		{
-			try
-			{
-				var jsonData = File.ReadAllText(path);
-				var obj = JsonConvert.DeserializeObject<T>(jsonData, settings);
-				return obj;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-				Logger.Log(MessageType.Error, $"Failed to deserialize file {path}: {ex.Message}");
-				throw;
 			}
 		}
 	}

@@ -13,7 +13,6 @@ namespace mgl
 		GL_Call(glViewport(0, 0, width, height));
 		GL_Call(glEnable(GL_BLEND));
 		GL_Call(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-		GL_Call(glEnable(GL_DEPTH_TEST));
 	}
 
 	Renderer::~Renderer()

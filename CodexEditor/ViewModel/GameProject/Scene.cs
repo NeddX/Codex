@@ -1,6 +1,6 @@
 ﻿using CodexEditor.Util;
 using CodexEditor.ViewModel.ECS;
-using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.Serialization;
@@ -8,9 +8,11 @@ using System.Windows.Input;
 
 namespace CodexEditor.ViewModel.GameProject
 {
-	public class Scene : ViewModelBase
+	[DataContract(IsReference = true)]
+	public class Scene : ViewModelBase, IDisposable
 	{
 		private string _name;
+		[DataMember]
 		public string Name
 		{
 			get => _name;
@@ -23,10 +25,11 @@ namespace CodexEditor.ViewModel.GameProject
 				}
 			}
 		}
+		[DataMember]
 		public Project Project { get; set; }
 
+		[DataMember(Name = "IsActive")]
 		private bool _isActive = true;
-		//[JsonProperty(Order = 1)]
 		public bool IsActive
 		{
 			get => _isActive;
@@ -40,19 +43,17 @@ namespace CodexEditor.ViewModel.GameProject
 			}
 		}
 
-		[JsonProperty("Entities")]
+		[DataMember(Name = "Entities")]
 		private ObservableCollection<Entity> _entities = new ObservableCollection<Entity>();
-		[JsonIgnore]
+
 		public ReadOnlyObservableCollection<Entity> Entities { get; private set; }
 
-		[JsonIgnore]
 		public ICommand AddEntityCmd { get; private set; }
-		[JsonIgnore]
 		public ICommand RemoveEntityCmd { get; private set; }
 
 		public Scene(Project project, string name)
 		{
-			//Debug.Assert(project != null);
+			Debug.Assert(project != null);
 			Project = project;
 			Name = name;
 			OnDeserialized(new StreamingContext());
@@ -81,8 +82,6 @@ namespace CodexEditor.ViewModel.GameProject
 		{
 			if (_entities != null)
 			{
-				foreach (var entt in _entities)
-					entt.ParentScene = this;
 				Entities = new ReadOnlyObservableCollection<Entity>(_entities);
 				OnPropertyChanged();
 			}
@@ -114,5 +113,39 @@ namespace CodexEditor.ViewModel.GameProject
 
 			});
 		}
+
+		#region IDisposable stuff
+		private bool disposedValue;
+		protected virtual void Dispose(bool disposing)
+		{
+			if (!disposedValue)
+			{
+				if (disposing)
+				{
+					// TODO: dispose managed state (managed objects)
+				}
+
+				// TODO: free unmanaged resources (unmanaged objects) and override finalizer
+				// TODO: set large fields to null
+				foreach (var entity in _entities)
+					entity.Dispose();
+				disposedValue = true;
+			}
+		}
+
+		// // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+		// ~Scene()
+		// {
+		//     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+		//     Dispose(disposing: false);
+		// }
+
+		public void Dispose()
+		{
+			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+			Dispose(disposing: true);
+			GC.SuppressFinalize(this);
+		}
+		#endregion
 	}
 }

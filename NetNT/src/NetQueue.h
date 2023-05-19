@@ -3,7 +3,7 @@
 
 #include "NetCommon.h"
 
-namespace Codex::net
+namespace Codex::Net
 {
 	template<typename T>
 	class NetQueue

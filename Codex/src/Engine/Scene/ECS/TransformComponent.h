@@ -3,8 +3,7 @@
 
 #include "ECS.h"
 
-namespace Codex
-{
+namespace Codex {
 	class TransformComponent : public IComponent
 	{
 	public:

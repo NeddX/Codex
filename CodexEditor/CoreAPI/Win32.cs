@@ -53,7 +53,9 @@ namespace CodexEditor.CoreAPI
 		public const int WM_MOVE = 0x0003;
 		public const int WM_SIZE = 0x0005;
 		public const int WM_LBUTTONDOWN = 0x0201;
+		public const int WM_RBUTTONDOWN = 0x204;
 		public const int WM_LBUTTONUP = 0x0202;
+		public const int WM_RBUTTONUP = 0x205;
 		public const int WM_MOUSEMOVE = 0x0200;
 		public const int WM_MOUSEWHEEL = 0x020A;
 		public const int WM_CHAR = 0x0102;
@@ -62,7 +64,21 @@ namespace CodexEditor.CoreAPI
 		public const int WM_SYSKEYDOWN = 0x0104;
 		public const int WM_SYSKEYUP = 0x0105;
 		public const int WM_SYSCHAR = 0x0106;
+		public const int WM_NCHITTEST = 0x0084;
+		public const int WM_MBUTTONDOWN = 0x0207;
+		public const int WM_MBUTTONUP = 0x0208;
+		public const int WM_XBUTTONDOWN = 0x020B;
+		public const int WM_XBUTTONUP = 0x020C;
+		public const int WM_CAPTURECHANGED = 0x0215;
+		public const int WM_MOUSELEAVE = 0x02A3;
+		public const int WM_MOUSEHOVER = 0x02A1;
+		public const int WM_NCMOUSEHOVER = 0x02A0;
+		public const int WM_NCMOUSELEAVE = 0x02A2;
+		public const int HTCLIENT = 1;
 		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		static extern bool GetKeyboardState(byte[] lpKeyState);
+		[DllImport("user32.dll", CharSet = CharSet.Unicode)]
 		public static extern IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam);
 		[DllImport("user32.dll")]
 		public static extern IntPtr SetFocus(IntPtr hwnd);
@@ -99,6 +115,8 @@ namespace CodexEditor.CoreAPI
 		public static extern bool UnregisterClass(
 			[MarshalAs(UnmanagedType.LPStr)] string lpClassName,
 			IntPtr hInstance);
+		[DllImport("user32.dll")]
+		static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WNDCLASS
 		{

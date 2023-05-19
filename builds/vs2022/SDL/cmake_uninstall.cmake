@@ -7,7 +7,7 @@ string(REGEX REPLACE "\n" ";" files "${files}")
 foreach (file ${files})
     message(STATUS "Uninstalling \"$ENV{DESTDIR}${file}\"")
     execute_process(
-        COMMAND C:/Users/Nedd/scoop/apps/cmake/3.25.2/bin/cmake.exe -E remove "$ENV{DESTDIR}${file}"
+        COMMAND C:/Users/Nedd/scoop/apps/cmake/3.26.3/bin/cmake.exe -E remove "$ENV{DESTDIR}${file}"
         OUTPUT_VARIABLE rm_out
         RESULT_VARIABLE rm_retval
     )

@@ -1,7 +1,6 @@
 #include "Scene.h"
 
-namespace Codex
-{
+namespace Codex {
     Scene::Scene(Renderer* renderer, int width, int height) : 
         m_Renderer(renderer), m_Width(width), m_Height(height)
     {

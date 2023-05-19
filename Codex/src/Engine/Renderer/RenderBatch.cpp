@@ -1,14 +1,13 @@
 #include "RenderBatch.h"
 
-namespace Codex
-{
+namespace Codex {
 	RenderBatch::RenderBatch(int maxQuadCount, Shader* shader) :
 		m_MaxQuadCount(maxQuadCount), m_Shader(shader)
 	{
-		// TODO: Update MARFX
+		// TODO: Update MGL
 		m_MaxTextureSlotCount = 32;//mgl::GraphicsCapabilities::GetMaxTextureSlotCount();
 
-		m_Verticies = new float[maxQuadCount * VERTEX_SIZE];
+		m_Verticies = std::vector<float>(maxQuadCount * QUAD2D_VERTEX_SIZE);
 		m_TextureList.resize(m_MaxTextureSlotCount);
 
 		m_Vao = std::make_unique<mgl::VertexArray>();
@@ -16,13 +15,13 @@ namespace Codex
 
 		m_Vbo = std::make_unique<mgl::VertexBuffer>();
 		m_Vbo->Bind();
-		m_Vbo->SetBuffer<float>(nullptr, VERTEX_SIZE * sizeof(float) * maxQuadCount, BufferUsage::DYNAMIC_DRAW); // you basically allocate space and then upload the data
+		m_Vbo->SetBuffer<float>(nullptr, QUAD2D_VERTEX_SIZE * sizeof(float) * maxQuadCount, mgl::BufferUsage::DYNAMIC_DRAW); // you basically allocate space and then upload the data
 
 		m_Ebo = std::make_unique<mgl::IndexBuffer>();
 		m_Ebo->Bind();
 		size_t size = 0;
-		uint32_t* index_buffer_data = GenerateIndicies(size);
-		m_Ebo->SetBuffer(index_buffer_data, size);
+		auto index_buffer_data = GenerateIndicies(size);
+		m_Ebo->SetBuffer(index_buffer_data.data(), size);
 
 		m_Layout = std::make_unique<mgl::VertexBufferLayout>();
 		m_Layout->Push<float>(3);
@@ -41,12 +40,10 @@ namespace Codex
 		m_HasRoom = true;
 		m_CurrentTexIndex = 0;
 		std::fill(m_TextureList.begin(), m_TextureList.end(), nullptr);
-
-		delete index_buffer_data;
 	}
 
 	RenderBatch::~RenderBatch()
 	{
-		delete[] m_Verticies;
+
 	}
 }

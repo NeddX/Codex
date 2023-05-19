@@ -4,16 +4,20 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using CodexEditor.Util;
-using Newtonsoft.Json;
 
 namespace CodexEditor.ViewModel.GameProject
 {
+	[DataContract]
 	class ProjectTemplate
-	{ 
+	{
 		public string TemplatePath { get; set; }
+		[DataMember]
 		public string ProjectType { get; set; }
+		[DataMember]
 		public string ProjectFile { get; set; }
+		[DataMember]
 		public List<string> ProjectFolders { get; set; }
 		public string IconFilePath { get; set; }
 		public byte[] PreviewImage { get; set; }
@@ -92,13 +96,12 @@ namespace CodexEditor.ViewModel.GameProject
 		{
 			try
 			{
-				var files = Directory.GetFiles(_templatePath, "template.json", SearchOption.AllDirectories);
+				var files = Directory.GetFiles(_templatePath, "template.xml", SearchOption.AllDirectories);
 				Debug.Assert(files.Any());
 				foreach (var f in files)
 				{
 					var folder = Path.GetDirectoryName(f);
-					var data = File.ReadAllText(f);
-					var obj = JsonConvert.DeserializeObject<ProjectTemplate>(data);
+					var obj = Serializer.FromFile<ProjectTemplate>(f);
 					obj.TemplatePath = Path.GetFullPath(Path.GetDirectoryName(f));
 					obj.IconFilePath = Path.Combine(Path.GetFullPath(folder), "icon.png");
 					obj.PreviewFilePath = Path.Combine(Path.GetFullPath(folder), "preview_image.png");
@@ -134,15 +137,11 @@ namespace CodexEditor.ViewModel.GameProject
 					Directory.CreateDirectory(Path.Combine(path, dir));
 				var files = Directory.GetFiles(template.TemplatePath);
 				foreach (var file in files)
-					if (!file.EndsWith(".json"))
+					if (!file.EndsWith(".xml"))
 						File.Copy(file, path + Path.GetFileName(file));
 
 				var proj = new Project(ProjectName, path);
-				var settings = new JsonSerializerSettings
-				{
-					PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-				};
-				Serializer.ToFile(path + ProjectName + Project.Extension, proj, Formatting.Indented, settings);
+				Serializer.ToFile(path + ProjectName + Project.Extension, proj);
 				ValidateProperties();
 
 				return proj;

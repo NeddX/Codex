@@ -5,8 +5,7 @@
 
 #include "../Core/IResource.h"
 
-namespace Codex
-{
+namespace Codex {
 	typedef mgl::TextureProperties TextureProperties;
 	typedef mgl::TextureFilterMode TextureFilterMode;
 	typedef mgl::TextureWrapMode TextureWrapMode;

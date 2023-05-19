@@ -24,7 +24,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2B031256-6043-31DC-916F-E049756A1CE2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
     <ProjectName>TestGame</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
@@ -114,7 +114,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>..\Codex\Debug\Codex-static.lib;..\fmt\Debug\fmtd.lib;..\yaml-cpp\Debug\yaml-cppd.lib;..\MGL\Debug\MGL.lib;..\SDL\Debug\SDL2-staticd.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;dinput8.lib;..\SDL\Debug\SDL2maind.lib;shell32.lib;..\NetNT\Debug\NetNT.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\Codex\Debug\CodexEngine-static.lib;..\fmt\Debug\fmtd.lib;..\yaml-cpp\Debug\yaml-cppd.lib;..\MGL\Debug\MGL.lib;..\SDL\Debug\SDL2-staticd.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;dinput8.lib;..\SDL\Debug\SDL2maind.lib;shell32.lib;..\NetNT\Debug\NetNT.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -157,7 +157,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>..\Codex\Release\Codex-static.lib;..\fmt\Release\fmt.lib;..\yaml-cpp\Release\yaml-cpp.lib;..\MGL\Release\MGL.lib;..\SDL\Release\SDL2-static.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;dinput8.lib;..\SDL\Release\SDL2main.lib;shell32.lib;..\NetNT\Release\NetNT.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\Codex\Release\CodexEngine-static.lib;..\fmt\Release\fmt.lib;..\yaml-cpp\Release\yaml-cpp.lib;..\MGL\Release\MGL.lib;..\SDL\Release\SDL2-static.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;dinput8.lib;..\SDL\Release\SDL2main.lib;shell32.lib;..\NetNT\Release\NetNT.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -200,7 +200,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>..\Codex\MinSizeRel\Codex-static.lib;..\fmt\MinSizeRel\fmt.lib;..\yaml-cpp\MinSizeRel\yaml-cpp.lib;..\MGL\MinSizeRel\MGL.lib;..\SDL\MinSizeRel\SDL2-static.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;dinput8.lib;..\SDL\MinSizeRel\SDL2main.lib;shell32.lib;..\NetNT\MinSizeRel\NetNT.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\Codex\MinSizeRel\CodexEngine-static.lib;..\fmt\MinSizeRel\fmt.lib;..\yaml-cpp\MinSizeRel\yaml-cpp.lib;..\MGL\MinSizeRel\MGL.lib;..\SDL\MinSizeRel\SDL2-static.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;dinput8.lib;..\SDL\MinSizeRel\SDL2main.lib;shell32.lib;..\NetNT\MinSizeRel\NetNT.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -242,7 +242,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>..\Codex\RelWithDebInfo\Codex-static.lib;..\fmt\RelWithDebInfo\fmt.lib;..\yaml-cpp\RelWithDebInfo\yaml-cpp.lib;..\MGL\RelWithDebInfo\MGL.lib;..\SDL\RelWithDebInfo\SDL2-static.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;dinput8.lib;..\SDL\RelWithDebInfo\SDL2main.lib;shell32.lib;..\NetNT\RelWithDebInfo\NetNT.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\Codex\RelWithDebInfo\CodexEngine-static.lib;..\fmt\RelWithDebInfo\fmt.lib;..\yaml-cpp\RelWithDebInfo\yaml-cpp.lib;..\MGL\RelWithDebInfo\MGL.lib;..\SDL\RelWithDebInfo\SDL2-static.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;dinput8.lib;..\SDL\RelWithDebInfo\SDL2main.lib;shell32.lib;..\NetNT\RelWithDebInfo\NetNT.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -260,7 +260,7 @@
       <UseUtf8Encoding>Always</UseUtf8Encoding>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/dev/Codex/TestGame/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/TestGame/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/TestGame/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -273,7 +273,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/dev/Codex/TestGame/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/TestGame/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/TestGame/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -286,7 +286,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/dev/Codex/TestGame/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/TestGame/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/TestGame/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -299,7 +299,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/dev/Codex/TestGame/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/TestGame/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/TestGame/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -322,9 +322,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\dev\Codex\builds\vs2022\Codex\Codex-static.vcxproj">
-      <Project>{71140293-C56F-3A3D-9487-80EADBA70A5D}</Project>
-      <Name>Codex-static</Name>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\Codex\CodexEngine-static.vcxproj">
+      <Project>{A342C327-5EBB-3FCF-B8DD-2482E833B607}</Project>
+      <Name>CodexEngine-static</Name>
     </ProjectReference>
     <ProjectReference Include="D:\dev\Codex\builds\vs2022\MGL\MGL.vcxproj">
       <Project>{A1C69237-0841-3FC7-9348-9FD737178568}</Project>

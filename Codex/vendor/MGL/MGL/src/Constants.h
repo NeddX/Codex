@@ -20,18 +20,21 @@
 #define GL_Call(x) x;
 #endif
 
-enum class BufferUsage
-{
-	STREAM_DRAW = 0x88E0,
-	STREAM_READ,
-	STREAM_COPY,
-	STATIC_DRAW,
-	STATIC_READ,
-	STATIC_COPY,
-	DYNAMIC_DRAW,
-	DYNAMIC_READ,
-	DYNAMIC_COPY
-};
+namespace mgl {
+	enum class BufferUsage
+	{
+		// Just for good measure
+		STREAM_DRAW = GL_STREAM_DRAW,
+		STREAM_READ = GL_STREAM_READ,
+		STREAM_COPY = GL_STREAM_COPY,
+		STATIC_DRAW = GL_STATIC_DRAW,
+		STATIC_READ = GL_STATIC_READ,
+		STATIC_COPY = GL_STATIC_COPY,
+		DYNAMIC_DRAW = GL_DYNAMIC_DRAW,
+		DYNAMIC_READ = GL_DYNAMIC_READ,
+		DYNAMIC_COPY = GL_DYNAMIC_COPY
+	};
+}
 
 inline bool GL_LogCall(const char* functionName, const char* srcFile, const int line)
 {

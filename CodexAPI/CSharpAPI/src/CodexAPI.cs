@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using CodexEngine.Components;
 using CodexEngine.Structs;
@@ -43,10 +44,18 @@ namespace CodexEngine.Structs
 	[StructLayout(LayoutKind.Sequential)]
 	public struct EntityDescriptor
 	{
-		public TransformComponent Transform = new TransformComponent();
-		public TagComponent Tag = new TagComponent();
+		public DescriptorTransformComponent Transform = null;
+		public DescriptorTagComponent Tag = null;
+		public DescriptorSpriteRendererComponent SpriteRenderer = null;
 
 		public EntityDescriptor() { }
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct Vector2f
+	{
+		public float X;
+		public float Y;
 	}
 }
 
@@ -54,7 +63,7 @@ namespace CodexEngine
 {
 	public static class CodexAPI
 	{
-		public const string ENGINE_DLL = @"CodexAPI.dll";
+		public const string ENGINE_DLL = @"CodexNative.dll";
 
 		// Engine API Imports
 		[DllImport(ENGINE_DLL)]
@@ -70,8 +79,32 @@ namespace CodexEngine
 		[DllImport(ENGINE_DLL)]
 		public static extern void ResizeViewport(int newWidth, int newHeight);
 		[DllImport(ENGINE_DLL)]
-		public static extern uint CreateEntity(EntityDescriptor desc);
+		public static extern int CreateEntity(EntityDescriptor desc);
 		[DllImport(ENGINE_DLL)]
-		public static extern void RemoveEntity(uint entityID);
+		public static extern void RemoveEntity(int entityID);
+		[DllImport(ENGINE_DLL)]
+		public static extern void UpdateEntityFromDescriptor(int entityID, EntityDescriptor desc);
+
+		// Adds
+		[DllImport(ENGINE_DLL)]
+		public static extern void AddSpriteRendererComponent(int entityID, DescriptorSpriteRendererComponent component);
+		[DllImport(ENGINE_DLL)]
+		public static extern void AddTilemapComponent(int entityID, DescriptorTilemapComponent component, TileInfo[] tiles);
+
+		// Updates
+		[DllImport(ENGINE_DLL)]
+		public static extern void UpdateTransformComponent(int entityID, DescriptorTransformComponent component);
+		[DllImport(ENGINE_DLL)]
+		public static extern void UpdateTagComponent(int entityID, DescriptorTagComponent component);
+		[DllImport(ENGINE_DLL)]
+		public static extern void UpdateSpriteRendererComponent(int entityID, DescriptorSpriteRendererComponent component);
+		[DllImport(ENGINE_DLL)]
+		public static extern void UpdateTilemapComponent(int entityID, DescriptorTilemapComponent component, TileInfo[] tiles);
+		[DllImport(ENGINE_DLL)]
+		public static extern Vector2 GetSelectedTileCoord();
+		[DllImport(ENGINE_DLL)]
+		public static extern void SetSelectedTileCoord(Vector2 newCoord);
+		[DllImport(ENGINE_DLL)]
+		public static extern void GetMousePositionInWorld(ref Vector2 vec);
 	}
 }

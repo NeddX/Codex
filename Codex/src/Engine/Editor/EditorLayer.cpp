@@ -1,8 +1,7 @@
 #include "EditorLayer.h"
 #include "../Core/Scene.h"
 
-namespace Codex
-{
+namespace Codex {
     EditorLayer::EditorLayer(const char* name, Renderer* renderer) : Layer(name), m_Renderer(renderer)
     {
 

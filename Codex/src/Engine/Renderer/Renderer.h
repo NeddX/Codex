@@ -7,8 +7,7 @@
 #include "../Core/Geomtryd.h"
 #include "SpriteBatchRenderer.h"
 
-namespace Codex
-{
+namespace Codex {
 	class Renderer
 	{
 #ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
@@ -49,6 +48,7 @@ namespace Codex
 				m_BatchRenderer = std::make_shared<SpriteBatchRenderer>(shader, initialBatchCapacity, maxBatchQuadCount);
 			return m_BatchRenderer;
 		}
+		inline void Render(const mgl::VertexArray* vertexArray, const mgl::IndexBuffer* indexBuffer, const mgl::Shader* shader) const { m_InternalRenderer->Render(vertexArray, indexBuffer, shader); }
 	};
 }
 

@@ -1,0 +1,557 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5C1F20B7-B298-361B-B346-A60925743B78}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>CodexEngine</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\dev\Codex\builds\vs2022\Codex\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CodexEngine.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CodexEngine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\dev\Codex\builds\vs2022\Codex\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CodexEngine.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CodexEngine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\dev\Codex\builds\vs2022\Codex\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CodexEngine.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CodexEngine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\dev\Codex\builds\vs2022\Codex\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CodexEngine.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CodexEngine</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-debug;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/builds/vs2022/Codex/CodexEngine.dir/Debug/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CODEX_CONF_DEBUG;YAML_CPP_STATIC_DEFINE;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CODEX_CONF_DEBUG;YAML_CPP_STATIC_DEFINE;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-debug;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-debug;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-release;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/builds/vs2022/Codex/CodexEngine.dir/Release/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CODEX_CONF_RELEASE;YAML_CPP_STATIC_DEFINE;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CODEX_CONF_RELEASE;YAML_CPP_STATIC_DEFINE;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-release;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-release;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-minsizerel;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/builds/vs2022/Codex/CodexEngine.dir/MinSizeRel/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;YAML_CPP_STATIC_DEFINE;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;YAML_CPP_STATIC_DEFINE;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-minsizerel;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-minsizerel;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-relwithdebinfo;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/builds/vs2022/Codex/CodexEngine.dir/RelWithDebInfo/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;YAML_CPP_STATIC_DEFINE;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;YAML_CPP_STATIC_DEFINE;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-relwithdebinfo;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\Codex\vendor\SDL\include;D:\dev\Codex\Codex\vendor\fmt\include;D:\dev\Codex\Codex\vendor\yaml-cpp\include;D:\dev\Codex\Codex\vendor\glad\include;D:\dev\Codex\Codex\vendor\glm\glm;D:\dev\Codex\Codex\vendor\MGL\include;D:\dev\Codex\NetNT\src;D:\dev\Codex\Codex\vendor\entt;D:\dev\Codex\Codex\include;D:\dev\Codex\Codex\src\PCH;D:\dev\Codex\builds\vs2022\SDL\include;D:\dev\Codex\builds\vs2022\SDL\include-config-relwithdebinfo;D:\dev\Codex\Codex\vendor\glm;D:\dev\Codex\include;D:\dev\Codex\NetNT\vendor\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\dev\Codex\Codex\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/dev/Codex/Codex/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindOpenGL.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindPackageMessage.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/dev/Codex/Codex/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindOpenGL.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindPackageMessage.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/dev/Codex/Codex/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindOpenGL.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindPackageMessage.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/dev/Codex/Codex/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindOpenGL.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\FindPackageMessage.cmake;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\CodexEngine.dir\cmake_pch.cxx">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CodexEngine.dir/Debug/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CodexEngine.dir/Release/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CodexEngine.dir/MinSizeRel/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CodexEngine.dir/RelWithDebInfo/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Camera.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Constants.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\EditorScene.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Geomtryd.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\IResource.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\KeyHandler.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Layer.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\LevelScene.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Memory.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\MouseHandler.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\ResourceHandler.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Scene.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Window.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Editor\EditorLayer.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\DebugDraw.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\Line2D.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\RenderBatch.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\Renderer.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\Shader.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\SpriteBatchRenderer.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\Texture2D.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\Components.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\ECS.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\NativeBehaviourComponent.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\SpriteRendererComponent.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\TransformComponent.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\Sprite.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\SpriteSheet.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Utils\include\Util.h" />
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\Camera.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\EditorScene.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\KeyHandler.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\LevelScene.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\Memory.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\MouseHandler.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\ResourceHandler.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\Scene.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\Window.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Editor\EditorLayer.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\DebugDraw.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\RenderBatch.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\Renderer.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\Shader.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\SpriteBatchRenderer.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\Components.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\ECS.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Scene\Sprite.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\glad\src\glad.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/builds/vs2022/Codex/CMakeFiles/CodexEngine.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClInclude Include="D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\CodexEngine.dir\Debug\cmake_pch.hxx" />
+    <ClInclude Include="D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\CodexEngine.dir\Release\cmake_pch.hxx" />
+    <ClInclude Include="D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\CodexEngine.dir\MinSizeRel\cmake_pch.hxx" />
+    <ClInclude Include="D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\CodexEngine.dir\RelWithDebInfo\cmake_pch.hxx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\ZERO_CHECK.vcxproj">
+      <Project>{70C30230-F53A-39A1-9CE9-844CD55F374E}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\MGL\MGL.vcxproj">
+      <Project>{A1C69237-0841-3FC7-9348-9FD737178568}</Project>
+      <Name>MGL</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\NetNT\NetNT.vcxproj">
+      <Project>{84BC7032-1E2A-3CCB-B254-4470E96D596B}</Project>
+      <Name>NetNT</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\SDL\SDL2-static.vcxproj">
+      <Project>{7EF2E193-0154-3418-9508-FAB63BB7DEDA}</Project>
+      <Name>SDL2-static</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\SDL\SDL2main.vcxproj">
+      <Project>{2AA3ED83-8853-39AD-80AA-34E97C6C343A}</Project>
+      <Name>SDL2main</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\fmt\fmt.vcxproj">
+      <Project>{748EE25A-4C95-3F5C-8CF0-7B31E509EE27}</Project>
+      <Name>fmt</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\dev\Codex\builds\vs2022\yaml-cpp\yaml-cpp.vcxproj">
+      <Project>{E47C6141-A3B2-3229-8344-BA5E435FE6BE}</Project>
+      <Name>yaml-cpp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

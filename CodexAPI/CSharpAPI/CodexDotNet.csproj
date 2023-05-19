@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\builds\vs2022\CodexAPI\CodexAPI.vcxproj" />
+    <ProjectReference Include="..\..\builds\vs2022\CodexAPI\CodexNative.vcxproj" />
+  </ItemGroup>
+
+</Project>

@@ -3,8 +3,7 @@
 
 #include <sdafx.h>
 
-namespace Codex
-{
+namespace Codex {
 	/*class IDisposable
 	{
 	protected:

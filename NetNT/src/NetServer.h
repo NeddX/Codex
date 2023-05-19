@@ -7,7 +7,7 @@
 #include "NetConnection.h"
 
 namespace Codex {
-	namespace net {
+	namespace Net {
 		template<typename T>
 		class NetServer
 		{

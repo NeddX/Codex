@@ -5,8 +5,7 @@
 
 #include "../Core/IResource.h"
 
-namespace Codex
-{
+namespace Codex {
 	class Shader : public IResource
 	{
 		friend class ResourceHandler;

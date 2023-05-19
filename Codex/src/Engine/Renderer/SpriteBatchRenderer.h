@@ -8,8 +8,7 @@
 #include "RenderBatch.h"
 #include "../Core/Geomtryd.h"
 
-namespace Codex
-{
+namespace Codex {
 	constexpr auto BATCH_RENDERER_INITIAL_CAPACITY = 16;
 	constexpr auto BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH = 1024;
 
@@ -52,7 +51,7 @@ namespace Codex
 	public:
 		void Begin();
 		void End();
-		void RenderRect(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, int zIndex = 0);
+		void RenderRect(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, Vector4f colour = Vector4f(1.0f, 1.0f, 1.0f, 1.0f), int zIndex = 0);
 	};
 }
 

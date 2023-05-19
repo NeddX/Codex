@@ -6,7 +6,7 @@
 #include "NetPacket.h"
 
 namespace Codex {
-    namespace net {
+    namespace Net {
         // Forward declerations
         template<typename T>
         class NetServer;

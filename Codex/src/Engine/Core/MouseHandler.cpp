@@ -1,7 +1,6 @@
 #include "MouseHandler.h"
 
-namespace Codex
-{
+namespace Codex {
 	MouseHandler* MouseHandler::m_Instance = nullptr;
 
 	MouseHandler::MouseHandler()

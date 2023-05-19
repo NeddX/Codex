@@ -5,8 +5,7 @@
 
 #include "Scene.h"
 
-namespace Codex
-{
+namespace Codex {
 	class LevelScene : public Scene
 	{
 	public:

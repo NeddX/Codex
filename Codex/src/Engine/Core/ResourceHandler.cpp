@@ -2,8 +2,7 @@
 #include "../Renderer/Texture2D.h"
 #include "../Renderer/Shader.h"
 
-namespace Codex
-{
+namespace Codex {
 	std::unordered_map<size_t, std::shared_ptr<IResource>> Resources::m_Resources;
 
 	/*

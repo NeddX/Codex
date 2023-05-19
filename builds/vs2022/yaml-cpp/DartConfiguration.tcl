@@ -11,7 +11,7 @@ BuildDirectory: D:/dev/Codex/builds/vs2022/yaml-cpp
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: Node
+Site: DESKTOP-EG4AKL6
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Win32-MSBuild
@@ -27,8 +27,8 @@ SubmitInactivityTimeout:
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "C:/Users/Nedd/scoop/apps/cmake/3.25.2/bin/cmake.exe" "D:/dev/Codex/Codex/vendor/yaml-cpp"
-MakeCommand: C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe --build . --config "${CTEST_CONFIGURATION_TYPE}"
+ConfigureCommand: "C:/Users/Nedd/scoop/apps/cmake/3.26.3/bin/cmake.exe" "D:/dev/Codex/Codex/vendor/yaml-cpp"
+MakeCommand: C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -45,7 +45,7 @@ SVNOptions:
 SVNUpdateOptions: 
 
 # Git options
-GITCommand: D:/Program Files/Git/cmd/git.exe
+GITCommand: C:/Users/Nedd/scoop/shims/git.exe
 GITInitSubmodules: 
 GITUpdateOptions: 
 GITUpdateCustom: 
@@ -58,7 +58,7 @@ P4UpdateOptions:
 P4UpdateCustom: 
 
 # Generic update command
-UpdateCommand: D:/Program Files/Git/cmd/git.exe
+UpdateCommand: C:/Users/Nedd/scoop/shims/git.exe
 UpdateOptions: 
 UpdateType: git
 
@@ -76,12 +76,12 @@ CudaSanitizerCommand:
 CudaSanitizerCommandOptions: 
 MemoryCheckType: 
 MemoryCheckSanitizerOptions: 
-MemoryCheckCommand: C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.8/bin/cuda-memcheck.exe
+MemoryCheckCommand: MEMORYCHECK_COMMAND-NOTFOUND
 MemoryCheckCommandOptions: 
 MemoryCheckSuppressionFile: 
 
 # Coverage
-CoverageCommand: COVERAGE_COMMAND-NOTFOUND
+CoverageCommand: C:/Users/Nedd/scoop/apps/gcc/current/bin/gcov.exe
 CoverageExtraFlags: -l
 
 # Testing options

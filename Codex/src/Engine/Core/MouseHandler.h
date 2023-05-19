@@ -4,9 +4,9 @@
 #include <sdafx.h>
 
 #include "Memory.h"
+#include "Geomtryd.h"
 
-namespace Codex
-{
+namespace Codex {
 	// Forward decelerations
 	class Window;
 
@@ -59,6 +59,10 @@ namespace Codex
 		{
 			return m_Instance->m_PosY;
 		}
+		static inline Vector2f GetMousePos() noexcept
+		{
+			return Vector2f(GetMouseX(), GetMouseY());
+		}
 		static inline int GetMouseDeltaX() noexcept
 		{
 			return m_Instance->m_LastPosX - m_Instance->m_PosX;
@@ -75,7 +79,7 @@ namespace Codex
 		{
 			return m_Instance->m_ScrollY;
 		}
-		static inline bool GetIsDragging() noexcept
+		static inline bool IsDragging() noexcept
 		{
 			return m_Instance->m_Dragging;	
 		}
@@ -88,7 +92,7 @@ namespace Codex
 	protected:
 		static void Init() noexcept;
 		static void Destroy() noexcept;
-		
+
 	protected:
 		void EndFrame() noexcept;	
 

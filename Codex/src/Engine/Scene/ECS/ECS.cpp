@@ -1,7 +1,6 @@
 #include "ECS.h"
 
-namespace Codex
-{
+namespace Codex {
 	/*
 	Entity::Entity(const std::string& name) : m_Name(name)
 	{

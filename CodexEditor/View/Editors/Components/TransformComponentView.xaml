@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="CodexEditor.View.Editors.Components.TransformComponentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/200
+             8" 
+             xmlns:local="clr-namespace:CodexEditor.View.Editors.Components"
+             xmlns:vmshared="clr-namespace:CodexEditor.ViewModel.Shared"
+             mc:Ignorable="d" 
+             xmlns:ecs="clr-namespace:CodexEditor.ViewModel.ECS"
+             Loaded="UserControl_Loaded"
+             d:DataContext="{d:DesignInstance Type=ecs:MSTransformComponent, IsDesignTimeCreatable=True}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!--<Style TargetType="{x:Type TextBlock}" BasedOn="{DynamicResource LightTextBlockStyle}"/>-->
+    </UserControl.Resources>
+    <local:ComponentView Header="Transform Component">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="Position"
+                       Grid.Column="0" Grid.Row="0" Margin="0,0,0,5"/>
+            <vmshared:VectorBox 
+                                X="{Binding PosX, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                Y="{Binding PosY, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                Z="{Binding PosZ, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Orientation="Horizontal"
+                                VectorType="Vector3"
+                                Grid.Column="1" Grid.Row="0"
+                                Margin="0,0,0,5"
+                                Multiplier="1"
+                                PreviewMouseLeftButtonDown="positionVectorBox_PreviewMouseLeftButtonDown"
+                                PreviewMouseLeftButtonUp="positionVectorBox_PreviewMouseLeftButtonUp"
+                                LostKeyboardFocus="positionVectorBox_LostKeyboardFocus"/>
+
+            <TextBlock Text="Rotation"
+                       Grid.Column="0" Grid.Row="1" Margin="0,0,0,5"/>
+            <vmshared:VectorBox 
+                                X="{Binding RotX, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                Y="{Binding RotY, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                Z="{Binding RotZ, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Orientation="Horizontal"
+                                VectorType="Vector3"
+                                Grid.Column="1" Grid.Row="1"
+                                Margin="0,0,0,5"
+                                Multiplier="1"
+                                PreviewMouseLeftButtonDown="rotationVectorBox_PreviewMouseLeftButtonDown"
+                                PreviewMouseLeftButtonUp="rotationVectorBox_PreviewMouseLeftButtonUp"
+                                LostKeyboardFocus="rotationVectorBox_LostKeyboardFocus"/>
+
+            <TextBlock Text="Scale"
+                       Grid.Column="0" Grid.Row="2" Margin="0,0,0,5"/>
+            <vmshared:VectorBox 
+                                X="{Binding ScaleX, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                Y="{Binding ScaleY, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                Z="{Binding ScaleZ, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Orientation="Horizontal"
+                                VectorType="Vector3"
+                                Grid.Column="1" Grid.Row="2"
+                                Margin="0,0,0,5"
+                                Multiplier="1"
+                                PreviewMouseLeftButtonDown="scaleVectorBox_PreviewMouseLeftButtonDown"
+                                PreviewMouseLeftButtonUp="scaleVectorBox_PreviewMouseLeftButtonUp"
+                                LostKeyboardFocus="scaleVectorBox_LostKeyboardFocus"/>
+        </Grid>
+    </local:ComponentView>
+</UserControl>

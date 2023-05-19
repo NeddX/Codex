@@ -28,14 +28,6 @@ namespace CodexEditor
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			CodexEngine.CodexAPI.Init();
-			var props = new CodexEngine.Structs.WindowProperties
-			{
-				Width = 800,
-				Height = 800,
-				Title = "embedded window"
-			};
-			CodexEngine.CodexAPI.CreateWindow(ref props);
 			this.Hide();
 			var projectBrowser = new ProjectBrowser();
 			var dialogResult = projectBrowser.ShowDialog();

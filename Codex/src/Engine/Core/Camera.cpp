@@ -1,6 +1,5 @@
 #include "Camera.h"
 
-namespace Codex
-{
+namespace Codex {
 	
 }

@@ -1,7 +1,6 @@
 #include "Renderer.h"
 
-namespace Codex
-{
+namespace Codex {
 	Renderer::Renderer(const int width, const int height) :
 		m_Width(width), m_Height(height)
 	{

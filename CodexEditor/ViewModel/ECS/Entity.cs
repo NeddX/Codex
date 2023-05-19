@@ -1,7 +1,6 @@
 ﻿using CodexEditor.CoreAPI;
 using CodexEditor.Util;
 using CodexEditor.ViewModel.GameProject;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,12 +11,18 @@ using CodexEngine;
 
 namespace CodexEditor.ViewModel.ECS
 {
-    public class Entity : ViewModelBase
+    [DataContract(IsReference = true)]
+	[KnownType(typeof(TransformComponent))]
+	[KnownType(typeof(TagComponent))]
+	[KnownType(typeof(SpriteRendererComponent))]
+	[KnownType(typeof(TilemapComponent))]
+	public class Entity : ViewModelBase, IDisposable
     {
-        public const uint INVALID_ENTITY_ID = 0;
+        // TODO: Change INVALID_ENTITY_ID from 0 to -1 because 0 is an actual valid ENTT entity ID.
+        public const int INVALID_ENTITY_ID = -1;
 
-        public uint _entityID = INVALID_ENTITY_ID;
-        public uint EntityID
+        private int _entityID = INVALID_ENTITY_ID;
+        public int EntityID
         {
             get => _entityID;
             set
@@ -31,7 +36,7 @@ namespace CodexEditor.ViewModel.ECS
         }
 
         private bool _isActive;
-        public bool IsActive
+		public bool IsActive
         {
             get => _isActive;
             set
@@ -43,18 +48,42 @@ namespace CodexEditor.ViewModel.ECS
 					{
 						EntityID = EngineAPI.CreateEntity(this);
                         Logger.Log(MessageType.Info, $"Created entt id: {EntityID}");
+                        Logger.Log(MessageType.Info, $"Appending {_components.Count - 2} component(s)...");
+
+                        // 
+                        foreach (var c in _components)
+						{
+							var type = c.GetType();
+
+							// we've got motherfucking python here
+							if (c is not TransformComponent && c is not TagComponent)
+							{
+								var method = typeof(EngineAPI).GetMethod("AddComponentToEntity");
+								var genericMethod = method.MakeGenericMethod(type);
+								genericMethod.Invoke(null, new object[] { this, Convert.ChangeType(c, type) });
+							}
+                            else
+                            {
+                                // Since Transform and Tag components are automatically added we do not need to re-add them, instead we just update them.
+                                var method = typeof(EngineAPI).GetMethod("UpdateEntityComponent");
+                                var genericMethod = method.MakeGenericMethod(type);
+								genericMethod.Invoke(null, new object[] { this, Convert.ChangeType(c, type) });
+							}
+						}
 					}
-                    else
+                    else if (EntityID != INVALID_ENTITY_ID)
 					{
 						Logger.Log(MessageType.Info, $"Destroyed entt id: {EntityID}");
 						EngineAPI.RemoveEntity(this);
+                        EntityID = INVALID_ENTITY_ID;
 					}
                 }
             }
         }
 
         private string _name;
-        public string Name
+		[DataMember(Order = 4)]
+		public string Name
         {
             get => _name;
             set
@@ -67,7 +96,8 @@ namespace CodexEditor.ViewModel.ECS
             }
         }
         private bool _enabled;
-        public bool Enabled
+		[DataMember(Order = 5)]
+		public bool Enabled
         {
             get => _enabled;
             set 
@@ -80,7 +110,8 @@ namespace CodexEditor.ViewModel.ECS
             }
         }
         private bool _visible;
-        public bool Visible
+		[DataMember(Order = 6)]
+		public bool Visible
 		{
 			// TODO: do the undo redo and multi selection thing with Visible property as well
 			// should be same as Enabled property
@@ -93,43 +124,90 @@ namespace CodexEditor.ViewModel.ECS
                     OnPropertyChanged();
                 }
             }
-        }
+		}
 
-        public Scene ParentScene { get; set; }
+		[DataMember(Order = 1)]
+		public Scene ParentScene { get; set; }
 
-		[JsonProperty("Components")]
-        private ObservableCollection<Component> _components = new ObservableCollection<Component>();
-        [JsonIgnore]
-        public ReadOnlyObservableCollection<Component> Components { get; private set; }
+		[DataMember(Name = "Components", Order = 2)]
+		private ObservableCollection<Component> _components = new ObservableCollection<Component>();
 
-        public Component GetComponent(Type type) => Components.FirstOrDefault(x => x.GetType() == type);
-        public T GetComponent<T>() where T : Component => GetComponent(typeof(T)) as T;
-        
-        public Entity(Scene scene)
+		public ReadOnlyObservableCollection<Component> Components { get; private set; }
+
+		public Entity(Scene scene)
         {
-            //Debug.Assert(scene != null);
+            Debug.Assert(scene != null);
             ParentScene = scene;
-            _enabled = true;
+            Enabled = true;
             _components.Add(new TransformComponent(this));
             _components.Add(new TagComponent(this));
             OnDeserialized(new StreamingContext());
-        }
+		}
 
-        [OnDeserialized]
+		public Component GetComponent(Type type) => Components.FirstOrDefault(x => x.GetType() == type);
+		public T GetComponent<T>() where T : Component => GetComponent(typeof(T)) as T;
+        public bool HasComponent<T>() where T : Component => GetComponent<T>() != null ? true : false;
+		public T AddComponent<T>(params object[] args) where T : Component
+		{
+            if (!_components.Any(x => x.GetType() == typeof(T)))
+            {
+                T component = (T)(Activator.CreateInstance(typeof(T), args));
+                _components.Add(component);
+                OnPropertyChanged("Components");
+
+                // Notify the engine about the new component
+                EngineAPI.AddComponentToEntity(this, component);
+                return component;
+            }
+            else throw new Exception($"Entity already has component type: {typeof(T)} assign to it.");
+		}
+
+
+		[OnDeserialized]
         private void OnDeserialized(StreamingContext ctx)
         {
             if (_components != null)
             {
-				foreach (var component in _components)
-					component.Parent = this;
-
 				Components = new ReadOnlyObservableCollection<Component>(_components);
-                OnPropertyChanged();
-            }
+				OnPropertyChanged("Components");
+			}
 		}
-    }
 
-    class MSEntityBase : ViewModelBase
+		#region IDisposable stuff
+		private bool _disposed;
+		protected virtual void Dispose(bool disposing)
+		{
+			if (!_disposed)
+			{
+				if (disposing)
+				{
+					// TODO: dispose managed state (managed objects)
+				}
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                IsActive = false;
+				_disposed = true;
+			}
+		}
+
+		// // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+		// ~Entity()
+		// {
+		//     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+		//     Dispose(disposing: false);
+		// }
+
+		public void Dispose()
+		{
+			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+			Dispose(disposing: true);
+			GC.SuppressFinalize(this);
+		}
+		#endregion
+	}
+
+	public class MSEntityModel : ViewModelBase
     {
         private bool _enableUpdates = true;
         private bool? _enabled;
@@ -161,6 +239,7 @@ namespace CodexEditor.ViewModel.ECS
         }
 
         private string _name;
+
         public string Name
         {
             get => _name;
@@ -175,63 +254,55 @@ namespace CodexEditor.ViewModel.ECS
         }
 
         private readonly ObservableCollection<IMSComponent> _components = new ObservableCollection<IMSComponent>();
-        public ReadOnlyObservableCollection<IMSComponent> Componnets { get; }
-        
+        public ReadOnlyObservableCollection<IMSComponent> Components { get; private set; }
         public List<Entity> SelectedEntities { get; }
 
-        public MSEntityBase(List<Entity> entities)
+        public MSEntityModel(List<Entity> entities)
         {
             Debug.Assert(entities != null && entities.Any());
-            Componnets = new ReadOnlyObservableCollection<IMSComponent>(_components);
+            Components = new ReadOnlyObservableCollection<IMSComponent>(_components);
             SelectedEntities = entities;
             PropertyChanged += (s, e) =>
             {
                 if (_enableUpdates) UpdateEntities(e.PropertyName);
             };
-        }
+		}
+		public T GetMSComponent<T>() where T : IMSComponent => (T)Components.FirstOrDefault(x => x.GetType() == typeof(T));
 
-        protected virtual bool UpdateEntities(string propertyName)
+		protected virtual bool UpdateEntities(string propertyName)
         {
 			var property = typeof(Entity).GetProperty(propertyName);
 			if (property != null)
 			{
-				var value = typeof(MSEntity).GetProperty(propertyName).GetValue(this);
+				var value = typeof(MSEntityModel).GetProperty(propertyName).GetValue(this);
 				SelectedEntities.ForEach(x => property.SetValue(x, value));
 				return true;
 			}
 			return false;
         }
 
-        public static float? GetMixedValues(List<Entity> entities, Func<Entity, float> getProperty)
+        public static float? GetMixedValues<T>(List<T> objects, Func<T, float> getProperty)
         {
-            var value = getProperty(entities.First());
-            
-            foreach (var entity in entities.Skip(1))
-                if (!value.IsTheSameAs(getProperty(entity))) return null;
-
-            return value;
+            var value = getProperty(objects.First());
+            return objects.Skip(1).Any(x => !getProperty(x).IsEqualTo(value)) ? null : value;
         }
+		public static int? GetMixedValues<T>(List<T> objects, Func<T, int> getProperty)
+		{
+			var value = getProperty(objects.First());
+			return objects.Skip(1).Any(x => value != getProperty(x)) ? null : value;
+		}
 
-        public static bool? GetMixedValues(List<Entity> entities, Func<Entity, bool> getProperty)
-        {
-            var value = getProperty(entities.First());
+		public static bool? GetMixedValues<T>(List<T> objects, Func<T, bool> getProperty)
+		{
+			var value = getProperty(objects.First());
+			return objects.Skip(1).Any(x => value != getProperty(x)) ? null : value;
+		}
 
-            foreach (var entity in entities.Skip(1))
-                if (value != getProperty(entity)) return null; 
-            
-            return value;
-        }
-
-        public static string GetMixedValues(List<Entity> entities, Func<Entity, string> getProperty)
-        {
-            var value = getProperty(entities.First());
-
-            foreach (var entity in entities.Skip(1))
-                if (value != getProperty(entity))
-                    return null;
-
-            return value;
-        }
+        public static string GetMixedValues<T>(List<T> objects, Func<T, string> getProperty)
+		{
+			var value = getProperty(objects.First());
+			return objects.Skip(1).Any(x => value != getProperty(x)) ? null : value;
+		}
 
         protected virtual bool UpdateMSEntities()
         {
@@ -241,16 +312,34 @@ namespace CodexEditor.ViewModel.ECS
             return true;
         }
 
+        private void MakeComponentList()
+        {
+            _components.Clear();
+            var firstEnttiy = SelectedEntities.FirstOrDefault();
+            if (firstEnttiy == null) return;
+
+            foreach (var c in firstEnttiy.Components)
+            {
+                var type = c.GetType();
+                if (!SelectedEntities.Skip(1).Any(x => x.GetComponent(type) == null))
+                {
+                    Debug.Assert(Components.FirstOrDefault(x => x.GetType() == type) == null);
+                    _components.Add(c.GetMultiselectionComponent(this));
+                }
+            }
+        }
+
         public void Refresh()
         {
             _enableUpdates = false;
             UpdateMSEntities();
+            MakeComponentList();
             _enableUpdates = true;
         }
     }
 
-    class MSEntity : MSEntityBase
-    { 
+    class MSEntity : MSEntityModel
+    {
         public MSEntity(List<Entity> entities) : base(entities)
         {
             Refresh();

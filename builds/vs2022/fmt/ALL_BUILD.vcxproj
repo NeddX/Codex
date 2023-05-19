@@ -27,7 +27,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D859F9A2-1A3F-38AE-84E5-C3FE8BA6D771}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
     <ProjectName>ALL_BUILD</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
@@ -112,7 +112,7 @@
       <UseUtf8Encoding>Always</UseUtf8Encoding>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/fmt/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/fmt/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/fmt/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -120,12 +120,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeParseArguments.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CheckCXXCompilerFlag.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\GNUInstallDirs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\JoinPaths.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt-config.cmake.in;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt.pc.in;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CMakePackageConfigHelpers.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CMakeParseArguments.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CheckCXXCompilerFlag.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\GNUInstallDirs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\WriteBasicConfigVersionFile.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\JoinPaths.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt-config.cmake.in;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt.pc.in;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\dev\Codex\builds\vs2022\fmt\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/fmt/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/fmt/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/fmt/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -133,12 +133,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeParseArguments.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CheckCXXCompilerFlag.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\GNUInstallDirs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\JoinPaths.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt-config.cmake.in;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt.pc.in;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CMakePackageConfigHelpers.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CMakeParseArguments.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CheckCXXCompilerFlag.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\GNUInstallDirs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\WriteBasicConfigVersionFile.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\JoinPaths.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt-config.cmake.in;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt.pc.in;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\dev\Codex\builds\vs2022\fmt\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/fmt/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/fmt/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/fmt/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -146,12 +146,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeParseArguments.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CheckCXXCompilerFlag.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\GNUInstallDirs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\JoinPaths.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt-config.cmake.in;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt.pc.in;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CMakePackageConfigHelpers.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CMakeParseArguments.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CheckCXXCompilerFlag.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\GNUInstallDirs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\WriteBasicConfigVersionFile.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\JoinPaths.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt-config.cmake.in;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt.pc.in;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\dev\Codex\builds\vs2022\fmt\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/fmt/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/fmt/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/fmt/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -159,7 +159,7 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CMakeParseArguments.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\CheckCXXCompilerFlag.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\GNUInstallDirs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.25.2\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\JoinPaths.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt-config.cmake.in;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt.pc.in;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CMakePackageConfigHelpers.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CMakeParseArguments.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\CheckCXXCompilerFlag.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\GNUInstallDirs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.26.3\share\cmake-3.26\Modules\WriteBasicConfigVersionFile.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\JoinPaths.cmake;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt-config.cmake.in;D:\dev\Codex\Codex\vendor\fmt\support\cmake\fmt.pc.in;D:\dev\Codex\builds\vs2022\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\dev\Codex\builds\vs2022\fmt\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>

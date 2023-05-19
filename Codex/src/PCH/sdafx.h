@@ -1,7 +1,7 @@
 #ifndef CODEX_PCH_H
 #define CODEX_PCH_H
 
-// STL Headers
+// STL headers
 #include <iostream>
 #include <memory>
 #include <cstdint>
@@ -57,7 +57,10 @@
 #endif
 #endif
 
-// Library Specific
+// Codex specific
+#include "../Engine/Core/Constants.h"
+
+// Library specific
 #include <yaml-cpp/yaml.h>
 #include <fmt/core.h>
 #include <SDL.h>
@@ -76,7 +79,7 @@
 #include <NetNative.h>
 #include <entt.hpp>
 
-// Project Specific
+// Project specific
 #include "../Engine/Utils/include/Util.h"
 
 #endif // CODEX_PCH_H

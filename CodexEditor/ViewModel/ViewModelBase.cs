@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace CodexEditor.ViewModel
 {
+	[DataContract(IsReference = true)]
 	public class ViewModelBase : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler? PropertyChanged;

@@ -24,7 +24,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A1C69237-0841-3FC7-9348-9FD737178568}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
     <ProjectName>MGL</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
@@ -212,7 +212,7 @@
       <UseUtf8Encoding>Always</UseUtf8Encoding>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/MGL/MGL/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -225,7 +225,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/MGL/MGL/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -238,7 +238,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/MGL/MGL/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -251,7 +251,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/dev/Codex/Codex/vendor/MGL/MGL/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-C:\Users\Nedd\scoop\apps\cmake\3.25.2\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
+C:\Users\Nedd\scoop\apps\cmake\3.26.3\bin\cmake.exe -SD:/dev/Codex -BD:/dev/Codex/builds/vs2022 --check-stamp-file D:/dev/Codex/builds/vs2022/MGL/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone

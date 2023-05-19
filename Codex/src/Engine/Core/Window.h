@@ -12,8 +12,7 @@
 #include "LevelScene.h"
 #include "../Renderer/Renderer.h"
 
-namespace Codex
-{
+namespace Codex {
 	class Window
 	{
 #ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
@@ -80,7 +79,7 @@ namespace Codex
 		};
 
 	public:
-		static Window* CreateWindow();
+		static Window* Get();
 		static int SDLEventFilterWatch(void* object, SDL_Event* event);
 		static void ChangeScene(int sceneID);
 

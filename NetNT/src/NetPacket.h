@@ -3,9 +3,8 @@
 
 #include "NetCommon.h"
 
-namespace Codex::net
-{
-	// Forward declerations
+namespace Codex::Net {
+	// Forward decelerations
 	template<typename T>
 	class NetConnection;
 

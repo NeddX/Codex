@@ -4,8 +4,7 @@
 #include "../Core/Geomtryd.h"
 #include "../Renderer/Texture2D.h"
 
-namespace Codex
-{
+namespace Codex {
 	class Sprite
 	{
 	private:

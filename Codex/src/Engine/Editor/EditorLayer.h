@@ -7,8 +7,7 @@
 #include "../Core/Layer.h"
 #include "../Renderer/Renderer.h"
 
-namespace Codex
-{
+namespace Codex {
 	class EditorLayer : public Layer
 	{
     private:

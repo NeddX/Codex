@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\CodexEngine.dir\cmake_pch.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\EditorScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\KeyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\LevelScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\Memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\MouseHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\ResourceHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Core\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Editor\EditorLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\DebugDraw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\RenderBatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\SpriteBatchRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\Components.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\ECS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Scene\Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\glad\src\glad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\EditorScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Geomtryd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\IResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\KeyHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Layer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\LevelScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\MouseHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\ResourceHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Core\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Editor\EditorLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\DebugDraw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\Line2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\RenderBatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\SpriteBatchRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\Texture2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\Components.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\ECS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\NativeBehaviourComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\SpriteRendererComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\TransformComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\SpriteSheet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Utils\include\Util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\CodexEngine.dir\Debug\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\CodexEngine.dir\Release\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\CodexEngine.dir\MinSizeRel\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\builds\vs2022\Codex\CMakeFiles\CodexEngine.dir\RelWithDebInfo\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\dev\Codex\Codex\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{037DD663-DAF7-3FF9-A510-2A8A4DC2BCC1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Precompile Header File">
+      <UniqueIdentifier>{F4A9A0C9-26F2-3453-8290-30BBEB01FDD1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{513C341C-037E-3A6E-A794-7A705FA171C2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

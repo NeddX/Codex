@@ -1,9 +1,8 @@
 #include "KeyHandler.h"
 
-namespace Codex
-{
+namespace Codex {
 	KeyHandler* KeyHandler::m_Instance = nullptr;
-	
+
 	KeyHandler::KeyHandler()
 	{
 		m_KeysPressed.reset();

@@ -244,7 +244,7 @@
 
 #define HAVE_D3D_H 1
 #define HAVE_D3D11_H 1
-/* #undef HAVE_D3D12_H */
+#define HAVE_D3D12_H 1
 #define HAVE_DDRAW_H 1
 #define HAVE_DSOUND_H 1
 #define HAVE_DINPUT_H 1
@@ -454,7 +454,7 @@
 
 #define SDL_VIDEO_RENDER_D3D 1
 #define SDL_VIDEO_RENDER_D3D11 1
-/* #undef SDL_VIDEO_RENDER_D3D12 */
+#define SDL_VIDEO_RENDER_D3D12 1
 #define SDL_VIDEO_RENDER_OGL 1
 /* #undef SDL_VIDEO_RENDER_OGL_ES */
 #define SDL_VIDEO_RENDER_OGL_ES2 1

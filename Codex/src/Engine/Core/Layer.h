@@ -1,8 +1,7 @@
 #ifndef CODEX_CORE_LAYER_H
 #define CODEX_CORE_LAYER_H
 
-namespace Codex
-{
+namespace Codex {
 	// Forward decleartions
 	class Scene;
 

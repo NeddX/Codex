@@ -2,10 +2,10 @@
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 file(GLOB_RECURSE HEADERS "src/*.h")
 
-add_library(CodexAPI SHARED ${HEADERS} ${SOURCES})
+add_library(CodexNative SHARED ${HEADERS} ${SOURCES})
 
 # Set the C++ Standard to 17 for this target
-set_property(TARGET CodexAPI PROPERTY CXX_STANDARD 17)
+set_property(TARGET CodexNative PROPERTY CXX_STANDARD 17)
 
-target_include_directories(CodexAPI PUBLIC src/)
-target_link_libraries(CodexAPI Codex-static)
+target_include_directories(CodexNative PUBLIC src/)
+target_link_libraries(CodexNative CodexEngine)

@@ -7,11 +7,10 @@
 #include "Texture2D.h"
 #include "../Core/Geomtryd.h"
 
-namespace Codex
-{
-	static constexpr auto VERTEX_COMPONENT_COUNT = 12;							// How many components does a vertex have?
-	static constexpr auto VERTEX_COUNT = 4;										// How many verticies does the buffer have?
-	static constexpr auto VERTEX_SIZE = VERTEX_COUNT * VERTEX_COMPONENT_COUNT;	// The total count of the elements in the buffer
+namespace Codex {
+	static constexpr auto QUAD2D_VERTEX_COMPONENT_COUNT = 12;							// How many components does a vertex have?
+	static constexpr auto QUAD2D_VERTEX_COUNT = 4;										// How many vertices does the buffer have?
+	static constexpr auto QUAD2D_VERTEX_SIZE = QUAD2D_VERTEX_COUNT * QUAD2D_VERTEX_COMPONENT_COUNT;	// The total count of the elements in the buffer
 
 	class RenderBatch
 	{
@@ -37,7 +36,7 @@ namespace Codex
 		int m_MaxQuadCount = 1000;
 		int m_ZIndex = 0;
 		bool m_HasRoom = true;
-		float* m_Verticies;
+		std::vector<float> m_Verticies;
 		std::unique_ptr<mgl::VertexArray> m_Vao;
 		std::unique_ptr<mgl::VertexBuffer> m_Vbo;
 		std::unique_ptr<mgl::IndexBuffer> m_Ebo;
@@ -73,7 +72,7 @@ namespace Codex
 				texture_slots_initialized = true;
 			}
 		}
-		inline bool UploadQuad(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect)
+		inline bool UploadQuad(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, Vector4f colour)
 		{
 			uint16_t tex_id = 0;
 			float tex_width = 0.0f;
@@ -90,40 +89,40 @@ namespace Codex
 					}
 					else return false;
 				}
-				else tex_id = (uint16_t)(std::distance(m_TextureList.begin(), it));
-				tex_width	= (float)(texture->GetWidth());
-				tex_height	= (float)(texture->GetHeight());
+				else tex_id = (uint16_t)std::distance(m_TextureList.begin(), it) + 1;
+				tex_width	= (float)texture->GetWidth();
+				tex_height	= (float)texture->GetHeight();
 			}
 
 			float vertex_buffer_data[] =
 			{
-				destRect.x, 					destRect.y,					0.0f,				1.0f, 1.0f, 1.0f, 1.0f,					srcRect.x,				srcRect.y,						(float)(tex_id),		tex_width, tex_height,
-				destRect.x + destRect.w,		destRect.y,					0.0f,				1.0f, 1.0f, 1.0f, 1.0f,					srcRect.x + srcRect.w,	srcRect.y,						(float)(tex_id),		tex_width, tex_height,
-				destRect.x,						destRect.y + destRect.h,	0.0f,				1.0f, 1.0f, 1.0f, 1.0f,					srcRect.x,				srcRect.y + srcRect.h,			(float)(tex_id),		tex_width, tex_height,
-				destRect.x + destRect.w,		destRect.y + destRect.h,	0.0f,				1.0f, 1.0f, 1.0f, 1.0f,					srcRect.x + srcRect.w,	srcRect.y + srcRect.h,			(float)(tex_id),		tex_width, tex_height
+				destRect.x, 					destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y,						(float)tex_id,		tex_width, tex_height,
+				destRect.x + destRect.w,		destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y,						(float)tex_id,		tex_width, tex_height,
+				destRect.x,						destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y + srcRect.h,			(float)tex_id,		tex_width, tex_height,
+				destRect.x + destRect.w,		destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y + srcRect.h,			(float)tex_id,		tex_width, tex_height
 			};
 
 			// TODO: Consider directly adding the vertex buffer data to m_Verticies instead of creating a temporary
-			// array and then copying the contents of it to 
-			size_t offset = m_QuadCount * VERTEX_SIZE;
-			std::memcpy(m_Verticies + offset, vertex_buffer_data, sizeof(vertex_buffer_data));
-			/*for (int i = 0; i < sizeof(vertex_buffer_data) / sizeof(float); ++i)
-				m_Verticies[offset + i] = vertex_buffer_data[i];*/
+			// array and then copying the contents of it to m_Verticies.
+
+			uint32_t offset = m_QuadCount * QUAD2D_VERTEX_SIZE;
+			std::memcpy(m_Verticies.data() + offset, vertex_buffer_data, sizeof(vertex_buffer_data));
 
 			if (++m_QuadCount >= m_MaxQuadCount)
 				m_HasRoom = false;
 
 			return true;
 		}
-		inline uint32_t* GenerateIndicies(size_t& size)
+		inline std::vector<uint32_t> GenerateIndicies(size_t& size)
 		{
 			size = 6 * m_MaxQuadCount;
-			uint32_t* index_buffer_data = new uint32_t[size];
+			std::vector<uint32_t> index_buffer_data(size);
 
 			for (int i = 0; i < size; i += 6)
 			{
 				int offset = 4 * (i / 6);
 
+				// TODO: Consider using std::memcpy here.
 				index_buffer_data[i] = 2 + offset;
 				index_buffer_data[i + 1] = 0 + offset;
 				index_buffer_data[i + 2] = 1 + offset;
@@ -141,12 +140,13 @@ namespace Codex
 			m_Vao->Bind();
 			m_Ebo->Bind();
 			m_Vbo->Bind();
-			m_Vbo->SetBufferSubData<float>(m_Verticies, VERTEX_SIZE * m_MaxQuadCount * sizeof(float));
+			m_Vbo->SetBufferSubData<float>(m_Verticies.data(), 0, QUAD2D_VERTEX_SIZE * m_QuadCount * sizeof(float));
 			
 			for (int i = 0; i < m_CurrentTexIndex; ++i)
 				m_TextureList[i]->Bind(i);
 
 			glDrawElements(GL_TRIANGLES, 6 * m_QuadCount, GL_UNSIGNED_INT, nullptr);
+
 			m_Shader->Unbind();
 			m_Vao->Unbind();
 			m_Vbo->Unbind();

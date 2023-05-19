@@ -7,8 +7,7 @@
 #include "../../Renderer/SpriteBatchRenderer.h"
 #include "Components.h"
 
-namespace Codex
-{
+namespace Codex {
 	// Forward declarations
 	class EntityManager;
 
@@ -27,6 +26,11 @@ namespace Codex
 		{
 
 		}
+		Entity(uint32_t entity, EntityManager* manager) :
+			m_Handle((entt::entity)entity), m_Manager(manager)
+		{
+
+		}
 	public:
 		inline uint32_t GetID() const { return (uint32_t)(m_Handle); }
 		operator bool() const { return m_Handle != entt::entity { 0 }; }
@@ -35,23 +39,25 @@ namespace Codex
 		template<typename T, typename... TArgs>
 		T& AddComponent(TArgs&&... args)
 		{
-			// TODO: Add own assertion macro
+			CODEX_ASSERT(!m_Manager->m_Registry.any_of<T>(m_Handle), "Entity already has that component.");
 			return m_Manager->m_Registry.emplace<T>(m_Handle, std::forward<TArgs>(args)...);
 		}
 		template<typename T>
 		void RemoveComponent()
 		{
+			CODEX_ASSERT(m_Manager->m_Registry.any_of<T>(m_Handle), "Entity does not have the component to remove.");
 			m_Manager->m_Registry.remove<T>(m_Handle);
 		}
 		template<typename T>
 		T& GetComponent()
 		{
+			CODEX_ASSERT(m_Manager->m_Registry.any_of<T>(m_Handle), "Entity does not have the component to retrieve.");
 			return m_Manager->m_Registry.get<T>(m_Handle);
 		}
 		template<typename T>
 		bool HasComponent()
 		{
-			return m_Manager->m_Registry.any<T>(m_Handle);
+			return m_Manager->m_Registry.any_of<T>(m_Handle);
 		}
 	};
 
@@ -60,6 +66,7 @@ namespace Codex
 		friend class Entity;
 
 	private:
+		int m_Inidcator;
 		entt::registry m_Registry;
 
 	public:
@@ -88,6 +95,20 @@ namespace Codex
 			entities.reserve(view.size());
 			for (auto& e : view)
 				entities.emplace_back(e, this);
+			return entities;
+		}
+		std::vector<Entity> GetAllEntitesWithTag(const std::string& tag)
+		{
+			auto view = m_Registry.view<TagComponent>();
+			std::vector<Entity> entities;
+			entities.reserve(view.size());
+			for (auto& e : view)
+			{
+				Entity entity = { e, this };
+				auto& tag = entity.GetComponent<TagComponent>();
+				if (entity.GetComponent<TagComponent>().tag == tag)
+					entities.push_back(entity);
+			}
 			return entities;
 		}
 	};

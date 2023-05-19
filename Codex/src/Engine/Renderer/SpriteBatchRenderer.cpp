@@ -1,22 +1,18 @@
 #include "SpriteBatchRenderer.h"
+#include "../Core/ResourceHandler.h"
 
-namespace Codex
-{
-	SpriteBatchRenderer::SpriteBatchRenderer(Shader* shader, const int capacity, const int maxQuadCount) :
+namespace Codex {
+	SpriteBatchRenderer::SpriteBatchRenderer(Shader* shader, int capacity, const int maxQuadCount) :
 		m_Shader(shader), m_Capacity(capacity), m_MaxQuadCountPerBatch(maxQuadCount)
 	{
 		m_Batches.reserve(capacity);
-		for (int i = 0; i < capacity; ++i)
-		{
-			auto* ptr = new RenderBatch(maxQuadCount, m_Shader);
-			m_Batches.push_back(ptr);
-		}
+		for (int i = capacity; i < capacity; ++i)
+			m_Batches.push_back(new RenderBatch(maxQuadCount, m_Shader));
 	}
 
 	SpriteBatchRenderer::~SpriteBatchRenderer()
 	{
-		for (auto& batch : m_Batches)
-			delete batch;
+
 	}
 
 	void SpriteBatchRenderer::Begin()
@@ -34,7 +30,7 @@ namespace Codex
 		std::sort(sorted_batch.begin(), sorted_batch.end(), 
 			[](auto* a, auto* b)
 			{
-				return a->GetZIndex() > b->GetZIndex();
+				return a->GetZIndex() < b->GetZIndex();
 			});
 
 		std::for_each(sorted_batch.begin(), sorted_batch.end(),
@@ -45,22 +41,22 @@ namespace Codex
 			});
 	}
 
-	void SpriteBatchRenderer::RenderRect(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, int zIndex)
+	void SpriteBatchRenderer::RenderRect(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, Vector4f colour, int zIndex)
 	{
 		for (auto* batch : m_Batches)
 		{
 			if (batch->HasRoom() && batch->GetZIndex() == zIndex)
 			{
-				if (batch->UploadQuad(texture, srcRect, destRect)) return;
+				if (batch->UploadQuad(texture, srcRect, destRect, colour)) return;
 				else std::cout << "failed to upload quad\n";
 			}
 		}
 
 		// If there was no space then create a new batch
-		RenderBatch* new_batch = new RenderBatch(m_MaxQuadCountPerBatch, m_Shader);
+		auto* new_batch = new RenderBatch(m_MaxQuadCountPerBatch, m_Shader);
 		new_batch->SetZIndex(zIndex);
 		new_batch->Flush();
-		new_batch->UploadQuad(texture, srcRect, destRect);
+		new_batch->UploadQuad(texture, srcRect, destRect, colour);
 		m_Batches.push_back(new_batch);
 	}
 }

@@ -7,8 +7,7 @@
 #include "../Renderer/Shader.h"
 #include "../Renderer/Texture2D.h"
 
-namespace Codex
-{
+namespace Codex {
 	class Resources
 	{
 #ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
@@ -43,6 +42,8 @@ namespace Codex
 		template<>
 		static std::shared_ptr<Texture2D> Load(const char* filePath)
 		{
+			if (HasResource(filePath)) return GetResource<Texture2D>(filePath);
+
 			std::ifstream fs(filePath);
 			if (fs.is_open())
 			{
@@ -88,7 +89,7 @@ namespace Codex
 
 	public:
 		template<typename T>
-		static const std::shared_ptr<T> GetResource(size_t id)
+		inline static std::shared_ptr<T> GetResource(size_t id)
 		{
 			auto it = m_Resources.find(id);
 			if (it != m_Resources.end()) return std::static_pointer_cast<T>(it->second);
@@ -96,7 +97,23 @@ namespace Codex
 			// TODO: Add a custom exception class!
 			else throw std::runtime_error(fmt::format("Hash ID {} was not present in the Resource Pool.", id).c_str());
 		}
-		static std::unordered_map<size_t, std::shared_ptr<IResource>>& GetAllResources()
+		template<typename T>
+		inline static std::shared_ptr<T> GetResource(const char* filePath)
+		{
+			return GetResource<T>(util::Crypto::DJB2Hash(filePath));
+		}
+		inline static const bool HasResource(size_t id)
+		{
+			auto it = m_Resources.find(id);
+			if (it != m_Resources.end()) return true;
+			return false;
+		}
+		inline static const bool HasResource(const char* filePath)
+		{
+			size_t id = util::Crypto::DJB2Hash(filePath);
+			return HasResource(id);
+		}
+		inline static std::unordered_map<size_t, std::shared_ptr<IResource>>& GetAllResources()
 		{
 			return m_Resources;
 		}

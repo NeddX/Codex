@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="CodexEditor.View.Editors.Components.SpriteRendererComponentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CodexEditor.View.Editors.Components"
+             xmlns:vmshared="clr-namespace:CodexEditor.ViewModel.Shared"
+             mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!--<Style TargetType="{x:Type TextBlock}" BasedOn="{DynamicResource LightTextBlockStyle}"/>-->
+    </UserControl.Resources>
+    <local:ComponentView Header="Sprite Renderer Component">
+        <StackPanel>
+            <Grid Margin="0,0,0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                       Text="Texture file path:"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding Sprite.Texture.FilePath, Mode=OneWay}"
+                     Grid.Column="1"
+                     VerticalAlignment="Top"
+                     Margin="5,0,5,0"
+                     IsReadOnly="True"/>
+                <Button Grid.Column="2"
+                    Margin="5,0,5,0"
+                    VerticalAlignment="Top"
+                    Content="Load"
+                    Click="loadBtn_Click"/>
+                <Border Grid.Column="3" 
+                        Width="100" 
+                        Height="100" 
+                        Background="White"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Right">
+                    <Image Source="{Binding Sprite.Texture.FilePath, Mode=OneWay}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Width="Auto"
+                           Height="Auto"/>
+                </Border>
+            </Grid>
+            <Grid Margin="0,0,0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" 
+                           Text="Tint colour:"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"/>
+
+                <vmshared:VectorBox Grid.Column="1" 
+                                    VectorType="Vector4"
+                                    Margin="5,0,5,0"
+                                    X="{Binding ColourX}"
+                                    Y="{Binding ColourY}"
+                                    Z="{Binding ColourZ}"
+                                    W="{Binding ColourW}"/>
+            </Grid>
+            <Grid Margin="0,0,0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           Text="Z Index:"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"/>
+                <vmshared:ScalarBox Grid.Column="1"
+                                    Margin="5,0,5,0"
+                                    Value="{Binding ZIndex}"
+                                    Width="50"
+                                    HorizontalAlignment="Left"/>
+            </Grid>
+        </StackPanel>
+    </local:ComponentView>
+</UserControl>

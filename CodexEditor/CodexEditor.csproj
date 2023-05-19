@@ -10,6 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="View\About\**" />
+    <Compile Remove="View\Splash\**" />
+    <EmbeddedResource Remove="View\About\**" />
+    <EmbeddedResource Remove="View\Splash\**" />
+    <None Remove="View\About\**" />
+    <None Remove="View\Splash\**" />
+    <Page Remove="View\About\**" />
+    <Page Remove="View\Splash\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="MainWindow.old.xaml.cs" />
   </ItemGroup>
 
@@ -21,23 +32,20 @@
     <Folder Include="Client\" />
     <Folder Include="ProjectTemplates\2DPlatformer\" />
     <Folder Include="ProjectTemplates\2DTopDown\" />
-    <Folder Include="View\About\" />
-    <Folder Include="View\Splash\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <!--<ProjectReference Include="..\builds\vs2022\CodexAPI\CodexAPI.vcxproj" />-->
     <ProjectReference Include="..\builds\vs2022\CodexAPI\CodexAPI.vcxproj" />
+    <ProjectReference Include="..\builds\vs2022\CodexAPI\CodexNative.vcxproj" />
+    <ProjectReference Include="..\builds\vs2022\Codex\CodexEngine.vcxproj" />
+    <ProjectReference Include="..\CodexAPI\CSharpAPI\CodexDotNet.csproj" />
     <ProjectReference Include="..\CodexAPI\CSharpAPI\CodexEngine.csproj" />
     <ProjectReference Include="..\NetCS\NetCS.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /E /Y /I &quot;$(ProjectDir)/ProjectTemplates&quot; &quot;$(TargetDir)/ProjectTemplates&quot;" />
+    <Exec Command="xcopy /E /Y /I &quot;$(ProjectDir)/ProjectTemplates&quot; &quot;$(TargetDir)/ProjectTemplates&quot;&#xD;&#xA;XCOPY &quot;$(SolutionDir)/CodexAPI/$(Configuration)&quot; &quot;$(TargetDir)&quot; /S /E /Y /Q" />
   </Target>
 
 </Project>

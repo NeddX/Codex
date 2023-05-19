@@ -9,9 +9,10 @@
 #include "../Renderer/Renderer.h"
 #include "../Scene/SpriteSheet.h"
 #include "../Core/ResourceHandler.h"
+#include "../Core/MouseHandler.h"
+#include "../Core/KeyHandler.h"
 
-namespace Codex
-{
+namespace Codex {
 	// Forward declarations
 	class Window;
 
@@ -36,7 +37,14 @@ namespace Codex
 
 	public:
 		inline Camera* GetCamera() const { return m_Camera.get(); }
-		inline Entity CreateEntity(const std::string& tag = "default tag") { return m_Manager.CreateEntity(tag); }
+		inline Entity CreateEntity(const std::string& tag = "default tag") 
+		{ 
+			std::cout << "created entity with tag: " << tag << std::endl;
+			auto entity = m_Manager.CreateEntity(tag); 
+			return entity;
+		}	
+		inline Vector2f GetMousePositionInWorld() { return Vector2f(MouseHandler::GetMouseX() + m_Camera->position.x, MouseHandler::GetMouseY() + m_Camera->position.y); }
+		inline EntityManager* GetManager() { return &m_Manager; }
 		inline void RemoveEntity(Entity entity) { m_Manager.RemoveEntity(entity); }
 		inline void RemoveEntity(uint32_t entity) { m_Manager.RemoveEntity(Entity((entt::entity)(entity), &m_Manager)); }
 

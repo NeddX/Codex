@@ -1,5 +1,4 @@
 ﻿using CodexEditor.Util;
-using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -10,22 +9,21 @@ using System.Windows.Input;
 
 namespace CodexEditor.ViewModel.GameProject
 {
-    [JsonObject("Game")]
+    [DataContract]
     public class Project : ViewModelBase
     {
-        [JsonIgnore]
-        public static string Extension = ".cfxproj";
-        public string ProjectName { get; set; }
-        public string ProjectPath { get; set; }
-        [JsonIgnore]
+        public static string Extension = ".cdxproj";
+		[DataMember]
+		public string ProjectName { get; set; }
+		[DataMember]
+		public string ProjectPath { get; set; }
         public string FullPath => $"{ProjectPath}{ProjectName}{Extension}";
-        [JsonProperty("Scenes")]
-        private ObservableCollection<Scene> _scenes = new ObservableCollection<Scene>();
-        [JsonIgnore]
+		[DataMember(Name = "Scenes")]
+		private ObservableCollection<Scene> _scenes = new ObservableCollection<Scene>();
         public ReadOnlyObservableCollection<Scene> Scenes { get; private set; }
-        public static Project Current => Application.Current.MainWindow.DataContext as Project;
+		[DataMember]
+		public static Project Current => Application.Current.MainWindow.DataContext as Project;
         private Scene _activeScene;
-        [JsonIgnore]
         public Scene ActiveScene
         {
             get => _activeScene;
@@ -38,17 +36,11 @@ namespace CodexEditor.ViewModel.GameProject
                 }
             }
         }
-        [JsonIgnore]
         public ICommand SaveCmd { get; private set; }
-		[JsonIgnore]
 		public ICommand UndoCmd { get; private set; }
-		[JsonIgnore]
 		public ICommand RedoCmd { get; private set; }
-		[JsonIgnore]
 		public ICommand AddSceneCmd { get; private set; }
-		[JsonIgnore]
 		public ICommand RemoveSceneCmd { get; private set; }
-		[JsonIgnore]
 		public static Unredoable Unredoable { get; } = new Unredoable();
 
 		public Project(string name, string path) 
@@ -70,12 +62,8 @@ namespace CodexEditor.ViewModel.GameProject
 
         public static void SaveProject(Project project)
         {
-            var settings = new JsonSerializerSettings
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-            };
             Logger.Log(MessageType.Info, "Saving project...");
-            Serializer.ToFile(project.FullPath, project, Formatting.Indented, settings);
+            Serializer.ToFile(project.FullPath, project);
         }
 
         public void Unload()
@@ -92,6 +80,7 @@ namespace CodexEditor.ViewModel.GameProject
         private void RemoveScene(Scene scene)
         {
             Debug.Assert(scene != null && _scenes.Contains(scene));
+            scene.Dispose();
             _scenes.Remove(scene);
         }
 
@@ -100,8 +89,6 @@ namespace CodexEditor.ViewModel.GameProject
         {
             if (_scenes != null)
             {
-                foreach (var scene in _scenes)
-                    scene.Project = this;
                 Scenes = new ReadOnlyObservableCollection<Scene>(_scenes);
                 OnPropertyChanged();
             }

@@ -27,10 +27,10 @@ namespace mgl
 			m_VertexCount = size / sizeof(T);
 		}
 		template<typename T>
-		void SetBufferSubData(const void* data, size_t size)
+		void SetBufferSubData(const void* data, size_t offset, size_t size)
 		{
 			GL_Call(glBindBuffer(GL_ARRAY_BUFFER, m_RendererID));
-			GL_Call(glBufferSubData(GL_ARRAY_BUFFER, 0, size, data)); // TODO: Add offset as an argument
+			GL_Call(glBufferSubData(GL_ARRAY_BUFFER, offset, size, data));
 			m_VertexCount = size / sizeof(T);
 		}
 
