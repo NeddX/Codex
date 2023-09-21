@@ -10,7 +10,7 @@
 namespace Codex {
 	class Resources
 	{
-#ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
+#ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
 		void* operator new(size_t size)
 		{
@@ -25,14 +25,21 @@ namespace Codex {
 			std::free(ptr);
 		}
 #endif
+	private:
+		static Resources* m_Instance;
 
 	private:
-		static std::unordered_map<size_t, std::shared_ptr<IResource>> m_Resources;
+		std::unordered_map<size_t, std::shared_ptr<IResource>> m_Resources;
 
 	public:
-		//template<typename T, typename = std::enable_if<std::is_base_of<IResource, T>::value>>
-		//static std::shared_ptr<T> Load(const char* filePath);
+		Resources() = default;
+		~Resources();
 
+	public:
+		static void Init();
+		static void Destroy();
+
+	public:
 		template<typename T>
 		static std::shared_ptr<T> Load(const char* filePath)
 		{
@@ -51,18 +58,19 @@ namespace Codex {
 
 				// TODO: Make it so that the user can pass arguments to Load<T>() !
 				TextureProperties props;
-				props.textureFilterMode = TextureFilterMode::PIXELATE;
+				props.filterMode = TextureFilterMode::Nearest;
 
 				std::shared_ptr<Texture2D> texture = std::make_shared<Texture2D>(filePath, props);
-				m_Resources[id] = std::static_pointer_cast<IResource>(texture);
+				m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
 				fs.close();
-				fmt::println("[ResourceHandler] >> File: '{}' ID: {}", filePath, id);
+				fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);
 				return texture;
 			}
 			else
 			{
 				fs.close();
-				throw std::runtime_error(fmt::format("Couldn't open file '{}' for reading. Failed to load texture asset.", filePath));
+				fmt::println("Couldn't open file '{}' for reading. Failed to load texture asset.", filePath);
+				throw std::runtime_error("");
 				return nullptr;
 			}
 		}
@@ -74,15 +82,16 @@ namespace Codex {
 			{
 				size_t id = util::Crypto::DJB2Hash(filePath);
 				std::shared_ptr<Shader> texture = std::make_shared<Shader>(filePath);
-				m_Resources[id] = std::static_pointer_cast<IResource>(texture);
+				m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
 				fs.close();
-				fmt::println("[ResourceHandler] >> File: '{}' ID: {}", filePath, id);
+				fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);
 				return texture;
 			}
 			else
 			{
 				fs.close();
-				throw std::runtime_error(fmt::format("Couldn't open file '{}' for reading. Failed to load shader asset.", filePath));
+				fmt::println("Couldn't open file '{}' for reading. Failed to load shader asset.", filePath);
+				throw std::runtime_error("");
 				return nullptr;
 			}
 		}
@@ -91,11 +100,15 @@ namespace Codex {
 		template<typename T>
 		inline static std::shared_ptr<T> GetResource(size_t id)
 		{
-			auto it = m_Resources.find(id);
-			if (it != m_Resources.end()) return std::static_pointer_cast<T>(it->second);
+			auto it = m_Instance->m_Resources.find(id);
+			if (it != m_Instance->m_Resources.end()) return std::static_pointer_cast<T>(it->second);
 
 			// TODO: Add a custom exception class!
-			else throw std::runtime_error(fmt::format("Hash ID {} was not present in the Resource Pool.", id).c_str());
+			else
+			{
+				fmt::println("Hash Id {} was not present in the Resource Pool.", id);
+				throw std::runtime_error("");
+			}
 		}
 		template<typename T>
 		inline static std::shared_ptr<T> GetResource(const char* filePath)
@@ -104,8 +117,8 @@ namespace Codex {
 		}
 		inline static const bool HasResource(size_t id)
 		{
-			auto it = m_Resources.find(id);
-			if (it != m_Resources.end()) return true;
+			auto it = m_Instance->m_Resources.find(id);
+			if (it != m_Instance->m_Resources.end()) return true;
 			return false;
 		}
 		inline static const bool HasResource(const char* filePath)
@@ -115,7 +128,7 @@ namespace Codex {
 		}
 		inline static std::unordered_map<size_t, std::shared_ptr<IResource>>& GetAllResources()
 		{
-			return m_Resources;
+			return m_Instance->m_Resources;
 		}
 	};
 }

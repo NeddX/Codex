@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Drawing;
 using CodexEditor.ViewModel.Editors;
+using CodexEngine.Structs;
 
 namespace CodexEditor.ViewModel.ECS
 {
@@ -192,6 +193,8 @@ namespace CodexEditor.ViewModel.ECS
 		private Vector2 _gridSize;
 		[DataMember(Name = "TileSize")]
 		private Vector2 _tileSize;
+		[DataMember(Name = "TileOffset")]
+		private Vector2 _tileOffset;
 		[DataMember(Name = "Layer")]
 		private int _layer;
 
@@ -200,6 +203,7 @@ namespace CodexEditor.ViewModel.ECS
 		public Texture2D Texture { get => _texture; set => _texture = value; }
 		public Vector2 GridSize { get => _gridSize; set => _gridSize = value; }
 		public Vector2 TileSize { get => _tileSize; set => _tileSize = value; }
+		public Vector2 TileOffset { get => _tileOffset; set => _tileOffset = value; }
 		public int Layer
 		{
 			get => _layer;
@@ -215,12 +219,17 @@ namespace CodexEditor.ViewModel.ECS
 		public ReadOnlyObservableCollection<Sprite> Sprites { get; private set; }
 		public int GetTotalSize { get => _tiles.Count; }
 
-		public TilemapComponent(Entity parent, Texture2D texture, Vector2 gridSize, Vector2 tileSize) : base(parent)
+		public TilemapComponent(
+			Entity parent, 
+			Texture2D texture, 
+			Vector2 gridSize, 
+			Vector2 tileSize, 
+			Vector2 tileOffset) : base(parent)
 		{
 			_texture = texture;
 			_gridSize = gridSize;
 			_tileSize = tileSize;
-			//_tiles = new Dictionary<int, Dictionary<Vector2, Vector2>>();
+			_tileOffset = tileOffset;
 			_tiles = new List<TileInfo>();
 
 			RefreshSprites();
@@ -663,6 +672,7 @@ namespace CodexEditor.ViewModel.ECS
 		private List<TileInfo> _tiles;
 		private Vector2 _gridSize;
 		private Vector2 _tileSize;
+		private Vector2 _tileOffset;
 		private int _layer;
 
 		public Texture2D Texture
@@ -743,6 +753,32 @@ namespace CodexEditor.ViewModel.ECS
 			}
 		}
 
+		public float TileOffsetX
+		{
+			get => _tileOffset.X;
+			set
+			{
+				if (_tileOffset.X != value)
+				{
+					_tileOffset.X = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public float TileOffsetY
+		{
+			get => _tileOffset.Y;
+			set
+			{
+				if (_tileOffset.Y != value)
+				{
+					_tileOffset.Y = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public int Layer
 		{
 			get => _layer;
@@ -799,6 +835,15 @@ namespace CodexEditor.ViewModel.ECS
 						EngineAPI.UpdateEntityComponent(x.Parent, x);
 					});
 					return true;
+				case nameof(TileOffsetX):
+				case nameof(TileOffsetY):
+					SelectedComponents.ForEach(x =>
+					{
+						x.TileOffset = new Vector2(TileOffsetX, TileOffsetY);
+						x.RefreshSprites();
+						EngineAPI.UpdateEntityComponent(x.Parent, x);
+					});
+					return true;
 				case nameof(Layer):
 					SelectedComponents.ForEach(x =>
 					{
@@ -817,14 +862,20 @@ namespace CodexEditor.ViewModel.ECS
 				SelectedComponents, new Func<TilemapComponent, float>(x => x.GridSize.X));
 			var gridResY = MSEntityModel.GetMixedValues(
 				SelectedComponents, new Func<TilemapComponent, float>(x => x.GridSize.Y));
-			var tileResX = MSEntityModel.GetMixedValues(
+			var tileSizeResX = MSEntityModel.GetMixedValues(
 				SelectedComponents, new Func<TilemapComponent, float>(x => x.TileSize.X));
-			var tileResY = MSEntityModel.GetMixedValues(
+			var tileSizeResY = MSEntityModel.GetMixedValues(
 				SelectedComponents, new Func<TilemapComponent, float>(x => x.TileSize.Y));
+			var tileOffsetResX = MSEntityModel.GetMixedValues(
+				SelectedComponents, new Func<TilemapComponent, float>(x => x.TileOffset.X));
+			var tileOffsetResY = MSEntityModel.GetMixedValues(
+				SelectedComponents, new Func<TilemapComponent, float>(x => x.TileOffset.Y));
 			GridSizeX = gridResX == null ? 0 : (float)gridResX;
 			GridSizeY = gridResY == null ? 0 : (float)gridResY;
-			TileSizeX = tileResX == null ? 0 : (float)tileResX;
-			TileSizeY = tileResY == null ? 0 : (float)tileResY;
+			TileSizeX = tileSizeResX == null ? 0 : (float)tileSizeResX;
+			TileSizeY = tileSizeResY == null ? 0 : (float)tileSizeResY;
+			TileOffsetX = tileOffsetResX == null ? 0 : (float)tileOffsetResX;
+			TileOffsetY = tileOffsetResY == null ? 0 : (float)tileOffsetResY;
 
 			var textureRes = MSEntityModel.GetMixedValues(
 				SelectedComponents, new Func<TilemapComponent, string>(x => x.Texture.FilePath));

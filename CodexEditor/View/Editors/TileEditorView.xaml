@@ -24,8 +24,8 @@
                     Orientation="Horizontal"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center">
-            <Button Content="Brush" Width="50" Margin="0,0,5,0"/>
-            <Button Content="Erase" Width="50" Margin="0,0,5,0"/>
+            <Button x:Name="brushbtn" Click="brushbtn_Click" Content="Brush" Width="50" Margin="0,0,5,0"/>
+            <Button x:Name="erasebtn" Click="erasebtn_Click" Content="Erase" Width="50" Margin="0,0,5,0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" 
@@ -53,7 +53,7 @@
         </StackPanel>
 
         <ScrollViewer Grid.Row="3">
-            <ItemsControl ItemsSource="{Binding Tiles}">
+            <ItemsControl ItemsSource="{Binding Tiles,UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal"/>

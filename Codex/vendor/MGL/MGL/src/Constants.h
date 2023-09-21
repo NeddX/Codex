@@ -1,21 +1,31 @@
 #ifndef MGL_CONSTANTS_H
 #define MGL_CONSTANTS_H
 
+#include <iostream>
+#include <string>
 #include <stdio.h>
 #include <glad/glad.h>
 
 #ifdef __GNUC__
-#define ASSERT(x) if (!(x)) __builtin_trap()
+#define MGL_DEBUG_TRAP() __builtin_trap()
 #elif _MSC_VER
-#define ASSERT(x) if (!(x)) __debugbreak()
+#define MGL_DEBUG_TRAP() __debugbreak()
 #elif __clang__
-#define ASSERT(x) if (!(x)) __builtin_debugtrap()
+#define MGL_DEBUG_TRAP() __builtin_debugtrap()
 #endif
 
-//#define MGL_DEBUG // REMEMBER TO REMOVE THIS!
+#define MGL_ASSERT(x, msg) \
+        if (!(x)) { \
+            std::cerr << "[MGL_DEBUG] :: Assertion failed: " << msg << "\n\tStack trace:"\
+                      << "\n\t\tFunction: " << __FUNCTION__ \
+                      << "\n\t\tFile: " << __FILE__ \
+                      << "\n\t\tLine: " << __LINE__ << std::endl; \
+            MGL_DEBUG_TRAP(); \
+        }
+
 #define GL_ClearError() while (glGetError() != 0)
 #ifdef MGL_DEBUG
-#define GL_Call(x) GL_ClearError(); x; ASSERT(GL_LogCall(#x, __FILE__, __LINE__)) 
+#define GL_Call(x) GL_ClearError(); x; { uint32_t error_code = GL_ErrorCheck(); MGL_ASSERT(error_code == 0, "GL Error occured! Error Code: " + std::to_string(error_code)) }
 #else
 #define GL_Call(x) x;
 #endif
@@ -36,6 +46,13 @@ namespace mgl {
 	};
 }
 
+inline uint32_t GL_ErrorCheck()
+{
+	while (uint32_t errorCode = glGetError()) return errorCode;
+	return 0;
+}
+
+/*
 inline bool GL_LogCall(const char* functionName, const char* srcFile, const int line)
 {
 	while (uint32_t error = glGetError())
@@ -49,5 +66,6 @@ inline bool GL_LogCall(const char* functionName, const char* srcFile, const int 
 	}
 	return true;
 }
+*/
 
 #endif // MGL_CONSTANTS_H

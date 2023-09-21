@@ -28,6 +28,8 @@ namespace Codex {
 	public:
 		inline void UpdateProjectionMatrix()
 		{
+			//m_Width = 32.0f * 40.0f;
+			//m_Height = 32 * 21.0f;
 			m_Projection = glm::identity<Matrix4f>();
 			m_Projection = glm::ortho(0.0f, (float)(m_Width), (float)(m_Height), 0.0f, 0.0f, 100.0f);
 			//m_Projection = glm::ortho(0.0f, 32.0f * 40.0f, 0.0f, 32.0f * 21.0f, 0.0f, 100.0f); // what the fuck?

@@ -7,6 +7,7 @@ using CodexEditor.ViewModel.GameProject;
 using CodexEditor.ViewModel.Shared;
 using CodexEngine;
 using CodexEngine.Components;
+using CodexEngine.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,7 +32,6 @@ namespace CodexEditor.View.Editors
 	/// Interaction logic for TileEditorView.xaml
 	/// </summary>
 	/// 
-
 	sealed internal class MouseInfo
 	{
 		public bool IsMouseDown = false;
@@ -40,7 +40,11 @@ namespace CodexEditor.View.Editors
 
 	public partial class TileEditorView : UserControl
 	{
+		private static TileEditorView _instance;
 		private MouseInfo _mouseInfo = new MouseInfo();
+		private EditorAction _currentActiveAction = EditorAction.Select; // TODO: Move this to a Editor State class
+
+		public EditorAction CurrentActiveAction { get => _currentActiveAction; set => _currentActiveAction = value; }
 
 		public TileEditorView()
 		{
@@ -56,6 +60,13 @@ namespace CodexEditor.View.Editors
 					EngineHostView.EngineInstance.MouseMove += EngineInstance_MouseMove;
 				}
 			};
+			_instance = this;
+		}
+
+		public static void SetCurrentActiveAction(EditorAction action)
+		{
+			_instance.CurrentActiveAction = action;
+			CodexAPI.SetActiveAction(action);
 		}
 
 		private void EngineInstance_MouseUp(object? sender, MouseButtonEventArgs e)
@@ -72,6 +83,7 @@ namespace CodexEditor.View.Editors
 			if (da.ActiveEntity != null)
 			{
 				var mousePosInWorld = new Vector2();
+
 				CodexAPI.GetMousePositionInWorld(ref mousePosInWorld);
 				mousePosInWorld = da.GetCoordSnappedToGrid(mousePosInWorld);
 
@@ -79,12 +91,16 @@ namespace CodexEditor.View.Editors
 				{
 					case MouseButton.Left:
 						{
-							da.Component.AddTile(mousePosInWorld, da.SelectedTileCoord);
-							break;
-						}
-					case MouseButton.Right:
-						{
-							da.Component.RemoveTile(mousePosInWorld);
+							if (_currentActiveAction == EditorAction.TilemapBrush)
+							{
+								//Console.WriteLine($"CS -> Added @ X: {mousePosInWorld.X} Y: {mousePosInWorld.Y}");
+								da.Component.AddTile(mousePosInWorld, da.SelectedTileCoord);
+							}
+							else if (_currentActiveAction == EditorAction.TilemapErase)
+							{
+								//Console.WriteLine($"CS -> Removed @ X: {mousePosInWorld.X} Y: {mousePosInWorld.Y}");
+								da.Component.RemoveTile(mousePosInWorld);
+							}
 							break;
 						}
 				}
@@ -117,7 +133,18 @@ namespace CodexEditor.View.Editors
 			var da = DataContext as TileEditor;
 			var button = sender as Button;
 			var tileinfo = button.DataContext as TileInfo;
+			SetCurrentActiveAction(_currentActiveAction);
 			da.NotifyTilePick(tileinfo);
 		}
-	}
+
+		private void brushbtn_Click(object sender, RoutedEventArgs e)
+		{
+			SetCurrentActiveAction(EditorAction.TilemapBrush);
+		}
+
+		private void erasebtn_Click(object sender, RoutedEventArgs e)
+		{
+			SetCurrentActiveAction(EditorAction.TilemapErase);
+		}
+    }
 }

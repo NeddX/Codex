@@ -8,13 +8,13 @@
 #include "../Core/Geomtryd.h"
 
 namespace Codex {
-	static constexpr auto QUAD2D_VERTEX_COMPONENT_COUNT = 12;							// How many components does a vertex have?
-	static constexpr auto QUAD2D_VERTEX_COUNT = 4;										// How many vertices does the buffer have?
-	static constexpr auto QUAD2D_VERTEX_SIZE = QUAD2D_VERTEX_COUNT * QUAD2D_VERTEX_COMPONENT_COUNT;	// The total count of the elements in the buffer
+	constexpr auto QUAD2D_VERTEX_COMPONENT_COUNT = 13;											// How many components does a vertex have?
+	constexpr auto QUAD2D_VERTEX_COUNT = 4;														// How many vertices does the buffer have?
+	constexpr auto QUAD2D_VERTEX_SIZE = QUAD2D_VERTEX_COUNT * QUAD2D_VERTEX_COMPONENT_COUNT;	// The total count of the elements in the buffer
 
 	class RenderBatch
 	{
-#ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
+#ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
 		void* operator new(size_t size)
 		{
@@ -32,7 +32,7 @@ namespace Codex {
 
 	private:
 		int m_QuadCount = 0;
-		int m_MaxTextureSlotCount = 8;
+		int m_MaxTextureSlotCount = 32;
 		int m_MaxQuadCount = 1000;
 		int m_ZIndex = 0;
 		bool m_HasRoom = true;
@@ -56,6 +56,7 @@ namespace Codex {
 		inline void SetZIndex(int newIndex) { m_ZIndex = newIndex; }
 
 	public:
+		inline void BindShader(Shader* shader) { m_Shader = shader; }
 		inline void Flush()
 		{
 			static bool texture_slots_initialized = false;
@@ -72,7 +73,7 @@ namespace Codex {
 				texture_slots_initialized = true;
 			}
 		}
-		inline bool UploadQuad(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, Vector4f colour)
+		inline bool UploadQuad(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, Vector4f colour, int entityId)
 		{
 			uint16_t tex_id = 0;
 			float tex_width = 0.0f;
@@ -96,10 +97,10 @@ namespace Codex {
 
 			float vertex_buffer_data[] =
 			{
-				destRect.x, 					destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y,						(float)tex_id,		tex_width, tex_height,
-				destRect.x + destRect.w,		destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y,						(float)tex_id,		tex_width, tex_height,
-				destRect.x,						destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y + srcRect.h,			(float)tex_id,		tex_width, tex_height,
-				destRect.x + destRect.w,		destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y + srcRect.h,			(float)tex_id,		tex_width, tex_height
+				destRect.x, 					destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y,						(float)tex_id,		tex_width, tex_height,		(float)entityId,
+				destRect.x + destRect.w,		destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y,						(float)tex_id,		tex_width, tex_height,		(float)entityId,
+				destRect.x,						destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y + srcRect.h,			(float)tex_id,		tex_width, tex_height,		(float)entityId,	
+				destRect.x + destRect.w,		destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y + srcRect.h,			(float)tex_id,		tex_width, tex_height,		(float)entityId
 			};
 
 			// TODO: Consider directly adding the vertex buffer data to m_Verticies instead of creating a temporary

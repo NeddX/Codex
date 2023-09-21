@@ -3,7 +3,31 @@
 #include "../Renderer/Shader.h"
 
 namespace Codex {
-	std::unordered_map<size_t, std::shared_ptr<IResource>> Resources::m_Resources;
+	Resources* Resources::m_Instance = nullptr;
+
+	Resources::~Resources()
+	{
+
+	}
+
+	void Resources::Init()
+	{
+		if (!m_Instance)
+		{
+			m_Instance = new Resources();
+			fmt::println("ResourceHandler subsystem initialized.");
+		}
+	}
+
+	void Resources::Destroy()
+	{
+		if (m_Instance)
+		{
+			delete m_Instance;
+			m_Instance = nullptr;
+			fmt::println("ResourceHandler subsystem disposed.");
+		}
+	}
 
 	/*
 	template<typename T, typename>
@@ -23,7 +47,7 @@ namespace Codex {
 			std::shared_ptr<Texture2D> texture = std::make_shared<Texture2D>(filePath); // TODO: Can't pass texture properties! fix that!
 			m_Resources[id] = std::static_pointer_cast<IResource>(texture);
 			fs.close();
-			fmt::println("[ResourceHandler] >> File: '{}' ID: {}", filePath, id);
+			fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);
 			return texture;
 		}
 		else
@@ -44,7 +68,7 @@ namespace Codex {
 			std::shared_ptr<Shader> texture = std::make_shared<Shader>(filePath);
 			m_Resources[id] = std::static_pointer_cast<IResource>(texture);
 			fs.close();
-			fmt::println("[ResourceHandler] >> File: '{}' ID: {}", filePath, id);
+			fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);
 			return texture;
 		}
 		else

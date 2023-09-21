@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 	info.height = 600;
 	Codex::Window* window = Codex::Window::Get();
 	window->Init(info);
-	window->Update();
+	window->EngineThread();
     window->Destroy();
 	return 0;
 }

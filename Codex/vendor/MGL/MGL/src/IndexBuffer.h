@@ -15,7 +15,7 @@ namespace mgl
 		friend class Renderer;
 
 	private:
-		uint32_t m_RendererID;
+		uint32_t m_RendererId;
 		size_t m_Indicies;
 
 	public:

@@ -29,12 +29,12 @@ void Destroy()
 
 void StartEngineThread()
 {
-	g_WindowInstance->Update();
+	g_WindowInstance->EngineThread();
 }
 
 void Update()
 {
-	g_WindowInstance->ManualUpdate();
+	g_WindowInstance->Update();
 }
 
 void ResizeViewport(int newWidth, int newHeight)
@@ -52,9 +52,15 @@ void ChangeScene(int sceneID)
 
 }
 
+void SetCameraProjection(int minX, int maxX, int minY, int maxY)
+{
+	auto* active_scene = g_WindowInstance->GetCurrentScene();
+	//active_scene->SetCameraProjection(minX, maxX, minY, maxY);
+}
+
 int32_t CreateEntity(EntityDescriptor* desc)
 {
-	return g_WindowInstance->GetCurrentScene()->CreateEntity(desc->tag.tag).GetID();
+	return g_WindowInstance->GetCurrentScene()->CreateEntity(desc->tag.tag).GetId();
 }
 
 void RemoveEntity(int32_t id)
@@ -70,6 +76,7 @@ void UpdateEntityFromDescriptor(int32_t id, EntityDescriptor* desc)
 
 	auto& transform_component = entity.GetComponent<Codex::TransformComponent>();
 
+	// TODO: Use memcpy here.
 	transform_component.position.x = desc->transform.position[0];
 	transform_component.position.y = desc->transform.position[1];
 	transform_component.position.z = desc->transform.position[2];
@@ -120,6 +127,18 @@ void GetMousePositionInWorld(Codex::Vector2f& vec)
 {
 	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	vec = active_scene->GetMousePositionInWorld();
+}
+
+void SetActiveAction(Codex::EditorAction newAction)
+{
+	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	active_scene->SetActiveAction(newAction);
+}
+
+void SetSelectedEntityID(uint32_t id)
+{
+	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	active_scene->SetSelectedEntityId(id);
 }
 
 void AddSpriteRendererComponent(int32_t id, DescriptorSpriteRendererComponent* c)

@@ -16,12 +16,20 @@ namespace Codex {
 	void KeyHandler::Init() noexcept
 	{
 		if (!m_Instance)
+		{
 			m_Instance = new KeyHandler();
+			fmt::println("KeyHandler subsystem initialized.");
+		}
 	}
 
 	void KeyHandler::Destroy() noexcept
 	{
-		delete m_Instance;
+		if (m_Instance)
+		{
+			delete m_Instance;
+			m_Instance = nullptr;
+			fmt::println("KeyHandler subsystem disposed.");
+		}
 	}
 
 	void KeyHandler::OnKeyPress_Event(const KeyEvent event)

@@ -9,9 +9,23 @@
 namespace Codex {
 	// Forward decelerations
 	class Camera;
+	class Entity;
 
-	struct TagComponent
+	struct IComponent
 	{
+		friend class Entity;
+
+	protected:
+		std::unique_ptr<Entity> m_Parent;
+
+	protected:
+		virtual void Start() { }
+	};
+
+	struct TagComponent : public IComponent
+	{
+		friend class Entity;
+
 	public:
 		std::string tag;
 
@@ -20,8 +34,10 @@ namespace Codex {
 		TagComponent(const std::string& tag);
 	};
 
-	struct TransformComponent
+	struct TransformComponent : public IComponent
 	{
+		friend class Entity;
+
 	public:
 		Vector3f position;
 		Vector3f rotation; // Use quaternions
@@ -45,8 +61,10 @@ namespace Codex {
 		TransformComponent(Matrix4f transform) : transform(transform) {}
 	};*/
 
-	struct SpriteRendererComponent
+	struct SpriteRendererComponent : public IComponent
 	{
+		friend class Entity;
+
 	private:
 		Vector4f m_Colour;
 		// TODO: Handle sprite renderers that do not have an actual sprite.
@@ -66,17 +84,42 @@ namespace Codex {
 		inline void SetColour(Vector4f newColour) { m_Colour = newColour; }
 	};
 
-	struct TilemapComponent
+	struct GridRendererComponent : public IComponent
 	{
+		friend class Entity;
+
+	private:
+		Camera* m_Camera;
+		Vector2f m_GridSize;
+
+	public:
+		GridRendererComponent(Vector2f gridSize);
+
+	public:
+		inline Vector2f GetGridSize() const { return m_GridSize; }
+		inline void SetGridSize(Vector2f newGridSize) { m_GridSize = newGridSize; }
+
+	public:
+		void Render();
+	};
+
+	struct TilemapComponent : public IComponent
+	{
+		friend class Entity;
+
 	private:
 		std::shared_ptr<Texture2D> m_Texture;
 		std::map<int, std::unordered_map<Vector2f, Vector2f>> m_Tiles;
 		Vector2f m_GridSize;
 		Vector2f m_TileSize;
 		int m_Layer;
+		GridRendererComponent* m_GridRenderer;
 
 	public:
 		TilemapComponent(std::shared_ptr<Texture2D> texture, Vector2f gridSize, Vector2f tileSize);
+
+	protected:
+		void Start() override;
 
 	public:
 		inline const std::map<int, std::unordered_map<Vector2f, Vector2f>>& GetAllTiles() const { return m_Tiles; }
@@ -91,31 +134,14 @@ namespace Codex {
 			return total_size;
 		}
 		inline void SetTexture(std::shared_ptr<Texture2D> newTexuture) { m_Texture = newTexuture; }
-		inline void SetGridSize(Vector2f newGridSize) { m_GridSize = newGridSize; }
+		inline void SetGridSize(Vector2f newGridSize) { m_GridSize = newGridSize; m_GridRenderer->SetGridSize(newGridSize); }
 		inline void SetTileSize(Vector2f newTileSize) { m_TileSize = newTileSize; }
 		inline void SetLayer(int layer) { m_Layer = layer; }
 
 	public:
-		void AddTile(Vector2f worldPos, int tileID);
+		void AddTile(Vector2f worldPos, int tileId);
 		void AddTile(Vector2f worldPos, Vector2f tilePos);
 		void RemoveTile(Vector2f worldPos);
-	};
-
-	struct GridRendererComponent
-	{
-	private:
-		Camera* m_Camera;
-		Vector2f m_GridSize;
-
-	public:
-		GridRendererComponent(Vector2f gridSize);
-
-	public:
-		inline Vector2f GetGridSize() const { return m_GridSize; }
-		inline void SetGridSize(Vector2f newGridSize) { m_GridSize = newGridSize; }
-
-	public:
-		void Render();
 	};
 }
 

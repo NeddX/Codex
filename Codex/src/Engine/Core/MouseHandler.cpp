@@ -18,12 +18,20 @@ namespace Codex {
 	void MouseHandler::Init() noexcept
 	{
 		if (!m_Instance)
+		{
 			m_Instance = new MouseHandler();
+			fmt::println("MouseHandler subsystem initialized.");
+		}
 	}
 
 	void MouseHandler::Destroy() noexcept
 	{
-		delete m_Instance;
+		if (m_Instance)
+		{
+			delete m_Instance;
+			m_Instance = nullptr;
+			fmt::println("MouseHandler subsystem disposed.");
+		}
 	}
 
 	void MouseHandler::EndFrame() noexcept

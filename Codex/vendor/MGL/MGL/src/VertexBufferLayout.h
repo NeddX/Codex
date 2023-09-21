@@ -37,7 +37,7 @@ namespace mgl
 				case GL_SHORT:			return sizeof(GLshort);
 				case GL_DOUBLE:			return sizeof(GLdouble);
 			}
-			ASSERT(false);
+			MGL_ASSERT(false, "Unknown type.");
 			return 0;
 		}
 	};

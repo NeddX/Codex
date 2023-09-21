@@ -10,5 +10,6 @@
 #include "../MGL/src/Shader.h"
 #include "../MGL/src/Texture.h"
 #include "../MGL/src/Geometry.h"
+#include "../MGL/src/FrameBuffer.h"
 
 #endif // MGL_H

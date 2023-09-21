@@ -12,12 +12,12 @@ namespace mgl
 	class Shader
 	{
 	private:
-		uint32_t m_RendererID;
+		uint32_t m_RendererId;
 		const char* m_FilePath;
 		char* m_VertexSource;
 		char* m_FragmentSource;
-		uint32_t m_VertexShaderID;
-		uint32_t m_FragmentShaderID;
+		uint32_t m_VertexShaderId;
+		uint32_t m_FragmentShaderId;
 		std::unordered_map<std::string, int32_t> m_UniformLocations;
 
 	public:

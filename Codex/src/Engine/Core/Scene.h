@@ -26,7 +26,6 @@ namespace Codex {
 		std::unique_ptr<Camera> m_Camera;
 		Renderer* m_Renderer;
 		EntityManager m_Manager;
-		//Entity* m_ActiveEntity;
 		
 	private:
 		bool m_Running;
@@ -61,8 +60,7 @@ namespace Codex {
 	public:
 		virtual void Start()					= 0;
 		virtual void Update(float deltaTime)	= 0;
-		//virtual void SceneEditor();
-		//virtual void Editor();
+		virtual void Render(float deltaTime)	= 0;
 	};
 }
 

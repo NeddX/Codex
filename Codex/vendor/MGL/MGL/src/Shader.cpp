@@ -11,7 +11,7 @@ namespace mgl
 {
 	Shader::Shader(const char* filePath) : m_FilePath(filePath)
 	{
-		GL_Call(m_RendererID = glCreateProgram());
+		GL_Call(m_RendererId = glCreateProgram());
 		ParseShaderFile();
 		CompileShader();
 	}
@@ -21,14 +21,14 @@ namespace mgl
 		delete[] m_VertexSource;
 		delete[] m_FragmentSource;
 		GL_Call(glUseProgram(0));
-		GL_Call(glDeleteProgram(m_RendererID));
-		GL_Call(glDeleteShader(m_VertexShaderID));
-		GL_Call(glDeleteShader(m_FragmentShaderID));
+		GL_Call(glDeleteProgram(m_RendererId));
+		GL_Call(glDeleteShader(m_VertexShaderId));
+		GL_Call(glDeleteShader(m_FragmentShaderId));
 	}
 
 	void Shader::Bind() const
 	{
-		GL_Call(glUseProgram(m_RendererID));
+		GL_Call(glUseProgram(m_RendererId));
 	}
 
 	void Shader::Unbind() const
@@ -119,47 +119,47 @@ namespace mgl
 
 	bool Shader::CompileShader()
 	{
-		GL_Call(m_VertexShaderID = glCreateShader(GL_VERTEX_SHADER));
-		GL_Call(m_FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER));
+		GL_Call(m_VertexShaderId = glCreateShader(GL_VERTEX_SHADER));
+		GL_Call(m_FragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER));
 
-		GL_Call(glShaderSource(m_VertexShaderID, 1, &m_VertexSource, nullptr));
-		GL_Call(glShaderSource(m_FragmentShaderID, 1, &m_FragmentSource, nullptr));
+		GL_Call(glShaderSource(m_VertexShaderId, 1, &m_VertexSource, nullptr));
+		GL_Call(glShaderSource(m_FragmentShaderId, 1, &m_FragmentSource, nullptr));
 
-		GL_Call(glCompileShader(m_VertexShaderID));
+		GL_Call(glCompileShader(m_VertexShaderId));
 		int v_compile_status;
-		glGetShaderiv(m_VertexShaderID, GL_COMPILE_STATUS, &v_compile_status);
+		glGetShaderiv(m_VertexShaderId, GL_COMPILE_STATUS, &v_compile_status);
 		if (!v_compile_status)
 		{
 			int length;
-			glGetShaderiv(m_VertexShaderID, GL_INFO_LOG_LENGTH, &length);
+			glGetShaderiv(m_VertexShaderId, GL_INFO_LOG_LENGTH, &length);
 			char* err_msg = (char*)alloca(length);
-			glGetShaderInfoLog(m_VertexShaderID, length, nullptr, err_msg);
+			glGetShaderInfoLog(m_VertexShaderId, length, nullptr, err_msg);
 			std::cout << "[OpenGL]::[ERROR] >> Failed to compile Vertex Shader!\n\tGLMSG > " << err_msg << std::endl;
 		}
-		GL_Call(glCompileShader(m_FragmentShaderID));
+		GL_Call(glCompileShader(m_FragmentShaderId));
 		int f_compile_status;
-		glGetShaderiv(m_FragmentShaderID, GL_COMPILE_STATUS, &f_compile_status);
+		glGetShaderiv(m_FragmentShaderId, GL_COMPILE_STATUS, &f_compile_status);
 		if (!f_compile_status)
 		{
 			int length;
-			glGetShaderiv(m_FragmentShaderID, GL_INFO_LOG_LENGTH, &length);
+			glGetShaderiv(m_FragmentShaderId, GL_INFO_LOG_LENGTH, &length);
 			char* err_msg = (char*)alloca(length);
-			glGetShaderInfoLog(m_FragmentShaderID, length, nullptr, err_msg);
+			glGetShaderInfoLog(m_FragmentShaderId, length, nullptr, err_msg);
 			std::cout << "[OpenGL]::[ERROR] >> Failed to compile Fragment Shader!\n\tGLMSG > " << err_msg << std::endl;
 		}
 		
-		GL_Call(glAttachShader(m_RendererID, m_VertexShaderID));
-		GL_Call(glAttachShader(m_RendererID, m_FragmentShaderID));
+		GL_Call(glAttachShader(m_RendererId, m_VertexShaderId));
+		GL_Call(glAttachShader(m_RendererId, m_FragmentShaderId));
 		
-		GL_Call(glLinkProgram(m_RendererID));
+		GL_Call(glLinkProgram(m_RendererId));
 		int p_link_status;
-		glGetProgramiv(m_RendererID, GL_LINK_STATUS, &p_link_status);
+		glGetProgramiv(m_RendererId, GL_LINK_STATUS, &p_link_status);
 		if (!p_link_status)
 		{
 			int length;
-			glGetProgramiv(m_RendererID, GL_INFO_LOG_LENGTH, &length);
+			glGetProgramiv(m_RendererId, GL_INFO_LOG_LENGTH, &length);
 			char* err_msg = (char*)alloca(length);
-			glGetProgramInfoLog(m_RendererID, length, nullptr, err_msg);
+			glGetProgramInfoLog(m_RendererId, length, nullptr, err_msg);
 			std::cout << "[OpenGL]::[ERROR] >> Failed to link shaders!\n\tGLMSG > " << err_msg << std::endl;
 		}
 		return true;
@@ -173,7 +173,7 @@ namespace mgl
 			location = found->second;
 		else
 		{
-			GL_Call(location = glGetUniformLocation(m_RendererID, name));
+			GL_Call(location = glGetUniformLocation(m_RendererId, name));
 			m_UniformLocations[name] = location;
 			if (location == -1)
 				std::cout << "[OpenGL]::[WARNING] >> Uniform '" << name << "' does not exist!" << std::endl;

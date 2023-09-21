@@ -14,7 +14,7 @@ namespace Codex {
 		virtual ~IResource() = default;
 
 	public:
-		constexpr size_t inline GetID() const noexcept { return m_Id; }
+		constexpr size_t inline GetId() const noexcept { return m_Id; }
 	};
 }
 

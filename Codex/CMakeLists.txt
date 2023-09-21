@@ -123,7 +123,7 @@ target_compile_definitions(CodexEngine-static PRIVATE
 # =============== #
 
 # Define standalone mode for the static library since the static version is going to be used for shipping
-target_compile_definitions(CodexEngine-static PRIVATE CFX_MODE_STANDALONE 1)
+target_compile_definitions(CodexEngine-static PRIVATE CX_MODE_STANDALONE 1)
 
 # Make the base include file public
 target_include_directories(CodexEngine PUBLIC include/)

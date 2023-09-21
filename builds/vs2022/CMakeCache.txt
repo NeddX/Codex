@@ -28,6 +28,24 @@ CMAKE_AR:FILEPATH=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Too
 // else will be ignored.
 CMAKE_CONFIGURATION_TYPES:STRING=Debug;Release;MinSizeRel;RelWithDebInfo
 
+//Flags used by the C# compiler during all build types.
+CMAKE_CSharp_FLAGS:STRING=/platform:x64 /define:TRACE
+
+//Flags used by the C# compiler during DEBUG builds.
+CMAKE_CSharp_FLAGS_DEBUG:STRING=/debug:full /optimize- /warn:3 /errorreport:prompt /define:DEBUG
+
+//Flags used by the C# compiler during MINSIZEREL builds.
+CMAKE_CSharp_FLAGS_MINSIZEREL:STRING=/debug:none /optimize
+
+//Flags used by the C# compiler during RELEASE builds.
+CMAKE_CSharp_FLAGS_RELEASE:STRING=/debug:none /optimize  /warn:1  /errorreport:queue
+
+//Flags used by the C# compiler during RELWITHDEBINFO builds.
+CMAKE_CSharp_FLAGS_RELWITHDEBINFO:STRING=/debug:full /optimize-
+
+//Libraries linked by default with all C# applications.
+CMAKE_CSharp_STANDARD_LIBRARIES:STRING=System
+
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=/DWIN32 /D_WINDOWS /GR /EHsc
 
@@ -266,6 +284,15 @@ CTEST_SUBMIT_RETRY_COUNT:STRING=3
 
 //How long to wait between timed-out CTest submissions.
 CTEST_SUBMIT_RETRY_DELAY:STRING=5
+
+//Value Computed by CMake
+CodexEditor_BINARY_DIR:STATIC=D:/dev/Codex/builds/vs2022/CodexEditor
+
+//Value Computed by CMake
+CodexEditor_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+CodexEditor_SOURCE_DIR:STATIC=D:/dev/Codex/CodexEditor
 
 //Value Computed by CMake
 Codex_BINARY_DIR:STATIC=D:/dev/Codex/builds/vs2022
@@ -659,7 +686,7 @@ YAML_CPP_BUILD_CONTRIB:BOOL=ON
 YAML_CPP_BUILD_TOOLS:BOOL=ON
 
 //Path to a program.
-YAML_CPP_CLANG_FORMAT_EXE:FILEPATH=YAML_CPP_CLANG_FORMAT_EXE-NOTFOUND
+YAML_CPP_CLANG_FORMAT_EXE:FILEPATH=C:/Users/Nedd/scoop/apps/llvm/current/bin/clang-format.exe
 
 //Format source
 YAML_CPP_FORMAT_SOURCE:BOOL=ON
@@ -706,6 +733,18 @@ CMAKE_CACHE_PATCH_VERSION:INTERNAL=3
 CMAKE_COMMAND:INTERNAL=C:/Users/Nedd/scoop/apps/cmake/3.26.3/bin/cmake.exe
 //Path to cpack program executable.
 CMAKE_CPACK_COMMAND:INTERNAL=C:/Users/Nedd/scoop/apps/cmake/3.26.3/bin/cpack.exe
+//ADVANCED property for variable: CMAKE_CSharp_FLAGS
+CMAKE_CSharp_FLAGS-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CSharp_FLAGS_DEBUG
+CMAKE_CSharp_FLAGS_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CSharp_FLAGS_MINSIZEREL
+CMAKE_CSharp_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CSharp_FLAGS_RELEASE
+CMAKE_CSharp_FLAGS_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CSharp_FLAGS_RELWITHDEBINFO
+CMAKE_CSharp_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_CSharp_STANDARD_LIBRARIES
+CMAKE_CSharp_STANDARD_LIBRARIES-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CTEST_COMMAND
 CMAKE_CTEST_COMMAND-ADVANCED:INTERNAL=1
 //Path to ctest program executable.

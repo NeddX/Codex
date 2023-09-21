@@ -10,21 +10,31 @@ using CodexEditor.ViewModel.ECS;
 using CodexEngine.Components;
 using System.Windows;
 using System.Windows.Input;
+using System.Net;
+using System.Diagnostics;
 
 namespace CodexEditor.Util
 {
     public class EngineHost : HwndHost
     {
+        private static EngineHost _instance;
+
         private readonly Border _parent;
         private IntPtr _hwnd;
         private HandleRef _engineHandleRef;
         private HandleRef _parentHandleRef;
         private Thread _renderThread;
         private volatile bool _running;
-        int _renderWidth;
-        int _renderHeight;
-        
-        public event EventHandler<MouseEventArgs> MouseMove;
+		private Point _previousMousePosition;
+		private bool _isFirstUpdate = true;
+		private int _renderWidth;
+        private int _renderHeight;
+        private Point _mousePos;
+		private IntPtr _hook = IntPtr.Zero;
+		private Win32.LowLevelMouseProc _mouseProc;
+		private bool _isMouseInWindow;
+
+		public event EventHandler<MouseEventArgs> MouseMove;
         public event EventHandler<MouseEventArgs> MouseEnter;
         public event EventHandler<MouseEventArgs> MouseLeave;
 		public event EventHandler<MouseButtonEventArgs> MouseUp;
@@ -32,7 +42,7 @@ namespace CodexEditor.Util
 		public event EventHandler<KeyEventArgs> KeyDown;
 		public event EventHandler<KeyEventArgs> KeyUp;
 
-		private bool _isMouseInWindow;
+        //public static EngineHost Instance { get; private set; }
 
         private bool IsMouseInWindow
         {
@@ -40,22 +50,40 @@ namespace CodexEditor.Util
             {
                 _isMouseInWindow = value;
                 if (value) Win32.SetFocus(_hwnd);
-                else  Win32.SetFocus(IntPtr.Zero);
+                else Win32.SetFocus(IntPtr.Zero);
             }
             get => _isMouseInWindow;
         }
 
         public EngineHost(Border parent)
         {
+            _instance = this;
             _parent = parent;
             _hwnd = IntPtr.Zero;
             _running = true;
             _renderWidth = (int)parent.ActualWidth;
             _renderHeight = (int)parent.ActualHeight;
             _renderThread = null;
+            _mousePos = new Point(0, 0);
+            _mouseProc = HookCallback;
+            //_hook = SetMouseHook(_mouseProc);
         }
 
-        private void EngineThread(object hwndParent)
+        public static void SignalTermination()
+        {
+            _instance.DestroyWindowCore(_instance._engineHandleRef);
+        }
+
+		private static IntPtr SetMouseHook(Win32.LowLevelMouseProc proc)
+		{
+			using (Process currentProcess = Process.GetCurrentProcess())
+			using (ProcessModule currentModule = currentProcess.MainModule)
+			{
+                return Win32.SetWindowsHookEx(Win32.WH_MOUSE_LL, proc, Win32.GetModuleHandle(currentModule.ModuleName), 0);
+			}
+		}
+
+		private void EngineThread(object hwndParent)
         {
             CodexAPI.Init();
             var props = new WindowProperties()
@@ -156,6 +184,7 @@ namespace CodexEditor.Util
                 _renderWidth = newWidth;
                 _renderHeight = newHeight;
                 CodexAPI.ResizeViewport(_renderWidth, _renderHeight);
+
                 /*if (!resize(renderWidth, renderHeight))
                     throw new Exception(GetDllError());*/
             }
@@ -163,7 +192,7 @@ namespace CodexEditor.Util
 
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
-            _hwnd = Win32.CreateWindowEx(
+			_hwnd = Win32.CreateWindowEx(
                 0,
                 "static",
                 "",
@@ -188,9 +217,68 @@ namespace CodexEditor.Util
             return new HandleRef(this, _hwnd);
         }
 
-		protected override void OnMouseMove(MouseEventArgs e)
+		private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
 		{
-			base.OnMouseMove(e);
+            bool _toLoseFocus = false;
+            if (nCode >= 0 && _toLoseFocus)
+			{
+				Win32.MSLLHOOKSTRUCT hookStruct =
+				(Win32.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(Win32.MSLLHOOKSTRUCT));
+
+				switch ((int)wParam)
+				{
+					case Win32.WM_MOUSEMOVE:
+						{
+							Win32.SendMessage(_hwnd, Win32.WM_MOUSEMOVE, IntPtr.Zero, IntPtr.Zero);
+							Console.WriteLine("to lose focus mode");
+							break;
+						}
+					case Win32.WM_LBUTTONDOWN:
+						{
+							break;
+						}
+					case Win32.WM_LBUTTONUP:
+						{
+							_toLoseFocus = false;
+                            //_isMouseDown = false;
+							break;
+						}
+					case Win32.WM_RBUTTONDOWN:
+						{
+							break;
+						}
+					case Win32.WM_RBUTTONUP:
+						{
+							_toLoseFocus = false;
+							//_isMouseDown = false;
+							break;
+						}
+				}
+			}
+
+			return Win32.CallNextHookEx(_hook, nCode, wParam, lParam);
+		}
+
+		public System.Drawing.PointF GetMouseDelta()
+		{
+			if (_isFirstUpdate)
+			{
+				_isFirstUpdate = false;
+				_previousMousePosition = _mousePos;
+				return System.Drawing.PointF.Empty;
+			}
+
+			float deltaX = (float)(_mousePos.X - _previousMousePosition.X);
+			float deltaY = (float)(_mousePos.Y - _previousMousePosition.Y);
+
+            _previousMousePosition = _mousePos;
+
+			return new System.Drawing.PointF(deltaX, deltaY);
+		}
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
             MouseMove?.Invoke(this, e);
 		}
 
@@ -209,7 +297,7 @@ namespace CodexEditor.Util
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			base.OnKeyDown(e);
-            KeyDown?.Invoke(this, e);
+			KeyDown?.Invoke(this, e);
 		}
 
         protected override void OnKeyUp(KeyEventArgs e)
@@ -232,12 +320,12 @@ namespace CodexEditor.Util
 
 		protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
 		{
-            switch (msg)
+			switch (msg)
             {
                 case Win32.WM_KEYDOWN:
                     {
                         handled = !IsMouseInWindow;
-						if (handled) Win32.SendMessage(_hwnd, msg, wParam, lParam);
+                        if (handled) Win32.SendMessage(_hwnd, msg, wParam, lParam);
 
 						OnKeyDown(new KeyEventArgs(
 								Keyboard.PrimaryDevice,
@@ -248,7 +336,7 @@ namespace CodexEditor.Util
                     }
                 case Win32.WM_KEYUP:
 					{
-						handled = !IsMouseInWindow;
+                        handled = !IsMouseInWindow;
 						if (handled) Win32.SendMessage(_hwnd, msg, wParam, lParam);
 
 						OnKeyUp(new KeyEventArgs(
@@ -262,7 +350,9 @@ namespace CodexEditor.Util
                     {
                         handled = true;
                         IsMouseInWindow = true;
-						Win32.SendMessage(_hwnd, msg, wParam, lParam);
+						//Win32.SendMessage(_hwnd, msg, wParam, lParam);
+                        _mousePos = new Point((int)lParam & 0xFFFF, ((int)lParam >> 16) & 0xFFFF);
+                        Win32.ScreenToClient(_hwnd, ref _mousePos);
 						OnMouseMove(new MouseEventArgs(Mouse.PrimaryDevice, 0));
 						return (IntPtr)(Win32.HTCLIENT);
                     }

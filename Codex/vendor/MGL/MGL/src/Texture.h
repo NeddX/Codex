@@ -3,31 +3,82 @@
 
 #include <cstdint>
 
+#include "Constants.h"
+
 namespace mgl
 {
-	enum class TextureWrapMode : uint8_t
+	enum class TextureFormat
 	{
-		MIRROR,
-		STRETCH,
-		BORDER
+		None							= -1,
+		RGBA8							= GL_RGBA8,
+		RGB32F							= GL_RGB32F,
+		RGBA32F							= GL_RGBA32F,
+		Depth							= GL_DEPTH_COMPONENT,
+		Depth16							= GL_DEPTH_COMPONENT16,
+		Depth24							= GL_DEPTH_COMPONENT24,
+		Depth32							= GL_DEPTH_COMPONENT32,
+		Depth32F						= GL_DEPTH_COMPONENT32F,
+		Depth24Stencil8					= GL_DEPTH24_STENCIL8,
+		Depth32FStencil8				= GL_DEPTH32F_STENCIL8,
+		RedInt32						= GL_R32I,
+		RedUInt32						= GL_R32UI,
+		RedFloat32						= GL_R32F,
 	};
 
-	enum class TextureFilterMode : uint8_t
+	enum class TextureFormatType
 	{
-		BLUR,
-		PIXELATE
+		RGB								= GL_RGB,
+		RGBA							= GL_RGBA,
+		DepthStencil					= GL_DEPTH_STENCIL,
+		Depth							= GL_DEPTH_COMPONENT
 	};
+
+	enum class TextureWrapMode
+	{
+		Mirror							= GL_MIRRORED_REPEAT,
+		Stretch							= GL_CLAMP_TO_EDGE,
+		Border							= GL_CLAMP_TO_BORDER
+	};
+
+	enum class TextureFilterMode
+	{
+		Linear							= GL_LINEAR,
+		Nearest							= GL_NEAREST
+	};
+
+	/* No mipmaps for now.
+	enum class TextureMimapMode
+	{
+		None							= -1,
+		LinearLinear					= GL_LINEAR_MIPMAP_LINEAR,
+		LinearNearest					= GL_LINEAR_MIPMAP_NEAREST,
+		NearestNearest					= GL_NEAREST_MIPMAP_NEAREST,
+		NearestLinear					= GL_NEAREST_MIPMAP_LINEAR
+	};
+	*/
 
 	struct TextureProperties
 	{
-		TextureWrapMode textureWrapMode = TextureWrapMode::MIRROR;
-		TextureFilterMode textureFilterMode = TextureFilterMode::BLUR;
+		TextureFormat format			= TextureFormat::RGBA8;
+		TextureWrapMode wrapMode		= TextureWrapMode::Mirror;
+		TextureFilterMode filterMode	= TextureFilterMode::Linear;
+
+		TextureProperties(
+			TextureFormat format = TextureFormat::None,
+			TextureWrapMode wrapMode = TextureWrapMode::Mirror,
+			TextureFilterMode filterMode = TextureFilterMode::Linear) : 
+			format(format),
+			wrapMode(wrapMode),
+			filterMode(filterMode)
+		{
+
+		}
 	};
 
 	class Texture
 	{
 	private:
-		uint32_t m_RendererID;
+		uint32_t m_RendererId;
 		const char* m_FilePath;
 		uint8_t* m_Buffer;
 		int m_Width;
@@ -42,12 +93,15 @@ namespace mgl
 		inline const char* GetFilePath()	const { return m_FilePath; }
 		
 	public:
-		Texture(const char* filePath, const TextureProperties properties = {});
+		Texture(const char* filePath, TextureProperties properties = {});
 		~Texture();
 		
 	public:
 		void Bind(uint32_t slot = 0);
 		void Unbind() const;
+	
+	public:
+		static GLenum GetFormatType(TextureProperties props);
 	};
 }
 

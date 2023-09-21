@@ -1,4 +1,5 @@
-﻿using CodexEditor.ViewModel.GameProject;
+﻿using CodexEditor.Util;
+using CodexEditor.ViewModel.GameProject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,7 @@ namespace CodexEditor.View.GameProject
 
 		private void quitBtn_Click(object sender, RoutedEventArgs e)
 		{
+			EngineHost.SignalTermination();
 			Environment.Exit(0);
         }
 

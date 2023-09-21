@@ -75,6 +75,7 @@
 #include <glm/ext/matrix_clip_space.hpp> // glm::perspective
 #include <glm/ext/scalar_constants.hpp> // glm::pi
 #include <glm/gtc/type_ptr.hpp>			// glm::value_ptr
+#include <glm/gtx/rotate_vector.hpp>	// glm::rotate(glm::vecX)
 #include <MGL.h>
 #include <NetNative.h>
 #include <entt.hpp>

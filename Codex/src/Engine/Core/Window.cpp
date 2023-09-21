@@ -6,9 +6,6 @@ namespace Codex {
 	SDL_Window* Window::m_SdlWindow						= nullptr;
 	SDL_GLContext Window::m_GlContext					= nullptr;
 	SDL_Event Window::m_SdlEvent;
-	std::unique_ptr<Scene> Window::m_CurrentScene		= nullptr;
-	std::unique_ptr<Renderer> Window::m_Renderer		= nullptr;
-	std::unique_ptr<EditorLayer> Window::m_EditorLayer	= nullptr;
 
 	Window::Window()
 	{
@@ -18,8 +15,10 @@ namespace Codex {
 	Window::~Window()
 	{
 		m_Running = false;
+		DebugDraw::Destroy();
 		KeyHandler::Destroy();
 		MouseHandler::Destroy();
+		Resources::Destroy();
 		SDL_GL_DeleteContext(m_GlContext);
 		SDL_DestroyWindow(m_SdlWindow);
 		SDL_Quit();
@@ -110,27 +109,33 @@ namespace Codex {
 		// Create the editor layer TODO: Do this when in editor mode
 		m_EditorLayer = std::make_unique<EditorLayer>("editor_layer", m_Renderer.get());
 
-		// Set the background colour, draw that colour onto the back buffer and then swap the buffers
 		m_Renderer->SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
 		m_Renderer->Clear();
 		SDL_GL_SwapWindow(m_SdlWindow);
 
+		// Blending
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glViewport(0, 0, m_Width, m_Height);
 
-		fmt::println("Window successfully initialized.");
+		// MISC
+		// TODO: When in editor mode, the initial window size is 0 by 0 which causes
+		// gl to crash when creating the framebuffer for texture picking.
+		//m_TexPick = std::make_unique<TexturePicking>(GetWidth(), GetHeight());
+		//m_BatcherShader = std::make_unique<Shader>("texture2d.glsl");
 
-		// Initialize input
+		// Initialize subsystems
 		KeyHandler::Init();
 		MouseHandler::Init();
+		DebugDraw::Init();
+		Resources::Init();
 
 		// Initialize scene
 		ChangeScene(0);
 
 		// Add the event watcher and call update
 		SDL_AddEventWatch(SDLEventFilterWatch, nullptr);
-		//Update();
+		fmt::println("Window subsystem initialized.");
 	}
 
 	void Window::SDLCheckError(int line)
@@ -167,7 +172,7 @@ namespace Codex {
 				{
 					case SDL_WINDOWEVENT_RESIZED:
 					{
-#ifdef CFX_MODE_STANDALONE // Process resize events only when in standalone mode.
+#ifdef CX_MODE_STANDALONE // Process resize events only when in standalone mode.
 						int width = event->window.data1;
 						int height = event->window.data2;
 						OnWindowResize_Event(width, height);
@@ -238,54 +243,24 @@ namespace Codex {
 		return 0;
 	}
 
-	void Window::Update()
+	void Window::EngineThread()
 	{
-		float deltaTime = -1.0f;
-		while (m_Running)
-		{
-			// Update
-			m_Renderer->Clear();
-			DebugDraw::Begin();
-
-			// Handle events
-			while (SDL_PollEvent(&m_SdlEvent))
-			{
-				switch (m_SdlEvent.type)
-				{
-					case SDL_QUIT:
-						m_Running = false;
-						break;
-					default:
-						break;
-				}
-			}	
-
-			// Update scene
-			DebugDraw::Render();
-			if (deltaTime != -1.0f) m_CurrentScene->Update(deltaTime);
-
-			// Exit 
-			if (KeyHandler::IsKeyDown(SDLK_ESCAPE)) m_Running = false;
-
-			m_Tp2 = std::chrono::system_clock::now();
-			deltaTime = std::chrono::duration<float>(m_Tp2 - m_Tp1).count();
-			m_Tp1 = m_Tp2;
-			m_Fps = (uint32_t)(1.0f / deltaTime);
-			SDL_SetWindowTitle(m_SdlWindow, fmt::format("ms: {} fps: {}", deltaTime, m_Fps).c_str());
-			if (m_FrameCap > 0) SDL_Delay((uint32_t)(1.0f / m_FrameCap * 1000));
-			m_FrameCount++;
-			SDL_GL_SwapWindow(m_SdlWindow);
-		}
+		while (m_Running) Update();
 	}
 
-	void Window::ManualUpdate()
+	void Window::Update()
 	{
-		static float deltaTime = -1.0f;
+		//static mgl::FrameBufferProperties props(GetWidth(), GetHeight(), { mgl::TextureFormat::RGBA8, mgl::TextureFormat::RedInt32 });
+		//static mgl::FrameBuffer* fb = new mgl::FrameBuffer(props);
+		static float delta_time = -1.0f;
 
-		// Update
+		m_Renderer->SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
 		m_Renderer->Clear();
+
+#ifdef CODEX_CONF_DEBUG
 		DebugDraw::Begin();
-		
+#endif
+
 		// Handle events
 		while (SDL_PollEvent(&m_SdlEvent))
 		{
@@ -300,36 +275,50 @@ namespace Codex {
 		}
 
 		// Update scene
-		if (deltaTime != -1.0f) m_CurrentScene->Update(deltaTime);
-
-		// Update editor layer TODO: Implement this inside the Editor itself
+#ifdef CODEX_CONF_DEBUG
 		DebugDraw::Render();
-		m_EditorLayer->Update(deltaTime, m_CurrentScene.get());
+#endif
+		if (delta_time != -1.0f)
+		{
+			m_CurrentScene->Update(delta_time);
+			m_CurrentScene->Render(delta_time);
+		}
+		
+		/*
+		if (MouseHandler::IsMouseDown(0))
+		{
+			// Gotta reverse the Y cause opengl is gay
+			int x = MouseHandler::GetMouseX(), y = GetHeight() - MouseHandler::GetMouseY();
+			int pixel = fb->ReadPixel(1, x, y);
+			fmt::println("pixel: {}", pixel);
+			return;
+		}
+		*/
 
-		// Exit 
+		// Exit
 		if (KeyHandler::IsKeyDown(SDLK_ESCAPE)) m_Running = false;
 
 		m_Tp2 = std::chrono::system_clock::now();
-		deltaTime = std::chrono::duration<float>(m_Tp2 - m_Tp1).count();
+		delta_time = std::chrono::duration<float>(m_Tp2 - m_Tp1).count();
 		m_Tp1 = m_Tp2;
-		m_Fps = (uint32_t)(1.0f / deltaTime);
-		//SDL_SetWindowTitle(m_SdlWindow, fmt::format("ms: {} fps: {}", deltaTime, m_Fps).c_str());
-		if (m_FrameCap > 0) SDL_Delay((uint32_t)(1.0f / m_FrameCap * 1000));
+		m_Fps = (uint32_t)(1.0f / delta_time);
+		//SDL_SetWindowTitle(m_SdlWindow, fmt::format("ms: {} fps: {}", delta_time, m_Fps).c_str());
+		if (m_FrameCap > 0) SDL_Delay((uint32_t)(1.0f / (float)m_FrameCap * 1000.0f));
 		m_FrameCount++;
 		SDL_GL_SwapWindow(m_SdlWindow);
 	}
 
-	void Window::ChangeScene(int sceneID)
+	void Window::ChangeScene(int sceneId)
 	{
-		switch (sceneID)
+		switch (sceneId)
 		{
 			case 0:
-				m_CurrentScene = std::make_unique<EditorScene>(m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);					
-				m_CurrentScene->Init();
+				m_Instance->m_CurrentScene = std::make_unique<EditorScene>(m_Instance->m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);
+				m_Instance->m_CurrentScene->Init();
 				break;
 			case 1:
-				m_CurrentScene = std::make_unique<EditorScene>(m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);
-				m_CurrentScene->Init();
+				m_Instance->m_CurrentScene = std::make_unique<LevelScene>(m_Instance->m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);
+				m_Instance->m_CurrentScene->Init();
 				break;
 			default:
 				break;
@@ -338,14 +327,18 @@ namespace Codex {
 
 	void Window::Destroy()
 	{
-		delete m_Instance;
-		fmt::println("Window disposed");
+		if (m_Instance)
+		{
+			delete m_Instance;
+			m_Instance = nullptr;
+			fmt::println("Window sub system disposed");
+		}
 	}
 
 	void Window::OnWindowResize_Event(int newWidth, int newHeight)
 	{
 		if (newWidth == 0 || newHeight == 0) return;
 		glViewport(0, 0, newWidth, newHeight);
-		m_CurrentScene->OnWindowResize_Event(newWidth, newHeight);
+		m_Instance->m_CurrentScene->OnWindowResize_Event(newWidth, newHeight);
 	}
 }

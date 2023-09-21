@@ -11,6 +11,6 @@
         Loaded="Window_Loaded"
         Title="MainWindow" Width="1280" Height="720">
     <Grid>
-        <editors:SceneEditor/>
+        <editors:SceneEditorView/>
     </Grid>
 </Window>

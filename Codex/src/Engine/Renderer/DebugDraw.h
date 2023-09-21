@@ -7,37 +7,51 @@
 #include "Shader.h"
 
 namespace Codex {
-	auto constexpr LINE2D_MAX_LINES = 500;
-	static constexpr auto LINE2D_INDEX_COUNT = 6;										// How many indices does a single vertex buffer have
-	static constexpr auto LINE2D_VERTEX_COMPONENT_COUNT = 7;							// How many components does a vertex have?
-	static constexpr auto LINE2D_VERTEX_COUNT = 2;										// How many vertices does the buffer have?
-	static constexpr auto LINE2D_VERTEX_SIZE = LINE2D_VERTEX_COUNT * LINE2D_VERTEX_COMPONENT_COUNT;	// The total count of the elements in the buffer
+	constexpr auto LINE2D_MAX_LINES = 5000;
+	constexpr auto LINE2D_INDEX_COUNT = 6;														// How many indices does a single vertex buffer have
+	constexpr auto LINE2D_VERTEX_COMPONENT_COUNT = 7;											// How many components does a vertex have?
+	constexpr auto LINE2D_VERTEX_COUNT = 2;														// How many vertices does the buffer have?
+	constexpr auto LINE2D_VERTEX_SIZE = LINE2D_VERTEX_COUNT * LINE2D_VERTEX_COMPONENT_COUNT;	// The total count of the elements in the buffer
 
 	class DebugDraw
 	{
 	private:
-		static std::vector<Line2D> m_Lines;
-		static std::unique_ptr<mgl::VertexArray> m_Vao;
-		static std::unique_ptr<mgl::VertexBuffer> m_Vbo;
-		static std::unique_ptr<mgl::IndexBuffer> m_Ebo;
-		static std::unique_ptr<mgl::VertexBufferLayout> m_Layout;
-		static std::unique_ptr<Shader> m_Shader;
-		static std::array<float, LINE2D_MAX_LINES * 7 * 2> m_Verticies;
-		static bool m_Initialized;
+		std::unique_ptr<mgl::VertexArray> m_Vao;
+		std::unique_ptr<mgl::VertexBuffer> m_Vbo;
+		std::unique_ptr<mgl::IndexBuffer> m_Ebo;
+		std::unique_ptr<mgl::VertexBufferLayout> m_Layout;
+		std::unique_ptr<Shader> m_Shader;
 
 	private:
-		DebugDraw()		{}
-		~DebugDraw()	{}
+		static DebugDraw* m_Instance;
+		static std::vector<Line2D> m_Lines;
+		static std::array<float, LINE2D_MAX_LINES * 7 * 2> m_Verticies;
+
+	private:
+		DebugDraw() = default;
+		~DebugDraw() = default;
 
 	public:
 		static void Init();
 		static void Begin();
 		static void Render();
+		static void Destroy();
 
-		static void AddLine2D(
+		static void DrawLine2D(
 			Vector2f source, 
 			Vector2f destination, 
-			Vector4f colour = Vector4f(1.0f, 1.0f, 1.0f, 1.0f), 
+			Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
+			int lifeTime = 1);
+		static void DrawRect2D(
+			Rectf rect,
+			float angle = 0.0f,
+			Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
+			int lifeTime = 1);
+		static void DrawCircle2D(
+			Vector2f centrePos,
+			int radius = 50,
+			int segments = 20,
+			Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
 			int lifeTime = 1);
 		inline static std::vector<uint32_t> GenerateIndicies(size_t& size)
 		{

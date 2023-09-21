@@ -143,6 +143,7 @@ extern "C" {
 	CODEX_EXPORT void ResizeViewport(int newWidth, int newHeight);
 	CODEX_EXPORT Codex::Scene* GetCurrentScene();
 	CODEX_EXPORT void ChangeScene(int sceneID);
+	CODEX_EXPORT void SetCameraProjection(int minX, int maxX, int minY, int maxY);
 
 	// Scene class
 	CODEX_EXPORT int32_t CreateEntity(EntityDescriptor* desc);
@@ -151,6 +152,8 @@ extern "C" {
 	CODEX_EXPORT void SetSelectedTileCoord(Codex::Vector2f newCoord);
 	CODEX_EXPORT Codex::Vector2f GetSelectedTileCoord();
 	CODEX_EXPORT void GetMousePositionInWorld(Codex::Vector2f& vec);
+	CODEX_EXPORT void SetActiveAction(Codex::EditorAction newAction);
+	CODEX_EXPORT void SetSelectedEntityID(uint32_t id);
 
 	// Entity Component System
 	CODEX_EXPORT void AddSpriteRendererComponent(int32_t id, DescriptorSpriteRendererComponent* component);

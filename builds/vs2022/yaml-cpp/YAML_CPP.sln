@@ -40,6 +40,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZERO_CHECK", "..\\ZERO_CHEC
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "format", "format.vcxproj", "{CE261817-9B70-3C46-B760-C48D50506E7A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{70C30230-F53A-39A1-9CE9-844CD55F374E} = {70C30230-F53A-39A1-9CE9-844CD55F374E}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yaml-cpp", "yaml-cpp.vcxproj", "{E47C6141-A3B2-3229-8344-BA5E435FE6BE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{70C30230-F53A-39A1-9CE9-844CD55F374E} = {70C30230-F53A-39A1-9CE9-844CD55F374E}
@@ -107,6 +112,10 @@ Global
 		{70C30230-F53A-39A1-9CE9-844CD55F374E}.MinSizeRel|x64.Build.0 = MinSizeRel|x64
 		{70C30230-F53A-39A1-9CE9-844CD55F374E}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
 		{70C30230-F53A-39A1-9CE9-844CD55F374E}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+		{CE261817-9B70-3C46-B760-C48D50506E7A}.Debug|x64.ActiveCfg = Debug|x64
+		{CE261817-9B70-3C46-B760-C48D50506E7A}.Release|x64.ActiveCfg = Release|x64
+		{CE261817-9B70-3C46-B760-C48D50506E7A}.MinSizeRel|x64.ActiveCfg = MinSizeRel|x64
+		{CE261817-9B70-3C46-B760-C48D50506E7A}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
 		{E47C6141-A3B2-3229-8344-BA5E435FE6BE}.Debug|x64.ActiveCfg = Debug|x64
 		{E47C6141-A3B2-3229-8344-BA5E435FE6BE}.Debug|x64.Build.0 = Debug|x64
 		{E47C6141-A3B2-3229-8344-BA5E435FE6BE}.Release|x64.ActiveCfg = Release|x64

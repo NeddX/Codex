@@ -1,4 +1,6 @@
 ﻿using CodexEditor.ViewModel.ECS;
+using CodexEditor.ViewModel.Editors;
+using CodexEngine;
 using CodexEngine.Renderer;
 using CodexEngine.Scene;
 using Microsoft.Win32;
@@ -44,7 +46,11 @@ namespace CodexEditor.View.Editors.Components
 
 		private void palleteBtn_Click(object sender, RoutedEventArgs e)
 		{
-			// do the stuff idk
+			var da = DataContext as MSTilemapComponent;
+			var editor = TileEditor.Instance;
+			editor.ActiveEntity = da.SelectedComponents.FirstOrDefault().Parent;
+			TileEditorView.SetCurrentActiveAction(CodexEngine.Enums.EditorAction.TilemapBrush);
+			SceneEditorView.FocusAtTab(SceneEditorView.Tabs.TilePallete);
         }
     }
 }

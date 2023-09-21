@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Runtime.InteropServices;
 using static CodexEditor.CoreAPI.Win32;
 
@@ -6,7 +7,9 @@ namespace CodexEditor.CoreAPI
 {
 	public static class Win32
 	{
-		public delegate IntPtr WndProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+		public delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
+		public delegate IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam);
+
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern IntPtr CreateWindowEx(uint dwExStyle, string lpClassName, string lpWindowName, uint dwStyle,
 			uint x, uint y, uint nWidth, uint nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
@@ -25,18 +28,34 @@ namespace CodexEditor.CoreAPI
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool IsWindowEnabled(IntPtr hwnd);
+		[DllImport("user32.dll")]
+		public static extern bool ScreenToClient(IntPtr hwnd, ref Point lpPoint); 
+		[DllImport("user32.dll")]
+		public static extern bool SetCursorPos(int x, int y);
+		[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		public static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseProc lpfn, IntPtr hMod, uint dwThreadId);
 
-		public const uint WS_CHILD = 0x40000000;
-		public const uint WS_VISIBLE = 0x10000000;
-		public const uint WS_OVERLAPPEDWINDOW = 0x00CF0000;
-		public const uint WS_CLIPSIBLINGS = 0x04000000;
-		public const uint WS_EX_CONTROLPARENT = 0x00010000;
-		public const uint COLOR_WINDOW = 5;
-		public const uint IDC_ARROW = 32512;
-		public const uint CS_HREDRAW = 2;
-		public const uint CS_VREDRAW = 1;
-		public const uint CS_OWNDC = 0x0020;
-		public const uint CW_USEDEFAULT = unchecked((uint)-2147483648);
+		[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool UnhookWindowsHookEx(IntPtr hhk);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		public static extern IntPtr GetModuleHandle(string lpModuleName);
+
+		public const int WS_CHILD = 0x40000000;
+		public const int WS_VISIBLE = 0x10000000;
+		public const int WS_OVERLAPPEDWINDOW = 0x00CF0000;
+		public const int WS_CLIPSIBLINGS = 0x04000000;
+		public const int WS_EX_CONTROLPARENT = 0x00010000;
+		public const int COLOR_WINDOW = 5;
+		public const int IDC_ARROW = 32512;
+		public const int CS_HREDRAW = 2;
+		public const int CS_VREDRAW = 1;
+		public const int CS_OWNDC = 0x0020;
+		public const int CW_USEDEFAULT = unchecked((int)-2147483648);
 		public const int GWL_STYLE = -16;
 		public const byte PFD_OVERLAY_PLANE = 1;
 		public const byte PFD_UNDERLAY_PLANE = 255;
@@ -46,7 +65,7 @@ namespace CodexEditor.CoreAPI
 		public const uint PFD_SUPPORT_OPENGL = 0x00000020;
 		public const uint PFD_DOUBLEBUFFER = 0x00000001;
 		public const byte PFD_MAIN_PLANE = 0;
-		public const uint HOST_ID = 0x00000002;
+		public const int HOST_ID = 0x00000002;
 		public const int WM_DESTROY = 0x0002;
 		public const int WM_NULL = 0x0000;
 		public const int WM_CREATE = 0x0001;
@@ -74,6 +93,7 @@ namespace CodexEditor.CoreAPI
 		public const int WM_MOUSEHOVER = 0x02A1;
 		public const int WM_NCMOUSEHOVER = 0x02A0;
 		public const int WM_NCMOUSELEAVE = 0x02A2;
+		public const int WH_MOUSE_LL = 14;
 		public const int HTCLIENT = 1;
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -93,11 +113,13 @@ namespace CodexEditor.CoreAPI
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern IntPtr LoadCursor(IntPtr hInstance, uint lpCursorName);
 		[DllImport("user32.dll")]
-		public static extern ushort RegisterClassEx([In] ref WNDCLASSEX lpwcx);
+		public static extern IntPtr RegisterClassEx([In] ref WNDCLASSEX lpwcx);
 		[DllImport("user32.dll", SetLastError = true)]
-		public static extern ushort RegisterClass([In] ref WNDCLASS lpWndClass);
+		public static extern IntPtr RegisterClass([In] ref WNDCLASS lpWndClass); 
 		[DllImport("user32.dll", SetLastError = true)]
-		public static extern IntPtr DefWindowProc(IntPtr hWnd, uint uMsg, IntPtr wParam, IntPtr lParam);
+		public static extern bool UnregisterClass(IntPtr lpClassName, IntPtr hInstance);
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern IntPtr DefWindowProc(IntPtr hWnd, int uMsg, IntPtr wParam, IntPtr lParam);
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
 		[DllImport("user32.dll", SetLastError = true)]
@@ -111,17 +133,13 @@ namespace CodexEditor.CoreAPI
 			uint uFlags);
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern void PostQuitMessage(int nExitCode);
-		[DllImport("user32.dll", SetLastError = true)]
-		public static extern bool UnregisterClass(
-			[MarshalAs(UnmanagedType.LPStr)] string lpClassName,
-			IntPtr hInstance);
 		[DllImport("user32.dll")]
 		static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WNDCLASS
 		{
 			public uint style;
-			public WndProc lpfnWndProc;
+			public WindowProc lpfnWndProc;
 			public int cbClsExtra;
 			public int cbWndExtra;
 			public IntPtr hInstance;
@@ -212,6 +230,23 @@ namespace CodexEditor.CoreAPI
 			uint dwLayerMask;
 			uint dwVisibleMask;
 			uint dwDamageMask;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct POINT
+		{
+			public int x;
+			public int y;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct MSLLHOOKSTRUCT
+		{
+			public POINT pt;
+			public uint mouseData;
+			public uint flags;
+			public uint time;
+			public IntPtr dwExtraInfo;
 		}
 		public static IntPtr CustomWndProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam)
 		{

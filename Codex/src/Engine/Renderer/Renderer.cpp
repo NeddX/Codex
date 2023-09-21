@@ -8,9 +8,4 @@ namespace Codex {
 		m_BatchRenderer = nullptr;
 		GL_Call(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 	}
-
-	Renderer::~Renderer()
-	{
-
-	}
 }

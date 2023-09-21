@@ -24,6 +24,7 @@ D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/Nightly.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/Continuous.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/NightlyMemoryCheck.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/yaml-cpp.dir
+D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/format.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/INSTALL.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/CMakeFiles/ALL_BUILD.dir
 D:/dev/Codex/builds/vs2022/yaml-cpp/util/CMakeFiles/yaml-cpp-sandbox.dir

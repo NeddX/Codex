@@ -17,7 +17,7 @@ namespace Codex {
 
 	class SpriteBatchRenderer
 	{
-#ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
+#ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
 		void* operator new(size_t size)
 		{
@@ -49,9 +49,13 @@ namespace Codex {
 		~SpriteBatchRenderer();
 
 	public:
+		inline Shader* GetShader() const { return m_Shader; }
+
+	public:
 		void Begin();
 		void End();
-		void RenderRect(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, Vector4f colour = Vector4f(1.0f, 1.0f, 1.0f, 1.0f), int zIndex = 0);
+		void BindShader(Shader* shader);
+		void RenderRect(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, Vector4f colour = Vector4f(1.0f, 1.0f, 1.0f, 1.0f), int zIndex = 0, int entityId = -1);
 	};
 }
 

@@ -10,13 +10,13 @@ namespace Codex {
 	private:
 		std::shared_ptr<Texture2D> m_Texture;
 		Rectf m_SrcRect;
-		Rectf m_DestRect;
 
 	public:
 		Sprite(std::shared_ptr<Texture2D> texture) :
 			m_Texture(texture)
 		{
-			m_SrcRect = { 0.0f, 0.0f, (float)(texture->GetWidth()), (float)(texture->GetHeight()) };
+			if (m_Texture) 
+				m_SrcRect = { 0.0f, 0.0f, (float)(texture->GetWidth()), (float)(texture->GetHeight()) };
 		}
 		Sprite(std::shared_ptr<Texture2D> texture, const Rectf textureCoords) :
 			m_Texture(texture), m_SrcRect(textureCoords)

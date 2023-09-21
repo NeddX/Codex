@@ -2,7 +2,18 @@
 using System.Numerics;
 using System.Runtime.InteropServices;
 using CodexEngine.Components;
+using CodexEngine.Enums;
 using CodexEngine.Structs;
+
+namespace CodexEngine.Enums
+{ 
+	public enum EditorAction : byte
+	{
+		Select,
+		TilemapBrush,
+		TilemapErase
+	}
+}
 
 namespace CodexEngine.Structs
 {
@@ -106,5 +117,9 @@ namespace CodexEngine
 		public static extern void SetSelectedTileCoord(Vector2 newCoord);
 		[DllImport(ENGINE_DLL)]
 		public static extern void GetMousePositionInWorld(ref Vector2 vec);
+		[DllImport(ENGINE_DLL)]
+		public static extern void SetActiveAction(EditorAction newAction);
+		[DllImport(ENGINE_DLL)]
+		public static extern void SetSelectedEntityID(int entityID);
 	}
 }

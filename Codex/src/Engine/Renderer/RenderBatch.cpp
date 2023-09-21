@@ -29,6 +29,7 @@ namespace Codex {
 		m_Layout->Push<float>(2);
 		m_Layout->Push<float>(1);
 		m_Layout->Push<float>(2);
+		m_Layout->Push<float>(1);
 
 		m_Vao->AddBuffer(m_Vbo.get(), m_Layout.get());
 

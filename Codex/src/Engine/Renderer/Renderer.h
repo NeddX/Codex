@@ -10,7 +10,7 @@
 namespace Codex {
 	class Renderer
 	{
-#ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
+#ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
 		void* operator new(size_t size)
 		{
@@ -30,23 +30,22 @@ namespace Codex {
 		int m_Width;
 		int m_Height;
 		std::unique_ptr<mgl::Renderer> m_InternalRenderer;
-		std::shared_ptr<SpriteBatchRenderer> m_BatchRenderer;
+		std::unique_ptr<SpriteBatchRenderer> m_BatchRenderer;
 
 	public:
 		Renderer(const int width, const int height);
-		~Renderer();
 
 	public:
 		inline void Clear()																		const { m_InternalRenderer->Clear(); }
 		inline void SetClearColour(const float r, const float g, const float b, const float a)	const { m_InternalRenderer->SetClearColour(r, g, b, a); }
-		inline std::shared_ptr<SpriteBatchRenderer> GetSpriteBatchRenderer(
+		inline SpriteBatchRenderer* GetSpriteBatchRenderer(
 			Shader* shader,
 			const int initialBatchCapacity	= BATCH_RENDERER_INITIAL_CAPACITY, 
 			const int maxBatchQuadCount		= BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH)
 		{
 			if (!m_BatchRenderer)
-				m_BatchRenderer = std::make_shared<SpriteBatchRenderer>(shader, initialBatchCapacity, maxBatchQuadCount);
-			return m_BatchRenderer;
+				m_BatchRenderer = std::make_unique<SpriteBatchRenderer>(shader, initialBatchCapacity, maxBatchQuadCount);
+			return m_BatchRenderer.get();
 		}
 		inline void Render(const mgl::VertexArray* vertexArray, const mgl::IndexBuffer* indexBuffer, const mgl::Shader* shader) const { m_InternalRenderer->Render(vertexArray, indexBuffer, shader); }
 	};

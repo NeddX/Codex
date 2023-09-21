@@ -7,19 +7,19 @@ namespace mgl
 {
 	VertexArray::VertexArray()
 	{
-		GL_Call(glGenVertexArrays(1, &m_RendererID));
-		GL_Call(glBindVertexArray(m_RendererID));
+		GL_Call(glGenVertexArrays(1, &m_RendererId));
+		GL_Call(glBindVertexArray(m_RendererId));
 	}
 
 	VertexArray::~VertexArray()
 	{
 		GL_Call(glBindVertexArray(0));
-		GL_Call(glDeleteVertexArrays(1, &m_RendererID));
+		GL_Call(glDeleteVertexArrays(1, &m_RendererId));
 	}
 
 	void VertexArray::Bind() const
 	{
-		GL_Call(glBindVertexArray(m_RendererID));
+		GL_Call(glBindVertexArray(m_RendererId));
 	}
 
 	void VertexArray::Unbind() const

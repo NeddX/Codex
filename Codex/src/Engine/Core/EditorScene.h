@@ -16,7 +16,7 @@ namespace Codex {
 
 	class EditorScene : public Scene
 	{
-#ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
+#ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
 		void* operator new(size_t size)
 		{
@@ -34,16 +34,18 @@ namespace Codex {
 
 	private:
 		EntityManager m_EditorSceneManager;
-		std::shared_ptr<SpriteBatchRenderer> m_SpriteBatch;
+		SpriteBatchRenderer* m_SpriteBatch;
 		std::shared_ptr<Shader> m_Shader;
 		Vector2f m_SelectedTileCoord;
 		EditorAction m_CurrentActiveAction;
+		uint32_t m_SelectedEntityId;
 
 	public:
 		inline Vector2f GetSelectedTileCoord() const { return m_SelectedTileCoord; }
 		inline EditorAction GetActiveAction() const { return m_CurrentActiveAction; }
 		inline void SetSelectedTileCoord(Vector2f newCoord) { m_SelectedTileCoord = newCoord; }
 		inline void SetActiveAction(EditorAction newAction) { m_CurrentActiveAction = newAction; }
+		inline void SetSelectedEntityId(uint32_t id) { m_SelectedEntityId = id; }
 
 	public:
 		EditorScene(Renderer* renderer, int width, int height);
@@ -52,6 +54,7 @@ namespace Codex {
 	public:
 		void Start() override;
 		void Update(float deltaTime) override;
+		void Render(float deltaTime) override;
 	};
 }
 

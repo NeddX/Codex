@@ -12,7 +12,7 @@ namespace mgl
 	class VertexArray
 	{
 	private:
-		uint32_t m_RendererID;
+		uint32_t m_RendererId;
 
 	public:
 		VertexArray();

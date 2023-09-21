@@ -4,18 +4,6 @@
 #include <sdafx.h>
 
 namespace Codex {
-	/*class IDisposable
-	{
-	protected:
-		bool m_Disposed = false;
-
-	protected:
-		~IDisposable();
-
-	public:
-		virtual void Dispose();
-	};*/
-
 	template<typename T>
 	class ManagedResource
 	{

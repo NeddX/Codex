@@ -11,11 +11,12 @@
 #include "EditorScene.h"
 #include "LevelScene.h"
 #include "../Renderer/Renderer.h"
+#include "../Renderer/TexturePicking.h"
 
 namespace Codex {
 	class Window
 	{
-#ifdef CDX_DEBUG_CUSTOM_ALLOCATORS
+#ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
 		void* operator new(size_t size)
 		{
@@ -40,15 +41,15 @@ namespace Codex {
 		uint32_t m_Fps, m_FrameCount, m_FrameCap;
 		std::chrono::system_clock::time_point m_Tp1, m_Tp2;
 		const void* m_NativeWindow;
+		std::unique_ptr<Scene> m_CurrentScene;
+		std::unique_ptr<Renderer> m_Renderer;
+		std::unique_ptr<EditorLayer> m_EditorLayer;
 
 	private:
 		static Window* m_Instance;
 		static SDL_Window* m_SdlWindow;
 		static SDL_GLContext m_GlContext;
 		static SDL_Event m_SdlEvent;
-		static std::unique_ptr<Scene> m_CurrentScene;
-		static std::unique_ptr<Renderer> m_Renderer;
-		static std::unique_ptr<EditorLayer> m_EditorLayer;
 
 	private:
 		Window();
@@ -56,8 +57,8 @@ namespace Codex {
 
 	public:
 		inline Scene* GetCurrentScene() const	{ return m_Instance->m_CurrentScene.get(); }
-		inline int GetWidth() const				{ return m_Width; }
-		inline int GetHeight() const			{ return m_Height; }
+		inline uint32_t GetWidth() const		{ return m_Width; }
+		inline uint32_t GetHeight() const		{ return m_Height; }
 
 	public:
 		struct Properties
@@ -81,7 +82,7 @@ namespace Codex {
 	public:
 		static Window* Get();
 		static int SDLEventFilterWatch(void* object, SDL_Event* event);
-		static void ChangeScene(int sceneID);
+		static void ChangeScene(int sceneId);
 
 	private:
 		void SDLCheckError(int line = -1);
@@ -89,8 +90,8 @@ namespace Codex {
 
 	public:
 		void Init(Properties windowInfo = Properties(), const void* nativeWindow = nullptr);
-		void Update();
-		void ManualUpdate();
+		void EngineThread();
+		inline void Update();
 		void Destroy();
 
 	public:

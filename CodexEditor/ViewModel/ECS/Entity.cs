@@ -153,10 +153,10 @@ namespace CodexEditor.ViewModel.ECS
             {
                 T component = (T)(Activator.CreateInstance(typeof(T), args));
                 _components.Add(component);
-                OnPropertyChanged("Components");
+				OnPropertyChanged("Components");
 
-                // Notify the engine about the new component
-                EngineAPI.AddComponentToEntity(this, component);
+				// Notify the engine about the new component
+				EngineAPI.AddComponentToEntity(this, component);
                 return component;
             }
             else throw new Exception($"Entity already has component type: {typeof(T)} assign to it.");
@@ -327,6 +327,7 @@ namespace CodexEditor.ViewModel.ECS
                     _components.Add(c.GetMultiselectionComponent(this));
                 }
             }
+            OnPropertyChanged("Components");
         }
 
         public void Refresh()

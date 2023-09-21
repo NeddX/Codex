@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Runtime.Intrinsics;
 using System.Runtime.Serialization;
 using System.Text;
@@ -69,12 +70,9 @@ namespace CodexEditor.ViewModel.Editors
 			get => _activeEntity;
 			set
 			{
-				if (_activeEntity != value) 
-				{
-					_activeEntity = value;
-					Refresh();
-					OnPropertyChanged();
-				}
+				_activeEntity = value;
+				Refresh();
+				OnPropertyChanged();
 			}
 		}
 
@@ -96,12 +94,15 @@ namespace CodexEditor.ViewModel.Editors
 			}
 		}
 
-		public TileEditor(Project project)
+		public static TileEditor Instance { get; private set; }
+
+		public TileEditor(Project project) // TODO: Shouldn't this class be static?
 		{
 			_project = project;
 			_tiles = new ObservableCollection<TileInfo>();
 			Tiles = new ReadOnlyObservableCollection<TileInfo>(_tiles);
 			RefreshEntities();
+			Instance = this;
 		}
 
 		public Vector2 GetCoordSnappedToGrid(Vector2 coord)
@@ -109,8 +110,8 @@ namespace CodexEditor.ViewModel.Editors
 			var gridSize = _component.GridSize;
 			return new Vector2
 			{
-				X = coord.X - ((int)coord.X % (int)gridSize.X),
-				Y = coord.Y - ((int)coord.Y % (int)gridSize.Y)
+				X = (int)(coord.X / gridSize.X) * gridSize.X,
+				Y = (int)(coord.Y / gridSize.Y) * gridSize.Y
 			};
 		}
 
@@ -131,8 +132,9 @@ namespace CodexEditor.ViewModel.Editors
 
 			_tileSize = _component.TileSize;
 			var tilesetSize = new Vector2(_component.Texture.Width, _component.Texture.Height);
-			var col = (int)(tilesetSize.X / _tileSize.X);
-			var row = (int)(tilesetSize.Y / _tileSize.Y);
+			int col = (int)(tilesetSize.X / _tileSize.X);
+			int row = (int)(tilesetSize.Y / _tileSize.Y);
+			var offset = _component.TileOffset;
 			_image = new BitmapImage(new Uri(_component.Texture.FilePath));
 			_tiles.Clear();
 
@@ -146,13 +148,14 @@ namespace CodexEditor.ViewModel.Editors
 						Image = new CroppedBitmap(
 							_image,
 							new Int32Rect(
-								x * (int)_tileSize.X,
-								y * (int)_tileSize.Y,
-								(int)_tileSize.X,
-								(int)_tileSize.Y))
+								(int)((x * (int)_tileSize.X) + offset.X),
+								(int)((y * (int)_tileSize.Y) + offset.Y),
+								(int)(_tileSize.X - offset.X),
+								(int)(_tileSize.Y - offset.Y)))
 					});
 				}
 			}
+			OnPropertyChanged("Tiles");
 		}
 
 		public void NotifyTilePick(TileInfo tileInfo)

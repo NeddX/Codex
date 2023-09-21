@@ -266,6 +266,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Constants.h" />
+    <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\FrameBuffer.h" />
     <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Geometry.h" />
     <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\IndexBuffer.h" />
     <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Renderer.h" />
@@ -274,6 +275,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\VertexArray.h" />
     <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\VertexBuffer.h" />
     <ClInclude Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\VertexBufferLayout.h" />
+    <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\FrameBuffer.cpp" />
     <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Geometry.cpp" />
     <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\IndexBuffer.cpp" />
     <ClCompile Include="D:\dev\Codex\Codex\vendor\MGL\MGL\src\Renderer.cpp" />

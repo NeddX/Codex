@@ -49,6 +49,9 @@
     <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\SpriteBatchRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Renderer\TexturePicking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\Components.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -124,6 +127,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\Texture2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Renderer\TexturePicking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D:\dev\Codex\Codex\src\Engine\Scene\ECS\Components.h">

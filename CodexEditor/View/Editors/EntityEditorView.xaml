@@ -79,7 +79,7 @@
                               VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
-            <ItemsControl ItemsSource="{Binding Components}" Foreground="{DynamicResource PrimaryTextColour}">
+            <ItemsControl ItemsSource="{Binding Components, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource PrimaryTextColour}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel />

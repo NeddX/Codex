@@ -1,6 +1,7 @@
 ﻿using CodexEditor.Util;
 using CodexEditor.ViewModel.ECS;
 using CodexEditor.ViewModel.GameProject;
+using CodexEngine;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,7 +39,7 @@ namespace CodexEditor.View.Editors
 					{
                         if ((listBox.ItemContainerGenerator.ContainerFromItem(x) as ListBoxItem) is ListBoxItem lbox)
                             lbox.IsSelected = true;
-				});
+				    });
                 },
                 () =>
                 {
@@ -51,10 +52,11 @@ namespace CodexEditor.View.Editors
                 },
                 "Selection changed"
                 ));
-
             MSEntity msEntity = null;
             if (newSelection.Any())
                 msEntity = new MSEntity(newSelection);
+            // TODO: Move this to the Entity class.
+            CodexAPI.SetSelectedEntityID(msEntity.SelectedEntities.FirstOrDefault().EntityID);
             EntityEditorView.Instance.DataContext = msEntity;
         }
 

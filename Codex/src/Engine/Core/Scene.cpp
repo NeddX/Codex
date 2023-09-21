@@ -16,6 +16,7 @@ namespace Codex {
         if (m_Running) entity->Start();
     }
     */
+
     void Scene::Init()
     {
         this->Start();
@@ -23,20 +24,4 @@ namespace Codex {
             ent->Start();*/
         m_Running = true;
     }
-    /*
-    void Scene::SceneEditor()
-    {
-        if (m_ActiveEntity)
-        {
-            // begin inspector
-            m_ActiveEntity->Editor();
-            // end inspector
-        }
-
-        Editor();
-    }
-    void Scene::Editor()
-    {
-
-    }*/
 }

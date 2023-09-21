@@ -105,29 +105,29 @@ namespace util
 		}
 	};
 
-	struct U824ID
+	struct U824Id
 	{
 	private:
-		uint32_t m_ID = 0;
+		uint32_t m_Id = 0;
 
 	public:
-		inline uint32_t GetID()
+		inline uint32_t GetId()
 		{
-			return m_ID & 0x00ffffff;
+			return m_Id & 0x00ffffff;
 		}
 		inline uint8_t GetGen()
 		{
-			return m_ID >> 24;
+			return m_Id >> 24;
 		}
-		inline void SetID(uint32_t id)
+		inline void SetId(uint32_t id)
 		{
-			m_ID &= 0xff000000;
-			m_ID |= id;
+			m_Id &= 0xff000000;
+			m_Id |= id;
 		}
 		inline void SetGen(uint8_t gen)
 		{
-			m_ID &= 0x00ffffff;
-			m_ID |= (uint32_t)(gen) << 24;
+			m_Id &= 0x00ffffff;
+			m_Id |= (uint32_t)(gen) << 24;
 		}
 	};
 }

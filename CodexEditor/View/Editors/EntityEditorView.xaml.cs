@@ -112,6 +112,7 @@ namespace CodexEditor.View.Editors
 						{
 							var sprite = new Sprite(new Texture2D("ice_cube.png"));
 							entity.AddComponent<SpriteRendererComponent>(entity, sprite);
+							da.Refresh();
 						}
 						break;
 					}
@@ -119,7 +120,13 @@ namespace CodexEditor.View.Editors
 					{
 						if (!entity.HasComponent<TilemapComponent>())
 						{
-							entity.AddComponent<TilemapComponent>(entity, new Texture2D("ice_cube.png"), new Vector2(0), new Vector2(0));
+							entity.AddComponent<TilemapComponent>(
+								entity, 
+								new Texture2D("ice_cube.png"), 
+								Vector2.Zero, 
+								Vector2.Zero, 
+								Vector2.Zero);
+							da.Refresh();
 						}
 						break;
 					}

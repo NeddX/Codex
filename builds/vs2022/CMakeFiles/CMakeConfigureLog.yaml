@@ -1362,3 +1362,111 @@ events:
         
       exitCode: 1
 ...
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/Nedd/scoop/apps/cmake/3.26.3/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/Nedd/scoop/apps/cmake/3.26.3/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/Nedd/scoop/apps/cmake/3.26.3/share/cmake-3.26/Modules/CMakeDetermineCSharpCompiler.cmake:23 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CodexEditor/CMakeLists.txt:1 (project)"
+    message: |
+      Compiling the CSharp compiler identification source file "CMakeCSharpCompilerId.cs" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      MSBuild version 17.5.1+f6fdcf537 for .NET Framework
+      Build started 23.05.2023 19:42:30.
+      Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+      
+      Project "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\3.26.3\\CompilerIdCSharp\\CompilerIdCSharp.csproj" on node 1 (default targets).
+      PrepareForBuild:
+        Creating directory "obj\\x64\\Debug\\".
+      GenerateBindingRedirects:
+        No suggested binding redirects from ResolveAssemblyReferences.
+      CoreCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe /noconfig /nowarn:1701,1702 /fullpaths /nostdlib+ /platform:anycpu32bitpreferred /define:Platformx64;PlatformToolsetv143 /highentropyva+ /reference:"C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.7.2\\mscorlib.dll" /reference:"C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.7.2\\System.Core.dll" /debug+ /out:obj\\x64\\Debug\\CompilerIdCSharp.exe /subsystemversion:6.00 /target:exe /utf8output /langversion:7.3 CMakeCSharpCompilerId.cs "obj\\x64\\Debug\\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs"
+        CompilerServer: server - server processed compilation - 751ff369-eee2-454b-beb4-b60c36cb1fe0
+      CopyFilesToOutputDirectory:
+        Copying file from "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\3.26.3\\CompilerIdCSharp\\obj\\x64\\Debug\\CompilerIdCSharp.exe" to "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\3.26.3\\CompilerIdCSharp\\CompilerIdCSharp.exe".
+        CompilerIdCSharp -> D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\3.26.3\\CompilerIdCSharp\\CompilerIdCSharp.exe
+        Copying file from "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\3.26.3\\CompilerIdCSharp\\obj\\x64\\Debug\\CompilerIdCSharp.pdb" to "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\3.26.3\\CompilerIdCSharp\\CompilerIdCSharp.pdb".
+      PostBuildEvent:
+        if not "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\Roslyn"=="" if exist "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe" set _CSC=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\Roslyn
+        if exist "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\csc.exe" set _CSC=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64
+        if "%_CSC%"=="" exit -1
+        @echo CMAKE_CSharp_COMPILER=%_CSC%\\csc.exe
+        CMAKE_CSharp_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe
+      Done Building Project "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\3.26.3\\CompilerIdCSharp\\CompilerIdCSharp.csproj" (default targets).
+      
+      Build succeeded.
+          0 Warning(s)
+          0 Error(s)
+      
+      Time Elapsed 00:00:02.41
+      
+      
+      Compilation of the CSharp compiler identification source "CMakeCSharpCompilerId.cs" produced "CompilerIdCSharp.csproj"
+      
+      Compilation of the CSharp compiler identification source "CMakeCSharpCompilerId.cs" produced "CompilerIdCSharp.exe"
+      
+      Compilation of the CSharp compiler identification source "CMakeCSharpCompilerId.cs" produced "CompilerIdCSharp.pdb"
+      
+      The CSharp compiler identification could not be found in:
+        D:/dev/Codex/builds/vs2022/CMakeFiles/3.26.3/CompilerIdCSharp/CompilerIdCSharp.csproj
+      
+      The CSharp compiler identification is Microsoft Visual Studio, found in:
+        D:/dev/Codex/builds/vs2022/CMakeFiles/3.26.3/CompilerIdCSharp/CompilerIdCSharp.exe
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/Nedd/scoop/apps/cmake/3.26.3/share/cmake-3.26/Modules/CMakeTestCSharpCompiler.cmake:34 (try_compile)"
+      - "CodexEditor/CMakeLists.txt:1 (project)"
+    checks:
+      - "Check for working C# compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/Roslyn/csc.exe"
+    directories:
+      source: "D:/dev/Codex/builds/vs2022/CMakeFiles/CMakeScratch/TryCompile-h8kxfp"
+      binary: "D:/dev/Codex/builds/vs2022/CMakeFiles/CMakeScratch/TryCompile-h8kxfp"
+    cmakeVariables:
+      CMAKE_CSharp_FLAGS: "/platform:x64 /define:TRACE"
+      CMAKE_CSharp_FLAGS_DEBUG: "/debug:full /optimize- /warn:3 /errorreport:prompt /define:DEBUG"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_CSharp_COMPILER_WORKS"
+      cached: true
+      stdout: |
+        Change Dir: D:/dev/Codex/builds/vs2022/CMakeFiles/CMakeScratch/TryCompile-h8kxfp
+        
+        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_0fa06.csproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.1+f6fdcf537 for .NET Framework
+        Build started 23.05.2023 19:42:33.
+        Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+        
+        Project "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\CMakeScratch\\TryCompile-h8kxfp\\cmTC_0fa06.csproj" on node 1 (default targets).
+        PrepareForBuild:
+          Creating directory "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\CMakeScratch\\TryCompile-h8kxfp\\Debug\\".
+          Creating directory "obj\\x64\\Debug\\".
+        GenerateBindingRedirects:
+          No suggested binding redirects from ResolveAssemblyReferences.
+        CoreCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe /noconfig /nowarn:1701,1702 /fullpaths /nostdlib+ /platform:x64 /errorreport:prompt /warn:3 /define:TRACE;DEBUG /highentropyva+ /reference:"C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.7.2\\mscorlib.dll" /reference:"C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.7.2\\System.Core.dll" /debug+ /debug:full /optimize- /out:obj\\x64\\Debug\\cmTC_0fa06.exe /subsystemversion:6.00 /target:exe /utf8output /langversion:7.3 D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\CMakeScratch\\TryCompile-h8kxfp\\testCSharpCompiler.cs "obj\\x64\\Debug\\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs"
+          CompilerServer: server - server processed compilation - 833367b0-d906-40b6-a48d-d76e02176198
+        CopyFilesToOutputDirectory:
+          Copying file from "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\CMakeScratch\\TryCompile-h8kxfp\\obj\\x64\\Debug\\cmTC_0fa06.exe" to "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\CMakeScratch\\TryCompile-h8kxfp\\Debug\\cmTC_0fa06.exe".
+          cmTC_0fa06 -> D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\CMakeScratch\\TryCompile-h8kxfp\\Debug\\cmTC_0fa06.exe
+          Copying file from "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\CMakeScratch\\TryCompile-h8kxfp\\obj\\x64\\Debug\\cmTC_0fa06.pdb" to "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\CMakeScratch\\TryCompile-h8kxfp\\Debug\\cmTC_0fa06.pdb".
+        Done Building Project "D:\\dev\\Codex\\builds\\vs2022\\CMakeFiles\\CMakeScratch\\TryCompile-h8kxfp\\cmTC_0fa06.csproj" (default targets).
+        
+        Build succeeded.
+            0 Warning(s)
+            0 Error(s)
+        
+        Time Elapsed 00:00:00.46
+        
+      exitCode: 0
+...
