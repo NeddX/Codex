@@ -17,14 +17,14 @@ namespace mgl
 		bool normalized;
 
 	public:
-		VertexBufferElement(uint32_t type, uint32_t count, bool normalized)
+		VertexBufferElement(const uint32_t type, const uint32_t count, const bool normalized)
 			: type(type), count(count), normalized(normalized)
 		{
 
 		}
 	
 	public:
-		static uint32_t GetSizeOfType(uint32_t type)
+		static uint32_t GetSizeOfType(const uint32_t type)
 		{
 			switch (type)
 			{
@@ -36,9 +36,10 @@ namespace mgl
 				case GL_UNSIGNED_SHORT:
 				case GL_SHORT:			return sizeof(GLshort);
 				case GL_DOUBLE:			return sizeof(GLdouble);
+				default:
+					MGL_ASSERT(false, "Unknown type.");
+					return 0;
 			}
-			MGL_ASSERT(false, "Unknown type.");
-			return 0;
 		}
 	};
 
@@ -63,31 +64,31 @@ namespace mgl
 	public:
 #ifndef __GNUC__
 		template<typename T>
-		void Push(uint32_t count)
+		void Push(const uint32_t count)
 		{
 			static_assert(false, "T must inherit from following types:\n\tfloat\n\tint\n\tuint\n\tint8\n\tuint8");
 		}
 		template<>
-		void Push<float>(uint32_t count)
+		void Push<float>(const uint32_t count)
 		{
 			m_Elements.emplace_back(GL_FLOAT, count, GL_FALSE);
 			m_Stride += sizeof(GLfloat) * count;
 		}
 		template<>
-		void Push<uint32_t>(uint32_t count)
+		void Push<uint32_t>(const uint32_t count)
 		{
 			m_Elements.emplace_back(GL_UNSIGNED_INT, count, GL_FALSE);
 			m_Stride += sizeof(GLuint) * count;
 		}
 		template<>
-		void Push<uint8_t>(uint32_t count)
+		void Push<uint8_t>(const uint32_t count)
 		{
 			m_Elements.emplace_back(GL_UNSIGNED_BYTE, count, GL_TRUE);
 			m_Stride += sizeof(GLubyte) * count;
 		}
 #else
 		template<typename T>
-		void Push(uint32_t count)
+		void Push(const uint32_t count)
 		{
 			m_Elements.emplace_back(GL_FLOAT, count, GL_FALSE);
 			m_Stride += sizeof(T) * count;

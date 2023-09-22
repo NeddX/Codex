@@ -56,7 +56,7 @@ namespace Codex {
 		static void Destroy() noexcept;
 
 	public:
-		static inline bool IsKeyDown(uint16_t key) noexcept
+		static inline bool IsKeyDown(const uint16_t key) noexcept
 		{
 			if (key <= MAX_KEY_COUNT)
 				return m_Instance->m_KeysPressed[key];

@@ -11,7 +11,7 @@ namespace Codex {
 	bool isDragging = false;
 	Vector2f mouseStart;
 
-	EditorScene::EditorScene(Renderer* renderer, int width, int height) : Scene(renderer, width, height)
+	EditorScene::EditorScene(Renderer* renderer, const int width, const int height) : Scene(renderer, width, height)
 	{
 		// TODO: Make Resources to be a singleton sub system that can be initialized and disposed
 		// so that we can dispose all of its resources from the Window class from the corecrl thread.
@@ -51,7 +51,7 @@ namespace Codex {
 #endif
 	}
 
-	void EditorScene::Update(float deltaTime)
+	void EditorScene::Update(const float deltaTime)
 	{
 		// TODO: Improve.
 		static float speed = 1.6f;
@@ -124,10 +124,12 @@ namespace Codex {
 				}
 				break;
 			}
+			default:
+				break;
 		}
 	}
 
-	void EditorScene::Render(float deltaTime)
+	void EditorScene::Render(const float deltaTime)
 	{
 		// Render
 		m_Shader->Bind();

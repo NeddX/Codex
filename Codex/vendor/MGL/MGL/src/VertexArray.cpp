@@ -42,7 +42,7 @@ namespace mgl
 				elements[i].type, 
 				elements[i].normalized,
 				stride,
-				(const void*) offset));
+				(const void*)offset));
 			GL_Call(glEnableVertexAttribArray(i)); // I KEEP FUCKING FORGETING THIS HOLY SHIT
 			offset += VertexBufferElement::GetSizeOfType(elements[i].type) * elements[i].count;
 		}

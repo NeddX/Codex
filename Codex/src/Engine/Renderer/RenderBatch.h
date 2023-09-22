@@ -46,17 +46,22 @@ namespace Codex {
 		uint16_t m_CurrentTexIndex;
 
 	public:
-		RenderBatch(int maxQuadCount, Shader* shader);
+		RenderBatch(const int maxQuadCount, Shader* shader);
 		~RenderBatch();
 
 	public:
-		inline bool HasRoom() const			{ return m_HasRoom; }
-		inline int GetZIndex() const		{ return m_ZIndex; }
-		inline int GetCount() const			{ return m_QuadCount; }
-		inline void SetZIndex(int newIndex) { m_ZIndex = newIndex; }
+		inline bool HasRoom() const
+			{ return m_HasRoom; }
+		inline int GetZIndex() const
+			{ return m_ZIndex; }
+		inline int GetCount() const
+			{ return m_QuadCount; }
+		inline void SetZIndex(int newIndex)
+			{ m_ZIndex = newIndex; }
 
 	public:
-		inline void BindShader(Shader* shader) { m_Shader = shader; }
+		inline void BindShader(Shader* shader)
+			{ m_Shader = shader; }
 		inline void Flush()
 		{
 			static bool texture_slots_initialized = false;
@@ -73,7 +78,12 @@ namespace Codex {
 				texture_slots_initialized = true;
 			}
 		}
-		inline bool UploadQuad(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, Vector4f colour, int entityId)
+		inline bool UploadQuad(
+			Texture2D* texture,
+			const Rectf& srcRect,
+			const Rectf& destRect,
+			const Vector4f colour,
+			const int entityId)
 		{
 			uint16_t tex_id = 0;
 			float tex_width = 0.0f;

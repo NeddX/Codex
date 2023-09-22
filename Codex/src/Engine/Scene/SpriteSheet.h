@@ -50,10 +50,14 @@ namespace Codex {
 		}
 
 	public:
-		inline std::vector<Sprite> GetSprites() const		{ return m_Sprites; }
-		inline Sprite GetSpriteAt(size_t index) const		{ return m_Sprites[index]; }
-		inline Sprite GetSpriteAt(int x, int y) const		{ return m_Sprites[(y / m_SpriteWidth) * (m_Width / m_SpriteWidth) + (x / m_SpriteHeight)]; }
-		inline int GetSpriteCount() const					{ return m_TotalSpriteCount; }
+		inline std::vector<Sprite> GetSprites() const
+			{ return m_Sprites; }
+		inline Sprite GetSpriteAt(const size_t index) const
+			{ return m_Sprites[index]; }
+		inline Sprite GetSpriteAt(const int x, const int y) const
+			{ return m_Sprites[(y / m_SpriteWidth) * (m_Width / m_SpriteWidth) + (x / m_SpriteHeight)]; }
+		inline int GetSpriteCount() const
+			{ return m_TotalSpriteCount; }
 	};
 }
 

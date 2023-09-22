@@ -1,7 +1,7 @@
 #include "RenderBatch.h"
 
 namespace Codex {
-	RenderBatch::RenderBatch(int maxQuadCount, Shader* shader) :
+	RenderBatch::RenderBatch(const int maxQuadCount, Shader* shader) :
 		m_MaxQuadCount(maxQuadCount), m_Shader(shader)
 	{
 		// TODO: Update MGL

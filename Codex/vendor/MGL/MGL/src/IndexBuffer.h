@@ -28,8 +28,8 @@ namespace mgl
 	public:
 		void Bind() const;
 		void Unbind() const;
-		void SetBuffer(const uint32_t* data, size_t indexCount, BufferUsage usage = BufferUsage::STATIC_DRAW);
-		void SetBufferSubData(const uint32_t* data, size_t indexCount);
+		void SetBuffer(const uint32_t* data, const size_t indexCount, const BufferUsage usage = BufferUsage::STATIC_DRAW);
+		void SetBufferSubData(const uint32_t* data, const size_t indexCount);
 	};
 }
 

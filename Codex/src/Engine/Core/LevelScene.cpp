@@ -1,7 +1,7 @@
 #include "LevelScene.h"
 
 namespace Codex {
-	LevelScene::LevelScene(Renderer* renderer, int width, int height) : Scene(renderer, width, height)
+	LevelScene::LevelScene(Renderer* renderer, const int width, const int height) : Scene(renderer, width, height)
 	{
 		fmt::println("LEVEL EDITORORORORORORORRO");
 	}
@@ -11,7 +11,7 @@ namespace Codex {
 
 	}
 
-	void LevelScene::Update(float deltaTime)
+	void LevelScene::Update(const float deltaTime)
 	{
 
 	}

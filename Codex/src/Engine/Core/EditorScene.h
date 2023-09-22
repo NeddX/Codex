@@ -4,7 +4,6 @@
 #include <sdafx.h>
 
 #include "Scene.h"
-#include "../Editor/EditorLayer.h"
 
 namespace Codex {
 	enum class EditorAction : uint8_t 
@@ -41,20 +40,25 @@ namespace Codex {
 		uint32_t m_SelectedEntityId;
 
 	public:
-		inline Vector2f GetSelectedTileCoord() const { return m_SelectedTileCoord; }
-		inline EditorAction GetActiveAction() const { return m_CurrentActiveAction; }
-		inline void SetSelectedTileCoord(Vector2f newCoord) { m_SelectedTileCoord = newCoord; }
-		inline void SetActiveAction(EditorAction newAction) { m_CurrentActiveAction = newAction; }
-		inline void SetSelectedEntityId(uint32_t id) { m_SelectedEntityId = id; }
+		inline Vector2f GetSelectedTileCoord() const
+			{ return m_SelectedTileCoord; }
+		inline EditorAction GetActiveAction() const
+			{ return m_CurrentActiveAction; }
+		inline void SetSelectedTileCoord(Vector2f newCoord)
+			{ m_SelectedTileCoord = newCoord; }
+		inline void SetActiveAction(EditorAction newAction)
+			{ m_CurrentActiveAction = newAction; }
+		inline void SetSelectedEntityId(uint32_t id)
+			{ m_SelectedEntityId = id; }
 
 	public:
-		EditorScene(Renderer* renderer, int width, int height);
+		EditorScene(Renderer* renderer, const int width, const int height);
 		~EditorScene();
 
 	public:
 		void Start() override;
-		void Update(float deltaTime) override;
-		void Render(float deltaTime) override;
+		void Update(const float deltaTime) override;
+		void Render(const float deltaTime) override;
 	};
 }
 

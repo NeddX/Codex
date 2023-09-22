@@ -52,42 +52,23 @@ namespace Codex {
 
 	public:
 		static inline int GetMouseX() noexcept
-		{
-			return m_Instance->m_PosX;
-		}
+			{ return m_Instance->m_PosX; }
 		static inline int GetMouseY() noexcept
-		{
-			return m_Instance->m_PosY;
-		}
+			{ return m_Instance->m_PosY; }
 		static inline Vector2f GetMousePos() noexcept
-		{
-			return Vector2f(GetMouseX(), GetMouseY());
-		}
+			{ return Vector2f(GetMouseX(), GetMouseY()); }
 		static inline int GetMouseDeltaX() noexcept
-		{
-			return m_Instance->m_LastPosX - m_Instance->m_PosX;
-		}
+			{ return m_Instance->m_LastPosX - m_Instance->m_PosX; }
 		static inline int GetMouseDeltaY() noexcept
-		{
-			return m_Instance->m_LastPosY - m_Instance->m_PosY;
-		}
+			{ return m_Instance->m_LastPosY - m_Instance->m_PosY; }
 		static inline int GetScrollX() noexcept
-		{
-			return m_Instance->m_ScrollX;
-		}
+			{ return m_Instance->m_ScrollX; }
 		static inline int GetScrollY() noexcept
-		{
-			return m_Instance->m_ScrollY;
-		}
+			{ return m_Instance->m_ScrollY; }
 		static inline bool IsDragging() noexcept
-		{
-			return m_Instance->m_Dragging;	
-		}
-		static inline bool IsMouseDown(uint8_t mouseButton) noexcept
-		{
-			if (mouseButton <= 3) return m_Instance->m_ButtonsPressed[mouseButton];
-			return false;
-		}
+			{ return m_Instance->m_Dragging; }
+		static inline bool IsMouseDown(const uint8_t mouseButton) noexcept
+			{ if (mouseButton <= 3) return m_Instance->m_ButtonsPressed[mouseButton]; return false; }
 
 	protected:
 		static void Init() noexcept;

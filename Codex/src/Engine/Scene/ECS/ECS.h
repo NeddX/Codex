@@ -21,19 +21,21 @@ namespace Codex {
 
 	public:
 		Entity() = default;
-		Entity(entt::entity entity, EntityManager* manager) :
+		Entity(const entt::entity entity, EntityManager* manager) :
 			m_Handle(entity), m_Manager(manager)
 		{
 
 		}
-		Entity(uint32_t entity, EntityManager* manager) :
+		Entity(const uint32_t entity, EntityManager* manager) :
 			m_Handle((entt::entity)entity), m_Manager(manager)
 		{
 
 		}
 	public:
-		inline uint32_t GetId() const { return (uint32_t)(m_Handle); }
-		operator bool() const { return m_Handle != entt::entity { 0 }; }
+		inline uint32_t GetId() const
+			{ return (uint32_t)(m_Handle); }
+		operator bool() const
+			{ return m_Handle != entt::entity { 0 }; }
 
 	public:
 		template<typename T, typename... TArgs>
@@ -79,14 +81,14 @@ namespace Codex {
 		}
 
 	public:
-		Entity CreateEntity(const std::string& entityTag = "default tag")
+		Entity CreateEntity(const std::string_view entityTag = "default tag")
 		{
 			Entity entity(m_Registry.create(), this);
 			entity.AddComponent<TransformComponent>();
 			entity.AddComponent<TagComponent>(entityTag);
 			return entity;
 		}
-		void RemoveEntity(Entity entity)
+		void RemoveEntity(const Entity entity)
 		{
 			m_Registry.destroy(entity.m_Handle);
 		}
@@ -100,7 +102,7 @@ namespace Codex {
 				entities.emplace_back(e, this);
 			return entities;
 		}
-		std::vector<Entity> GetAllEntitesWithTag(const std::string& tag)
+		std::vector<Entity> GetAllEntitesWithTag(const std::string_view tag)
 		{
 			auto view = m_Registry.view<TagComponent>();
 			std::vector<Entity> entities;

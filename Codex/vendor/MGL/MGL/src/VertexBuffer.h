@@ -20,14 +20,14 @@ namespace mgl
 	public:
 		inline size_t GetVertexCount() const { return m_VertexCount; }
 		template<typename T>
-		void SetBuffer(const void* data, size_t size, BufferUsage usage = BufferUsage::STATIC_DRAW)
+		void SetBuffer(const void* data, const size_t size, const BufferUsage usage = BufferUsage::STATIC_DRAW)
 		{
 			GL_Call(glBindBuffer(GL_ARRAY_BUFFER, m_RendererId));
 			GL_Call(glBufferData(GL_ARRAY_BUFFER, size, data, (GLenum)(usage)));
 			m_VertexCount = size / sizeof(T);
 		}
 		template<typename T>
-		void SetBufferSubData(const void* data, size_t offset, size_t size)
+		void SetBufferSubData(const void* data, const size_t offset, const size_t size)
 		{
 			GL_Call(glBindBuffer(GL_ARRAY_BUFFER, m_RendererId));
 			GL_Call(glBufferSubData(GL_ARRAY_BUFFER, offset, size, data));

@@ -50,7 +50,7 @@ namespace mgl
 		GL_Call(glDeleteTextures(1, &m_RendererId));
 	}
 	
-	void Texture::Bind(uint32_t slot)
+	void Texture::Bind(const uint32_t slot)
 	{
 		m_Slot = GL_TEXTURE0 + slot;
 		GL_Call(glActiveTexture(m_Slot));

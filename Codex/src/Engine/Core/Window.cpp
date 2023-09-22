@@ -31,7 +31,7 @@ namespace Codex {
 		return m_Instance;
 	}
 
-	void Window::Init(Properties windowInfo, const void* nativeWindow)
+	void Window::Init(const Properties windowInfo, const void* nativeWindow)
 	{
 		m_NativeWindow	= nativeWindow;
 		m_Title			= windowInfo.title;
@@ -106,9 +106,6 @@ namespace Codex {
 		// Create the renderer
 		m_Renderer = std::make_unique<Renderer>(m_Width, m_Height);
 
-		// Create the editor layer TODO: Do this when in editor mode
-		m_EditorLayer = std::make_unique<EditorLayer>("editor_layer", m_Renderer.get());
-
 		m_Renderer->SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
 		m_Renderer->Clear();
 		SDL_GL_SwapWindow(m_SdlWindow);
@@ -138,7 +135,7 @@ namespace Codex {
 		fmt::println("Window subsystem initialized.");
 	}
 
-	void Window::SDLCheckError(int line)
+	void Window::SDLCheckError(const int line)
 	{
 #ifdef CODEX_CONF_DEBUG
 		const char* error = SDL_GetError();
@@ -152,7 +149,7 @@ namespace Codex {
 #endif
 	}
 
-	void Window::SDLThrowError(int line, const std::string& errorMessage)
+	void Window::SDLThrowError(const int line, const std::string_view errorMessage)
 	{
 		fmt::println("SDL ERROR @ LINE {}: {} -> {}", line, errorMessage, SDL_GetError());
 		SDL_Quit();
@@ -308,7 +305,7 @@ namespace Codex {
 		SDL_GL_SwapWindow(m_SdlWindow);
 	}
 
-	void Window::ChangeScene(int sceneId)
+	void Window::ChangeScene(const int sceneId)
 	{
 		switch (sceneId)
 		{
@@ -335,7 +332,7 @@ namespace Codex {
 		}
 	}
 
-	void Window::OnWindowResize_Event(int newWidth, int newHeight)
+	void Window::OnWindowResize_Event(const int newWidth, const int newHeight)
 	{
 		if (newWidth == 0 || newHeight == 0) return;
 		glViewport(0, 0, newWidth, newHeight);

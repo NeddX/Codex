@@ -9,12 +9,12 @@ namespace Codex {
 		tag = "default tag";
 	}
 
-	TagComponent::TagComponent(const std::string& tag) : tag(tag)
+	TagComponent::TagComponent(const std::string_view tag) : tag(std::string(tag))
 	{
 
 	}
 
-	TransformComponent::TransformComponent(Vector3f position, Vector3f rotation, Vector3f scale) :
+	TransformComponent::TransformComponent(const Vector3f position, const Vector3f rotation, const Vector3f scale) :
 		position(position), rotation(rotation), scale(scale)
 	{
 
@@ -26,13 +26,13 @@ namespace Codex {
 
 	}
 
-	SpriteRendererComponent::SpriteRendererComponent(Sprite sprite, Vector4f colour) :
+	SpriteRendererComponent::SpriteRendererComponent(const Sprite sprite, const Vector4f colour) :
 		m_Sprite(sprite), m_Colour(colour), m_ZIndex(0)
 	{
 
 	}
 	
-	GridRendererComponent::GridRendererComponent(Vector2f gridSize) :
+	GridRendererComponent::GridRendererComponent(const Vector2f gridSize) :
 		m_GridSize(gridSize)
 	{
 		m_Camera = Window::Get()->GetCurrentScene()->GetCamera();
@@ -65,7 +65,7 @@ namespace Codex {
 		}
 	}
 
-	TilemapComponent::TilemapComponent(std::shared_ptr<Texture2D> texture, Vector2f gridSize, Vector2f tileSize) :
+	TilemapComponent::TilemapComponent(std::shared_ptr<Texture2D> texture, const Vector2f gridSize, const Vector2f tileSize) :
 		m_Texture(texture), m_GridSize(gridSize), m_TileSize(tileSize), m_Layer(0)
 	{
 
@@ -79,7 +79,7 @@ namespace Codex {
 		m_GridRenderer->SetGridSize(m_GridSize);
 	}
 
-	void TilemapComponent::AddTile(Vector2f worldPos, int tileId)
+	void TilemapComponent::AddTile(const Vector2f worldPos, const int tileId)
 	{
 		Vector2f vec;
 		int columns = m_Texture->GetWidth() / (int)m_GridSize.x;
@@ -90,12 +90,12 @@ namespace Codex {
 		m_Tiles[m_Layer][worldPos] = vec;
 	}
 
-	void TilemapComponent::AddTile(Vector2f worldPos, Vector2f tilePos)
+	void TilemapComponent::AddTile(const Vector2f worldPos, const Vector2f tilePos)
 	{
 		m_Tiles[m_Layer][worldPos] = tilePos;
 	}
 
-	void TilemapComponent::RemoveTile(Vector2f worldPos)
+	void TilemapComponent::RemoveTile(const Vector2f worldPos)
 	{
 		m_Tiles[m_Layer].erase(worldPos);
 	}

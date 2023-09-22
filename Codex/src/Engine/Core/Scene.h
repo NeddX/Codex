@@ -35,20 +35,25 @@ namespace Codex {
 		virtual ~Scene() = default;
 
 	public:
-		inline Camera* GetCamera() const { return m_Camera.get(); }
+		inline Camera* GetCamera() const
+			{ return m_Camera.get(); }
 		inline Entity CreateEntity(const std::string& tag = "default tag") 
 		{ 
 			std::cout << "created entity with tag: " << tag << std::endl;
 			auto entity = m_Manager.CreateEntity(tag); 
 			return entity;
 		}	
-		inline Vector2f GetMousePositionInWorld() { return Vector2f(MouseHandler::GetMouseX() + m_Camera->position.x, MouseHandler::GetMouseY() + m_Camera->position.y); }
-		inline EntityManager* GetManager() { return &m_Manager; }
-		inline void RemoveEntity(Entity entity) { m_Manager.RemoveEntity(entity); }
-		inline void RemoveEntity(uint32_t entity) { m_Manager.RemoveEntity(Entity((entt::entity)(entity), &m_Manager)); }
+		inline Vector2f GetMousePositionInWorld()
+			{ return Vector2f(MouseHandler::GetMouseX() + m_Camera->position.x, MouseHandler::GetMouseY() + m_Camera->position.y); }
+		inline EntityManager* GetManager()
+			{ return &m_Manager; }
+		inline void RemoveEntity(const Entity entity)
+			{ m_Manager.RemoveEntity(entity); }
+		inline void RemoveEntity(const uint32_t entity)
+			{ m_Manager.RemoveEntity(Entity((entt::entity)(entity), &m_Manager)); }
 
 	public:
-		void OnWindowResize_Event(int newWidth, int newHeight)
+		void OnWindowResize_Event(const int newWidth, const int newHeight)
 		{
 			m_Camera->SetWidth(newWidth);
 			m_Camera->SetHeight(newHeight);
@@ -58,9 +63,9 @@ namespace Codex {
 		virtual void Init();
 
 	public:
-		virtual void Start()					= 0;
-		virtual void Update(float deltaTime)	= 0;
-		virtual void Render(float deltaTime)	= 0;
+		virtual void Start() = 0;
+		virtual void Update(const float deltaTime) = 0;
+		virtual void Render(const float deltaTime) = 0;
 	};
 }
 

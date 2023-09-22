@@ -2,12 +2,12 @@
 
 namespace Codex {
 
-	TexturePicking::TexturePicking(int width, int height)
+	TexturePicking::TexturePicking(const int width, const int height)
 	{
 		Init(width, height);
 	}
 
-	bool TexturePicking::Init(int width, int height)
+	bool TexturePicking::Init(const int width, const int height)
 	{
 		/*
 		mgl::FrameBufferProperties props;

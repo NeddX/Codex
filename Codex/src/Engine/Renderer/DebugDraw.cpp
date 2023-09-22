@@ -116,13 +116,21 @@ namespace Codex {
 		}
 	}
 
-	void DebugDraw::DrawLine2D(Vector2f source, Vector2f destination, Vector4f colour, int lifeTime)
+	void DebugDraw::DrawLine2D(
+		const Vector2f source,
+		const Vector2f destination,
+		const Vector4f colour,
+		const int lifeTime)
 	{
 		if (m_Lines.size() < LINE2D_MAX_LINES)
 			m_Lines.emplace_back(source, destination, colour, lifeTime);
 	}
 
-	void DebugDraw::DrawRect2D(Rectf rect, float angle, Vector4f colour, int lifeTime)
+	void DebugDraw::DrawRect2D(
+		const Rectf rect,
+		const float angle,
+		const Vector4f colour,
+		const int lifeTime)
 	{
 		if (m_Lines.size() + 4 < LINE2D_MAX_LINES)
 		{
@@ -155,7 +163,12 @@ namespace Codex {
 		}
 	}
 
-	void DebugDraw::DrawCircle2D(Vector2f centrePos, int radius, int segments, Vector4f colour, int lifeTime)
+	void DebugDraw::DrawCircle2D(
+		const Vector2f centrePos,
+		const int radius,
+		const int segments,
+		const Vector4f colour,
+		const int lifeTime)
 	{
 		float angle = 360.0f / segments;
 		auto starting_pos = glm::vec2{ centrePos.x + radius, centrePos.y };

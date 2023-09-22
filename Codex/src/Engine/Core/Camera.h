@@ -19,7 +19,7 @@ namespace Codex {
 		Vector2f position;
 
 	public:
-		Camera(int width, int height, Vector2f position = Vector2f(0.0f, 0.0f)) :
+		Camera(const int width, const int height, const Vector2f position = Vector2f(0.0f, 0.0f)) :
 			m_Projection(Matrix4f(0.0f)), position(position), m_Width(width), m_Height(height)
 		{
 			UpdateProjectionMatrix();
@@ -46,11 +46,16 @@ namespace Codex {
 				camera_up);
 			return m_View;
 		}
-		inline Matrix4f GetProjectionMatrix()	{ return m_Projection; }
-		inline int GetWidth() const				{ return m_Width; }
-		inline int GetHeight() const			{ return m_Height; }
-		inline void SetWidth(int newWidth)		{ m_Width = newWidth; UpdateProjectionMatrix(); }
-		inline void SetHeight(int newHeight)	{ m_Height = newHeight; UpdateProjectionMatrix(); }
+		inline Matrix4f GetProjectionMatrix()
+			{ return m_Projection; }
+		inline int GetWidth() const
+			{ return m_Width; }
+		inline int GetHeight() const
+			{ return m_Height; }
+		inline void SetWidth(const int newWidth)
+			{ m_Width = newWidth; UpdateProjectionMatrix(); }
+		inline void SetHeight(const int newHeight)
+			{ m_Height = newHeight; UpdateProjectionMatrix(); }
 	};
 }
 

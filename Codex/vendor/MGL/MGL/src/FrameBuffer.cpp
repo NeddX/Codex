@@ -6,7 +6,7 @@ namespace mgl {
 		constexpr auto MAX_COLOUR_ATTACHMENT_COUNT = 4;
 
 		namespace Internals {
-			bool IsDepthFormat(TextureFormat format)
+			bool IsDepthFormat(const TextureFormat format)
 			{
 				switch (format)
 				{
@@ -17,13 +17,13 @@ namespace mgl {
 					case TextureFormat::Depth32F:
 					case TextureFormat::Depth24Stencil8: 
 					case TextureFormat::Depth32FStencil8:
-						return true;
+	 					return true;
+					default:
+						return false;
 				}
-
-				return false;
 			}
 
-			GLenum GetDepthAttachmentTypeFromFormat(TextureFormat format)
+			GLenum GetDepthAttachmentTypeFromFormat(const TextureFormat format)
 			{
 				switch (format)
 				{
@@ -36,12 +36,13 @@ namespace mgl {
 					case TextureFormat::Depth24Stencil8:	
 					case TextureFormat::Depth32FStencil8:
 						return GL_DEPTH_STENCIL_ATTACHMENT;
+					default:
+						MGL_ASSERT(false, "Bad texture format.");
+						return (GLenum)GL_INVALID_ENUM;
 				}
-				MGL_ASSERT(false, "Bad texture format.");
-				return (GLenum)GL_INVALID_ENUM;
 			}
 
-			GLenum GetFormatFromInternalFormat(TextureFormat format)
+			GLenum GetFormatFromInternalFormat(const TextureFormat format)
 			{
 				switch (format)
 				{
@@ -59,11 +60,12 @@ namespace mgl {
 					case TextureFormat::RedUInt32:
 					case TextureFormat::RedFloat32:
 						return GL_RED_INTEGER;
+					default:
+						return GL_INVALID_ENUM;
 				}
-				return GL_INVALID_ENUM;
 			}
 
-			GLenum GetTypeFromInternalFormat(TextureFormat format)
+			GLenum GetTypeFromInternalFormat(const TextureFormat format)
 			{
 				switch (format)
 				{
@@ -71,10 +73,12 @@ namespace mgl {
 						return GL_UNSIGNED_BYTE;
 					case TextureFormat::RedInt32:
 						return GL_INT;
+					default:
+						return GL_INVALID_ENUM;
 				}
 			}
 
-			void AttachColourTexture(uint32_t id, const TextureProperties& props, uint32_t width, uint32_t height, size_t index)
+			void AttachColourTexture(const uint32_t id, const TextureProperties& props, const uint32_t width, const uint32_t height, const size_t index)
 			{
 				GL_Call(glTexImage2D(
 					GL_TEXTURE_2D, 
@@ -98,7 +102,7 @@ namespace mgl {
 				GL_Call(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_TEXTURE_2D, id, 0));
 			}
 
-			void AttachDepthTexture(uint32_t id, const TextureProperties& props, uint32_t width, uint32_t height)
+			void AttachDepthTexture(const uint32_t id, const TextureProperties& props, const uint32_t width, const uint32_t height)
 			{
 				GL_Call(glTexImage2D(
 					GL_TEXTURE_2D, 
@@ -184,7 +188,7 @@ namespace mgl {
 		if (m_DepthAttachment.format != TextureFormat::None)
 		{
 			GL_Call(glGenTextures(1, &m_DepthAttachmentId));
-			glBindTexture(GL_TEXTURE_2D, m_DepthAttachmentId);
+			GL_Call(glBindTexture(GL_TEXTURE_2D, m_DepthAttachmentId));
 
 			switch (m_DepthAttachment.format)
 			{
@@ -194,6 +198,8 @@ namespace mgl {
 						m_DepthAttachment,
 						m_Properties.width, 
 						m_Properties.height);
+					break;
+				default:
 					break;
 			}
 		}
@@ -229,7 +235,7 @@ namespace mgl {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void FrameBuffer::Resize(uint32_t width, uint32_t height)
+	void FrameBuffer::Resize(const uint32_t width, const uint32_t height)
 	{
 		if (width != 0 && height != 0 && width < MAX_FRAME_BUFFER_SIZE && height < MAX_FRAME_BUFFER_SIZE)
 		{
@@ -239,7 +245,7 @@ namespace mgl {
 		}
 	}
 
-	int FrameBuffer::ReadPixel(uint32_t index, int x, int y)
+	int FrameBuffer::ReadPixel(const uint32_t index, const int x, const int y)
 	{
 		MGL_ASSERT(index < m_ColourAttachmentIds.size(), "Index outside bounds of attachments.");
 		GL_Call(glReadBuffer(GL_COLOR_ATTACHMENT0 + index));
@@ -248,7 +254,7 @@ namespace mgl {
 		return pixel_data;
 	}
 
-	void FrameBuffer::SetCurrentlyBoundTextureProperties(TextureWrapMode wrapMode, TextureFilterMode filterMode)
+	void FrameBuffer::SetCurrentlyBoundTextureProperties(const TextureWrapMode wrapMode, const TextureFilterMode filterMode)
 	{
 		switch (wrapMode)
 		{
@@ -279,7 +285,7 @@ namespace mgl {
 		}
 	}
 
-	GLenum FrameBuffer::DetermineFormatType(TextureFormat format)
+	GLenum FrameBuffer::DetermineFormatType(const TextureFormat format)
 	{
 		switch (format)
 		{

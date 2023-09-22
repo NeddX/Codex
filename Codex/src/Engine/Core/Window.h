@@ -43,7 +43,6 @@ namespace Codex {
 		const void* m_NativeWindow;
 		std::unique_ptr<Scene> m_CurrentScene;
 		std::unique_ptr<Renderer> m_Renderer;
-		std::unique_ptr<EditorLayer> m_EditorLayer;
 
 	private:
 		static Window* m_Instance;
@@ -56,9 +55,12 @@ namespace Codex {
 		~Window();
 
 	public:
-		inline Scene* GetCurrentScene() const	{ return m_Instance->m_CurrentScene.get(); }
-		inline uint32_t GetWidth() const		{ return m_Width; }
-		inline uint32_t GetHeight() const		{ return m_Height; }
+		inline Scene* GetCurrentScene() const
+			{ return m_Instance->m_CurrentScene.get(); }
+		inline uint32_t GetWidth() const
+			{ return m_Width; }
+		inline uint32_t GetHeight() const
+			{ return m_Height; }
 
 	public:
 		struct Properties
@@ -82,20 +84,20 @@ namespace Codex {
 	public:
 		static Window* Get();
 		static int SDLEventFilterWatch(void* object, SDL_Event* event);
-		static void ChangeScene(int sceneId);
+		static void ChangeScene(const int sceneId);
 
 	private:
-		void SDLCheckError(int line = -1);
-		void SDLThrowError(int line, const std::string& errorMessage);
+		void SDLCheckError(const int line = -1);
+		void SDLThrowError(const int line, const std::string_view errorMessage);
 
 	public:
-		void Init(Properties windowInfo = Properties(), const void* nativeWindow = nullptr);
+		void Init(const Properties windowInfo = Properties(), const void* nativeWindow = nullptr);
 		void EngineThread();
 		inline void Update();
 		void Destroy();
 
 	public:
-		static void OnWindowResize_Event(int newWidth, int newHeight);
+		static void OnWindowResize_Event(const int newWidth, const int newHeight);
 	};
 }
 

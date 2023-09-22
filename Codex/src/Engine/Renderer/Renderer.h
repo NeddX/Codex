@@ -36,8 +36,10 @@ namespace Codex {
 		Renderer(const int width, const int height);
 
 	public:
-		inline void Clear()																		const { m_InternalRenderer->Clear(); }
-		inline void SetClearColour(const float r, const float g, const float b, const float a)	const { m_InternalRenderer->SetClearColour(r, g, b, a); }
+		inline void Clear()	const
+			{ m_InternalRenderer->Clear(); }
+		inline void SetClearColour(const float r, const float g, const float b, const float a) const
+			{ m_InternalRenderer->SetClearColour(r, g, b, a); }
 		inline SpriteBatchRenderer* GetSpriteBatchRenderer(
 			Shader* shader,
 			const int initialBatchCapacity	= BATCH_RENDERER_INITIAL_CAPACITY, 
@@ -47,7 +49,8 @@ namespace Codex {
 				m_BatchRenderer = std::make_unique<SpriteBatchRenderer>(shader, initialBatchCapacity, maxBatchQuadCount);
 			return m_BatchRenderer.get();
 		}
-		inline void Render(const mgl::VertexArray* vertexArray, const mgl::IndexBuffer* indexBuffer, const mgl::Shader* shader) const { m_InternalRenderer->Render(vertexArray, indexBuffer, shader); }
+		inline void Render(const mgl::VertexArray* vertexArray, const mgl::IndexBuffer* indexBuffer, const mgl::Shader* shader) const
+			{ m_InternalRenderer->Render(vertexArray, indexBuffer, shader); }
 	};
 }
 

@@ -49,13 +49,20 @@ namespace Codex {
 		~SpriteBatchRenderer();
 
 	public:
-		inline Shader* GetShader() const { return m_Shader; }
+		inline Shader* GetShader() const
+			{ return m_Shader; }
 
 	public:
 		void Begin();
 		void End();
 		void BindShader(Shader* shader);
-		void RenderRect(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, Vector4f colour = Vector4f(1.0f, 1.0f, 1.0f, 1.0f), int zIndex = 0, int entityId = -1);
+		void RenderRect(
+			Texture2D* texture,
+			const Rectf& srcRect,
+			const Rectf& destRect,
+			const Vector4f colour = Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
+			const int zIndex = 0,
+			const int entityId = -1);
 	};
 }
 

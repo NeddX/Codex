@@ -47,7 +47,7 @@ namespace Codex {
 			return nullptr;
 		}
 		template<>
-		static std::shared_ptr<Texture2D> Load(const char* filePath)
+		std::shared_ptr<Texture2D> Load(const char* filePath)
 		{
 			if (HasResource(filePath)) return GetResource<Texture2D>(filePath);
 
@@ -75,7 +75,7 @@ namespace Codex {
 			}
 		}
 		template<>
-		static std::shared_ptr<Shader> Load(const char* filePath)
+		std::shared_ptr<Shader> Load(const char* filePath)
 		{
 			std::ifstream fs(filePath);
 			if (fs.is_open())

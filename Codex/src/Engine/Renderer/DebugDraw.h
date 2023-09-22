@@ -38,20 +38,20 @@ namespace Codex {
 		static void Destroy();
 
 		static void DrawLine2D(
-			Vector2f source, 
-			Vector2f destination, 
-			Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
-			int lifeTime = 1);
+			const Vector2f source,
+			const Vector2f destination,
+			const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
+			const int lifeTime = 1);
 		static void DrawRect2D(
-			Rectf rect,
-			float angle = 0.0f,
-			Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
-			int lifeTime = 1);
+			const Rectf rect,
+			const float angle = 0.0f,
+			const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
+			const int lifeTime = 1);
 		static void DrawCircle2D(
-			Vector2f centrePos,
-			int radius = 50,
-			int segments = 20,
-			Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
+			const Vector2f centrePos,
+			const int radius = 50,
+			const int segments = 20,
+			const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
 			int lifeTime = 1);
 		inline static std::vector<uint32_t> GenerateIndicies(size_t& size)
 		{
@@ -71,7 +71,6 @@ namespace Codex {
 				index_buffer_data[i + 4] = 3 + offset;
 				index_buffer_data[i + 5] = 1 + offset;
 			}
-
 			return index_buffer_data;
 		}
 	};

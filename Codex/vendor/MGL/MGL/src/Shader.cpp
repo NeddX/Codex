@@ -33,7 +33,7 @@ namespace mgl
 
 	void Shader::Unbind() const
 	{
-		GL_Call(0);
+		GL_Call(glUseProgram(0));
 	}
 	
 	void Shader::SetUniform1i(const char* name, const int32_t value)

@@ -64,9 +64,9 @@ namespace mgl
 		TextureFilterMode filterMode	= TextureFilterMode::Linear;
 
 		TextureProperties(
-			TextureFormat format = TextureFormat::None,
-			TextureWrapMode wrapMode = TextureWrapMode::Mirror,
-			TextureFilterMode filterMode = TextureFilterMode::Linear) : 
+			const TextureFormat format = TextureFormat::None,
+			const TextureWrapMode wrapMode = TextureWrapMode::Mirror,
+			const TextureFilterMode filterMode = TextureFilterMode::Linear) :
 			format(format),
 			wrapMode(wrapMode),
 			filterMode(filterMode)
@@ -87,21 +87,25 @@ namespace mgl
 		uint32_t m_Slot;
 
 	public:
-		inline int GetWidth() 				const { return m_Width; }
-		inline int GetHeight() 				const { return m_Height; }
-		inline uint32_t GetSlot()			const { return m_Slot; }
-		inline const char* GetFilePath()	const { return m_FilePath; }
+		inline int GetWidth() const
+			{ return m_Width; }
+		inline int GetHeight() const
+			{ return m_Height; }
+		inline uint32_t GetSlot() const
+			{ return m_Slot; }
+		inline const char* GetFilePath() const
+			{ return m_FilePath; }
 		
 	public:
 		Texture(const char* filePath, TextureProperties properties = {});
 		~Texture();
 		
 	public:
-		void Bind(uint32_t slot = 0);
+		void Bind(const uint32_t slot = 0);
 		void Unbind() const;
 	
 	public:
-		static GLenum GetFormatType(TextureProperties props);
+		static GLenum GetFormatType(const TextureProperties props);
 	};
 }
 
