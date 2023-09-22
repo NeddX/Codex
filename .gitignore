@@ -4,6 +4,7 @@
 .vscode/
 .cache/
 .ignore/
+builds/
 compile_commands.json
 
 ## Ignore Visual Studio temporary files, build results, and
