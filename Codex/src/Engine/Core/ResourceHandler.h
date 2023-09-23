@@ -7,6 +7,12 @@
 #include "../Renderer/Shader.h"
 #include "../Renderer/Texture2D.h"
 
+#if !defined(__clang__)
+#define T_STATIC static
+#else
+#define T_STATIC
+#endif
+
 namespace Codex {
 	class Resources
 	{
@@ -47,7 +53,7 @@ namespace Codex {
 			return nullptr;
 		}
 		template<>
-		std::shared_ptr<Texture2D> Load(const char* filePath)
+		T_STATIC std::shared_ptr<Texture2D> Load(const char* filePath)
 		{
 			if (HasResource(filePath)) return GetResource<Texture2D>(filePath);
 
@@ -75,7 +81,7 @@ namespace Codex {
 			}
 		}
 		template<>
-		std::shared_ptr<Shader> Load(const char* filePath)
+		T_STATIC std::shared_ptr<Shader> Load(const char* filePath)
 		{
 			std::ifstream fs(filePath);
 			if (fs.is_open())

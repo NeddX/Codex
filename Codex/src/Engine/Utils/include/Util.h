@@ -6,40 +6,28 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include <fstream>
+#include <sstream>
 
 namespace util
 {
 	struct File
 	{
-		static char* ReadToString(const char* filePath)
+		static std::string ReadToString(const char* filePath)
 		{
-			FILE* file_ptr = fopen(filePath, "r");
-			size_t file_size = 0;
-			char* file_content = NULL;
-			
-			if (file_ptr)
+			std::ifstream fs(filePath);
+			std::stringstream buffer;
+			if (fs.is_open())
 			{
-				fseek(file_ptr, 0, SEEK_END);
-				file_size = ftell(file_ptr);
-				fseek(file_ptr, 0, SEEK_SET);
-
-				if (file_size > 0)
-				{
-					file_content = new char[file_size];
-					if (file_content)
-					{
-						memset(file_content, 0, sizeof(char) * file_size);
-						fread(file_content, sizeof(char), sizeof(char) * file_size, file_ptr);
-					}
-				}
-				fclose(file_ptr);
+				buffer << fs.rdbuf();
+				fs.close();
 			}
-			return file_content;
+			return buffer.str();
 		}
 
-		static void ParseShaderFile(const char* filePath, char* vertexShader, char* fragmentShader = NULL)
+		static void ParseShaderFile(const char* filePath, char* const vertexShader, char* const fragmentShader = NULL)
 		{
-			char* file_src = ReadToString(filePath);
+			std::string file_src = ReadToString(filePath);
 			char* fragment_shader_src = NULL;
 			char* vertex_shader_src = NULL;
 

@@ -77,7 +77,7 @@
 #include <glm/gtc/type_ptr.hpp>			// glm::value_ptr
 #include <glm/gtx/rotate_vector.hpp>	// glm::rotate(glm::vecX)
 #include <MGL.h>
-#include <NetNative.h>
+//#include <NetNative.h>
 #include <entt.hpp>
 
 // Project specific

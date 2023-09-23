@@ -11,6 +11,6 @@ endif()
 
 # Add sub projects
 add_subdirectory("NetNT")
-add_subdirectory("CodexAPI")
+#add_subdirectory("CodexAPI")
 add_subdirectory("Codex")
 add_subdirectory("TestGame")
