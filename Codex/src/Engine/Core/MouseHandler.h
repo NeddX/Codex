@@ -3,7 +3,6 @@
 
 #include <sdafx.h>
 
-#include "Memory.h"
 #include "Geomtryd.h"
 
 namespace Codex {

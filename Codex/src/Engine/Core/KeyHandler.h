@@ -3,8 +3,6 @@
 
 #include <sdafx.h>
 
-#include "Memory.h"
-
 namespace Codex {
 	constexpr auto MAX_KEY_COUNT = 512;
 

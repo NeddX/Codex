@@ -4,7 +4,6 @@
 #include <sdafx.h>
 
 #include "Constants.h"
-#include "Memory.h"
 #include "MouseHandler.h"
 #include "KeyHandler.h"
 #include "Scene.h"

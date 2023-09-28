@@ -3,7 +3,6 @@
 
 #include <sdafx.h>
 
-#include "Memory.h"
 #include "Camera.h"
 #include "../Scene/ECS/ECS.h"
 #include "../Renderer/Renderer.h"
