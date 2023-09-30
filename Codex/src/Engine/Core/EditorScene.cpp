@@ -179,7 +179,7 @@ namespace Codex {
 
 		for (auto& entity : m_Manager.GetAllEntitiesWithComponent<TilemapComponent>())
 		{
-			auto& transform_component = entity.GetComponent<TransformComponent>();
+			//auto& transform_component = entity.GetComponent<TransformComponent>();
 			auto& tilemap_component = entity.GetComponent<TilemapComponent>();
 			auto& grid_component = entity.GetComponent<GridRendererComponent>();
 			if (entity.GetId() == m_SelectedEntityId) grid_component.Render();

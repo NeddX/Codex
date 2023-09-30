@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-#include "Constants.h"
+#include "CommonDef.h"
 #include "MouseHandler.h"
 #include "KeyHandler.h"
 #include "Scene.h"

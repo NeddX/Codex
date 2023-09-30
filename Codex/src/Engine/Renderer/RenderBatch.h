@@ -73,7 +73,7 @@ namespace Codex {
 			if (!texture_slots_initialized)
 			{
 				std::vector<int32_t> textures(m_MaxTextureSlotCount);
-				for (int i = 0; i < textures.size(); ++i) textures[i] = i;
+				for (usize i = 0; i < textures.size(); ++i) textures[i] = i;
 				m_Shader->SetUniform1iArr("u_Textures", 8, textures.data());
 				texture_slots_initialized = true;
 			}
@@ -129,7 +129,7 @@ namespace Codex {
 			size = 6 * m_MaxQuadCount;
 			std::vector<uint32_t> index_buffer_data(size);
 
-			for (int i = 0; i < size; i += 6)
+			for (usize i = 0; i < size; i += 6)
 			{
 				int offset = 4 * (i / 6);
 

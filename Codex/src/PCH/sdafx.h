@@ -28,10 +28,7 @@
 #include <array>
 #include <initializer_list>
 
-// Glew
-//#define GLEW_STATIC
-//#include <GL/glew.h>
-//#include <GL/glu.h>
+// GLAD
 #include <glad/glad.h>
 
 // Platform specific
@@ -58,14 +55,13 @@
 #endif
 
 // Codex specific
-#include "../Engine/Core/Constants.h"
+#include "../Engine/Core/CommonDef.h"
 
 // Library specific
 #include <yaml-cpp/yaml.h>
 #include <fmt/core.h>
 #include <SDL.h>
 #include <SDL_syswm.h>
-//#include <SDL_image.h>
 #include <SDL_opengl.h>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp> // glm::vec3
@@ -74,8 +70,8 @@
 #include <glm/ext/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale
 #include <glm/ext/matrix_clip_space.hpp> // glm::perspective
 #include <glm/ext/scalar_constants.hpp> // glm::pi
-#include <glm/gtc/type_ptr.hpp>			// glm::value_ptr
-#include <glm/gtx/rotate_vector.hpp>	// glm::rotate(glm::vecX)
+#include <glm/gtc/type_ptr.hpp> // glm::value_ptr
+#include <glm/gtx/rotate_vector.hpp> // glm::rotate(glm::vecX)
 #include <MGL.h>
 //#include <NetNative.h>
 #include <entt.hpp>

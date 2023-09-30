@@ -58,7 +58,7 @@ namespace Codex {
 			size = LINE2D_INDEX_COUNT * LINE2D_MAX_LINES;
 			std::vector<uint32_t> index_buffer_data(size);
 
-			for (int i = 0; i < size; i += LINE2D_INDEX_COUNT)
+			for (usize i = 0; i < size; i += LINE2D_INDEX_COUNT)
 			{
 				int offset = 4 * (i / LINE2D_INDEX_COUNT);
 

@@ -34,7 +34,7 @@ namespace Codex {
 
 	void KeyHandler::OnKeyPress_Event(const KeyEvent event)
 	{
-		if (event.key <= m_Instance->m_KeysPressed.size())
+		if (event.key <= (i32)m_Instance->m_KeysPressed.size())
 		{
 			if (event.action == SDL_PRESSED)
 				m_Instance->m_KeysPressed.set(event.key, true);

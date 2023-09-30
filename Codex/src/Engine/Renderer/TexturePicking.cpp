@@ -9,6 +9,8 @@ namespace Codex {
 
 	bool TexturePicking::Init(const int width, const int height)
 	{
+		m_Id = 0;
+		m_DepthTexture = 0;
 		/*
 		mgl::FrameBufferProperties props;
 		props.width = width;

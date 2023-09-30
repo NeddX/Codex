@@ -20,6 +20,7 @@ namespace Codex {
 
 	protected:
 		virtual void Start() { }
+		virtual ~IComponent() = default;
 	};
 
 	struct TagComponent : public IComponent
@@ -48,6 +49,7 @@ namespace Codex {
 			const Vector3f position = Vector3f(),
 			const Vector3f rotation = Vector3f(),
 			const Vector3f scale = Vector3f(1.0f, 1.0f, 1.0f));
+
 	};
 
 	/*struct TransformComponent

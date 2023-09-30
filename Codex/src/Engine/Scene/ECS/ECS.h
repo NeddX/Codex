@@ -97,7 +97,7 @@ namespace Codex {
 		{
 			auto view = m_Registry.view<T>();
 			std::vector<Entity> entities;
-			entities.reserve(view.size());
+			entities.reserve(view.size_hint());
 			for (auto& e : view)
 				entities.emplace_back(e, this);
 			return entities;
@@ -106,7 +106,7 @@ namespace Codex {
 		{
 			auto view = m_Registry.view<TagComponent>();
 			std::vector<Entity> entities;
-			entities.reserve(view.size());
+			entities.reserve(view.size_hint());
 			for (auto& e : view)
 			{
 				Entity entity = { e, this };

@@ -45,7 +45,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /E /Y /I &quot;$(ProjectDir)/ProjectTemplates&quot; &quot;$(TargetDir)/ProjectTemplates&quot;&#xD;&#xA;XCOPY &quot;$(SolutionDir)/CodexAPI/$(Configuration)&quot; &quot;$(TargetDir)&quot; /S /E /Y /Q" />
+    <!--<Exec Command="xcopy /E /Y /I &quot;$(ProjectDir)/ProjectTemplates&quot; &quot;$(TargetDir)/ProjectTemplates&quot;&#xD;&#xA;XCOPY &quot;$(SolutionDir)/CodexAPI/$(Configuration)&quot; &quot;$(TargetDir)&quot; /S /E /Y /Q" />-->
   </Target>
 
 </Project>

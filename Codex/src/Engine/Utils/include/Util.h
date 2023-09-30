@@ -28,9 +28,6 @@ namespace util
 		static void ParseShaderFile(const char* filePath, char* const vertexShader, char* const fragmentShader = NULL)
 		{
 			std::string file_src = ReadToString(filePath);
-			char* fragment_shader_src = NULL;
-			char* vertex_shader_src = NULL;
-
 
 			enum TokenType
 			{

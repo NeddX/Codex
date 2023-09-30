@@ -27,7 +27,7 @@ namespace Codex {
 	}
 
 	SpriteRendererComponent::SpriteRendererComponent(const Sprite sprite, const Vector4f colour) :
-		m_Sprite(sprite), m_Colour(colour), m_ZIndex(0)
+		m_Colour(colour), m_Sprite(sprite), m_ZIndex(0)
 	{
 
 	}
@@ -83,7 +83,7 @@ namespace Codex {
 	{
 		Vector2f vec;
 		int columns = m_Texture->GetWidth() / (int)m_GridSize.x;
-		int x = tileId % columns;
+		//int x = tileId % columns;
 		int y = tileId / columns;
 		vec.x = y * m_GridSize.x;
 		vec.y = y * m_GridSize.y;

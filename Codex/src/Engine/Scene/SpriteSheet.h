@@ -28,14 +28,14 @@ namespace Codex {
 			int spriteCount,
 			int space) : 
 			m_Texture(texture), 
-			m_TotalSpriteCount(spriteCount), 
-			m_SpriteWidth(spriteWidth), 
-			m_SpriteHeight(spriteHeight),
 			m_Width(texture->GetWidth()),
-			m_Height(texture->GetHeight())
+			m_Height(texture->GetHeight()),
+			m_TotalSpriteCount(spriteCount),
+			m_SpriteWidth(spriteWidth),
+			m_SpriteHeight(spriteHeight)
 		{
 			int x = space, y = space;
-			int tex_width = texture->GetWidth(), tex_height = texture->GetHeight();
+			int tex_width = texture->GetWidth();
 			for (int i = 0; i < spriteCount; ++i)
 			{
 				if (x >= tex_width + space)

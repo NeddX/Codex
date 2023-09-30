@@ -121,13 +121,13 @@ namespace Codex {
 		{
 			return GetResource<T>(util::Crypto::DJB2Hash(filePath));
 		}
-		inline static const bool HasResource(size_t id)
+		inline static bool HasResource(size_t id)
 		{
 			auto it = m_Instance->m_Resources.find(id);
 			if (it != m_Instance->m_Resources.end()) return true;
 			return false;
 		}
-		inline static const bool HasResource(const char* filePath)
+		inline static bool HasResource(const char* filePath)
 		{
 			size_t id = util::Crypto::DJB2Hash(filePath);
 			return HasResource(id);

@@ -3,7 +3,7 @@
 
 namespace Codex {
 	SpriteBatchRenderer::SpriteBatchRenderer(Shader* shader, const int capacity, const int maxQuadCount) :
-		m_Shader(shader), m_Capacity(capacity), m_MaxQuadCountPerBatch(maxQuadCount)
+		m_Capacity(capacity), m_MaxQuadCountPerBatch(maxQuadCount), m_Shader(shader)
 	{
 		m_Batches.reserve(capacity);
 		for (int i = capacity; i < capacity; ++i)
@@ -13,7 +13,8 @@ namespace Codex {
 
 	SpriteBatchRenderer::~SpriteBatchRenderer()
 	{
-
+		for (const auto& b : m_Batches)
+			delete b;
 	}
 
 	void SpriteBatchRenderer::Begin()

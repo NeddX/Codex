@@ -1,8 +1,8 @@
 #include "Scene.h"
 
 namespace Codex {
-    Scene::Scene(Renderer* renderer, int width, int height) : 
-        m_Renderer(renderer), m_Width(width), m_Height(height)
+    Scene::Scene(Renderer* renderer, int width, int height) :
+        m_Width(width), m_Height(height), m_Renderer(renderer)
     {
         m_Running = false;
         m_Camera = std::make_unique<Camera>(width, height);

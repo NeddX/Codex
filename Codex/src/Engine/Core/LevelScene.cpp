@@ -15,4 +15,9 @@ namespace Codex {
 	{
 
 	}
+
+	void LevelScene::Render(const float deltaTime)
+	{
+
+	}
 }

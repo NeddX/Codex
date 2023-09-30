@@ -24,10 +24,9 @@ namespace Codex {
 		{
 			glBindFramebuffer(GL_READ_FRAMEBUFFER, m_Fbo->GetId());
 			glReadBuffer(GL_COLOR_ATTACHMENT0);
-			float* pixels = new float[3];
+			f32 pixels[3];
 			glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, pixels);
-			int ret = (int)pixels[0];
-			delete[] pixels;
+			i32 ret = (i32)pixels[0];
 			return ret;
 		}
 

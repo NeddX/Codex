@@ -45,8 +45,8 @@ namespace Codex {
 	protected:
 		struct KeyEvent
 		{
-			int32_t key;
-			uint8_t action, repeat;
+			i32 key;
+			u8 action, repeat;
 		};
 
 	protected:

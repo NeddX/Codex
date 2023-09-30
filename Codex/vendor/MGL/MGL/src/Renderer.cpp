@@ -7,10 +7,10 @@
 namespace mgl
 {
 	Renderer::Renderer(const int width, const int height)
-		: m_Wdith(width), m_Height(height)
+		: m_Width(width), m_Height(height)
 	{
 		GL_ClearError();
-		GL_Call(glViewport(0, 0, width, height));
+		GL_Call(glViewport(0, 0, m_Width, m_Height));
 		GL_Call(glEnable(GL_BLEND));
 		GL_Call(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 	}

@@ -20,7 +20,7 @@ namespace Codex {
 
 	public:
 		Camera(const int width, const int height, const Vector2f position = Vector2f(0.0f, 0.0f)) :
-			m_Projection(Matrix4f(0.0f)), position(position), m_Width(width), m_Height(height)
+			m_Width(width), m_Height(height), m_Projection(Matrix4f(0.0f)), position(position)
 		{
 			UpdateProjectionMatrix();
 		}

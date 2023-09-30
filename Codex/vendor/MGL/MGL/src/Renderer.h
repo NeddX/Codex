@@ -21,7 +21,7 @@ namespace mgl
 	class Renderer
 	{
 	private:
-		int m_Wdith;
+		int m_Width;
 		int m_Height;
 		uint32_t m_Stride = 9 * sizeof(float);
 

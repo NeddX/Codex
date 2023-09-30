@@ -46,6 +46,10 @@ namespace Codex {
 			Shader* shader,
 			const int capacity = BATCH_RENDERER_INITIAL_CAPACITY, 
 			const int maxQuadCount = BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH);
+		SpriteBatchRenderer(const SpriteBatchRenderer& other) = delete;
+		SpriteBatchRenderer& operator=(const SpriteBatchRenderer& other) = delete;
+		SpriteBatchRenderer(SpriteBatchRenderer&& other) noexcept = delete;
+		SpriteBatchRenderer& operator=(SpriteBatchRenderer&& other) noexcept = delete;
 		~SpriteBatchRenderer();
 
 	public:

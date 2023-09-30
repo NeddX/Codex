@@ -47,7 +47,7 @@ namespace Codex {
 	{
 		if (!m_Instance) return;
 
-		for (int i = 0; i < m_Lines.size(); ++i)
+		for (usize i = 0; i < m_Lines.size(); ++i)
 		{
 			if (m_Lines[i].BeginFrame() < 0)
 				m_Lines.erase(m_Lines.begin() + i--);
@@ -175,8 +175,8 @@ namespace Codex {
 		auto relative_pos = starting_pos - centrePos;
 		for (int i = 0; i < segments; ++i)
 		{
-			auto point_one = centrePos + glm::rotate(relative_pos, CX_TO_RADF(angle * (i + 1)));
-			auto point_two = centrePos + glm::rotate(relative_pos, CX_TO_RADF(angle * (i + 2)));
+			auto point_one = centrePos + glm::rotate(relative_pos, math::ToRadf(angle * (i + 1)));
+			auto point_two = centrePos + glm::rotate(relative_pos, math::ToRadf(angle * (i + 2)));
 			m_Lines.emplace_back(point_one, point_two, colour, lifeTime);
 		}
 	}

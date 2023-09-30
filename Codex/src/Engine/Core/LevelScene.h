@@ -14,7 +14,7 @@ namespace Codex {
 	public:
 		void Start() override;
 		void Update(const float deltaTime) override;
-		void Render(const float deltaTime) override {}
+		void Render(const float deltaTime) override;
 	};
 }
 
