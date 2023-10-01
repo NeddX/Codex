@@ -2,3 +2,6 @@
 	path = CODEX/vendor/SDL
 	url = https://github.com/NeddX/SDL.git
 	branch = release-2.26.x
+[submodule "Codex/vendor/MGL"]
+	path = Codex/vendor/MGL
+	url = https://github.com/NeddX/MGL
