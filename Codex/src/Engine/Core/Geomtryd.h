@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-namespace Codex {
+namespace codex {
 	using Matrix4f = glm::mat4;
 	using Matrix2f = glm::mat2;
 	using Vector2f = glm::vec2;
@@ -20,51 +20,51 @@ namespace Codex {
 
 namespace std {
 	template<>
-	struct hash<Codex::Vector2f>
+	struct hash<codex::Vector2f>
 	{
-		Codex::usize operator()(const Codex::Vector2f& vec) const
+		codex::usize operator()(const codex::Vector2f& vec) const
 		{
-			return hash<Codex::f32>()(vec.x) ^ hash<Codex::f32>()(vec.y);
+			return hash<codex::f32>()(vec.x) ^ hash<codex::f32>()(vec.y);
 		}
 	};
 
 	template<>
-	struct hash<Codex::Vector3f>
+	struct hash<codex::Vector3f>
 	{
-		Codex::usize operator()(const Codex::Vector3f& vec) const
+		codex::usize operator()(const codex::Vector3f& vec) const
 		{
-			return hash<Codex::f32>()(vec.x) ^ hash<Codex::f32>()(vec.y) ^ hash<Codex::f32>()(vec.z);
+			return hash<codex::f32>()(vec.x) ^ hash<codex::f32>()(vec.y) ^ hash<codex::f32>()(vec.z);
 		}
 	};
 
 	template<>
-	struct hash<Codex::Vector4f>
+	struct hash<codex::Vector4f>
 	{
-		Codex::usize operator()(const Codex::Vector4f& vec) const
+		codex::usize operator()(const codex::Vector4f& vec) const
 		{
-			return hash<Codex::f32>()(vec.x) ^ hash<Codex::f32>()(vec.y) ^ hash<Codex::f32>()(vec.z) ^ hash<Codex::f32>()(vec.w);
+			return hash<codex::f32>()(vec.x) ^ hash<codex::f32>()(vec.y) ^ hash<codex::f32>()(vec.z) ^ hash<codex::f32>()(vec.w);
 		}
 	};
 
 	template<>
-	struct hash<Codex::Rectf>
+	struct hash<codex::Rectf>
 	{
-		Codex::usize operator()(const Codex::Rectf& rect) const
+		codex::usize operator()(const codex::Rectf& rect) const
 		{
-			return hash<Codex::f32>()(rect.x) ^ hash<Codex::f32>()(rect.y) ^ hash<Codex::f32>()(rect.w) ^ hash<Codex::f32>()(rect.h);
+			return hash<codex::f32>()(rect.x) ^ hash<codex::f32>()(rect.y) ^ hash<codex::f32>()(rect.w) ^ hash<codex::f32>()(rect.h);
 		}
 	};
 }
 
 namespace fmt {
 	template<>
-	struct formatter<Codex::Vector2f>
+	struct formatter<codex::Vector2f>
 	{
 		template<typename ParseContext>
 		constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
 
 		template<typename FormatContext>
-		auto format(const Codex::Vector2f& vec, FormatContext& ctx) 
+		auto format(const codex::Vector2f& vec, FormatContext& ctx) 
 		{ 
 			return format_to(ctx.out(), "({}, {})", vec.x, vec.y); 
 		}
@@ -72,13 +72,13 @@ namespace fmt {
 
 
 	template<>
-	struct formatter<Codex::Vector3f>
+	struct formatter<codex::Vector3f>
 	{
 		template<typename ParseContext>
 		constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
 
 		template<typename FormatContext>
-		auto format(const Codex::Vector3f& vec, FormatContext& ctx)
+		auto format(const codex::Vector3f& vec, FormatContext& ctx)
 		{
 			return format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
 		}
@@ -86,13 +86,13 @@ namespace fmt {
 
 
 	template<>
-	struct formatter<Codex::Vector4f>
+	struct formatter<codex::Vector4f>
 	{
 		template<typename ParseContext>
 		constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
 
 		template<typename FormatContext>
-		auto format(const Codex::Vector4f& vec, FormatContext& ctx)
+		auto format(const codex::Vector4f& vec, FormatContext& ctx)
 		{
 			return format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.z, vec.w);
 		}
@@ -100,13 +100,13 @@ namespace fmt {
 
 
 	template<>
-	struct formatter<Codex::Rectf>
+	struct formatter<codex::Rectf>
 	{
 		template<typename ParseContext>
 		constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
 
 		template<typename FormatContext>
-		auto format(const Codex::Rectf& vec, FormatContext& ctx)
+		auto format(const codex::Rectf& vec, FormatContext& ctx)
 		{
 			return format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.w, vec.h);
 		}

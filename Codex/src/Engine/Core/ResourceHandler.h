@@ -13,7 +13,7 @@
 #define T_STATIC
 #endif
 
-namespace Codex {
+namespace codex {
 	class Resources
 	{
 #ifdef CX_DEBUG_CUSTOM_ALLOCATORS

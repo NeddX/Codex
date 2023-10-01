@@ -1,6 +1,6 @@
 #include "TexturePicking.h"
 
-namespace Codex {
+namespace codex {
 
 	TexturePicking::TexturePicking(const i32 width, const i32 height)
 	{

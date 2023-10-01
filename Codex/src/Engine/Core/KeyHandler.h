@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-namespace Codex {
+namespace codex {
 	constexpr auto MAX_KEY_COUNT = 512;
 
 	enum class Key

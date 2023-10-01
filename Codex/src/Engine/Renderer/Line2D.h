@@ -3,7 +3,7 @@
 
 #include "../Core/Geomtryd.h"
 
-namespace Codex {
+namespace codex {
 	class Line2D
 	{
 	private:

@@ -5,7 +5,7 @@
 
 #include "Geomtryd.h"
 
-namespace Codex {
+namespace codex {
 	class Camera
 	{
 

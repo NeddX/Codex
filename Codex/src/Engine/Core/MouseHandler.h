@@ -5,7 +5,7 @@
 
 #include "Geomtryd.h"
 
-namespace Codex {
+namespace codex {
 	// Forward decelerations
 	class Window;
 

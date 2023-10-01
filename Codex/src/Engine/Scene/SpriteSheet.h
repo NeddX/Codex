@@ -7,7 +7,7 @@
 #include "../Core/Geomtryd.h"
 #include "../Renderer/Texture2D.h"
 
-namespace Codex {
+namespace codex {
 	class SpriteSheet
 	{
 	private:

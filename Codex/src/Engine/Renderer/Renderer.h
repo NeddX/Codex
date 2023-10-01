@@ -7,7 +7,7 @@
 #include "../Core/Geomtryd.h"
 #include "SpriteBatchRenderer.h"
 
-namespace Codex {
+namespace codex {
 	class Renderer
 	{
 #ifdef CX_DEBUG_CUSTOM_ALLOCATORS

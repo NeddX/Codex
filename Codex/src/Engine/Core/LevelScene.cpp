@@ -1,6 +1,6 @@
 #include "LevelScene.h"
 
-namespace Codex {
+namespace codex {
 	LevelScene::LevelScene(Renderer* renderer, const i32 width, const i32 height) : Scene(renderer, width, height)
 	{
 		fmt::println("LEVEL EDITORORORORORORORRO");

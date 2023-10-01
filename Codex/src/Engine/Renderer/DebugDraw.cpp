@@ -2,7 +2,7 @@
 #include "../Core/Window.h"
 #include "../Core/Geomtryd.h"
 
-namespace Codex {
+namespace codex {
 	DebugDraw* DebugDraw::m_Instance = nullptr;
 	std::vector<Line2D> DebugDraw::m_Lines;
 	std::array<f32, LINE2D_MAX_LINES * LINE2D_VERTEX_SIZE> DebugDraw::m_Verticies;

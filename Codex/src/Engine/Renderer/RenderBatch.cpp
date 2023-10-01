@@ -1,6 +1,6 @@
 #include "RenderBatch.h"
 
-namespace Codex {
+namespace codex {
 	RenderBatch::RenderBatch(const i32 maxQuadCount, Shader* shader) :
 		m_MaxQuadCount(maxQuadCount), m_Shader(shader)
 	{

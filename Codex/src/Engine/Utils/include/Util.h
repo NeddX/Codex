@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-namespace Codex::util
+namespace codex::util
 {
 	struct File
 	{

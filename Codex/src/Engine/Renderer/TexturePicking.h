@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-namespace Codex {
+namespace codex {
 	class TexturePicking
 	{
 	private:

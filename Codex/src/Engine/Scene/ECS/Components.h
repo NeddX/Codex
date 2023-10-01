@@ -6,7 +6,7 @@
 #include "../Sprite.h"
 #include "../../Core/Geomtryd.h" 
 
-namespace Codex {
+namespace codex {
 	// Forward decelerations
 	class Camera;
 	class Entity;

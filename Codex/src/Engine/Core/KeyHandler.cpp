@@ -1,6 +1,6 @@
 #include "KeyHandler.h"
 
-namespace Codex {
+namespace codex {
 	KeyHandler* KeyHandler::m_Instance = nullptr;
 
 	KeyHandler::KeyHandler()

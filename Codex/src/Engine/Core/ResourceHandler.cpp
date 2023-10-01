@@ -2,7 +2,7 @@
 #include "../Renderer/Texture2D.h"
 #include "../Renderer/Shader.h"
 
-namespace Codex {
+namespace codex {
 	Resources* Resources::m_Instance = nullptr;
 
 	Resources::~Resources()

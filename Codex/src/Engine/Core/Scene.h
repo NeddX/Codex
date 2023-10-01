@@ -11,7 +11,7 @@
 #include "../Core/MouseHandler.h"
 #include "../Core/KeyHandler.h"
 
-namespace Codex {
+namespace codex {
 	// Forward declarations
 	class Window;
 

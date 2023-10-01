@@ -3,7 +3,7 @@
 #include "../Renderer/DebugDraw.h"
 #include "../Core/Window.h"
 
-namespace Codex {
+namespace codex {
 	static std::unique_ptr<SpriteSheet> sp = nullptr;
 	static std::shared_ptr<Texture2D> m_TestTex = nullptr;
 	static Entity ent((entt::entity)0, nullptr);

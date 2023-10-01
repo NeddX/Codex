@@ -7,7 +7,7 @@
 #include "Texture2D.h"
 #include "../Core/Geomtryd.h"
 
-namespace Codex {
+namespace codex {
 	constexpr auto QUAD2D_VERTEX_COMPONENT_COUNT = 13;											// How many components does a vertex have?
 	constexpr auto QUAD2D_VERTEX_COUNT = 4;														// How many vertices does the buffer have?
 	constexpr auto QUAD2D_VERTEX_SIZE = QUAD2D_VERTEX_COUNT * QUAD2D_VERTEX_COMPONENT_COUNT;	// The total count of the elements in the buffer

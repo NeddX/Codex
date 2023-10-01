@@ -1,7 +1,7 @@
 #include "Window.h"
 #include "../Renderer/DebugDraw.h"
 
-namespace Codex {	
+namespace codex {	
 	Window* Window::m_Instance							= nullptr;
 	SDL_Window* Window::m_SdlWindow						= nullptr;
 	SDL_GLContext Window::m_GlContext					= nullptr;
@@ -91,7 +91,7 @@ namespace Codex {
 		if (gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
 		{
 			gladLoadGL();
-			printf("OpenGL loaded\n");
+			fmt::println("Glad loaded.");
 			gladLoadGLLoader(SDL_GL_GetProcAddress);
 			printf("Vendor:   %s\n", glGetString(GL_VENDOR));
 			printf("Renderer: %s\n", glGetString(GL_RENDERER));
@@ -100,7 +100,7 @@ namespace Codex {
 		else 
 		{
 			fmt::println("FAILED TO INITIALIZE GLAD!");
-			exit(-1);
+			std::exit(-1);
 		}
 
 		// Create the renderer

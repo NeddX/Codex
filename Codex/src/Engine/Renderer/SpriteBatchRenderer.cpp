@@ -1,7 +1,7 @@
 #include "SpriteBatchRenderer.h"
 #include "../Core/ResourceHandler.h"
 
-namespace Codex {
+namespace codex {
 	SpriteBatchRenderer::SpriteBatchRenderer(Shader* shader, const i32 capacity, const i32 maxQuadCount) :
 		m_Capacity(capacity), m_MaxQuadCountPerBatch(maxQuadCount), m_Shader(shader)
 	{

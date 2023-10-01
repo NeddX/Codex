@@ -7,7 +7,7 @@
 #include "../../Renderer/SpriteBatchRenderer.h"
 #include "Components.h"
 
-namespace Codex {
+namespace codex {
 	// Forward declarations
 	class EntityManager;
 

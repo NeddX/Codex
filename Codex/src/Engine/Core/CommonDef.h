@@ -14,7 +14,7 @@
 //#define PI 3.14159265358979323f // The ratio between circle's diameter and the circumference. This is used to convert from degrees to radians.
 //#define CX_TO_RADF(d) (f32)((f32)(d) * (PI / 180.0f)) // Convert degrees to radians.
 
-namespace Codex {
+namespace codex {
     using usize = std::size_t;
     using i32ptr = std::intptr_t;
     using ui32ptr = std::uintptr_t;

@@ -2,7 +2,7 @@
 #include "../../Core/Window.h"
 #include "../../Renderer/DebugDraw.h"
 
-namespace Codex {
+namespace codex {
 
 	TagComponent::TagComponent()
 	{

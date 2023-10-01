@@ -8,7 +8,7 @@
 #include "RenderBatch.h"
 #include "../Core/Geomtryd.h"
 
-namespace Codex {
+namespace codex {
 	constexpr auto BATCH_RENDERER_INITIAL_CAPACITY = 16;
 	constexpr auto BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH = 1024;
 
