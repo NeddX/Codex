@@ -17,7 +17,7 @@ namespace Codex {
 	{
 #ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
-		void* operator new(size_t size)
+		void* operator new(usize size)
 		{
 			void* ptr = std::malloc(size);
 			fmt::println("[Memory] :: Allocated memory.\n\tFile: {}\n\tLine: {}\n\tSize: {}\n\tAddress: {}",
@@ -54,7 +54,7 @@ namespace Codex {
 		static void Destroy() noexcept;
 
 	public:
-		static inline bool IsKeyDown(const uint16_t key) noexcept
+		static inline bool IsKeyDown(const u16 key) noexcept
 		{
 			if (key <= MAX_KEY_COUNT)
 				return m_Instance->m_KeysPressed[key];

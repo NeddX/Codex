@@ -19,7 +19,7 @@ namespace Codex {
 	{
 #ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
-		void* operator new(size_t size)
+		void* operator new(usize size)
 		{
 			void* ptr = std::malloc(size);
 			fmt::println("[Memory] :: Allocated memory.\n\tFile: {}\n\tLine: {}\n\tSize: {}\n\tAddress: {}",
@@ -36,16 +36,16 @@ namespace Codex {
 		friend class Renderer;
 
 	private:
-		int m_Capacity;
-		int m_MaxQuadCountPerBatch;
+		i32 m_Capacity;
+		i32 m_MaxQuadCountPerBatch;
 		Shader* m_Shader;
 		std::vector<RenderBatch*> m_Batches;
 
 	public:
 		SpriteBatchRenderer(
 			Shader* shader,
-			const int capacity = BATCH_RENDERER_INITIAL_CAPACITY, 
-			const int maxQuadCount = BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH);
+			const i32 capacity = BATCH_RENDERER_INITIAL_CAPACITY, 
+			const i32 maxQuadCount = BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH);
 		SpriteBatchRenderer(const SpriteBatchRenderer& other) = delete;
 		SpriteBatchRenderer& operator=(const SpriteBatchRenderer& other) = delete;
 		SpriteBatchRenderer(SpriteBatchRenderer&& other) noexcept = delete;
@@ -65,8 +65,8 @@ namespace Codex {
 			const Rectf& srcRect,
 			const Rectf& destRect,
 			const Vector4f colour = Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
-			const int zIndex = 0,
-			const int entityId = -1);
+			const i32 zIndex = 0,
+			const i32 entityId = -1);
 	};
 }
 

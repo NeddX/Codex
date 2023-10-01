@@ -9,12 +9,12 @@ namespace Codex {
 	class LevelScene : public Scene
 	{
 	public:
-		LevelScene(Renderer* renderer, const int width, const int height);
+		LevelScene(Renderer* renderer, const i32 width, const i32 height);
 	
 	public:
 		void Start() override;
-		void Update(const float deltaTime) override;
-		void Render(const float deltaTime) override;
+		void Update(const f32 deltaTime) override;
+		void Render(const f32 deltaTime) override;
 	};
 }
 

@@ -6,7 +6,7 @@
 #include "Scene.h"
 
 namespace Codex {
-	enum class EditorAction : uint8_t 
+	enum class EditorAction : u8 
 	{
 		Select,
 		TilemapBrush,
@@ -17,7 +17,7 @@ namespace Codex {
 	{
 #ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
-		void* operator new(size_t size)
+		void* operator new(usize size)
 		{
 			void* ptr = std::malloc(size);
 			fmt::println("[Memory] :: Allocated memory.\n\tFile: {}\n\tLine: {}\n\tSize: {}\n\tAddress: {}",
@@ -37,7 +37,7 @@ namespace Codex {
 		std::shared_ptr<Shader> m_Shader;
 		Vector2f m_SelectedTileCoord;
 		EditorAction m_CurrentActiveAction;
-		uint32_t m_SelectedEntityId;
+		u32 m_SelectedEntityId;
 
 	public:
 		inline Vector2f GetSelectedTileCoord() const
@@ -48,17 +48,17 @@ namespace Codex {
 			{ m_SelectedTileCoord = newCoord; }
 		inline void SetActiveAction(EditorAction newAction)
 			{ m_CurrentActiveAction = newAction; }
-		inline void SetSelectedEntityId(uint32_t id)
+		inline void SetSelectedEntityId(u32 id)
 			{ m_SelectedEntityId = id; }
 
 	public:
-		EditorScene(Renderer* renderer, const int width, const int height);
+		EditorScene(Renderer* renderer, const i32 width, const i32 height);
 		~EditorScene();
 
 	public:
 		void Start() override;
-		void Update(const float deltaTime) override;
-		void Render(const float deltaTime) override;
+		void Update(const f32 deltaTime) override;
+		void Render(const f32 deltaTime) override;
 	};
 }
 

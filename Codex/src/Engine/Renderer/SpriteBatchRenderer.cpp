@@ -2,11 +2,11 @@
 #include "../Core/ResourceHandler.h"
 
 namespace Codex {
-	SpriteBatchRenderer::SpriteBatchRenderer(Shader* shader, const int capacity, const int maxQuadCount) :
+	SpriteBatchRenderer::SpriteBatchRenderer(Shader* shader, const i32 capacity, const i32 maxQuadCount) :
 		m_Capacity(capacity), m_MaxQuadCountPerBatch(maxQuadCount), m_Shader(shader)
 	{
 		m_Batches.reserve(capacity);
-		for (int i = capacity; i < capacity; ++i)
+		for (i32 i = capacity; i < capacity; ++i)
 			m_Batches.push_back(new RenderBatch(maxQuadCount, m_Shader));
 	}
 
@@ -55,8 +55,8 @@ namespace Codex {
 		const Rectf& srcRect,
 		const Rectf& destRect,
 		const Vector4f colour,
-		const int zIndex,
-		const int entityId)
+		const i32 zIndex,
+		const i32 entityId)
 	{
 		for (auto* batch : m_Batches)
 		{

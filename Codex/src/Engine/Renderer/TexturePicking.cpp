@@ -2,12 +2,12 @@
 
 namespace Codex {
 
-	TexturePicking::TexturePicking(const int width, const int height)
+	TexturePicking::TexturePicking(const i32 width, const i32 height)
 	{
 		Init(width, height);
 	}
 
-	bool TexturePicking::Init(const int width, const int height)
+	bool TexturePicking::Init(const i32 width, const i32 height)
 	{
 		m_Id = 0;
 		m_DepthTexture = 0;

@@ -10,10 +10,10 @@ namespace Codex {
 		Vector2f m_Source;
 		Vector2f m_Destination;
 		Vector4f m_Colour;
-		int m_LifeTime;
+		i32 m_LifeTime;
 
 	public:
-		Line2D(const Vector2f source, const Vector2f destination, const Vector4f colour, const int lifeTime) :
+		Line2D(const Vector2f source, const Vector2f destination, const Vector4f colour, const i32 lifeTime) :
 			m_Source(source), m_Destination(destination), m_Colour(colour), m_LifeTime(lifeTime)
 		{
 
@@ -26,11 +26,11 @@ namespace Codex {
 			{ return m_Destination; }
 		inline Vector4f GetColour() const
 			{ return m_Colour; }
-		inline int GetLifeTime() const
+		inline i32 GetLifeTime() const
 			{ return m_LifeTime; }
 
 	public:
-		int BeginFrame()
+		i32 BeginFrame()
 		{
 			return --m_LifeTime;
 		}

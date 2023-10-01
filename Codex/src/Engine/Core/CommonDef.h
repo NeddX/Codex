@@ -12,12 +12,12 @@
 #endif
 
 //#define PI 3.14159265358979323f // The ratio between circle's diameter and the circumference. This is used to convert from degrees to radians.
-//#define CX_TO_RADF(d) (float)((float)(d) * (PI / 180.0f)) // Convert degrees to radians.
+//#define CX_TO_RADF(d) (f32)((f32)(d) * (PI / 180.0f)) // Convert degrees to radians.
 
 namespace Codex {
     using usize = std::size_t;
-    using intptr = std::intptr_t;
-    using uintptr = std::uintptr_t;
+    using i32ptr = std::intptr_t;
+    using ui32ptr = std::uintptr_t;
     using i8 = std::int8_t;
     using i16 = std::int16_t;
     using i32 = std::int32_t;
@@ -41,10 +41,10 @@ namespace Codex {
 } // namespace Codex
 
     /*
-	constexpr float PI = 3.14159265358979323f;
+	constexpr f32 PI = 3.14159265358979323f;
 
-	constexpr float ToRadf(float degree) {
-		return (float)(degree * (PI / 180.0f));
+	constexpr f32 ToRadf(f32 degree) {
+		return (f32)(degree * (PI / 180.0f));
 	}*/
 
 #ifdef CODEX_CONF_DEBUG

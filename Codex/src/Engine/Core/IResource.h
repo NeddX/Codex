@@ -7,14 +7,14 @@ namespace Codex {
 	class IResource
 	{
 	protected:
-		size_t m_Id = 0;
+		usize m_Id = 0;
 
 	public:
 		IResource() = default;
 		virtual ~IResource() = default;
 
 	public:
-		constexpr size_t inline GetId() const noexcept { return m_Id; }
+		constexpr usize inline GetId() const noexcept { return m_Id; }
 	};
 }
 

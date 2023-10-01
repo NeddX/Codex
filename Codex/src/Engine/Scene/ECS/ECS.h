@@ -26,14 +26,14 @@ namespace Codex {
 		{
 
 		}
-		Entity(const uint32_t entity, EntityManager* manager) :
+		Entity(const u32 entity, EntityManager* manager) :
 			m_Handle((entt::entity)entity), m_Manager(manager)
 		{
 
 		}
 	public:
-		inline uint32_t GetId() const
-			{ return (uint32_t)(m_Handle); }
+		inline u32 GetId() const
+			{ return (u32)(m_Handle); }
 		operator bool() const
 			{ return m_Handle != entt::entity { 0 }; }
 
@@ -71,7 +71,7 @@ namespace Codex {
 		friend class Entity;
 
 	private:
-		int m_Indicator;
+		i32 m_Indicator;
 		entt::registry m_Registry;
 
 	public:

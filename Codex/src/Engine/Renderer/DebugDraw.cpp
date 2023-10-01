@@ -5,7 +5,7 @@
 namespace Codex {
 	DebugDraw* DebugDraw::m_Instance = nullptr;
 	std::vector<Line2D> DebugDraw::m_Lines;
-	std::array<float, LINE2D_MAX_LINES * LINE2D_VERTEX_SIZE> DebugDraw::m_Verticies;
+	std::array<f32, LINE2D_MAX_LINES * LINE2D_VERTEX_SIZE> DebugDraw::m_Verticies;
 
 	void DebugDraw::Init()
 	{
@@ -22,19 +22,19 @@ namespace Codex {
 
 			m_Instance->m_Vbo = std::make_unique<mgl::VertexBuffer>();
 			m_Instance->m_Vbo->Bind();
-			m_Instance->m_Vbo->SetBuffer<float>(nullptr, LINE2D_VERTEX_SIZE * sizeof(float) * LINE2D_MAX_LINES, mgl::BufferUsage::DYNAMIC_DRAW); // you basically allocate space and then upload the data
+			m_Instance->m_Vbo->SetBuffer<f32>(nullptr, LINE2D_VERTEX_SIZE * sizeof(f32) * LINE2D_MAX_LINES, mgl::BufferUsage::DYNAMIC_DRAW); // you basically allocate space and then upload the data
 
 			/*
 			m_Ebo = std::make_unique<mgl::IndexBuffer>();
 			m_Ebo->Bind();
-			size_t size = 0;
+			usize size = 0;
 			auto index_buffer_data = GenerateIndicies(size);
 			m_Ebo->SetBuffer(index_buffer_data.data(), size);
 			*/
 
 			m_Instance->m_Layout = std::make_unique<mgl::VertexBufferLayout>();
-			m_Instance->m_Layout->Push<float>(3);
-			m_Instance->m_Layout->Push<float>(4);
+			m_Instance->m_Layout->Push<f32>(3);
+			m_Instance->m_Layout->Push<f32>(4);
 
 			m_Instance->m_Vao->AddBuffer(m_Instance->m_Vbo.get(), m_Instance->m_Layout.get());
 
@@ -60,10 +60,10 @@ namespace Codex {
 
 		if (m_Lines.size() <= 0) return;
 
-		int index = 0;
+		i32 index = 0;
 		for (const auto& line : m_Lines)
 		{
-			for (int i = 0; i < 2; ++i)
+			for (i32 i = 0; i < 2; ++i)
 			{
 				Vector3f pos = (i == 0) 
 					? Vector3f(line.GetSource(), 0.0f) 
@@ -71,8 +71,8 @@ namespace Codex {
 				Vector4f colour = line.GetColour();
 
 				// TODO: Please for the love of God, write your own vector class that is compatible with glm.
-				//std::memcpy(m_Verticies.data() + index, ValuePtr(pos), sizeof(3 * sizeof(float)));
-				//std::memcpy(m_Verticies.data() + index + sizeof(3 * sizeof(float)), ValuePtr(colour), sizeof(4 * sizeof(float)));
+				//std::memcpy(m_Verticies.data() + index, ValuePtr(pos), sizeof(3 * sizeof(f32)));
+				//std::memcpy(m_Verticies.data() + index + sizeof(3 * sizeof(f32)), ValuePtr(colour), sizeof(4 * sizeof(f32)));
 
 				m_Verticies[index] = pos.x;
 				m_Verticies[index + 1] = pos.y;
@@ -90,7 +90,7 @@ namespace Codex {
 			m_Instance->m_Vao->Bind();
 			//m_Ebo->Bind();
 			m_Instance->m_Vbo->Bind();
-			m_Instance->m_Vbo->SetBufferSubData<float>(m_Verticies.data(), 0, LINE2D_VERTEX_SIZE * m_Lines.size() * sizeof(float));
+			m_Instance->m_Vbo->SetBufferSubData<f32>(m_Verticies.data(), 0, LINE2D_VERTEX_SIZE * m_Lines.size() * sizeof(f32));
 
 			auto* camera = Window::Get()->GetCurrentScene()->GetCamera();
 			m_Instance->m_Shader->SetUniformMat4f("u_Proj", camera->GetProjectionMatrix());
@@ -120,7 +120,7 @@ namespace Codex {
 		const Vector2f source,
 		const Vector2f destination,
 		const Vector4f colour,
-		const int lifeTime)
+		const i32 lifeTime)
 	{
 		if (m_Lines.size() < LINE2D_MAX_LINES)
 			m_Lines.emplace_back(source, destination, colour, lifeTime);
@@ -128,9 +128,9 @@ namespace Codex {
 
 	void DebugDraw::DrawRect2D(
 		const Rectf rect,
-		const float angle,
+		const f32 angle,
 		const Vector4f colour,
-		const int lifeTime)
+		const i32 lifeTime)
 	{
 		if (m_Lines.size() + 4 < LINE2D_MAX_LINES)
 		{
@@ -165,19 +165,19 @@ namespace Codex {
 
 	void DebugDraw::DrawCircle2D(
 		const Vector2f centrePos,
-		const int radius,
-		const int segments,
+		const i32 radius,
+		const i32 segments,
 		const Vector4f colour,
-		const int lifeTime)
+		const i32 lifeTime)
 	{
-		float angle = 360.0f / segments;
+		f32 angle = 360.0f / segments;
 		auto starting_pos = glm::vec2{ centrePos.x + radius, centrePos.y };
 		auto relative_pos = starting_pos - centrePos;
-		for (int i = 0; i < segments; ++i)
+		for (i32 i = 0; i < segments; ++i)
 		{
-			auto point_one = centrePos + glm::rotate(relative_pos, math::ToRadf(angle * (i + 1)));
-			auto point_two = centrePos + glm::rotate(relative_pos, math::ToRadf(angle * (i + 2)));
-			m_Lines.emplace_back(point_one, point_two, colour, lifeTime);
+			auto poi32_one = centrePos + glm::rotate(relative_pos, math::ToRadf(angle * (i + 1)));
+			auto poi32_two = centrePos + glm::rotate(relative_pos, math::ToRadf(angle * (i + 2)));
+			m_Lines.emplace_back(poi32_one, poi32_two, colour, lifeTime);
 		}
 	}
 }

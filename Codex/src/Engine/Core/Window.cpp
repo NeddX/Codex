@@ -135,7 +135,7 @@ namespace Codex {
 		fmt::println("Window subsystem initialized.");
 	}
 
-	void Window::SDLCheckError(const int line)
+	void Window::SDLCheckError(const i32 line)
 	{
 #ifdef CODEX_CONF_DEBUG
 		const char* error = SDL_GetError();
@@ -149,14 +149,14 @@ namespace Codex {
 #endif
 	}
 
-	void Window::SDLThrowError(const int line, const std::string_view errorMessage)
+	void Window::SDLThrowError(const i32 line, const std::string_view errorMessage)
 	{
 		fmt::println("SDL ERROR @ LINE {}: {} -> {}", line, errorMessage, SDL_GetError());
 		SDL_Quit();
 		exit(-1);
 	}
 
-	int Window::SDLEventFilterWatch(void* object, SDL_Event* event)
+	i32 Window::SDLEventFilterWatch(void* object, SDL_Event* event)
 	{
 		if (!m_Instance->m_Running) return 0;
 
@@ -170,8 +170,8 @@ namespace Codex {
 					case SDL_WINDOWEVENT_RESIZED:
 					{
 #ifdef CX_MODE_STANDALONE // Process resize events only when in standalone mode.
-						int width = event->window.data1;
-						int height = event->window.data2;
+						i32 width = event->window.data1;
+						i32 height = event->window.data2;
 						OnWindowResize_Event(width, height);
 #endif
 					}
@@ -190,7 +190,7 @@ namespace Codex {
 				MouseHandler::MouseEvent mouse_event;
 				mouse_event.x = event->motion.x;
 				mouse_event.y = event->motion.y;
-				mouse_event.button = (uint8_t) event->button.button - 1;
+				mouse_event.button = (u8) event->button.button - 1;
 				mouse_event.clicks = event->button.clicks;
 				mouse_event.action = event->button.state;	
 				MouseHandler::OnMouseButton_Event(mouse_event);
@@ -201,7 +201,7 @@ namespace Codex {
 				MouseHandler::MouseEvent mouse_event;
 				mouse_event.x = event->motion.x;
 				mouse_event.y = event->motion.y;
-				mouse_event.button = (uint8_t) event->button.button - 1;
+				mouse_event.button = (u8) event->button.button - 1;
 				mouse_event.clicks = event->button.clicks;
 				mouse_event.action = event->button.state;
 				MouseHandler::OnMouseButton_Event(mouse_event);
@@ -249,7 +249,7 @@ namespace Codex {
 	{
 		//static mgl::FrameBufferProperties props(GetWidth(), GetHeight(), { mgl::TextureFormat::RGBA8, mgl::TextureFormat::RedInt32 });
 		//static mgl::FrameBuffer* fb = new mgl::FrameBuffer(props);
-		static float delta_time = -1.0f;
+		static f32 delta_time = -1.0f;
 
 		m_Renderer->SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
 		m_Renderer->Clear();
@@ -285,8 +285,8 @@ namespace Codex {
 		if (MouseHandler::IsMouseDown(0))
 		{
 			// Gotta reverse the Y cause opengl is gay
-			int x = MouseHandler::GetMouseX(), y = GetHeight() - MouseHandler::GetMouseY();
-			int pixel = fb->ReadPixel(1, x, y);
+			i32 x = MouseHandler::GetMouseX(), y = GetHeight() - MouseHandler::GetMouseY();
+			i32 pixel = fb->ReadPixel(1, x, y);
 			fmt::println("pixel: {}", pixel);
 			return;
 		}
@@ -296,16 +296,16 @@ namespace Codex {
 		if (KeyHandler::IsKeyDown(SDLK_ESCAPE)) m_Running = false;
 
 		m_Tp2 = std::chrono::system_clock::now();
-		delta_time = std::chrono::duration<float>(m_Tp2 - m_Tp1).count();
+		delta_time = std::chrono::duration<f32>(m_Tp2 - m_Tp1).count();
 		m_Tp1 = m_Tp2;
-		m_Fps = (uint32_t)(1.0f / delta_time);
+		m_Fps = (u32)(1.0f / delta_time);
 		//SDL_SetWindowTitle(m_SdlWindow, fmt::format("ms: {} fps: {}", delta_time, m_Fps).c_str());
-		if (m_FrameCap > 0) SDL_Delay((uint32_t)(1.0f / (float)m_FrameCap * 1000.0f));
+		if (m_FrameCap > 0) SDL_Delay((u32)(1.0f / (f32)m_FrameCap * 1000.0f));
 		m_FrameCount++;
 		SDL_GL_SwapWindow(m_SdlWindow);
 	}
 
-	void Window::ChangeScene(const int sceneId)
+	void Window::ChangeScene(const i32 sceneId)
 	{
 		switch (sceneId)
 		{
@@ -332,7 +332,7 @@ namespace Codex {
 		}
 	}
 
-	void Window::OnWindowResize_Event(const int newWidth, const int newHeight)
+	void Window::OnWindowResize_Event(const i32 newWidth, const i32 newHeight)
 	{
 		if (newWidth == 0 || newHeight == 0) return;
 		glViewport(0, 0, newWidth, newHeight);

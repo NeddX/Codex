@@ -7,12 +7,12 @@ namespace Codex {
 	class TexturePicking
 	{
 	private:
-		uint32_t m_Id;
-		int m_DepthTexture;
+		u32 m_Id;
+		i32 m_DepthTexture;
 		std::unique_ptr<mgl::FrameBuffer> m_Fbo;
 		 
 	public:
-		TexturePicking(const int width, const int height);
+		TexturePicking(const i32 width, const i32 height);
 
 	public:
 		inline void SetEnableWriting(const bool enable)
@@ -20,7 +20,7 @@ namespace Codex {
 			if (enable) glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_Fbo->GetId()); 
 			else glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); 
 		}
-		inline int ReadPixel(const int x, const int y)
+		inline i32 ReadPixel(const i32 x, const i32 y)
 		{
 			glBindFramebuffer(GL_READ_FRAMEBUFFER, m_Fbo->GetId());
 			glReadBuffer(GL_COLOR_ATTACHMENT0);
@@ -31,7 +31,7 @@ namespace Codex {
 		}
 
 	public:
-		bool Init(const int width, const int height);
+		bool Init(const i32 width, const i32 height);
 	};
 }
 

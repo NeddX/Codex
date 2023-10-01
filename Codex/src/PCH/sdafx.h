@@ -4,7 +4,6 @@
 // STL headers
 #include <iostream>
 #include <memory>
-#include <cstdint>
 #include <chrono>
 #include <thread>
 #include <fstream>
@@ -12,12 +11,17 @@
 #include <utility>
 #include <functional>
 #include <type_traits>
-#include <cstring>
 #include <mutex>
-#include <cstdio>
 #include <exception>
 #include <regex>
 #include <numeric>
+#include <sstream>
+
+// Legacy
+#include <cstdio>
+#include <cstdlib>
+#include <cstdint>
+#include <cstring>
 
 // STL Containers
 #include <string>

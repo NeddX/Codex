@@ -16,7 +16,7 @@ namespace Codex {
 			m_Texture(texture)
 		{
 			if (m_Texture) 
-				m_SrcRect = { 0.0f, 0.0f, (float)(texture->GetWidth()), (float)(texture->GetHeight()) };
+				m_SrcRect = { 0.0f, 0.0f, (f32)(texture->GetWidth()), (f32)(texture->GetHeight()) };
 		}
 		Sprite(std::shared_ptr<Texture2D> texture, const Rectf textureCoords) :
 			m_Texture(texture), m_SrcRect(textureCoords)

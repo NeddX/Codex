@@ -25,7 +25,7 @@ namespace Codex {
 	private:
 		static DebugDraw* m_Instance;
 		static std::vector<Line2D> m_Lines;
-		static std::array<float, LINE2D_MAX_LINES * 7 * 2> m_Verticies;
+		static std::array<f32, LINE2D_MAX_LINES * 7 * 2> m_Verticies;
 
 	private:
 		DebugDraw() = default;
@@ -41,26 +41,26 @@ namespace Codex {
 			const Vector2f source,
 			const Vector2f destination,
 			const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
-			const int lifeTime = 1);
+			const i32 lifeTime = 1);
 		static void DrawRect2D(
 			const Rectf rect,
-			const float angle = 0.0f,
+			const f32 angle = 0.0f,
 			const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
-			const int lifeTime = 1);
+			const i32 lifeTime = 1);
 		static void DrawCircle2D(
 			const Vector2f centrePos,
-			const int radius = 50,
-			const int segments = 20,
+			const i32 radius = 50,
+			const i32 segments = 20,
 			const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
-			int lifeTime = 1);
-		inline static std::vector<uint32_t> GenerateIndicies(size_t& size)
+			i32 lifeTime = 1);
+		inline static std::vector<u32> GenerateIndicies(usize& size)
 		{
 			size = LINE2D_INDEX_COUNT * LINE2D_MAX_LINES;
-			std::vector<uint32_t> index_buffer_data(size);
+			std::vector<u32> index_buffer_data(size);
 
 			for (usize i = 0; i < size; i += LINE2D_INDEX_COUNT)
 			{
-				int offset = 4 * (i / LINE2D_INDEX_COUNT);
+				i32 offset = 4 * (i / LINE2D_INDEX_COUNT);
 
 				// TODO: Consider using std::memcpy here.
 				index_buffer_data[i] = 2 + offset;

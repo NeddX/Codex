@@ -18,7 +18,7 @@ namespace Codex {
 	{
 #ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
-		void* operator new(size_t size)
+		void* operator new(usize size)
 		{
 			void* ptr = std::malloc(size);
 			fmt::println("[Memory] :: Allocated memory.\n\tFile: {}\n\tLine: {}\n\tSize: {}\n\tAddress: {}",
@@ -35,7 +35,7 @@ namespace Codex {
 		static Resources* m_Instance;
 
 	private:
-		std::unordered_map<size_t, std::shared_ptr<IResource>> m_Resources;
+		std::unordered_map<usize, std::shared_ptr<IResource>> m_Resources;
 
 	public:
 		Resources() = default;
@@ -60,7 +60,7 @@ namespace Codex {
 			std::ifstream fs(filePath);
 			if (fs.is_open())
 			{
-				size_t id = util::Crypto::DJB2Hash(filePath);
+				usize id = util::Crypto::DJB2Hash(filePath);
 
 				// TODO: Make it so that the user can pass arguments to Load<T>() !
 				TextureProperties props;
@@ -86,7 +86,7 @@ namespace Codex {
 			std::ifstream fs(filePath);
 			if (fs.is_open())
 			{
-				size_t id = util::Crypto::DJB2Hash(filePath);
+				usize id = util::Crypto::DJB2Hash(filePath);
 				std::shared_ptr<Shader> texture = std::make_shared<Shader>(filePath);
 				m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
 				fs.close();
@@ -104,7 +104,7 @@ namespace Codex {
 
 	public:
 		template<typename T>
-		inline static std::shared_ptr<T> GetResource(size_t id)
+		inline static std::shared_ptr<T> GetResource(usize id)
 		{
 			auto it = m_Instance->m_Resources.find(id);
 			if (it != m_Instance->m_Resources.end()) return std::static_pointer_cast<T>(it->second);
@@ -121,7 +121,7 @@ namespace Codex {
 		{
 			return GetResource<T>(util::Crypto::DJB2Hash(filePath));
 		}
-		inline static bool HasResource(size_t id)
+		inline static bool HasResource(usize id)
 		{
 			auto it = m_Instance->m_Resources.find(id);
 			if (it != m_Instance->m_Resources.end()) return true;
@@ -129,10 +129,10 @@ namespace Codex {
 		}
 		inline static bool HasResource(const char* filePath)
 		{
-			size_t id = util::Crypto::DJB2Hash(filePath);
+			usize id = util::Crypto::DJB2Hash(filePath);
 			return HasResource(id);
 		}
-		inline static std::unordered_map<size_t, std::shared_ptr<IResource>>& GetAllResources()
+		inline static std::unordered_map<usize, std::shared_ptr<IResource>>& GetAllResources()
 		{
 			return m_Instance->m_Resources;
 		}

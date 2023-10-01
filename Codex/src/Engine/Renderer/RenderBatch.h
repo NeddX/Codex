@@ -16,7 +16,7 @@ namespace Codex {
 	{
 #ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
-		void* operator new(size_t size)
+		void* operator new(usize size)
 		{
 			void* ptr = std::malloc(size);
 			fmt::println("[Memory] :: Allocated memory.\n\tFile: {}\n\tLine: {}\n\tSize: {}\n\tAddress: {}",
@@ -31,32 +31,32 @@ namespace Codex {
 #endif
 
 	private:
-		int m_QuadCount = 0;
-		int m_MaxTextureSlotCount = 32;
-		int m_MaxQuadCount = 1000;
-		int m_ZIndex = 0;
+		i32 m_QuadCount = 0;
+		i32 m_MaxTextureSlotCount = 32;
+		i32 m_MaxQuadCount = 1000;
+		i32 m_ZIndex = 0;
 		bool m_HasRoom = true;
-		std::vector<float> m_Verticies;
+		std::vector<f32> m_Verticies;
 		std::unique_ptr<mgl::VertexArray> m_Vao;
 		std::unique_ptr<mgl::VertexBuffer> m_Vbo;
 		std::unique_ptr<mgl::IndexBuffer> m_Ebo;
 		std::unique_ptr<mgl::VertexBufferLayout> m_Layout;
 		Shader* m_Shader;
 		std::vector<Texture2D*> m_TextureList;
-		uint16_t m_CurrentTexIndex;
+		u16 m_CurrentTexIndex;
 
 	public:
-		RenderBatch(const int maxQuadCount, Shader* shader);
+		RenderBatch(const i32 maxQuadCount, Shader* shader);
 		~RenderBatch();
 
 	public:
 		inline bool HasRoom() const
 			{ return m_HasRoom; }
-		inline int GetZIndex() const
+		inline i32 GetZIndex() const
 			{ return m_ZIndex; }
-		inline int GetCount() const
+		inline i32 GetCount() const
 			{ return m_QuadCount; }
-		inline void SetZIndex(int newIndex)
+		inline void SetZIndex(i32 newIndex)
 			{ m_ZIndex = newIndex; }
 
 	public:
@@ -72,7 +72,7 @@ namespace Codex {
 
 			if (!texture_slots_initialized)
 			{
-				std::vector<int32_t> textures(m_MaxTextureSlotCount);
+				std::vector<i32> textures(m_MaxTextureSlotCount);
 				for (usize i = 0; i < textures.size(); ++i) textures[i] = i;
 				m_Shader->SetUniform1iArr("u_Textures", 8, textures.data());
 				texture_slots_initialized = true;
@@ -83,11 +83,11 @@ namespace Codex {
 			const Rectf& srcRect,
 			const Rectf& destRect,
 			const Vector4f colour,
-			const int entityId)
+			const i32 entityId)
 		{
-			uint16_t tex_id = 0;
-			float tex_width = 0.0f;
-			float tex_height = 0.0f;
+			u16 tex_id = 0;
+			f32 tex_width = 0.0f;
+			f32 tex_height = 0.0f;
 			if (texture)
 			{
 				const auto it = std::find(m_TextureList.begin(), m_TextureList.end(), texture);
@@ -100,23 +100,23 @@ namespace Codex {
 					}
 					else return false;
 				}
-				else tex_id = (uint16_t)std::distance(m_TextureList.begin(), it) + 1;
-				tex_width	= (float)texture->GetWidth();
-				tex_height	= (float)texture->GetHeight();
+				else tex_id = (u16)std::distance(m_TextureList.begin(), it) + 1;
+				tex_width	= (f32)texture->GetWidth();
+				tex_height	= (f32)texture->GetHeight();
 			}
 
-			float vertex_buffer_data[] =
+			f32 vertex_buffer_data[] =
 			{
-				destRect.x, 					destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y,						(float)tex_id,		tex_width, tex_height,		(float)entityId,
-				destRect.x + destRect.w,		destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y,						(float)tex_id,		tex_width, tex_height,		(float)entityId,
-				destRect.x,						destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y + srcRect.h,			(float)tex_id,		tex_width, tex_height,		(float)entityId,	
-				destRect.x + destRect.w,		destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y + srcRect.h,			(float)tex_id,		tex_width, tex_height,		(float)entityId
+				destRect.x, 					destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y,						(f32)tex_id,		tex_width, tex_height,		(f32)entityId,
+				destRect.x + destRect.w,		destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y,						(f32)tex_id,		tex_width, tex_height,		(f32)entityId,
+				destRect.x,						destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y + srcRect.h,			(f32)tex_id,		tex_width, tex_height,		(f32)entityId,	
+				destRect.x + destRect.w,		destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y + srcRect.h,			(f32)tex_id,		tex_width, tex_height,		(f32)entityId
 			};
 
 			// TODO: Consider directly adding the vertex buffer data to m_Verticies instead of creating a temporary
 			// array and then copying the contents of it to m_Verticies.
 
-			uint32_t offset = m_QuadCount * QUAD2D_VERTEX_SIZE;
+			u32 offset = m_QuadCount * QUAD2D_VERTEX_SIZE;
 			std::memcpy(m_Verticies.data() + offset, vertex_buffer_data, sizeof(vertex_buffer_data));
 
 			if (++m_QuadCount >= m_MaxQuadCount)
@@ -124,14 +124,14 @@ namespace Codex {
 
 			return true;
 		}
-		inline std::vector<uint32_t> GenerateIndicies(size_t& size)
+		inline std::vector<u32> GenerateIndicies(usize& size)
 		{
 			size = 6 * m_MaxQuadCount;
-			std::vector<uint32_t> index_buffer_data(size);
+			std::vector<u32> index_buffer_data(size);
 
 			for (usize i = 0; i < size; i += 6)
 			{
-				int offset = 4 * (i / 6);
+				i32 offset = 4 * (i / 6);
 
 				// TODO: Consider using std::memcpy here.
 				index_buffer_data[i] = 2 + offset;
@@ -151,9 +151,9 @@ namespace Codex {
 			m_Vao->Bind();
 			m_Ebo->Bind();
 			m_Vbo->Bind();
-			m_Vbo->SetBufferSubData<float>(m_Verticies.data(), 0, QUAD2D_VERTEX_SIZE * m_QuadCount * sizeof(float));
+			m_Vbo->SetBufferSubData<f32>(m_Verticies.data(), 0, QUAD2D_VERTEX_SIZE * m_QuadCount * sizeof(f32));
 			
-			for (int i = 0; i < m_CurrentTexIndex; ++i)
+			for (i32 i = 0; i < m_CurrentTexIndex; ++i)
 				m_TextureList[i]->Bind(i);
 
 			glDrawElements(GL_TRIANGLES, 6 * m_QuadCount, GL_UNSIGNED_INT, nullptr);
@@ -163,7 +163,7 @@ namespace Codex {
 			m_Vbo->Unbind();
 			m_Ebo->Unbind();
 
-			for (int i = 0; i < m_CurrentTexIndex; ++i)
+			for (i32 i = 0; i < m_CurrentTexIndex; ++i)
 				m_TextureList[i]->Unbind();
 		}
 	};

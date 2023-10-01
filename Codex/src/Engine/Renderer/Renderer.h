@@ -12,7 +12,7 @@ namespace Codex {
 	{
 #ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
-		void* operator new(size_t size)
+		void* operator new(usize size)
 		{
 			void* ptr = std::malloc(size);
 			fmt::println("[Memory] :: Allocated memory.\n\tFile: {}\n\tLine: {}\n\tSize: {}\n\tAddress: {}",
@@ -27,23 +27,23 @@ namespace Codex {
 #endif
 
 	private:
-		int m_Width;
-		int m_Height;
+		i32 m_Width;
+		i32 m_Height;
 		std::unique_ptr<mgl::Renderer> m_InternalRenderer;
 		std::unique_ptr<SpriteBatchRenderer> m_BatchRenderer;
 
 	public:
-		Renderer(const int width, const int height);
+		Renderer(const i32 width, const i32 height);
 
 	public:
 		inline void Clear()	const
 			{ m_InternalRenderer->Clear(); }
-		inline void SetClearColour(const float r, const float g, const float b, const float a) const
+		inline void SetClearColour(const f32 r, const f32 g, const f32 b, const f32 a) const
 			{ m_InternalRenderer->SetClearColour(r, g, b, a); }
 		inline SpriteBatchRenderer* GetSpriteBatchRenderer(
 			Shader* shader,
-			const int initialBatchCapacity	= BATCH_RENDERER_INITIAL_CAPACITY, 
-			const int maxBatchQuadCount		= BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH)
+			const i32 initialBatchCapacity	= BATCH_RENDERER_INITIAL_CAPACITY, 
+			const i32 maxBatchQuadCount		= BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH)
 		{
 			if (!m_BatchRenderer)
 				m_BatchRenderer = std::make_unique<SpriteBatchRenderer>(shader, initialBatchCapacity, maxBatchQuadCount);

@@ -11,7 +11,7 @@ namespace Codex {
 	bool isDragging = false;
 	Vector2f mouseStart;
 
-	EditorScene::EditorScene(Renderer* renderer, const int width, const int height) : Scene(renderer, width, height)
+	EditorScene::EditorScene(Renderer* renderer, const i32 width, const i32 height) : Scene(renderer, width, height)
 	{
 		// TODO: Make Resources to be a singleton sub system that can be initialized and disposed
 		// so that we can dispose all of its resources from the Window class from the corecrl thread.
@@ -33,7 +33,7 @@ namespace Codex {
 		tile_preview.AddComponent<SpriteRendererComponent>(Vector4f { 1.0f, 1.0f, 1.0f, 1.0f });
 
 		m_SelectedTileCoord = { 0.0f, 0.0f };
-		// this will create the batch renderer if it doesn't exist or it will return the pointer to it if it already exists
+		// this will create the batch renderer if it doesn't exist or it will return the poi32er to it if it already exists
 		m_SpriteBatch = m_Renderer->GetSpriteBatchRenderer(m_Shader.get());
 
 
@@ -51,10 +51,10 @@ namespace Codex {
 #endif
 	}
 
-	void EditorScene::Update(const float deltaTime)
+	void EditorScene::Update(const f32 deltaTime)
 	{
 		// TODO: Improve.
-		static float speed = 1.6f;
+		static f32 speed = 1.6f;
 		static Vector2f previous_mouse_pos;
 		if (MouseHandler::IsMouseDown(2))
 		{
@@ -92,8 +92,8 @@ namespace Codex {
 					auto grid_size = tilemap_component.GetGridSize();
 					Vector2f snapped
 					{
-						(int)(mouse.x / grid_size.x) * grid_size.x,
-						(int)(mouse.y / grid_size.y) * grid_size.y
+						(i32)(mouse.x / grid_size.x) * grid_size.x,
+						(i32)(mouse.y / grid_size.y) * grid_size.y
 					};
 
 					fmt::println("\rAdded tile at: {} in layer: {}", snapped, tilemap_component.GetLayer());
@@ -115,8 +115,8 @@ namespace Codex {
 					auto grid_size = tilemap_component.GetGridSize();
 					Vector2f snapped
 					{
-						(int)(mouse.x / grid_size.x) * grid_size.x,
-						(int)(mouse.y / grid_size.y) * grid_size.y
+						(i32)(mouse.x / grid_size.x) * grid_size.x,
+						(i32)(mouse.y / grid_size.y) * grid_size.y
 					};
 
 					fmt::println("Removed tile at: {} in layer: {}", snapped, tilemap_component.GetLayer());
@@ -129,7 +129,7 @@ namespace Codex {
 		}
 	}
 
-	void EditorScene::Render(const float deltaTime)
+	void EditorScene::Render(const f32 deltaTime)
 	{
 		// Render
 		m_Shader->Bind();
@@ -173,7 +173,7 @@ namespace Codex {
 				},
 				renderer_component.GetColour(),
 				renderer_component.GetZIndex(),
-				(int)entity.GetId()
+				(i32)entity.GetId()
 			);
 		}
 
@@ -187,13 +187,13 @@ namespace Codex {
 			{
 				for (const auto& t : value)
 				{
-					auto src_rect = Rect{ (int)t.second.x, (int)t.second.y, (int)tilemap_component.GetTileSize().x, (int)tilemap_component.GetTileSize().y };
+					auto src_rect = Rect{ (i32)t.second.x, (i32)t.second.y, (i32)tilemap_component.GetTileSize().x, (i32)tilemap_component.GetTileSize().y };
 					auto dest_rect = Rect
 					{
-						(int)t.first.x,
-						(int)t.first.y,
-						(int)tilemap_component.GetGridSize().x,
-						(int)tilemap_component.GetGridSize().y
+						(i32)t.first.x,
+						(i32)t.first.y,
+						(i32)tilemap_component.GetGridSize().x,
+						(i32)tilemap_component.GetGridSize().y
 					};
 
 					m_SpriteBatch->RenderRect(
@@ -202,7 +202,7 @@ namespace Codex {
 						dest_rect,
 						Vector4f{ 1.0f, 1.0f, 1.0f, 1.0f },
 						key,
-						(int)entity.GetId()
+						(i32)entity.GetId()
 					);
 				}
 			}

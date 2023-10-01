@@ -43,9 +43,9 @@ namespace Codex {
 		std::ifstream fs(filePath);
 		if (fs.is_open())
 		{
-			size_t id = util::Crypto::DJB2Hash(filePath);
+			usize id = util::Crypto::DJB2Hash(filePath);
 			std::shared_ptr<Texture2D> texture = std::make_shared<Texture2D>(filePath); // TODO: Can't pass texture properties! fix that!
-			m_Resources[id] = std::static_pointer_cast<IResource>(texture);
+			m_Resources[id] = std::static_poi32er_cast<IResource>(texture);
 			fs.close();
 			fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);
 			return texture;
@@ -64,9 +64,9 @@ namespace Codex {
 		std::ifstream fs(filePath);
 		if (fs.is_open())
 		{
-			size_t id = util::Crypto::DJB2Hash(filePath);
+			usize id = util::Crypto::DJB2Hash(filePath);
 			std::shared_ptr<Shader> texture = std::make_shared<Shader>(filePath);
-			m_Resources[id] = std::static_pointer_cast<IResource>(texture);
+			m_Resources[id] = std::static_poi32er_cast<IResource>(texture);
 			fs.close();
 			fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);
 			return texture;

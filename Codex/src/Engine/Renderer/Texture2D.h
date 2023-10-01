@@ -24,15 +24,15 @@ namespace Codex {
 		}
 
 	public:
-		inline uint32_t GetSlot() const
+		inline u32 GetSlot() const
 			{ return m_RawTexture->GetSlot(); }
-		inline int GetWidth() const
+		inline i32 GetWidth() const
 			{ return m_RawTexture->GetWidth(); }
-		inline int GetHeight() const
+		inline i32 GetHeight() const
 			{ return m_RawTexture->GetHeight(); }
 		inline const char* GetFilePath() const
 			{ return m_RawTexture->GetFilePath(); }
-		inline void Bind(uint32_t slot = 0)
+		inline void Bind(u32 slot = 0)
 			{ m_RawTexture->Bind(slot); }
 		inline void Unbind() const
 			{ m_RawTexture->Unbind(); }

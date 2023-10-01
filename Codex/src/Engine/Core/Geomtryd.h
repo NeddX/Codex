@@ -4,54 +4,54 @@
 #include <sdafx.h>
 
 namespace Codex {
-	typedef glm::mat4 Matrix4f;
-	typedef glm::mat2 Matrix2f;
-	typedef glm::vec2 Vector2f;
-	typedef glm::vec3 Vector3f;
-	typedef glm::vec4 Vector4f;
-	typedef mgl::Rect Rect;
-	typedef mgl::Rectf Rectf;
+	using Matrix4f = glm::mat4;
+	using Matrix2f = glm::mat2;
+	using Vector2f = glm::vec2;
+	using Vector3f = glm::vec3;
+	using Vector4f = glm::vec4;
+	using Rect = mgl::Rect;
+	using Rectf = mgl::Rectf;
 
 	// TODO: This looks retarded, I am sure there's a better way to accomplish this
 	// using templates.
-	inline float* ValuePtr(Vector3f vector) { return glm::value_ptr(vector); }
-	inline float* ValuePtr(Vector2f vector) { return glm::value_ptr(vector); }
+	inline f32* ValuePtr(Vector3f vector) { return glm::value_ptr(vector); }
+	inline f32* ValuePtr(Vector2f vector) { return glm::value_ptr(vector); }
 }
 
 namespace std {
 	template<>
 	struct hash<Codex::Vector2f>
 	{
-		size_t operator()(const Codex::Vector2f& vec) const 
+		Codex::usize operator()(const Codex::Vector2f& vec) const
 		{
-			return hash<float>()(vec.x) ^ hash<float>()(vec.y);
+			return hash<Codex::f32>()(vec.x) ^ hash<Codex::f32>()(vec.y);
 		}
 	};
 
 	template<>
 	struct hash<Codex::Vector3f>
 	{
-		size_t operator()(const Codex::Vector3f& vec) const
+		Codex::usize operator()(const Codex::Vector3f& vec) const
 		{
-			return hash<float>()(vec.x) ^ hash<float>()(vec.y) ^ hash<float>()(vec.z);
+			return hash<Codex::f32>()(vec.x) ^ hash<Codex::f32>()(vec.y) ^ hash<Codex::f32>()(vec.z);
 		}
 	};
 
 	template<>
 	struct hash<Codex::Vector4f>
 	{
-		size_t operator()(const Codex::Vector4f& vec) const
+		Codex::usize operator()(const Codex::Vector4f& vec) const
 		{
-			return hash<float>()(vec.x) ^ hash<float>()(vec.y) ^ hash<float>()(vec.z) ^ hash<float>()(vec.w);
+			return hash<Codex::f32>()(vec.x) ^ hash<Codex::f32>()(vec.y) ^ hash<Codex::f32>()(vec.z) ^ hash<Codex::f32>()(vec.w);
 		}
 	};
 
 	template<>
 	struct hash<Codex::Rectf>
 	{
-		size_t operator()(const Codex::Rectf& rect) const
+		Codex::usize operator()(const Codex::Rectf& rect) const
 		{
-			return hash<float>()(rect.x) ^ hash<float>()(rect.y) ^ hash<float>()(rect.w) ^ hash<float>()(rect.h);
+			return hash<Codex::f32>()(rect.x) ^ hash<Codex::f32>()(rect.y) ^ hash<Codex::f32>()(rect.w) ^ hash<Codex::f32>()(rect.h);
 		}
 	};
 }

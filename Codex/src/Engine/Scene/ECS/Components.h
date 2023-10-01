@@ -71,7 +71,7 @@ namespace Codex {
 		Vector4f m_Colour;
 		// TODO: Handle sprite renderers that do not have an actual sprite.
 		Sprite m_Sprite;
-		int m_ZIndex;
+		i32 m_ZIndex;
 
 	public:
 		SpriteRendererComponent(const Vector4f colour);
@@ -82,11 +82,11 @@ namespace Codex {
 			{ return m_Colour; }
 		inline Sprite& GetSprite()
 			{ return m_Sprite; }
-		inline int GetZIndex() const
+		inline i32 GetZIndex() const
 			{ return m_ZIndex; }
 		inline void SetSprite(const Sprite newSprite)
 			{ m_Sprite = newSprite; }
-		inline void SetZIndex(const int newIndex)
+		inline void SetZIndex(const i32 newIndex)
 			{ m_ZIndex = newIndex; }
 		inline void SetColour(const Vector4f newColour)
 			{ m_Colour = newColour; }
@@ -119,10 +119,10 @@ namespace Codex {
 
 	private:
 		std::shared_ptr<Texture2D> m_Texture;
-		std::map<int, std::unordered_map<Vector2f, Vector2f>> m_Tiles;
+		std::map<i32, std::unordered_map<Vector2f, Vector2f>> m_Tiles;
 		Vector2f m_GridSize;
 		Vector2f m_TileSize;
-		int m_Layer;
+		i32 m_Layer;
 		GridRendererComponent* m_GridRenderer;
 
 	public:
@@ -132,7 +132,7 @@ namespace Codex {
 		void Start() override;
 
 	public:
-		inline const std::map<int, std::unordered_map<Vector2f, Vector2f>>& GetAllTiles() const
+		inline const std::map<i32, std::unordered_map<Vector2f, Vector2f>>& GetAllTiles() const
 			{ return m_Tiles; }
 		inline std::shared_ptr<Texture2D> GetTexture() const
 			{ return m_Texture; }
@@ -140,11 +140,11 @@ namespace Codex {
 			{ return m_GridSize; }
 		inline Vector2f GetTileSize() const
 			{ return m_TileSize; }
-		inline int GetLayer() const
+		inline i32 GetLayer() const
 			{ return m_Layer; }
-		inline size_t GetTotalSize()
+		inline usize GetTotalSize()
 		{
-			size_t total_size = m_Tiles.size();
+			usize total_size = m_Tiles.size();
 			for (const auto& e : m_Tiles) total_size += e.second.size();
 			return total_size;
 		}
@@ -154,11 +154,11 @@ namespace Codex {
 			{ m_GridSize = newGridSize; m_GridRenderer->SetGridSize(newGridSize); }
 		inline void SetTileSize(const Vector2f newTileSize)
 			{ m_TileSize = newTileSize; }
-		inline void SetLayer(const int layer)
+		inline void SetLayer(const i32 layer)
 			{ m_Layer = layer; }
 
 	public:
-		void AddTile(const Vector2f worldPos, const int tileId);
+		void AddTile(const Vector2f worldPos, const i32 tileId);
 		void AddTile(const Vector2f worldPos, const Vector2f tilePos);
 		void RemoveTile(const Vector2f worldPos);
 	};

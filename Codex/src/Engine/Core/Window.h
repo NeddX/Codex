@@ -17,7 +17,7 @@ namespace Codex {
 	{
 #ifdef CX_DEBUG_CUSTOM_ALLOCATORS
 	public:
-		void* operator new(size_t size)
+		void* operator new(usize size)
 		{
 			void* ptr = std::malloc(size);
 			fmt::println("[Memory] :: Allocated memory.\n\tFile: {}\n\tLine: {}\n\tSize: {}\n\tAddress: {}",
@@ -33,11 +33,11 @@ namespace Codex {
 
 	private:
 		const char* m_Title;
-		int m_Width, m_Height;
-		int m_PosX, m_PosY;
-		uint32_t m_Flags;
+		i32 m_Width, m_Height;
+		i32 m_PosX, m_PosY;
+		u32 m_Flags;
 		bool m_Running;
-		uint32_t m_Fps, m_FrameCount, m_FrameCap;
+		u32 m_Fps, m_FrameCount, m_FrameCap;
 		std::chrono::system_clock::time_point m_Tp1, m_Tp2;
 		const void* m_NativeWindow;
 		std::unique_ptr<Scene> m_CurrentScene;
@@ -56,21 +56,21 @@ namespace Codex {
 	public:
 		inline Scene* GetCurrentScene() const
 			{ return m_Instance->m_CurrentScene.get(); }
-		inline uint32_t GetWidth() const
+		inline u32 GetWidth() const
 			{ return m_Width; }
-		inline uint32_t GetHeight() const
+		inline u32 GetHeight() const
 			{ return m_Height; }
 
 	public:
 		struct Properties
 		{
 			const char* title = "Codex - Window";
-			int			width = 1280;
-			int			height = 720;
-			int			posX = SDL_WINDOWPOS_CENTERED;
-			int			posY = SDL_WINDOWPOS_CENTERED;
-			int			frameCap = 300;
-			uint32_t	flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+			i32			width = 1280;
+			i32			height = 720;
+			i32			posX = SDL_WINDOWPOS_CENTERED;
+			i32			posY = SDL_WINDOWPOS_CENTERED;
+			i32			frameCap = 300;
+			u32	flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
 			bool		vsync = true;
 			bool		borderless = false;
 		public:
@@ -82,12 +82,12 @@ namespace Codex {
 
 	public:
 		static Window* Get();
-		static int SDLEventFilterWatch(void* object, SDL_Event* event);
-		static void ChangeScene(const int sceneId);
+		static i32 SDLEventFilterWatch(void* object, SDL_Event* event);
+		static void ChangeScene(const i32 sceneId);
 
 	private:
-		void SDLCheckError(const int line = -1);
-		void SDLThrowError(const int line, const std::string_view errorMessage);
+		void SDLCheckError(const i32 line = -1);
+		void SDLThrowError(const i32 line, const std::string_view errorMessage);
 
 	public:
 		void Init(const Properties windowInfo = Properties(), const void* nativeWindow = nullptr);
@@ -96,7 +96,7 @@ namespace Codex {
 		void Destroy();
 
 	public:
-		static void OnWindowResize_Event(const int newWidth, const int newHeight);
+		static void OnWindowResize_Event(const i32 newWidth, const i32 newHeight);
 	};
 }
 

@@ -10,8 +10,8 @@ namespace Codex {
 	{
 
 	private:
-		int m_Width;
-		int m_Height;
+		i32 m_Width;
+		i32 m_Height;
 		Matrix4f m_Projection;
 		Matrix4f m_View;
 
@@ -19,7 +19,7 @@ namespace Codex {
 		Vector2f position;
 
 	public:
-		Camera(const int width, const int height, const Vector2f position = Vector2f(0.0f, 0.0f)) :
+		Camera(const i32 width, const i32 height, const Vector2f position = Vector2f(0.0f, 0.0f)) :
 			m_Width(width), m_Height(height), m_Projection(Matrix4f(0.0f)), position(position)
 		{
 			UpdateProjectionMatrix();
@@ -31,7 +31,7 @@ namespace Codex {
 			//m_Width = 32.0f * 40.0f;
 			//m_Height = 32 * 21.0f;
 			m_Projection = glm::identity<Matrix4f>();
-			m_Projection = glm::ortho(0.0f, (float)(m_Width), (float)(m_Height), 0.0f, 0.0f, 100.0f);
+			m_Projection = glm::ortho(0.0f, (f32)(m_Width), (f32)(m_Height), 0.0f, 0.0f, 100.0f);
 			//m_Projection = glm::ortho(0.0f, 32.0f * 40.0f, 0.0f, 32.0f * 21.0f, 0.0f, 100.0f); // what the fuck?
 		}
 		inline Matrix4f GetViewMatrix()
@@ -48,13 +48,13 @@ namespace Codex {
 		}
 		inline Matrix4f GetProjectionMatrix()
 			{ return m_Projection; }
-		inline int GetWidth() const
+		inline i32 GetWidth() const
 			{ return m_Width; }
-		inline int GetHeight() const
+		inline i32 GetHeight() const
 			{ return m_Height; }
-		inline void SetWidth(const int newWidth)
+		inline void SetWidth(const i32 newWidth)
 			{ m_Width = newWidth; UpdateProjectionMatrix(); }
-		inline void SetHeight(const int newHeight)
+		inline void SetHeight(const i32 newHeight)
 			{ m_Height = newHeight; UpdateProjectionMatrix(); }
 	};
 }

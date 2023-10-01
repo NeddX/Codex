@@ -43,20 +43,20 @@ namespace Codex {
 		Vector2f camera_pos = m_Camera->position;
 		Vector2f proj_size = { m_Camera->GetWidth(), m_Camera->GetHeight() };
 
-		int first_x = ((int)(camera_pos.x / m_GridSize.x) - 1) * m_GridSize.x;
-		int first_y = ((int)(camera_pos.y / m_GridSize.y) - 1) * m_GridSize.y;
+		i32 first_x = ((i32)(camera_pos.x / m_GridSize.x) - 1) * m_GridSize.x;
+		i32 first_y = ((i32)(camera_pos.y / m_GridSize.y) - 1) * m_GridSize.y;
 
-		int rows = (int)(proj_size.y / m_GridSize.y) + 2;
-		int cols = (int)(proj_size.x / m_GridSize.x) + 2;
+		i32 rows = (i32)(proj_size.y / m_GridSize.y) + 2;
+		i32 cols = (i32)(proj_size.x / m_GridSize.x) + 2;
 
-		int width = (int)proj_size.x + m_GridSize.x * 2;
-		int height = (int)proj_size.y + m_GridSize.y * 2;
+		i32 width = (i32)proj_size.x + m_GridSize.x * 2;
+		i32 height = (i32)proj_size.y + m_GridSize.y * 2;
 
 		Vector4f colour = { 0.5f, 0.5f, 0.5f, 1.0f };
-		int max_lines = std::max(rows, cols);
-		for (int i = 0; i < max_lines; ++i)
+		i32 max_lines = std::max(rows, cols);
+		for (i32 i = 0; i < max_lines; ++i)
 		{
-			int x = m_GridSize.x * i + first_x, y = m_GridSize.y * i + first_y;
+			i32 x = m_GridSize.x * i + first_x, y = m_GridSize.y * i + first_y;
 
 			if (i <= cols)
 				DebugDraw::DrawLine2D({ x, first_y }, { x, first_y + height }, colour);
@@ -79,12 +79,12 @@ namespace Codex {
 		m_GridRenderer->SetGridSize(m_GridSize);
 	}
 
-	void TilemapComponent::AddTile(const Vector2f worldPos, const int tileId)
+	void TilemapComponent::AddTile(const Vector2f worldPos, const i32 tileId)
 	{
 		Vector2f vec;
-		int columns = m_Texture->GetWidth() / (int)m_GridSize.x;
-		//int x = tileId % columns;
-		int y = tileId / columns;
+		i32 columns = m_Texture->GetWidth() / (i32)m_GridSize.x;
+		//i32 x = tileId % columns;
+		i32 y = tileId / columns;
 		vec.x = y * m_GridSize.x;
 		vec.y = y * m_GridSize.y;
 		m_Tiles[m_Layer][worldPos] = vec;
