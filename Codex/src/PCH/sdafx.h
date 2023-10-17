@@ -1,6 +1,11 @@
 #ifndef CODEX_PCH_H
 #define CODEX_PCH_H
 
+// Turn this off.
+#ifdef _MSC_VER
+#pragma warning(disable: 4005)
+#endif
+
 // STL headers
 #include <iostream>
 #include <memory>
@@ -62,7 +67,6 @@
 #include "../Engine/Core/CommonDef.h"
 
 // Library specific
-#include <yaml-cpp/yaml.h>
 #include <fmt/core.h>
 #include <SDL.h>
 #include <SDL_syswm.h>

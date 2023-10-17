@@ -73,7 +73,7 @@ namespace codex {
 			if (!texture_slots_initialized)
 			{
 				std::vector<i32> textures(m_MaxTextureSlotCount);
-				for (usize i = 0; i < textures.size(); ++i) textures[i] = i;
+				for (i32 i = 0; i < textures.size(); ++i) textures[i] = i;
 				m_Shader->SetUniform1iArr("u_Textures", 8, textures.data());
 				texture_slots_initialized = true;
 			}
@@ -124,14 +124,14 @@ namespace codex {
 
 			return true;
 		}
-		inline std::vector<u32> GenerateIndicies(usize& size)
+		inline std::vector<u32> GenerateIndicies(u32& size)
 		{
 			size = 6 * m_MaxQuadCount;
 			std::vector<u32> index_buffer_data(size);
 
 			for (usize i = 0; i < size; i += 6)
 			{
-				i32 offset = 4 * (i / 6);
+				u32 offset = (i32)(4 * (i / 6));
 
 				// TODO: Consider using std::memcpy here.
 				index_buffer_data[i] = 2 + offset;

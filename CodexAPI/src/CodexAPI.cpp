@@ -1,23 +1,23 @@
 #include "CodexAPI.h"
 
-extern Codex::Window* g_WindowInstance;
+extern codex::Window* g_WindowInstance;
 
 // Utility functions
 namespace {
-	Codex::Entity CreateCodexEntityFromID(int32_t id, Codex::Scene* scene)
+	codex::Entity CreateCodexEntityFromID(int32_t id, codex::Scene* scene)
 	{
-		return std::move(Codex::Entity((entt::entity)id, scene->GetManager()));
+		return std::move(codex::Entity((entt::entity)id, scene->GetManager()));
 	}
 }
 
 void Init()
 {
 	if (g_WindowInstance == nullptr)
-		g_WindowInstance = Codex::Window::Get();
+		g_WindowInstance = codex::Window::Get();
 	else printf("instance already initialized.\n");
 }
 
-void CreateWindow(const Codex::Window::Properties& properties, const void* nativeWindow)
+void CreateWindow(const codex::Window::Properties& properties, const void* nativeWindow)
 {
 	g_WindowInstance->Init(properties, nativeWindow);
 }
@@ -42,7 +42,7 @@ void ResizeViewport(int newWidth, int newHeight)
 	g_WindowInstance->OnWindowResize_Event(newWidth, newHeight);
 }
 
-Codex::Scene* GetCurrentScene()
+codex::Scene* GetCurrentScene()
 {
 	return nullptr;
 }
@@ -71,10 +71,10 @@ void RemoveEntity(int32_t id)
 void UpdateEntityFromDescriptor(int32_t id, EntityDescriptor* desc)
 {
 	// TODO: Update more efficiently
-	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	auto* active_scene = (codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	auto entity = CreateCodexEntityFromID(id, active_scene);
 
-	auto& transform_component = entity.GetComponent<Codex::TransformComponent>();
+	auto& transform_component = entity.GetComponent<codex::TransformComponent>();
 
 	// TODO: Use memcpy here.
 	transform_component.position.x = desc->transform.position[0];
@@ -91,19 +91,19 @@ void UpdateEntityFromDescriptor(int32_t id, EntityDescriptor* desc)
 	//desc->transform.ToNative(transform_component);
 
 	/*
-	if (entity.HasComponent<Codex::SpriteRendererComponent>())
+	if (entity.HasComponent<codex::SpriteRendererComponent>())
 	{
 		// TODO: Stop creating a new Texture2D object on every update.
-		auto& sprite_component = entity.GetComponent<Codex::SpriteRendererComponent>();
+		auto& sprite_component = entity.GetComponent<codex::SpriteRendererComponent>();
 		
 		auto file_path = desc->spriteRenderer.sprite.texture.filePath;
-		std::shared_ptr<Codex::Texture2D> texture = nullptr;
-		if (!Codex::Resources::HasResource(file_path))
-			texture = Codex::Resources::Load<Codex::Texture2D>(file_path);
+		std::shared_ptr<codex::Texture2D> texture = nullptr;
+		if (!codex::Resources::HasResource(file_path))
+			texture = codex::Resources::Load<codex::Texture2D>(file_path);
 		else 
-			texture = Codex::Resources::GetResource<Codex::Texture2D>(file_path);
+			texture = codex::Resources::GetResource<codex::Texture2D>(file_path);
 
-		auto sprite = Codex::Sprite(texture, desc->spriteRenderer.sprite.srcRect);
+		auto sprite = codex::Sprite(texture, desc->spriteRenderer.sprite.srcRect);
 		sprite_component.SetSprite(sprite);
 		sprite_component.SetZIndex(desc->spriteRenderer.zIndex);
 		sprite_component.SetColour(desc->spriteRenderer.colour);
@@ -111,46 +111,46 @@ void UpdateEntityFromDescriptor(int32_t id, EntityDescriptor* desc)
 	else AddSpriteRendererComponent(id, &desc->spriteRenderer);*/
 }
 
-void SetSelectedTileCoord(Codex::Vector2f newCoord)
+void SetSelectedTileCoord(codex::Vector2f newCoord)
 {
-	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	auto* active_scene = (codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	active_scene->SetSelectedTileCoord(newCoord);
 }
 
-Codex::Vector2f GetSelectedTileCoord()
+codex::Vector2f GetSelectedTileCoord()
 {
-	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	auto* active_scene = (codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	return active_scene->GetSelectedTileCoord();
 }
 
-void GetMousePositionInWorld(Codex::Vector2f& vec)
+void GetMousePositionInWorld(codex::Vector2f& vec)
 {
-	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	auto* active_scene = (codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	vec = active_scene->GetMousePositionInWorld();
 }
 
-void SetActiveAction(Codex::EditorAction newAction)
+void SetActiveAction(codex::EditorAction newAction)
 {
-	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	auto* active_scene = (codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	active_scene->SetActiveAction(newAction);
 }
 
 void SetSelectedEntityID(uint32_t id)
 {
-	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	auto* active_scene = (codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	active_scene->SetSelectedEntityId(id);
 }
 
 void AddSpriteRendererComponent(int32_t id, DescriptorSpriteRendererComponent* c)
 {
-	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	auto* active_scene = (codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	auto entity = CreateCodexEntityFromID(id, active_scene);
 
 	const auto& descriptor_sprite = c->sprite;
-	auto native_sprite = Codex::Sprite(
-		Codex::Resources::Load<Codex::Texture2D>(descriptor_sprite.texture.filePath),
+	auto native_sprite = codex::Sprite(
+		codex::Resources::Load<codex::Texture2D>(descriptor_sprite.texture.filePath),
 		descriptor_sprite.srcRect);
-	entity.AddComponent<Codex::SpriteRendererComponent>(native_sprite, c->colour);
+	entity.AddComponent<codex::SpriteRendererComponent>(native_sprite, c->colour);
 }
 
 // TODO: Consider adding argument-less constructors to components and only using Add functions to
@@ -158,11 +158,11 @@ void AddSpriteRendererComponent(int32_t id, DescriptorSpriteRendererComponent* c
 
 void AddTilemapComponent(int32_t id, DescriptorTilemapComponent* c, TileInfo* const tiles)
 {
-	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	auto* active_scene = (codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	auto entity = CreateCodexEntityFromID(id, active_scene);
 
-	auto& tilemap_component = entity.AddComponent<Codex::TilemapComponent>(
-		Codex::Resources::Load<Codex::Texture2D>(c->textureFilePath),
+	auto& tilemap_component = entity.AddComponent<codex::TilemapComponent>(
+		codex::Resources::Load<codex::Texture2D>(c->textureFilePath),
 		c->gridSize,
 		c->tileSize);
 
@@ -178,10 +178,10 @@ void AddTilemapComponent(int32_t id, DescriptorTilemapComponent* c, TileInfo* co
 void UpdateTransformComponent(int32_t id, DescriptorTransformComponent* c)
 {
 	std::cout << "Updating transform component of entity: " << id << std::endl;
-	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	auto* active_scene = (codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	auto entity = CreateCodexEntityFromID(id, active_scene);
 
-	auto& transform_component = entity.GetComponent<Codex::TransformComponent>();
+	auto& transform_component = entity.GetComponent<codex::TransformComponent>();
 	std::memcpy(&transform_component.position, c->position, sizeof(float) * 3);
 	std::memcpy(&transform_component.rotation, c->rotation, sizeof(float) * 3);
 	std::memcpy(&transform_component.scale, c->scale, sizeof(float) * 3);
@@ -195,12 +195,12 @@ void UpdateTagComponent(int32_t id, DescriptorTagComponent* c)
 void UpdateSpriteRendererComponent(int32_t id, DescriptorSpriteRendererComponent* c)
 {
 	std::cout << "Updating sprite renderer component of entity: " << id << std::endl;
-	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	auto* active_scene = (codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	auto entity = CreateCodexEntityFromID(id, active_scene);
 
-	auto& sprite_component = entity.GetComponent<Codex::SpriteRendererComponent>();
+	auto& sprite_component = entity.GetComponent<codex::SpriteRendererComponent>();
 
-	Codex::Sprite sprite(Codex::Resources::Load<Codex::Texture2D>(c->sprite.texture.filePath), c->sprite.srcRect);
+	codex::Sprite sprite(codex::Resources::Load<codex::Texture2D>(c->sprite.texture.filePath), c->sprite.srcRect);
 	sprite_component.SetSprite(sprite);
 	sprite_component.SetColour(c->colour);
 	sprite_component.SetZIndex(c->zIndex);
@@ -209,12 +209,12 @@ void UpdateSpriteRendererComponent(int32_t id, DescriptorSpriteRendererComponent
 void UpdateTilemapComponent(int32_t id, DescriptorTilemapComponent* c, TileInfo* const tiles)
 {
 	std::cout << "Updating tilemap component of entity: " << id << std::endl;
-	auto* active_scene = (Codex::EditorScene*)g_WindowInstance->GetCurrentScene();
+	auto* active_scene = (codex::EditorScene*)g_WindowInstance->GetCurrentScene();
 	auto entity = CreateCodexEntityFromID(id, active_scene);
 
-	auto& tilemap_component = entity.GetComponent<Codex::TilemapComponent>();
+	auto& tilemap_component = entity.GetComponent<codex::TilemapComponent>();
 
-	tilemap_component.SetTexture(Codex::Resources::Load<Codex::Texture2D>(c->textureFilePath));
+	tilemap_component.SetTexture(codex::Resources::Load<codex::Texture2D>(c->textureFilePath));
 	tilemap_component.SetGridSize(c->gridSize);
 	tilemap_component.SetTileSize(c->tileSize);
 

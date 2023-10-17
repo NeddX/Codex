@@ -43,16 +43,6 @@ target_link_libraries(CodexEngine ${FMT_LIBRARIES})
 #target_include_directories(CodexEngine-static PRIVATE ${FMT_INCLUDE_DIRS})
 #target_link_libraries(CodexEngine-static ${FMT_LIBRARIES})
 
-# yaml-cpp
-add_subdirectory(vendor/yaml-cpp ${PROJECT_BINARY_DIR}/yaml-cpp)
-set(YAMLCPP_INCLUDE_DIRS vendor/yaml-cpp/include)
-set(YAMLCPP_LIBRARIES yaml-cpp)
-target_include_directories(CodexEngine PRIVATE ${YAMLCPP_INCLUDE_DIRS})
-target_link_libraries(CodexEngine ${YAMLCPP_LIBRARIES})
-
-#target_include_directories(CodexEngine-static PRIVATE ${YAMLCPP_INCLUDE_DIRS})
-#target_link_libraries(CodexEngine-static ${YAMLCPP_LIBRARIES})
-
 # glad
 set(GLAD_INCLUDE_DIRS vendor/glad/include)
 set(GLAD_SOURCE_FILE vendor/glad/src/glad.cpp)

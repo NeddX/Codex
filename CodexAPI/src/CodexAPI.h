@@ -11,7 +11,12 @@
 #include <Codex.h>
 #include <cstdint>
 
-Codex::Window* g_WindowInstance = nullptr;
+codex::Window* g_WindowInstance = nullptr;
+
+#ifdef _MSC_VER
+// Disable C-linkage but non-trivial warnings.
+#pragma warning(disable: 4190)
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -26,7 +31,7 @@ extern "C" {
 			float x, y;
 
 		public:
-			Vector2f(Codex::Vector2f vec)
+			Vector2f(codex::Vector2f vec)
 			{
 				x = vec.x;
 				y = vec.y;
@@ -38,7 +43,7 @@ extern "C" {
 		{
 		public:
 			const char* filePath;
-			Codex::TextureProperties textureProperties;
+			codex::TextureProperties textureProperties;
 		};
 
 		// Scene
@@ -46,7 +51,7 @@ extern "C" {
 		{
 		public:
 			Texture2D texture;
-			Codex::Rectf srcRect;
+			codex::Rectf srcRect;
 		};
 
 		// Components
@@ -59,11 +64,11 @@ extern "C" {
 			float scale[3];
 			
 		public:
-			void ToNative(Codex::TransformComponent& c)
+			void ToNative(codex::TransformComponent& c)
 			{
-				std::memcpy(Codex::ValuePtr(c.position),	position,	sizeof(float) * ARRAY_COUNT(position));
-				std::memcpy(Codex::ValuePtr(c.rotation),	rotation,	sizeof(float) * ARRAY_COUNT(rotation));
-				std::memcpy(Codex::ValuePtr(c.scale),		scale,		sizeof(float) * ARRAY_COUNT(scale));
+				std::memcpy(codex::ValuePtr(c.position),	position,	sizeof(float) * ARRAY_COUNT(position));
+				std::memcpy(codex::ValuePtr(c.rotation),	rotation,	sizeof(float) * ARRAY_COUNT(rotation));
+				std::memcpy(codex::ValuePtr(c.scale),		scale,		sizeof(float) * ARRAY_COUNT(scale));
 			}
 		};
 
@@ -73,21 +78,21 @@ extern "C" {
 			const char* tag;
 		
 		public:
-			Codex::TagComponent ToNative()
+			codex::TagComponent ToNative()
 			{
-				return Codex::TagComponent(tag);
+				return codex::TagComponent(tag);
 			}
 		};
 
 		struct DescriptorSpriteRendererComponent
 		{
 		public:
-			Codex::Vector4f colour;
+			codex::Vector4f colour;
 			Sprite sprite;
 			int32_t zIndex;
 
 		public:
-			void ToNative(Codex::SpriteRendererComponent& c)
+			void ToNative(codex::SpriteRendererComponent& c)
 			{
 				// TODO: Convert to native type
 			}
@@ -96,25 +101,25 @@ extern "C" {
 		struct TileInfo
 		{
 			int32_t layer;
-			Codex::Vector2f tilePos;
-			Codex::Vector2f worldPos;
+			codex::Vector2f tilePos;
+			codex::Vector2f worldPos;
 		};
 
 		struct DescriptorTilemapComponent
 		{
 		public:
 			const char* textureFilePath;
-			Codex::Vector2f gridSize;
-			Codex::Vector2f tileSize;
+			codex::Vector2f gridSize;
+			codex::Vector2f tileSize;
 			int32_t layer;
 			int32_t tileCount;
 
 		public:
 			/*
-			Codex::TilemapComponent ToNative()
+			codex::TilemapComponent ToNative()
 			{
-				Codex::TilemapComponent c(
-					Codex::Resources::Load<Codex::Texture2D>(textureFilePath), gridSize, tileSize);
+				codex::TilemapComponent c(
+					codex::Resources::Load<Codex::Texture2D>(textureFilePath), gridSize, tileSize);
 				
 				for (int i = 0; i < tileCount; ++i)
 				{
@@ -136,12 +141,12 @@ extern "C" {
 
 	// Window class
 	CODEX_EXPORT void Init();
-	CODEX_EXPORT void CreateWindow(const Codex::Window::Properties& proFperties, const void* nativeWindow = nullptr);
+	CODEX_EXPORT void CreateWindow(const codex::Window::Properties& proFperties, const void* nativeWindow = nullptr);
 	CODEX_EXPORT void Destroy();
 	CODEX_EXPORT void StartEngineThread();
 	CODEX_EXPORT void Update();
 	CODEX_EXPORT void ResizeViewport(int newWidth, int newHeight);
-	CODEX_EXPORT Codex::Scene* GetCurrentScene();
+	CODEX_EXPORT codex::Scene* GetCurrentScene();
 	CODEX_EXPORT void ChangeScene(int sceneID);
 	CODEX_EXPORT void SetCameraProjection(int minX, int maxX, int minY, int maxY);
 
@@ -149,10 +154,10 @@ extern "C" {
 	CODEX_EXPORT int32_t CreateEntity(EntityDescriptor* desc);
 	CODEX_EXPORT void RemoveEntity(int32_t id);
 	CODEX_EXPORT void UpdateEntityFromDescriptor(int32_t id, EntityDescriptor* desc); // TODO: Obsolete function, remember to remove.
-	CODEX_EXPORT void SetSelectedTileCoord(Codex::Vector2f newCoord);
-	CODEX_EXPORT Codex::Vector2f GetSelectedTileCoord();
-	CODEX_EXPORT void GetMousePositionInWorld(Codex::Vector2f& vec);
-	CODEX_EXPORT void SetActiveAction(Codex::EditorAction newAction);
+	CODEX_EXPORT void SetSelectedTileCoord(codex::Vector2f newCoord);
+	CODEX_EXPORT codex::Vector2f GetSelectedTileCoord();
+	CODEX_EXPORT void GetMousePositionInWorld(codex::Vector2f& vec);
+	CODEX_EXPORT void SetActiveAction(codex::EditorAction newAction);
 	CODEX_EXPORT void SetSelectedEntityID(uint32_t id);
 
 	// Entity Component System

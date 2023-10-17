@@ -68,7 +68,7 @@ namespace codex {
 			printf("Creating SDL Window from a Native Window. Window Address: %p\n", m_NativeWindow);
 		}
 		else 
-			m_SdlWindow = SDL_CreateWindow(m_Title, m_PosX, m_PosY, m_Width, m_Height, m_Flags | SDL_WINDOW_OPENGL);
+			m_SdlWindow = SDL_CreateWindow(m_Title.c_str(), m_PosX, m_PosY, m_Width, m_Height, m_Flags | SDL_WINDOW_OPENGL);
 
 		if (!m_SdlWindow)
 		{
@@ -332,7 +332,7 @@ namespace codex {
 		}
 	}
 
-	void Window::OnWindowResize_Event(const i32 newWidth, const i32 newHeight)
+	void Window::OnWindowResize_Event(const u32 newWidth, const u32 newHeight)
 	{
 		if (newWidth == 0 || newHeight == 0) return;
 		glViewport(0, 0, newWidth, newHeight);

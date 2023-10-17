@@ -53,12 +53,12 @@ namespace codex {
 			const i32 segments = 20,
 			const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
 			i32 lifeTime = 1);
-		inline static std::vector<u32> GenerateIndicies(usize& size)
+		inline static std::vector<u32> GenerateIndicies(u32& size)
 		{
 			size = LINE2D_INDEX_COUNT * LINE2D_MAX_LINES;
 			std::vector<u32> index_buffer_data(size);
 
-			for (usize i = 0; i < size; i += LINE2D_INDEX_COUNT)
+			for (u32 i = 0; i < size; i += LINE2D_INDEX_COUNT)
 			{
 				i32 offset = 4 * (i / LINE2D_INDEX_COUNT);
 

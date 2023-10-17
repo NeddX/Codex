@@ -19,7 +19,7 @@ namespace codex {
 
 		m_Ebo = std::make_unique<mgl::IndexBuffer>();
 		m_Ebo->Bind();
-		usize size = 0;
+		u32 size = 0;
 		auto index_buffer_data = GenerateIndicies(size);
 		m_Ebo->SetBuffer(index_buffer_data.data(), size);
 

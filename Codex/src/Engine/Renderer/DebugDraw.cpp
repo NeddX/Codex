@@ -96,7 +96,7 @@ namespace codex {
 			m_Instance->m_Shader->SetUniformMat4f("u_Proj", camera->GetProjectionMatrix());
 			m_Instance->m_Shader->SetUniformMat4f("u_View", camera->GetViewMatrix());
 
-			GL_Call(glDrawArrays(GL_LINES, 0, m_Lines.size() * 2));
+			GL_Call(glDrawArrays(GL_LINES, 0, (i32)m_Lines.size() * 2));
 
 			m_Instance->m_Shader->Unbind();
 			m_Instance->m_Vao->Unbind();

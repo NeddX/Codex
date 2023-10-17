@@ -44,7 +44,7 @@ namespace codex {
 					x = space;
 				}
 				m_SpriteCoords.emplace_back(x, y);
-				m_Sprites.emplace_back(texture, Rectf(x, y, spriteWidth, spriteHeight));
+				m_Sprites.emplace_back(texture, Rectf((f32)x, (f32)y, (f32)spriteWidth, (f32)spriteHeight));
 				x += spriteWidth + space;
 			}
 		}

@@ -43,20 +43,20 @@ namespace codex {
 		Vector2f camera_pos = m_Camera->position;
 		Vector2f proj_size = { m_Camera->GetWidth(), m_Camera->GetHeight() };
 
-		i32 first_x = ((i32)(camera_pos.x / m_GridSize.x) - 1) * m_GridSize.x;
-		i32 first_y = ((i32)(camera_pos.y / m_GridSize.y) - 1) * m_GridSize.y;
+		i32 first_x = (i32)(((i32)(camera_pos.x / m_GridSize.x) - 1) * m_GridSize.x);
+		i32 first_y = (i32)(((i32)(camera_pos.y / m_GridSize.y) - 1) * m_GridSize.y);
 
 		i32 rows = (i32)(proj_size.y / m_GridSize.y) + 2;
 		i32 cols = (i32)(proj_size.x / m_GridSize.x) + 2;
 
-		i32 width = (i32)proj_size.x + m_GridSize.x * 2;
-		i32 height = (i32)proj_size.y + m_GridSize.y * 2;
+		i32 width = (i32)(proj_size.x + m_GridSize.x * 2);
+		i32 height = (i32)(proj_size.y + m_GridSize.y * 2);
 
 		Vector4f colour = { 0.5f, 0.5f, 0.5f, 1.0f };
 		i32 max_lines = std::max(rows, cols);
 		for (i32 i = 0; i < max_lines; ++i)
 		{
-			i32 x = m_GridSize.x * i + first_x, y = m_GridSize.y * i + first_y;
+			i32 x = (i32)(m_GridSize.x * i + first_x), y = (i32)(m_GridSize.y * i + first_y);
 
 			if (i <= cols)
 				DebugDraw::DrawLine2D({ x, first_y }, { x, first_y + height }, colour);
