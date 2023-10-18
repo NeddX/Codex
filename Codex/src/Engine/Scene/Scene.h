@@ -3,8 +3,7 @@
 
 #include <sdafx.h>
 
-#include "Camera.h"
-#include "../Scene/ECS/ECS.h"
+#include "../Core/Camera.h"
 #include "../Renderer/Renderer.h"
 #include "../Scene/SpriteSheet.h"
 #include "../Core/ResourceHandler.h"
@@ -14,42 +13,50 @@
 namespace codex {
 	// Forward declarations
 	class Window;
+	class Entity;
 
 	class Scene
 	{
 		friend class Window;
+		friend class Entity;
 
 	protected:
 		i32 m_Width;
 		i32 m_Height;
 		std::unique_ptr<Camera> m_Camera;
 		Renderer* m_Renderer;
-		EntityManager m_Manager;
-		
+		entt::registry m_Registry;
+
 	private:
 		bool m_Running;
 
 	public:
-		Scene(Renderer* renderer, i32 width, i32 height);
+		Scene(Renderer* renderer, const i32 width, const i32 height);
 		virtual ~Scene() = default;
 
 	public:
 		inline Camera* GetCamera() const
 			{ return m_Camera.get(); }
-		inline Entity CreateEntity(const std::string& tag = "default tag") 
-		{ 
-			std::cout << "created entity with tag: " << tag << std::endl;
-			auto entity = m_Manager.CreateEntity(tag); 
-			return entity;
-		}	
 		inline Vector2f GetMousePositionInWorld()
 			{ return Vector2f(MouseHandler::GetMouseX() + m_Camera->position.x, MouseHandler::GetMouseY() + m_Camera->position.y); }
-		inline EntityManager* GetManager()
-			{ return &m_Manager; }
-		inline void RemoveEntity(const Entity entity)
-			{ m_Manager.RemoveEntity(entity); }
-		inline void RemoveEntity(const u32 entity)
-			{ m_Manager.RemoveEntity(Entity((entt::entity)(entity), &m_Manager)); }
+
+	public:
+		template<typename T>
+		inline std::vector<Entity> GetAllEntitiesWithComponent()
+		{
+			auto view = m_Registry.view<T>();
+			std::vector<Entity> entities;
+			entities.reserve(view.size_hint());
+			for (auto& e : view)
+				entities.emplace_back(e, this);
+			return entities;
+		}
+
+	public:
+		Entity CreateEntity(const std::string_view tag = "default tag");
+		void RemoveEntity(const Entity entity);
+		void RemoveEntity(const u32 entity);
+		std::vector<Entity> GetAllEntitesWithTag(const std::string_view tag);
 
 	public:
 		void OnWindowResize_Event(const i32 newWidth, const i32 newHeight)

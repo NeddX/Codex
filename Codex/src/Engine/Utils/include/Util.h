@@ -18,62 +18,11 @@ namespace codex::util
 			}
 			return buffer.str();
 		}
-
-		static void ParseShaderFile(const char* filePath, char* const vertexShader, char* const fragmentShader = NULL)
-		{
-			std::string file_src = ReadToString(filePath);
-
-			enum TokenType
-			{
-				MACRO,
-				SRC
-			};
-			struct Token
-			{
-				TokenType Type = SRC;
-				std::string Text = "";
-
-			public:
-				void Reset()
-				{
-					Type = SRC;
-					Text = "";
-				}
-			};
-
-			usize i = 0;
-			Token current_token;
-			std::vector<Token> tokens;
-			while (file_src[i] != 0)
-			{
-				if (file_src[i] != 0)
-				{
-					if (file_src[i] == '#' && current_token.Type == SRC)
-					{
-						tokens.push_back(current_token);
-						current_token.Reset();
-						current_token.Type = MACRO;
-						current_token.Text.append(1, file_src[i]);
-					}
-					else if (file_src[i] == '\n')
-					{
-						tokens.push_back(current_token);
-						current_token.Reset();
-						current_token.Type = SRC;
-					}
-					else if (current_token.Type == SRC)
-					{
-						current_token.Text.append(1, file_src[i]);
-					}
-				}
-				i++;
-			}
-		}
 	};
 
 	struct Crypto
 	{
-		static u32 DJB2Hash(const std::string& str)
+		static u32 DJB2Hash(const std::string_view str)
 		{
 			u32 hash = 5381;
 			for (usize i = 0; i < str.length(); i++)

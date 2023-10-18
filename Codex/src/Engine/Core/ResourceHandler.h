@@ -3,140 +3,89 @@
 
 #include <sdafx.h>
 
-#include "IResource.h"
 #include "../Renderer/Shader.h"
 #include "../Renderer/Texture2D.h"
-
-#if !defined(__clang__)
-#define T_STATIC static
-#else
-#define T_STATIC
-#endif
+#include "Exception.h"
+#include "IResource.h"
 
 namespace codex {
-	class Resources
-	{
-#ifdef CX_DEBUG_CUSTOM_ALLOCATORS
-	public:
-		void* operator new(usize size)
-		{
-			void* ptr = std::malloc(size);
-			fmt::println("[Memory] :: Allocated memory.\n\tFile: {}\n\tLine: {}\n\tSize: {}\n\tAddress: {}",
-				__FILE__, __LINE__, size, ptr);
-			return ptr;
-		}
-		void operator delete(void* ptr)
-		{
-			fmt::println("[Memory] :: Deallocated memory.\n\tFile: {}\n\tLine: {}\n\tAddress: {}", __FILE__, __LINE__, ptr);
-			std::free(ptr);
-		}
-#endif
-	private:
-		static Resources* m_Instance;
+    class ResourceException : public CodexException
+    {
+    protected:
+        const char* m_Message = nullptr;
 
-	private:
-		std::unordered_map<usize, std::shared_ptr<IResource>> m_Resources;
+    public:
+        ResourceException() noexcept = default;
+        ResourceException(const std::string message) noexcept;
+        ResourceException(const std::string message, const char* file, const char* function, const u32 line) noexcept;
+    };
 
-	public:
-		Resources() = default;
-		~Resources();
+    class ResourceNotFoundException : public ResourceException
+    {
+    public:
+        ResourceNotFoundException() noexcept = default;
+        ResourceNotFoundException(const std::string message) noexcept;
+        ResourceNotFoundException(const std::string message, const char* file, const char* function, const u32 line) noexcept;
+    };
 
-	public:
-		static void Init();
-		static void Destroy();
+    class Resources
+    {
+    private:
+        static Resources* m_Instance;
 
-	public:
-		template<typename T>
-		static std::shared_ptr<T> Load(const char* filePath)
-		{
-			static_assert("Type not supported.");
-			return nullptr;
-		}
-		template<>
-		T_STATIC std::shared_ptr<Texture2D> Load(const char* filePath)
-		{
-			if (HasResource(filePath)) return GetResource<Texture2D>(filePath);
+    private:
+        std::unordered_map<usize, std::shared_ptr<IResource>> m_Resources;
 
-			std::ifstream fs(filePath);
-			if (fs.is_open())
-			{
-				usize id = util::Crypto::DJB2Hash(filePath);
+    public:
+        static void Init();
+        static void Destroy();
 
-				// TODO: Make it so that the user can pass arguments to Load<T>() !
-				TextureProperties props;
-				props.filterMode = TextureFilterMode::Nearest;
+    public:
+        template <typename T>
+        static std::shared_ptr<T> Load(const char* filePath)
+        {
+            static_assert("Type not supported.");
+            return nullptr;
+        }
 
-				std::shared_ptr<Texture2D> texture = std::make_shared<Texture2D>(filePath, props);
-				m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
-				fs.close();
-				fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);
-				return texture;
-			}
-			else
-			{
-				fs.close();
-				fmt::println("Couldn't open file '{}' for reading. Failed to load texture asset.", filePath);
-				throw std::runtime_error("");
-				return nullptr;
-			}
-		}
-		template<>
-		T_STATIC std::shared_ptr<Shader> Load(const char* filePath)
-		{
-			std::ifstream fs(filePath);
-			if (fs.is_open())
-			{
-				usize id = util::Crypto::DJB2Hash(filePath);
-				std::shared_ptr<Shader> texture = std::make_shared<Shader>(filePath);
-				m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
-				fs.close();
-				fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);
-				return texture;
-			}
-			else
-			{
-				fs.close();
-				fmt::println("Couldn't open file '{}' for reading. Failed to load shader asset.", filePath);
-				throw std::runtime_error("");
-				return nullptr;
-			}
-		}
+    public:
+        template <typename T>
+        inline static std::shared_ptr<T> GetResource(const usize id)
+        {
+            auto it = m_Instance->m_Resources.find(id);
+            if (it != m_Instance->m_Resources.end())
+                return std::static_pointer_cast<T>(it->second);
+            else
+                throw ResourceNotFoundException(fmt::format("Hash Id {} was not present in the resource pool.", id).c_str());
+        }
+        template <typename T>
+        inline static std::shared_ptr<T> GetResource(const std::string_view filePath)
+        {
+            return GetResource<T>(util::Crypto::DJB2Hash(filePath));
+        }
+        inline static bool HasResource(const usize id)
+        {
+            auto it = m_Instance->m_Resources.find(id);
+            if (it != m_Instance->m_Resources.end())
+                return true;
+            return false;
+        }
+        inline static bool HasResource(const std::string_view filePath)
+        {
+            usize id = util::Crypto::DJB2Hash(filePath);
+            return HasResource(id);
+        }
+        inline static std::unordered_map<usize, std::shared_ptr<IResource>>& GetAllResources()
+        {
+            return m_Instance->m_Resources;
+        }
+    };
 
-	public:
-		template<typename T>
-		inline static std::shared_ptr<T> GetResource(usize id)
-		{
-			auto it = m_Instance->m_Resources.find(id);
-			if (it != m_Instance->m_Resources.end()) return std::static_pointer_cast<T>(it->second);
+    template <>
+    std::shared_ptr<Texture2D> Resources::Load(const char* filePath);
+    template <>
+    std::shared_ptr<Shader> Resources::Load(const char* filePath);
 
-			// TODO: Add a custom exception class!
-			else
-			{
-				fmt::println("Hash Id {} was not present in the Resource Pool.", id);
-				throw std::runtime_error("");
-			}
-		}
-		template<typename T>
-		inline static std::shared_ptr<T> GetResource(const char* filePath)
-		{
-			return GetResource<T>(util::Crypto::DJB2Hash(filePath));
-		}
-		inline static bool HasResource(usize id)
-		{
-			auto it = m_Instance->m_Resources.find(id);
-			if (it != m_Instance->m_Resources.end()) return true;
-			return false;
-		}
-		inline static bool HasResource(const char* filePath)
-		{
-			usize id = util::Crypto::DJB2Hash(filePath);
-			return HasResource(id);
-		}
-		inline static std::unordered_map<usize, std::shared_ptr<IResource>>& GetAllResources()
-		{
-			return m_Instance->m_Resources;
-		}
-	};
-}
+} // namespace codex
 
 #endif // CODEX_CORE_RESOURCE_HANDLER_H

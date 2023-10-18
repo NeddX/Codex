@@ -16,7 +16,6 @@ namespace codex {
 	class EditorScene : public Scene
 	{
 	private:
-		EntityManager m_EditorSceneManager;
 		SpriteBatchRenderer* m_SpriteBatch;
 		std::shared_ptr<Shader> m_Shader;
 		Vector2f m_SelectedTileCoord;

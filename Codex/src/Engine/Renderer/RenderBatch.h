@@ -73,7 +73,7 @@ namespace codex {
 			if (!texture_slots_initialized)
 			{
 				std::vector<i32> textures(m_MaxTextureSlotCount);
-				for (i32 i = 0; i < textures.size(); ++i) textures[i] = i;
+				for (u32 i = 0; i < (u32)textures.size(); ++i) textures[i] = i;
 				m_Shader->SetUniform1iArr("u_Textures", 8, textures.data());
 				texture_slots_initialized = true;
 			}

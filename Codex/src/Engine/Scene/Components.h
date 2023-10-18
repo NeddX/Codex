@@ -3,8 +3,8 @@
 
 #include <sdafx.h>
 
-#include "../Sprite.h"
-#include "../../Core/Geomtryd.h" 
+#include "Sprite.h"
+#include "../Core/Geomtryd.h" 
 
 namespace codex {
 	// Forward decelerations

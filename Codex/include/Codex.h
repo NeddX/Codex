@@ -5,13 +5,18 @@
 #include "../src/Engine/Core/Window.h"
 #include "../src/Engine/Core/CommonDef.h"
 #include "../src/Engine/Core/Camera.h"
-#include "../src/Engine/Core/EditorScene.h"		// ?
 #include "../src/Engine/Core/Geomtryd.h"
 #include "../src/Engine/Core/KeyHandler.h"
-#include "../src/Engine/Core/LevelScene.h"		// ?
 #include "../src/Engine/Core/MouseHandler.h"
 #include "../src/Engine/Core/ResourceHandler.h"
-#include "../src/Engine/Core/Scene.h"
+#include "../src/Engine/Core/Exception.h"
+
+// Scene
+#include "../src/Engine/Scene/Scene.h"
+#include "../src/Engine/Scene/EditorScene.h"
+#include "../src/Engine/Scene/LevelScene.h"
+#include "../src/Engine/Scene/Components.h"
+#include "../src/Engine/Scene/ECS.h"
 
 // Renderer
 #include "../src/Engine/Renderer/RenderBatch.h"

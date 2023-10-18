@@ -5,10 +5,13 @@
 
 #ifdef __GNUC__
 #define CX_DEBUG_TRAP() __builtin_trap()
+#define CX_PRETTY_FUNCTION __PRETTY_FUNCTION__
 #elif _MSC_VER
 #define CX_DEBUG_TRAP() __debugbreak()
+#define CX_PRETTY_FUNCTION __FUNCSIG__
 #elif __clang__
 #define CX_DEBUG_TRAP() __builtin_debugtrap()
+#define CX_PRETTY_FUNCTION __PRETTY_FUNCTION__
 #endif
 
 //#define PI 3.14159265358979323f // The ratio between circle's diameter and the circumference. This is used to convert from degrees to radians.

@@ -1,4 +1,5 @@
 #include "EditorScene.h"
+#include "ECS.h"
 #include "../Core/MouseHandler.h"
 #include "../Renderer/DebugDraw.h"
 #include "../Core/Window.h"
@@ -29,7 +30,7 @@ namespace codex {
 		//auto grid = m_EditorSceneManager.CreateEntity("grid_renderer_entity");
 		//grid.AddComponent<GridRendererComponent>(Vector2f { 32.0f, 32.0f });
 
-		auto tile_preview = m_EditorSceneManager.CreateEntity("tile_preview_entity");
+		auto tile_preview = CreateEntity("tile_preview_entity");
 		tile_preview.AddComponent<SpriteRendererComponent>(Vector4f { 1.0f, 1.0f, 1.0f, 1.0f });
 
 		m_SelectedTileCoord = { 0.0f, 0.0f };
@@ -84,7 +85,7 @@ namespace codex {
 				if (!MouseHandler::IsMouseDown(0)) break;
 
 				auto mouse = GetMousePositionInWorld();
-				auto ent = Entity(m_SelectedEntityId, &m_Manager);
+				auto ent = Entity(m_SelectedEntityId, this);
 
 				if (ent.HasComponent<TilemapComponent>())
 				{
@@ -106,7 +107,7 @@ namespace codex {
 				if (!MouseHandler::IsMouseDown(0)) break;
 
 				auto mouse = GetMousePositionInWorld();
-				auto ent = Entity(m_SelectedEntityId, &m_Manager);
+				auto ent = Entity(m_SelectedEntityId, this);
 
 				if (ent.HasComponent<TilemapComponent>())
 
@@ -140,7 +141,7 @@ namespace codex {
 		//m_SpriteBatch->BindShader(m_Shader.get());
 
 		// Render editor scene specific entities
-		for (auto& entity : m_EditorSceneManager.GetAllEntitiesWithComponent<GridRendererComponent>())
+		for (auto& entity : GetAllEntitiesWithComponent<GridRendererComponent>())
 		{
 			auto& grid_renderer = entity.GetComponent<GridRendererComponent>();
 			grid_renderer.Render();
@@ -156,7 +157,7 @@ namespace codex {
 
 
 		// Render entities/components here
-		for (auto& entity : m_Manager.GetAllEntitiesWithComponent<SpriteRendererComponent>())
+		for (auto& entity : GetAllEntitiesWithComponent<SpriteRendererComponent>())
 		{
 			auto& transform_component = entity.GetComponent<TransformComponent>();
 			auto& renderer_component = entity.GetComponent<SpriteRendererComponent>();
@@ -177,7 +178,7 @@ namespace codex {
 			);
 		}
 
-		for (auto& entity : m_Manager.GetAllEntitiesWithComponent<TilemapComponent>())
+		for (auto& entity : GetAllEntitiesWithComponent<TilemapComponent>())
 		{
 			//auto& transform_component = entity.GetComponent<TransformComponent>();
 			auto& tilemap_component = entity.GetComponent<TilemapComponent>();

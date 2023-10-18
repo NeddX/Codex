@@ -2,7 +2,7 @@
 file(GLOB_RECURSE ENGINE_SOURCES "src/Engine/*.cpp")
 file(GLOB_RECURSE ENGINE_HEADERS "src/Engine/*.h")
 
-add_library(CodexEngine STATIC ${ENGINE_HEADERS} ${ENGINE_SOURCES})
+add_library(CodexEngine ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 #add_library(CodexEngine-static STATIC ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 
 # Set the C++ Standard to 17 for this target
@@ -134,6 +134,6 @@ target_include_directories(CodexEngine PUBLIC src/PCH)
 if (MSVC)
     target_compile_options(CodexEngine PRIVATE /W3 /WX)
 else()
-    target_compile_options(CodexEngine PRIVATE -Wall -Wextra -Wno-error=extra -Werror)
+    #target_compile_options(CodexEngine PRIVATE -Wall -Wextra -Wno-error=extra -Werror)
 endif()
 

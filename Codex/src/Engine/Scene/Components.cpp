@@ -1,6 +1,7 @@
 #include "Components.h"
-#include "../../Core/Window.h"
-#include "../../Renderer/DebugDraw.h"
+#include "ECS.h"
+#include "../Core/Window.h"
+#include "../Renderer/DebugDraw.h"
 
 namespace codex {
 

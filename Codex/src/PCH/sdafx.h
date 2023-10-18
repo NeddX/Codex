@@ -21,6 +21,7 @@
 #include <regex>
 #include <numeric>
 #include <sstream>
+#include <typeinfo>
 
 // Legacy
 #include <cstdio>
@@ -48,7 +49,9 @@
 #include <GLUT/glut.h>
 #else
 #ifdef _WIN32
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #undef CreateWindow

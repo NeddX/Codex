@@ -6,7 +6,7 @@ extern codex::Window* g_WindowInstance;
 namespace {
 	codex::Entity CreateCodexEntityFromID(int32_t id, codex::Scene* scene)
 	{
-		return std::move(codex::Entity((entt::entity)id, scene->GetManager()));
+		return std::move(codex::Entity((entt::entity)id, scene));
 	}
 }
 

@@ -6,9 +6,9 @@
 #include "CommonDef.h"
 #include "MouseHandler.h"
 #include "KeyHandler.h"
-#include "Scene.h"
-#include "EditorScene.h"
-#include "LevelScene.h"
+#include "../Scene/Scene.h"
+#include "../Scene/LevelScene.h"
+#include "../Scene/EditorScene.h"
 #include "../Renderer/Renderer.h"
 #include "../Renderer/TexturePicking.h"
 

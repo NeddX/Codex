@@ -3,31 +3,29 @@
 
 #include <sdafx.h>
 
-#include "../../Core/Geomtryd.h"
-#include "../../Renderer/SpriteBatchRenderer.h"
+#include "Scene.h"
+#include "../Core/Geomtryd.h"
+#include "../Renderer/SpriteBatchRenderer.h"
 #include "Components.h"
 
 namespace codex {
-	// Forward declarations
-	class EntityManager;
-
 	class Entity
 	{
-		friend class EntityManager;
+		friend class Scene;
 
 	private:
 		entt::entity m_Handle { 0 };
-		EntityManager* m_Manager = nullptr;
+		Scene* m_Scene = nullptr;
 
 	public:
 		Entity() = default;
-		Entity(const entt::entity entity, EntityManager* manager) :
-			m_Handle(entity), m_Manager(manager)
+		Entity(const entt::entity entity, Scene* scene) :
+			m_Handle(entity), m_Scene(scene)
 		{
 
 		}
-		Entity(const u32 entity, EntityManager* manager) :
-			m_Handle((entt::entity)entity), m_Manager(manager)
+		Entity(const u32 entity, Scene* scene) :
+			m_Handle((entt::entity)entity), m_Scene(scene)
 		{
 
 		}
@@ -41,37 +39,37 @@ namespace codex {
 		template<typename T, typename... TArgs>
 		T& AddComponent(TArgs&&... args)
 		{
-			CX_ASSERT(!m_Manager->m_Registry.any_of<T>(m_Handle), "Entity already has that component.");
-			auto& c = m_Manager->m_Registry.emplace<T>(m_Handle, std::forward<TArgs>(args)...);
-			c.m_Parent = std::make_unique<Entity>(m_Handle, m_Manager);
+			CX_ASSERT(!m_Scene->m_Registry.any_of<T>(m_Handle), "Entity already has that component.");
+			auto& c = m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<TArgs>(args)...);
+			c.m_Parent = std::make_unique<Entity>(m_Handle, m_Scene);
 			c.Start();
 			return c;
 		}
 		template<typename T>
 		void RemoveComponent()
 		{
-			CX_ASSERT(m_Manager->m_Registry.any_of<T>(m_Handle), "Entity does not have the component to remove.");
-			m_Manager->m_Registry.remove<T>(m_Handle);
+			CX_ASSERT(m_Scene->m_Registry.any_of<T>(m_Handle), "Entity does not have the component to remove.");
+			m_Scene->m_Registry.remove<T>(m_Handle);
 		}
 		template<typename T>
 		T& GetComponent()
 		{
-			CX_ASSERT(m_Manager->m_Registry.any_of<T>(m_Handle), "Entity does not have the component to retrieve.");
-			return m_Manager->m_Registry.get<T>(m_Handle);
+			CX_ASSERT(m_Scene->m_Registry.any_of<T>(m_Handle), "Entity does not have the component to retrieve.");
+			return m_Scene->m_Registry.get<T>(m_Handle);
 		}
 		template<typename T>
 		bool HasComponent()
 		{
-			return m_Manager->m_Registry.any_of<T>(m_Handle);
+			return m_Scene->m_Registry.any_of<T>(m_Handle);
 		}
 	};
 
+	/*
 	class EntityManager
 	{
 		friend class Entity;
 
 	private:
-		i32 m_Indicator;
 		entt::registry m_Registry;
 
 	public:
@@ -116,5 +114,6 @@ namespace codex {
 			return entities;
 		}
 	};
+	*/
 }
 #endif // CODEX_SCENE_ECS_H
