@@ -21,8 +21,8 @@ namespace codex {
         return (!m_Message.empty()) ? m_Message.c_str() : "Unknown engine exception.";
     }
 
-    const char* CodexException::backtrace() const noexcept
+    std::string CodexException::backtrace() const noexcept
     {
-        return fmt::format("at {} in {} line: {}", m_Function, m_File, m_Line).c_str();
+        return fmt::format("at {} in {} line: {}", m_Function, m_File, m_Line);
     }
 } // namespace codex

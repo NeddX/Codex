@@ -2,11 +2,6 @@
 #include "../Renderer/DebugDraw.h"
 
 namespace codex {	
-	Window* Window::m_Instance							= nullptr;
-	SDL_Window* Window::m_SdlWindow						= nullptr;
-	SDL_GLContext Window::m_GlContext					= nullptr;
-	SDL_Event Window::m_SdlEvent;
-
 	Window::Window()
 	{
 
@@ -22,13 +17,6 @@ namespace codex {
 		SDL_GL_DeleteContext(m_GlContext);
 		SDL_DestroyWindow(m_SdlWindow);
 		SDL_Quit();
-	}
-
-	Window* Window::Get()
-	{
-		if (!m_Instance)
-			m_Instance = new Window();
-		return m_Instance;
 	}
 
 	void Window::Init(const Properties windowInfo, const void* nativeWindow)
@@ -131,7 +119,7 @@ namespace codex {
 		ChangeScene(0);
 
 		// Add the event watcher and call update
-		SDL_AddEventWatch(SDLEventFilterWatch, nullptr);
+		SDL_AddEventWatch(SDLEventFilterWatch_Bootstrap, this);
 		fmt::println("Window subsystem initialized.");
 	}
 
@@ -156,9 +144,9 @@ namespace codex {
 		exit(-1);
 	}
 
-	i32 Window::SDLEventFilterWatch(void* object, SDL_Event* event)
+	i32 Window::SDLEventFilterWatch(SDL_Event* event)
 	{
-		if (!m_Instance->m_Running) return 0;
+		if (!m_Running) return 0;
 
 		switch (event->type)
 		{
@@ -310,12 +298,12 @@ namespace codex {
 		switch (sceneId)
 		{
 			case 0:
-				m_Instance->m_CurrentScene = std::make_unique<EditorScene>(m_Instance->m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);
-				m_Instance->m_CurrentScene->Init();
+				m_CurrentScene = std::make_unique<EditorScene>(m_Instance->m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);
+				m_CurrentScene->Init();
 				break;
 			case 1:
-				m_Instance->m_CurrentScene = std::make_unique<LevelScene>(m_Instance->m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);
-				m_Instance->m_CurrentScene->Init();
+				m_CurrentScene = std::make_unique<LevelScene>(m_Instance->m_Renderer.get(), m_Instance->m_Width, m_Instance->m_Height);
+				m_CurrentScene->Init();
 				break;
 			default:
 				break;
@@ -336,6 +324,6 @@ namespace codex {
 	{
 		if (newWidth == 0 || newHeight == 0) return;
 		glViewport(0, 0, newWidth, newHeight);
-		m_Instance->m_CurrentScene->OnWindowResize_Event(newWidth, newHeight);
+		m_CurrentScene->OnWindowResize_Event(newWidth, newHeight);
 	}
 }

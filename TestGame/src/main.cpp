@@ -1,14 +1,28 @@
 #define _CRTDBG_MAP_ALLOC
 #include <iostream>
 #include <Codex.h>
-#include <crtdbg.h>
 #include <memory>
+
+class TestGame : public codex::Application
+{
+public:
+	TestGame()
+	{
+
+	}
+
+	~TestGame()
+	{
+
+	}
+};
 
 int main(int argc, char* argv[])
 {
-#ifdef _DEBUG
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
+	TestGame* app = new TestGame();
+	app->Run();
+	delete app;
+	t.Run();
     codex::Window::Properties info;
 	info.vsync = true;
 	info.frameCap = 0;

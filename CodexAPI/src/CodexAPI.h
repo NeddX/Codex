@@ -1,11 +1,6 @@
 #ifndef CODEX_NATIVE_API_H
 #define CODEX_NATIVE_API_H
 
-#if defined(_WIN32) || defined(__CYGWIN__)
-#   define CODEX_EXPORT __declspec(dllexport)
-#else
-#   define CODEX_EXPORT __attribute__((visibility("default")))
-#endif
 #define ARRAY_COUNT(x) sizeof(x) / sizeof(x[0])
 
 #include <Codex.h>

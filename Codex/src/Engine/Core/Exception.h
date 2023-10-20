@@ -28,7 +28,7 @@ namespace codex {
 
     public:
         const char* what() const noexcept override;
-        const char* backtrace() const noexcept;
+        std::string backtrace() const noexcept;
     };
 } // namespace codex
 

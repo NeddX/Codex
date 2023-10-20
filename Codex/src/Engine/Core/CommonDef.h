@@ -3,6 +3,12 @@
 
 #include <cstdint>
 
+#if defined(_MSC_VER)
+#   define CODEX_EXPORT __declspec(dllexport)
+#elif defined(__clang__) || defined(__GNUC__)
+#   define CODEX_EXPORT __attribute__((visibility("default")))
+#endif
+
 #ifdef __GNUC__
 #define CX_DEBUG_TRAP() __builtin_trap()
 #define CX_PRETTY_FUNCTION __PRETTY_FUNCTION__

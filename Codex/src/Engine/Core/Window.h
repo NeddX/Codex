@@ -13,8 +13,13 @@
 #include "../Renderer/TexturePicking.h"
 
 namespace codex {
+	// Forward declerations
+	class Application;
+
 	class Window
 	{
+		friend class Application;
+
 	private:
 		std::string m_Title;
 		u32 m_Width, m_Height;
@@ -26,12 +31,9 @@ namespace codex {
 		const void* m_NativeWindow;
 		std::unique_ptr<Scene> m_CurrentScene;
 		std::unique_ptr<Renderer> m_Renderer;
-
-	private:
-		static Window* m_Instance;
-		static SDL_Window* m_SdlWindow;
-		static SDL_GLContext m_GlContext;
-		static SDL_Event m_SdlEvent;
+		SDL_Window* m_SdlWindow;
+		SDL_GLContext m_GlContext;
+		SDL_Event m_SdlEvent;
 
 	private:
 		Window();
@@ -42,8 +44,6 @@ namespace codex {
 		~Window();
 
 	public:
-		inline Scene* GetCurrentScene() const
-			{ return m_Instance->m_CurrentScene.get(); }
 		inline u32 GetWidth() const
 			{ return m_Width; }
 		inline u32 GetHeight() const
@@ -61,6 +61,7 @@ namespace codex {
 			u32	        flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
 			bool		vsync = true;
 			bool		borderless = false;
+
 		public:
 			Properties()
 			{
@@ -69,22 +70,18 @@ namespace codex {
 		};
 
 	public:
-		static Window* Get();
-		static i32 SDLEventFilterWatch(void* object, SDL_Event* event);
-		static void ChangeScene(const i32 sceneId);
-
-	private:
-		void SDLCheckError(const i32 line = -1);
-		void SDLThrowError(const i32 line, const std::string_view errorMessage);
-
-	public:
 		void Init(const Properties windowInfo = Properties(), const void* nativeWindow = nullptr);
 		void EngineThread();
 		void Update();
-		void Destroy();
+		i32 SDLEventFilterWatch(SDL_Event* event);
+		void ChangeScene(const i32 sceneId);
+		void SDLCheckError(const i32 line = -1);
+		void SDLThrowError(const i32 line, const std::string_view errorMessage);
+		void OnWindowResize_Event(const u32 newWidth, const u32 newHeight);
 
-	public:
-		static void OnWindowResize_Event(const u32 newWidth, const u32 newHeight);
+	private:
+		static inline i32 SDLEventFilterWatch_Bootstrap(void* object, SDL_Event* event)
+			{ return ((Window*)object)->SDLEventFilterWatch(event); }
 	};
 }
 

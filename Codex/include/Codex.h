@@ -2,6 +2,7 @@
 #define CODEX_H
 
 // Core
+#include "../src/Engine/Core/Application.h"
 #include "../src/Engine/Core/Window.h"
 #include "../src/Engine/Core/CommonDef.h"
 #include "../src/Engine/Core/Camera.h"
