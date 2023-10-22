@@ -4,9 +4,26 @@
 #include <sdafx.h>
 
 #include "../Core/IResource.h"
+#include "../Core/Exception.h"
 
 namespace codex {
-	class Shader : public IResource
+	class ShaderException : public CodexException
+	{
+		using CodexException::CodexException;
+
+    public:
+        inline const char* default_message() const noexcept override { return "Bad shader."; }
+    };
+
+	class ShaderNotFoundException : public ShaderException
+	{
+		using ShaderException::ShaderException;
+
+    public:
+        inline const char* default_message() const noexcept override { return "Shader was not found."; }
+	};
+
+    class Shader : public IResource
 	{
 		friend class ResourceHandler;
 

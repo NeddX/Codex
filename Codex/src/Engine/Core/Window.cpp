@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Application.h"
 #include "../Renderer/DebugDraw.h"
 #include "../Renderer/TexturePicking.h"
 #include "../Scene/EditorScene.h"
@@ -13,7 +14,6 @@ namespace codex {
 
     Window::~Window()
     {
-        m_Running = false;
         DebugDraw::Destroy();
         KeyHandler::Destroy();
         MouseHandler::Destroy();
@@ -33,7 +33,6 @@ namespace codex {
         m_PosY         = windowInfo.posY;
         m_FrameCap     = windowInfo.frameCap;
         m_Flags        = windowInfo.flags;
-        m_Running      = true;
         m_Fps          = 0;
         m_FrameCount   = 0;
         m_Tp1          = std::chrono::system_clock::now();
@@ -154,9 +153,6 @@ namespace codex {
 
     i32 Window::SDLEventFilterWatch(SDL_Event* event)
     {
-        if (!m_Running)
-            return 0;
-
         switch (event->type)
         {
             using MouseEvent = MouseHandler::MouseEvent;
@@ -231,12 +227,6 @@ namespace codex {
         return 0;
     }
 
-    void Window::EngineThread()
-    {
-        while (m_Running)
-            Update();
-    }
-
     void Window::Update()
     {
         // static mgl::FrameBufferProperties props(GetWidth(), GetHeight(), { mgl::TextureFormat::RGBA8,
@@ -255,7 +245,7 @@ namespace codex {
         {
             switch (m_SdlEvent.type)
             {
-                case SDL_QUIT: m_Running = false; break;
+                case SDL_QUIT: Application::Get().Stop(); return;
                 default: break;
             }
         }
@@ -283,7 +273,10 @@ namespace codex {
 
         // Exit
         if (KeyHandler::IsKeyDown(SDLK_ESCAPE))
-            m_Running = false;
+        {
+            Application::Get().Stop();
+            return;
+        }
 
         m_Tp2      = std::chrono::system_clock::now();
         delta_time = std::chrono::duration<f32>(m_Tp2 - m_Tp1).count();

@@ -15,8 +15,14 @@ namespace codex {
 			m_Instance = new DebugDraw();
 
 			// TODO: Set line width
-
-			m_Instance->m_Shader = std::make_unique<Shader>("debugLine2D.glsl");
+			try
+			{
+				m_Instance->m_Shader = std::make_unique<Shader>("debugLine2D.glsl");
+			}
+			catch (const std::exception& ex)
+			{
+				CX_THROW_DEF(ShaderNotFoundException);
+			}
 
 			m_Instance->m_Vao = std::make_unique<mgl::VertexArray>();
 			m_Instance->m_Vao->Bind();

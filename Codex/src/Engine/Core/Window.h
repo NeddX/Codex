@@ -55,7 +55,6 @@ namespace codex {
         i32                                   m_Width, m_Height;
         i32                                   m_PosX, m_PosY;
         u32                                   m_Flags;
-        bool                                  m_Running;
         u32                                   m_Fps, m_FrameCount, m_FrameCap;
         std::chrono::system_clock::time_point m_Tp1, m_Tp2;
         const void*                           m_NativeWindow;
@@ -80,7 +79,6 @@ namespace codex {
 
     public:
         void Init(const WindowProperties windowInfo = WindowProperties(), const void* nativeWindow = nullptr);
-        void EngineThread();
         void Update();
         i32  SDLEventFilterWatch(SDL_Event* event);
         void ChangeScene(const i32 sceneId);

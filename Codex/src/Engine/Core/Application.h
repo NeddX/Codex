@@ -38,7 +38,8 @@ namespace codex {
 
     private:
         const ApplicationProperties m_Properties;
-        Window::Box m_Window;
+        Window::Box m_Window = nullptr;
+        bool m_Running = true;
 
     private:
         static Application* m_Instance;
@@ -53,6 +54,7 @@ namespace codex {
 
     public:
         void Run();
+        void Stop();
     };
 
     Application* CreateApplication(const ApplicationCLIArgs args);

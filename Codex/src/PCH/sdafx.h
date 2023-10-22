@@ -65,6 +65,11 @@
 #endif
 #endif
 
+// Compiler specific
+#if defined(__GNUC__) || defined(__clang__)
+#include <cxxabi.h>
+#endif
+
 // Codex specific
 #include "../Engine/Core/CommonDef.h"
 

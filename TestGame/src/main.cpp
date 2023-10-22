@@ -1,7 +1,6 @@
 #include <iostream>
 #include <Codex.h>
 #include <Engine/Core/EntryPoint.h>
-#include <memory>
 
 class TestGame : public codex::Application
 {
@@ -17,7 +16,7 @@ public:
 	}
 };
 
-codex::Application* CreateApplication(const codex::ApplicationCLIArgs args)
+codex::Application* codex::CreateApplication(const codex::ApplicationCLIArgs args)
 {
     return new TestGame(codex::ApplicationProperties{
         .name             = "TestGame",

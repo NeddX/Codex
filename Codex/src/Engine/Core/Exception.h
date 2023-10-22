@@ -8,10 +8,11 @@
 #define CX_EXCEPTION_PRINT(ex)                                          \
     do                                                                  \
     {                                                                   \
-        fmt::println("An exception was caught: {}: {}\n\t{}", typeid(ex).name(), ex.what(), ex.backtrace()); \
+        fmt::println("An exception was caught: {}: {}\n\t{}", ex.TypeNameDemangle(typeid(ex).name()), ex.what(), ex.backtrace()); \
     } while (0)
 
 namespace codex {
+
     class CodexException : public std::exception
     {
     protected:
@@ -28,6 +29,18 @@ namespace codex {
 
     public:
         inline virtual const char* default_message() const noexcept { return "Unknown engine message."; }
+
+    public:
+        static inline std::string TypeNameDemangle(const char* name)
+        {
+#if defined(__GNUC__) || defined(__clang__)
+            int                                    status = 0;
+            std::unique_ptr<char, void (*)(void*)> res{abi::__cxa_demangle(name, NULL, NULL, &status), std::free};
+            return (status == 0) ? res.get() : name;
+#else
+            return name;
+#endif
+        }
 
     public:
         const char* what() const noexcept override;
