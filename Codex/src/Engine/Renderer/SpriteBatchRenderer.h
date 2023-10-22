@@ -17,22 +17,6 @@ namespace codex {
 
 	class SpriteBatchRenderer
 	{
-#ifdef CX_DEBUG_CUSTOM_ALLOCATORS
-	public:
-		void* operator new(usize size)
-		{
-			void* ptr = std::malloc(size);
-			fmt::println("[Memory] :: Allocated memory.\n\tFile: {}\n\tLine: {}\n\tSize: {}\n\tAddress: {}",
-				__FILE__, __LINE__, size, ptr);
-			return ptr;
-		}
-		void operator delete(void* ptr)
-		{
-			fmt::println("[Memory] :: Deallocated memory.\n\tFile: {}\n\tLine: {}\n\tAddress: {}", __FILE__, __LINE__, ptr);
-			std::free(ptr);
-		}
-#endif
-
 		friend class Renderer;
 
 	private:

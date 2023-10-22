@@ -5,7 +5,7 @@ namespace codex {
 		m_MaxQuadCount(maxQuadCount), m_Shader(shader)
 	{
 		// TODO: Update MGL
-		m_MaxTextureSlotCount = 32;//mgl::GraphicsCapabilities::GetMaxTextureSlotCount();
+		m_MaxTextureSlotCount = 16;//mgl::GraphicsCapabilities::GetMaxTextureSlotCount();
 
 		m_Verticies = std::vector<f32>(maxQuadCount * QUAD2D_VERTEX_SIZE);
 		m_TextureList.resize(m_MaxTextureSlotCount);

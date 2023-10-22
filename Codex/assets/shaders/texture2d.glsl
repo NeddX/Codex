@@ -20,7 +20,7 @@ void main()
 	o_Colour = a_Colour;
 	o_TexCoord = vec2(a_TexCoord.x / a_TexDim.x, 1.0 - (a_TexCoord.y / a_TexDim.y));
 	o_TexID = a_TexID;
-	o_EntityID = a_EntityID;
+	//o_EntityID = a_EntityID;
 	gl_Position = u_Proj * u_View * vec4(a_Pos, 1.0);
 }
 
@@ -55,6 +55,6 @@ void main()
 		discard;
 	}
 	
-	o_EntityID = 50;
+	//o_EntityID = 50;
 	//FragColour = vec4(o_EntityID, o_EntityID, o_EntityID, 1.0);
 }
