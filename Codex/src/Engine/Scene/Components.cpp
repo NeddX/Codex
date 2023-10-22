@@ -2,6 +2,7 @@
 #include "ECS.h"
 #include "../Core/Window.h"
 #include "../Renderer/DebugDraw.h"
+#include "../Core/Application.h"
 
 namespace codex {
 
@@ -36,7 +37,7 @@ namespace codex {
 	GridRendererComponent::GridRendererComponent(const Vector2f gridSize) :
 		m_GridSize(gridSize)
 	{
-		m_Camera = Window::Get()->GetCurrentScene()->GetCamera();
+		m_Camera = Application::GetWindow().GetCurrentScene()->GetCamera();
 	}
 
 	void GridRendererComponent::Render()

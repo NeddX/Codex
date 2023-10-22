@@ -123,7 +123,7 @@ target_compile_definitions(CodexEngine PRIVATE
 
 # Make the base include file public
 target_include_directories(CodexEngine PUBLIC include/)
-target_include_directories(CodexEngine PUBLIC src/Engine)
+target_include_directories(CodexEngine PUBLIC src/)
 #target_include_directories(CodexEngine-static PUBLIC include/)
 #target_include_directories(CodexEngine-static PUBLIC src/Engine)
 

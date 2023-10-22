@@ -1,6 +1,7 @@
 #include "DebugDraw.h"
 #include "../Core/Window.h"
 #include "../Core/Geomtryd.h"
+#include "../Core/Application.h"
 
 namespace codex {
 	DebugDraw* DebugDraw::m_Instance = nullptr;
@@ -92,7 +93,7 @@ namespace codex {
 			m_Instance->m_Vbo->Bind();
 			m_Instance->m_Vbo->SetBufferSubData<f32>(m_Verticies.data(), 0, LINE2D_VERTEX_SIZE * m_Lines.size() * sizeof(f32));
 
-			auto* camera = Window::Get()->GetCurrentScene()->GetCamera();
+			auto* camera = Application::GetWindow().GetCurrentScene()->GetCamera();
 			m_Instance->m_Shader->SetUniformMat4f("u_Proj", camera->GetProjectionMatrix());
 			m_Instance->m_Shader->SetUniformMat4f("u_View", camera->GetViewMatrix());
 

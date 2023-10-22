@@ -28,7 +28,7 @@ namespace codex {
         std::string name = "Codex Application";
         std::string cwd;
         ApplicationCLIArgs args;
-        Window::Properties windowProperties;
+        WindowProperties windowProperties;
     };
 
     class CODEX_EXPORT Application
@@ -38,7 +38,7 @@ namespace codex {
 
     private:
         const ApplicationProperties m_Properties;
-        std::unique_ptr<Window> m_Window;
+        Window::Box m_Window;
 
     private:
         static Application* m_Instance;
@@ -48,10 +48,11 @@ namespace codex {
         virtual ~Application();
 
     public:
-        inline Window& GetWindow() const noexcept { return *m_Window; }
-        inline Application& Get() const noexcept { return *m_Instance; }
+        inline static Window& GetWindow() noexcept { return *m_Instance->m_Window; }
+        inline static Application& Get() noexcept { return *m_Instance; }
 
-    private:
+    public:
+        void Run();
     };
 
     Application* CreateApplication(const ApplicationCLIArgs args);

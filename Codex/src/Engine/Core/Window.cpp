@@ -23,7 +23,7 @@ namespace codex {
         SDL_Quit();
     }
 
-    void Window::Init(const Properties windowInfo, const void* nativeWindow)
+    void Window::Init(const WindowProperties windowInfo, const void* nativeWindow)
     {
         m_NativeWindow = nativeWindow;
         m_Title        = windowInfo.title;
@@ -59,7 +59,7 @@ namespace codex {
         if (m_NativeWindow)
         {
             m_SdlWindow = SDL_CreateWindowFrom(m_NativeWindow, m_Flags | SDL_WINDOW_OPENGL);
-            fmt::println("Creating an SDL Window from a native window. Native window address {:x}", m_NativeWindow);
+            fmt::println("Creating an SDL Window from a native window. Native window address {:x}", (void*)m_NativeWindow);
         }
         else
             m_SdlWindow =
@@ -90,9 +90,9 @@ namespace codex {
             gladLoadGL();
             gladLoadGLLoader(SDL_GL_GetProcAddress);
             fmt::println("GLad loaded.\nVendor:\t{}\nRenderer:\t{}\nVersion:\tP{}",
-                         glGetString(GL_VENDOR),
-                         glGetString(GL_RENDERER),
-                         glGetString(GL_VERSION));
+                         (const char*)glGetString(GL_VENDOR),
+                         (const char*)glGetString(GL_RENDERER),
+                         (const char*)glGetString(GL_VERSION));
         }
         else
         {
@@ -301,26 +301,16 @@ namespace codex {
         switch (sceneId)
         {
             case 0:
-                m_CurrentScene = std::make_unique<EditorScene>(m_Instance->m_Renderer.get(), m_Instance->m_Width,
-                                                               m_Instance->m_Height);
+                m_CurrentScene = std::make_unique<EditorScene>(m_Renderer.get(), m_Width,
+                                                               m_Height);
                 m_CurrentScene->Init();
                 break;
             case 1:
-                m_CurrentScene = std::make_unique<LevelScene>(m_Instance->m_Renderer.get(), m_Instance->m_Width,
-                                                              m_Instance->m_Height);
+                m_CurrentScene = std::make_unique<LevelScene>(m_Renderer.get(), m_Width,
+                                                              m_Height);
                 m_CurrentScene->Init();
                 break;
             default: break;
-        }
-    }
-
-    void Window::Destroy()
-    {
-        if (m_Instance)
-        {
-            delete m_Instance;
-            m_Instance = nullptr;
-            fmt::println("Window sub system disposed");
         }
     }
 

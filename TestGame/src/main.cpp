@@ -23,7 +23,7 @@ codex::Application* CreateApplication(const codex::ApplicationCLIArgs args)
         .name             = "TestGame",
         .cwd              = "./",
         .args             = args,
-        .windowProperties = codex::Window::Properties { .width = 800, .height = 600, .frameCap = 0, .vsync = true }
+        .windowProperties = codex::WindowProperties { .width = 800, .height = 600, .frameCap = 0, .vsync = true }
     });
 }
 

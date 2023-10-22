@@ -32,8 +32,6 @@ AlignConsecutiveMacros:
     AcrossComments: false
 AllowShortCaseLabelsOnASingleLine: true
 AlignEscapedNewlines: Right
-AlignTrailingComments: true
 AllowShortBlocksOnASingleLine: Always
 AllowShortEnumsOnASingleLine: false
-AlignConsecutiveAssignments: true
 AlignConsecutiveDeclarations: true

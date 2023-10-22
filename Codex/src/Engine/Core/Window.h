@@ -12,24 +12,42 @@ namespace codex {
     // Forward declerations
     class Application;
 
-	class SDLException : public CodexException
-	{
-		using CodexException::CodexException;
+    class SDLException : public CodexException
+    {
+        using CodexException::CodexException;
 
     public:
         inline const char* default_message() const noexcept override { return "SDL failed to initialize."; }
     };
 
-	class GLADException : public CodexException
-	{
-		using CodexException::CodexException;
+    class GLADException : public CodexException
+    {
+        using CodexException::CodexException;
 
     public:
         inline const char* default_message() const noexcept override { return "GLAD failed to initialize."; }
     };
 
+    struct WindowProperties
+    {
+        const char* title      = "Codex - Window";
+        i32         width      = 1280;
+        i32         height     = 720;
+        i32         posX       = SDL_WINDOWPOS_CENTERED;
+        i32         posY       = SDL_WINDOWPOS_CENTERED;
+        u32         frameCap   = 300;
+        u32         flags      = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+        bool        vsync      = true;
+        bool        borderless = false;
+
+    public:
+        WindowProperties() = default;
+    };
+
     class Window
     {
+        using Box = std::unique_ptr<Window, std::function<void(Window*)>>;
+
         friend class Application;
 
     private:
@@ -56,25 +74,12 @@ namespace codex {
         ~Window();
 
     public:
-        inline i32 GetWidth() const { return m_Width; }
-        inline i32 GetHeight() const { return m_Height; }
+        inline i32    GetWidth() const { return m_Width; }
+        inline i32    GetHeight() const { return m_Height; }
+        inline Scene* GetCurrentScene() const { return m_CurrentScene.get(); }
 
     public:
-        struct Properties
-        {
-            const char* title      = "Codex - Window";
-            i32         width      = 1280;
-            i32         height     = 720;
-            i32         posX       = SDL_WINDOWPOS_CENTERED;
-            i32         posY       = SDL_WINDOWPOS_CENTERED;
-            u32         frameCap   = 300;
-            u32         flags      = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
-            bool        vsync      = true;
-            bool        borderless = false;
-		};
-
-    public:
-        void Init(const Properties windowInfo = Properties(), const void* nativeWindow = nullptr);
+        void Init(const WindowProperties windowInfo = WindowProperties(), const void* nativeWindow = nullptr);
         void EngineThread();
         void Update();
         i32  SDLEventFilterWatch(SDL_Event* event);
