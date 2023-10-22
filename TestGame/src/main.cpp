@@ -1,21 +1,33 @@
 #include <iostream>
 #include <Codex.h>
+#include <Engine/Core/EntryPoint.h>
 #include <memory>
 
 class TestGame : public codex::Application
 {
 public:
-	TestGame()
+	TestGame(const codex::ApplicationProperties& properties) : codex::Application(properties)
 	{
 
 	}
 
-	~TestGame()
+	~TestGame() override
 	{
 
 	}
 };
 
+codex::Application* CreateApplication(const codex::ApplicationCLIArgs args)
+{
+    return new TestGame(codex::ApplicationProperties{
+        .name             = "TestGame",
+        .cwd              = "./",
+        .args             = args,
+        .windowProperties = codex::Window::Properties { .width = 800, .height = 600, .frameCap = 0, .vsync = true }
+    });
+}
+
+/*
 int main(int argc, char* argv[])
 {
 	TestGame* app = new TestGame();
@@ -33,3 +45,4 @@ int main(int argc, char* argv[])
     window->Destroy();
 	return 0;
 }
+*/

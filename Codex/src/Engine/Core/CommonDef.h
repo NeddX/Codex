@@ -4,9 +4,9 @@
 #include <cstdint>
 
 #if defined(_MSC_VER)
-#   define CODEX_EXPORT __declspec(dllexport)
+#define CODEX_EXPORT __declspec(dllexport)
 #elif defined(__clang__) || defined(__GNUC__)
-#   define CODEX_EXPORT __attribute__((visibility("default")))
+#define CODEX_EXPORT __attribute__((visibility("default")))
 #endif
 
 #ifdef __GNUC__
@@ -19,9 +19,6 @@
 #define CX_DEBUG_TRAP() __builtin_debugtrap()
 #define CX_PRETTY_FUNCTION __PRETTY_FUNCTION__
 #endif
-
-//#define PI 3.14159265358979323f // The ratio between circle's diameter and the circumference. This is used to convert from degrees to radians.
-//#define CX_TO_RADF(d) (f32)((f32)(d) * (PI / 180.0f)) // Convert degrees to radians.
 
 namespace codex {
     using usize = std::size_t;
@@ -49,26 +46,19 @@ namespace codex {
     } // namespace math
 } // namespace Codex
 
-    /*
-	constexpr f32 PI = 3.14159265358979323f;
-
-	constexpr f32 ToRadf(f32 degree) {
-		return (f32)(degree * (PI / 180.0f));
-	}*/
-
 #ifdef CODEX_CONF_DEBUG
-    #define CX_ARRAY_COUNT(x) sizeof(x)/sizeof(x[0])
-    #define MGL_DEBUG
-    #define CX_ASSERT(x, msg) \
-        if (!(x)) { \
-            std::cerr << "[CODEX_DEBUG] :: Assertion failed: " << msg << "\n\tStack trace:"\
-                      << "\n\t\tFunction: " << __FUNCTION__ \
-                      << "\n\t\tFile: " << __FILE__ \
-                      << "\n\t\tLine: " << __LINE__ << std::endl; \
-            CX_DEBUG_TRAP(); \
-        }
+#define CX_ARRAY_COUNT(x) sizeof(x)/sizeof(x[0])
+#define MGL_DEBUG
+#define CX_ASSERT(x, msg)                       \
+    if (!(x)) {                                                         \
+        std::cerr << "[CODEX-DEBUG] :: Assertion failed: " << msg << "\n\tStack trace:" \
+                  << "\n\t\tFunction: " << __FUNCTION__                 \
+                  << "\n\t\tFile: " << __FILE__                         \
+                  << "\n\t\tLine: " << __LINE__ << std::endl;           \
+        CX_DEBUG_TRAP();                                                \
+    }
 #else
-    #define CX_ASSERT(x, msg) ;
+#define CX_ASSERT(x, msg) ;
 #endif
 
 #endif // CODEX_CORE_COMMON_DEFINITIONS_H

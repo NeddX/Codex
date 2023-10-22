@@ -11,21 +11,18 @@
 namespace codex {
     class ResourceException : public CodexException
     {
-    protected:
-        const char* m_Message = nullptr;
+        using CodexException::CodexException;
 
     public:
-        ResourceException() noexcept = default;
-        ResourceException(const std::string message) noexcept;
-        ResourceException(const std::string message, const char* file, const char* function, const u32 line) noexcept;
+            inline const char* default_message() const noexcept override { return "Bad resource."; }
     };
 
     class ResourceNotFoundException : public ResourceException
     {
+        using ResourceException::ResourceException;
+
     public:
-        ResourceNotFoundException() noexcept = default;
-        ResourceNotFoundException(const std::string message) noexcept;
-        ResourceNotFoundException(const std::string message, const char* file, const char* function, const u32 line) noexcept;
+        inline const char* default_message() const noexcept override { return "Failed to load resource."; }
     };
 
     class Resources

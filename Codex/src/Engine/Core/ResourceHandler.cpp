@@ -3,26 +3,6 @@
 #include "../Renderer/Shader.h"
 
 namespace codex {
-    ResourceException::ResourceException(const std::string message) noexcept
-        : CodexException(message)
-    {
-    }
-
-    ResourceException::ResourceException(const std::string message, const char* file, const char* function, const u32 line) noexcept
-        : CodexException(message, file, function, line)
-    {
-    }
-
-    ResourceNotFoundException::ResourceNotFoundException(const std::string message) noexcept
-        : ResourceException(message)
-    {
-    }
-
-    ResourceNotFoundException::ResourceNotFoundException(const std::string message, const char* file, const char* function, const u32 line) noexcept
-        : ResourceException(message, file, function, line)
-    {
-    }
-
     Resources* Resources::m_Instance = nullptr;
 
     void Resources::Init()

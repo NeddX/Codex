@@ -3,7 +3,8 @@
 
 #include <sdafx.h>
 
-#define CX_THROW(ex_type, msg) throw ex_type(msg, "cool", "cooler", 123)
+#define CX_THROW(ex_type, msg) throw ex_type(msg, __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+#define CX_THROW_DEF(ex_type) CX_THROW(ex_type, "")
 #define CX_EXCEPTION_PRINT(ex)                                          \
     do                                                                  \
     {                                                                   \
@@ -15,7 +16,6 @@ namespace codex {
     {
     protected:
         const std::string m_Message;
-        const char* m_DefaultMessage = nullptr;
         const char* m_File = nullptr;
         const char* m_Function = nullptr;
         const char* m_ClassName = nullptr;
@@ -23,8 +23,11 @@ namespace codex {
 
     public:
         CodexException() noexcept = default;
-        CodexException(const std::string message) noexcept;
-        CodexException(const std::string message, const char* file, const char* function, const u32 line) noexcept;
+        CodexException(const std::string_view message) noexcept;
+        CodexException(const std::string_view message, const char* file, const char* function, const u32 line) noexcept;
+
+    public:
+        inline virtual const char* default_message() const noexcept { return "Unknown engine message."; }
 
     public:
         const char* what() const noexcept override;

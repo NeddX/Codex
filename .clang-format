@@ -1,7 +1,18 @@
 BasedOnStyle: Microsoft
 AlignTrailingComments: true
-BreakBeforeBraces: Allman
-ColumnLimit: 0
+BreakBeforeBraces: Custom
+BraceWrapping:
+    AfterEnum: true
+    AfterStruct: true
+    AfterClass: true
+    AfterFunction: true
+    AfterUnion: true
+    AfterExternBlock: false
+    BeforeCatch: true
+    BeforeElse: true
+    BeforeLambdaBody: true
+    BeforeWhile: false
+    AfterNamespace: false
 IndentWidth: 4
 KeepEmptyLinesAtTheStartOfBlocks: false
 PointerBindsToType: true
@@ -11,3 +22,18 @@ UseTab: Never
 IndentCaseLabels: true
 NamespaceIndentation: All
 AccessModifierOffset: -4
+AllowShortFunctionsOnASingleLine: InlineOnly
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Left
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveMacros:
+    Enabled: true
+    AcrossEmptyLines: true
+    AcrossComments: false
+AllowShortCaseLabelsOnASingleLine: true
+AlignEscapedNewlines: Right
+AlignTrailingComments: true
+AllowShortBlocksOnASingleLine: Always
+AllowShortEnumsOnASingleLine: false
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true

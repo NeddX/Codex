@@ -6,12 +6,14 @@
 #include "CommonDef.h"
 #include "Window.h"
 
+int main(int argc, char** argv);
+
 namespace codex {
     struct ApplicationCLIArgs
     {
     public:
-        int count = 0;
-        const char** args = nullptr;
+        int count         = 0;
+        char** args = nullptr;
 
     public:
         const char* operator[](const usize index) const
@@ -32,6 +34,7 @@ namespace codex {
     class CODEX_EXPORT Application
     {
         friend int main(int argc, char* argv[]);
+        friend Application* CreateApplication(const ApplicationCLIArgs args);
 
     private:
         const ApplicationProperties m_Properties;
@@ -45,10 +48,8 @@ namespace codex {
         virtual ~Application();
 
     public:
-        inline Window& GetWindow() const noexcept
-        { return *m_Window; }
-        inline Application& Get() const noexcept
-        { return *m_Instance; }
+        inline Window& GetWindow() const noexcept { return *m_Window; }
+        inline Application& Get() const noexcept { return *m_Instance; }
 
     private:
     };
