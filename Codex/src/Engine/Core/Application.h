@@ -31,7 +31,7 @@ namespace codex {
         WindowProperties windowProperties;
     };
 
-    class CODEX_EXPORT Application
+    class Application
     {
         friend int main(int argc, char* argv[]);
         friend Application* CreateApplication(const ApplicationCLIArgs args);

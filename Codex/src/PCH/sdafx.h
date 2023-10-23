@@ -2,7 +2,8 @@
 #define CODEX_PCH_H
 
 // Turn this off.
-#ifdef _MSC_VER
+// TODO: Disable compilers warnings in cmake.
+#ifdef CX_COMPILER_MSVC
 #pragma warning(disable: 4005)
 #endif
 
@@ -42,32 +43,31 @@
 #include <glad/glad.h>
 
 // Platform specific
-#ifdef __APPLE__
+#ifdef CX_PLATFORM_UNIX
+#include <cxxabi.h>
 #include <unistd.h>
+
+#ifdef CX_PLATFORM_OSX
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #include <GLUT/glut.h>
+
 #else
-#ifdef _WIN32
+#include <GL/gl.h>
+#include <GL/glu.h>
+
+#endif
+
+#elif defined(CX_PLATFORM_WINDOWS)
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#ifdef CreateWindow
 #undef CreateWindow
-//#include <corecrt_io.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#else
-#include <unistd.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
 #endif
 
-// Compiler specific
-#if defined(__GNUC__) || defined(__clang__)
-#include <cxxabi.h>
 #endif
 
 // Codex specific
