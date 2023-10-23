@@ -17,7 +17,7 @@ namespace codex {
 			// TODO: Set line width
 			try
 			{
-				m_Instance->m_Shader = std::make_unique<Shader>("debugLine2D.glsl");
+				m_Instance->m_Shader = std::make_unique<Shader>("GLShaders/debugLine2D.glsl");
 			}
 			catch (const std::exception& ex)
 			{

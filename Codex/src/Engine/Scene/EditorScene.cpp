@@ -16,7 +16,7 @@ namespace codex {
 	{
 		// TODO: Make Resources to be a singleton sub system that can be initialized and disposed
 		// so that we can dispose all of its resources from the Window class from the corecrl thread.
-		m_Shader = Resources::Load<Shader>("texture2d.glsl");
+		m_Shader = Resources::Load<Shader>("GLShaders/texture2d.glsl");
 		m_CurrentActiveAction = EditorAction::Select;
 	}
 

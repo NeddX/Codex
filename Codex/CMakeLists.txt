@@ -30,9 +30,21 @@ if (ANDROID)
 else()
     add_subdirectory(vendor/SDL ${PROJECT_BINARY_DIR}/SDL)
     set(SDL2_INCLUDE_DIRS vendor/SDL/include)
-    set(SDL2_LIBRARIES SDL2-static SDL2main)
+    set(SDL2_LIBRARIES SDL2 SDL2main)
     target_include_directories(CodexEngine PRIVATE ${SDL2_INCLUDE_DIRS})
     target_link_libraries(CodexEngine ${SDL2_LIBRARIES})
+    add_dependencies(CodexEngine SDL2 SDL2main)
+
+    add_custom_command(
+        TARGET CodexEngine
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+            $<TARGET_FILE:SDL2>
+            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:SDL2>
+        COMMAND ${CMAKE_COMMAND} -E copy
+            $<TARGET_FILE:SDL2main>
+            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:SDL2main>
+    )
 
     #target_include_directories(CodexEngine-static PRIVATE ${SDL2_INCLUDE_DIRS})
     #target_link_libraries(CodexEngine-static ${SDL2_LIBRARIES})
