@@ -36,7 +36,7 @@ namespace codex {
         friend int main(int argc, char* argv[]);
         friend Application* CreateApplication(const ApplicationCLIArgs args);
 
-    private:
+    protected:
         const ApplicationProperties m_Properties;
         Window::Box m_Window = nullptr;
         bool m_Running = true;

@@ -23,20 +23,14 @@ namespace codex {
 			m_RawTexture = std::make_unique<mgl::Texture>(filePath, textureProperties);
 		}
 
-	public:
-		inline u32 GetSlot() const
-			{ return m_RawTexture->GetSlot(); }
-		inline i32 GetWidth() const
-			{ return m_RawTexture->GetWidth(); }
-		inline i32 GetHeight() const
-			{ return m_RawTexture->GetHeight(); }
-		inline const char* GetFilePath() const
-			{ return m_RawTexture->GetFilePath(); }
-		inline void Bind(u32 slot = 0)
-			{ m_RawTexture->Bind(slot); }
-		inline void Unbind() const
-			{ m_RawTexture->Unbind(); }
-	};
+    public:
+        inline u32         GetSlot() const { return m_RawTexture->GetSlot(); }
+        inline i32         GetWidth() const { return m_RawTexture->GetWidth(); }
+        inline i32         GetHeight() const { return m_RawTexture->GetHeight(); }
+        inline const char* GetFilePath() const { return m_RawTexture->GetFilePath(); }
+        inline void        Bind(u32 slot = 0) { m_RawTexture->Bind(slot); }
+        inline void        Unbind() const { m_RawTexture->Unbind(); }
+    };
 }
 
 #endif // CODEX_CORE_TEXTURE_2D_H

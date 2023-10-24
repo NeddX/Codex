@@ -14,22 +14,6 @@ namespace codex {
 
 	class RenderBatch
 	{
-#ifdef CX_DEBUG_CUSTOM_ALLOCATORS
-	public:
-		void* operator new(usize size)
-		{
-			void* ptr = std::malloc(size);
-			fmt::println("[Memory] :: Allocated memory.\n\tFile: {}\n\tLine: {}\n\tSize: {}\n\tAddress: {}",
-				__FILE__, __LINE__, size, ptr);
-			return ptr;
-		}
-		void operator delete(void* ptr)
-		{
-			fmt::println("[Memory] :: Deallocated memory.\n\tFile: {}\n\tLine: {}\n\tAddress: {}", __FILE__, __LINE__, ptr);
-			std::free(ptr);
-		}
-#endif
-
 	private:
 		i32 m_QuadCount = 0;
 		i32 m_MaxTextureSlotCount = 32;
@@ -50,20 +34,15 @@ namespace codex {
 		~RenderBatch();
 
 	public:
-		inline bool HasRoom() const
-			{ return m_HasRoom; }
-		inline i32 GetZIndex() const
-			{ return m_ZIndex; }
-		inline i32 GetCount() const
-			{ return m_QuadCount; }
-		inline void SetZIndex(i32 newIndex)
-			{ m_ZIndex = newIndex; }
+        inline bool HasRoom() const { return m_HasRoom; }
+        inline i32  GetZIndex() const { return m_ZIndex; }
+        inline i32  GetCount() const { return m_QuadCount; }
+        inline void SetZIndex(i32 newIndex) { m_ZIndex = newIndex; }
 
-	public:
-		inline void BindShader(Shader* shader)
-			{ m_Shader = shader; }
-		inline void Flush()
-		{
+    public:
+        inline void BindShader(Shader* shader) { m_Shader = shader; }
+        inline void Flush()
+        {
 			static bool texture_slots_initialized = false;
 			m_QuadCount = 0;
 			m_HasRoom = true; 
@@ -107,16 +86,35 @@ namespace codex {
 
 			f32 vertex_buffer_data[] =
 			{
-				destRect.x, 					destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y,						(f32)tex_id,		tex_width, tex_height,		(f32)entityId,
-				destRect.x + destRect.w,		destRect.y,					0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y,						(f32)tex_id,		tex_width, tex_height,		(f32)entityId,
-				destRect.x,						destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y + srcRect.h,			(f32)tex_id,		tex_width, tex_height,		(f32)entityId,	
-				destRect.x + destRect.w,		destRect.y + destRect.h,	0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y + srcRect.h,			(f32)tex_id,		tex_width, tex_height,		(f32)entityId
+				 destRect.x, 					 destRect.y,					0.0f,				  colour.x,  colour.y,  colour.z,  colour.w,					srcRect.x,				srcRect.y,						(f32)tex_id,		tex_width, tex_height,		(f32)entityId,
+				destRect.x + destRect.w,		destRect.y,				   0.0f,				 colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y,						(f32)tex_id,		tex_width, tex_height,		(f32)entityId,
+				destRect.x,					destRect.y + destRect.h,	   0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x,				srcRect.y + srcRect.h,			(f32)tex_id,		tex_width, tex_height,		(f32)entityId,
+				destRect.x + destRect.w,		destRect.y + destRect.h,	   0.0f,				colour.x, colour.y, colour.z, colour.w,					srcRect.x + srcRect.w,	srcRect.y + srcRect.h,			(f32)tex_id,		tex_width, tex_height,		(f32)entityId
 			};
 
-			// TODO: Consider directly adding the vertex buffer data to m_Verticies instead of creating a temporary
+            // TODO: Consider directly adding the vertex buffer data to m_Verticies instead of creating a temporary
 			// array and then copying the contents of it to m_Verticies.
 
 			u32 offset = m_QuadCount * QUAD2D_VERTEX_SIZE;
+			/*
+			// Verticies
+			m_Verticies[offset] = destRect.x;
+			m_Verticies[offset + 1] = destRect.y;
+			m_Verticies[offset + 2] = 0.0f;
+
+			// Colour
+			m_Verticies[offset + 3] = colour.x;
+			m_Verticies[offset + 4] = colour.y;
+			m_Verticies[offset + 5] = colour.z;
+			m_Verticies[offset + 6] = colour.w;
+
+			// Texture verticies
+			m_Verticies[offset + 7] = srcRect.x;
+			m_Verticies[offset + 8] = srcRect.y;
+
+			// Texture width and height
+
+			*/
 			std::memcpy(m_Verticies.data() + offset, vertex_buffer_data, sizeof(vertex_buffer_data));
 
 			if (++m_QuadCount >= m_MaxQuadCount)

@@ -80,17 +80,11 @@ namespace codex {
     public:
         void Init(const WindowProperties windowInfo = WindowProperties(), const void* nativeWindow = nullptr);
         void Update();
-        i32  SDLEventFilterWatch(SDL_Event* event);
+        void ProcessEvents();
         void ChangeScene(const i32 sceneId);
         void SDLCheckError(const i32 line = -1);
         void SDLThrowError(const i32 line, const std::string_view errorMessage);
         void OnWindowResize_Event(const i32 newWidth, const i32 newHeight);
-
-    private:
-        static inline i32 SDLEventFilterWatch_Bootstrap(void* object, SDL_Event* event)
-        {
-            return ((Window*)object)->SDLEventFilterWatch(event);
-        }
     };
 } // namespace codex
 

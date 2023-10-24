@@ -4,7 +4,8 @@
 #include <sdafx.h>
 
 #include "Sprite.h"
-#include "../Core/Geomtryd.h" 
+#include "../Core/Geomtryd.h"
+#include "NativeBehaviour.h"
 
 namespace codex {
 	// Forward decelerations
@@ -77,22 +78,16 @@ namespace codex {
 		SpriteRendererComponent(const Vector4f colour);
 		SpriteRendererComponent(const Sprite sprite, const Vector4f colour = Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
 
-	public:
-		inline Vector4f GetColour() const
-			{ return m_Colour; }
-		inline Sprite& GetSprite()
-			{ return m_Sprite; }
-		inline i32 GetZIndex() const
-			{ return m_ZIndex; }
-		inline void SetSprite(const Sprite newSprite)
-			{ m_Sprite = newSprite; }
-		inline void SetZIndex(const i32 newIndex)
-			{ m_ZIndex = newIndex; }
-		inline void SetColour(const Vector4f newColour)
-			{ m_Colour = newColour; }
-	};
+    public:
+        inline Vector4f GetColour() const { return m_Colour; }
+        inline Sprite&  GetSprite() { return m_Sprite; }
+        inline i32      GetZIndex() const { return m_ZIndex; }
+        inline void     SetSprite(const Sprite newSprite) { m_Sprite = newSprite; }
+        inline void     SetZIndex(const i32 newIndex) { m_ZIndex = newIndex; }
+        inline void     SetColour(const Vector4f newColour) { m_Colour = newColour; }
+    };
 
-	struct GridRendererComponent : public IComponent
+    struct GridRendererComponent : public IComponent
 	{
 		friend class Entity;
 
@@ -111,6 +106,21 @@ namespace codex {
 
 	public:
 		void Render();
+	};
+
+	struct NativeBehaviourComponent : public IComponent
+	{
+		NativeBehaviour* instance = nullptr;
+		NativeBehaviour* (*Instantiate)();
+		void (*destroy)(NativeBehaviourComponent*);
+
+	public:
+		template<typename T>
+		void Bind()
+		{
+			Instantiate = []() { return (NativeBehaviour*)new T(); };
+			destroy = [](NativeBehaviourComponent* zis) { delete zis->instance; zis->instance = nullptr; };
+		}
 	};
 
 	struct TilemapComponent : public IComponent

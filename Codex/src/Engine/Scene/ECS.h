@@ -4,9 +4,6 @@
 #include <sdafx.h>
 
 #include "Scene.h"
-#include "../Core/Geomtryd.h"
-#include "../Renderer/SpriteBatchRenderer.h"
-#include "Components.h"
 
 namespace codex {
 	class Entity
@@ -14,10 +11,10 @@ namespace codex {
 		friend class Scene;
 
 	private:
-		entt::entity m_Handle { 0 };
+		entt::entity m_Handle { entt::null };
 		Scene* m_Scene = nullptr;
 
-	public:
+    public:
 		Entity() = default;
 		Entity(const entt::entity entity, Scene* scene) :
 			m_Handle(entity), m_Scene(scene)
@@ -29,13 +26,15 @@ namespace codex {
 		{
 
 		}
-	public:
-		inline u32 GetId() const
-			{ return (u32)(m_Handle); }
-		operator bool() const
-			{ return m_Handle != entt::entity { 0 }; }
 
-	public:
+    public:
+        static inline Entity None() { return Entity(); }
+
+    public:
+        inline u32 GetId() const { return (u32)(m_Handle); }
+        operator bool() const { return m_Handle != entt::entity{0}; }
+
+    public:
 		template<typename T, typename... TArgs>
 		T& AddComponent(TArgs&&... args)
 		{

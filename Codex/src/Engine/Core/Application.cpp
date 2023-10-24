@@ -8,6 +8,7 @@ namespace codex {
     {
         try
         {
+            m_Instance = this;
             m_Window = Window::Box(new Window(), [](Window* window) { delete window; });
             m_Window->Init(m_Properties.windowProperties);
         }
@@ -20,7 +21,7 @@ namespace codex {
 
     Application::~Application()
     {
-
+        m_Instance = nullptr;
     }
 
     void Application::Run()

@@ -35,12 +35,14 @@ namespace codex {
 		virtual ~Scene() = default;
 
 	public:
-		inline Camera* GetCamera() const
-			{ return m_Camera.get(); }
-		inline Vector2f GetMousePositionInWorld()
-			{ return Vector2f(MouseHandler::GetMouseX() + m_Camera->position.x, MouseHandler::GetMouseY() + m_Camera->position.y); }
+        inline Camera*  GetCamera() const { return m_Camera.get(); }
+        inline Vector2f GetMousePositionInWorld()
+        {
+            return Vector2f(MouseHandler::GetMouseX() + m_Camera->position.x,
+                            MouseHandler::GetMouseY() + m_Camera->position.y);
+        }
 
-	public:
+    public:
 		template<typename T>
 		inline std::vector<Entity> GetAllEntitiesWithComponent()
 		{

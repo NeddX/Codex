@@ -88,7 +88,7 @@ namespace codex {
         {
             gladLoadGL();
             gladLoadGLLoader(SDL_GL_GetProcAddress);
-            fmt::println("GLad loaded.\nVendor:\t{}\nRenderer:\t{}\nVersion:\tP{}",
+            fmt::println("GLad loaded.\nVendor:\t\t{}\nRenderer:\t{}\nVersion:\tP{}",
                          (const char*)glGetString(GL_VENDOR),
                          (const char*)glGetString(GL_RENDERER),
                          (const char*)glGetString(GL_VERSION));
@@ -114,7 +114,7 @@ namespace codex {
         // TODO: When in editor mode, the initial window size is 0 by 0 which causes
         // gl to crash when creating the framebuffer for texture picking.
         // m_TexPick = std::make_unique<TexturePicking>(GetWidth(), GetHeight());
-        // m_BatcherShader = std::make_unique<Shader>("texture2d.glsl");
+        //m_BatcherShader = std::make_unique<Shader>("texture2d.glsl");
 
         // Initialize subsystems
         KeyHandler::Init();
@@ -126,7 +126,7 @@ namespace codex {
         ChangeScene(0);
 
         // Add the event watcher and call update
-        SDL_AddEventWatch(SDLEventFilterWatch_Bootstrap, this);
+        //SDL_AddEventWatch(SDLEventFilterWatch_Bootstrap, this);
         fmt::println("Window subsystem initialized.");
     }
 
@@ -151,80 +151,87 @@ namespace codex {
         exit(-1);
     }
 
-    i32 Window::SDLEventFilterWatch(SDL_Event* event)
+    void Window::ProcessEvents()
     {
-        switch (event->type)
+        while (SDL_PollEvent(&m_SdlEvent))
         {
-            using MouseEvent = MouseHandler::MouseEvent;
-            using KeyEvent   = KeyHandler::KeyEvent;
+            switch (m_SdlEvent.type)
+            {
+                using MouseEvent = MouseHandler::MouseEvent;
+                using KeyEvent   = KeyHandler::KeyEvent;
 
-            case SDL_WINDOWEVENT: {
-                switch (event->window.event)
-                {
-                    case SDL_WINDOWEVENT_RESIZED: {
-#ifdef CX_MODE_STANDALONE // Process resize events only when in standalone mode.
-                        i32 width  = event->window.data1;
-                        i32 height = event->window.data2;
-                        OnWindowResize_Event(width, height);
-#endif
+                case SDL_QUIT: {
+                    Application::Get().Stop();
+                    break;
+                }
+                case SDL_WINDOWEVENT: {
+                    switch (m_SdlEvent.window.event)
+                    {
+                        case SDL_WINDOWEVENT_RESIZED: {
+//#ifdef CX_MODE_STANDALONE // Process resize events only when in standalone mode.
+                            i32 width  = m_SdlEvent.window.data1;
+                            i32 height = m_SdlEvent.window.data2;
+                            OnWindowResize_Event(width, height);
+//#endif
+                            break;
+                        }
                     }
                 }
-            }
-            case SDL_MOUSEMOTION: {
-                MouseEvent mouse_event;
-                mouse_event.x = event->motion.x;
-                mouse_event.y = event->motion.y;
-                MouseHandler::OnMouseMove_Event(mouse_event);
-                break;
-            }
-            case SDL_MOUSEBUTTONDOWN: {
-                MouseEvent mouse_event;
-                mouse_event.x      = event->motion.x;
-                mouse_event.y      = event->motion.y;
-                mouse_event.button = (u8)event->button.button - 1;
-                mouse_event.clicks = event->button.clicks;
-                mouse_event.action = event->button.state;
-                MouseHandler::OnMouseButton_Event(mouse_event);
-                break;
-            }
-            case SDL_MOUSEBUTTONUP: {
-                MouseEvent mouse_event;
-                mouse_event.x      = event->motion.x;
-                mouse_event.y      = event->motion.y;
-                mouse_event.button = (u8)event->button.button - 1;
-                mouse_event.clicks = event->button.clicks;
-                mouse_event.action = event->button.state;
-                MouseHandler::OnMouseButton_Event(mouse_event);
-                break;
-            }
-            case SDL_MOUSEWHEEL: {
-                MouseEvent mouse_event;
-                mouse_event.x         = event->wheel.mouseX;
-                mouse_event.y         = event->wheel.mouseY;
-                mouse_event.scrollX   = event->wheel.x;
-                mouse_event.scrollY   = event->wheel.y;
-                mouse_event.scrollDir = event->wheel.direction;
-                MouseHandler::OnMouseScroll_Event(mouse_event);
-                break;
-            }
-            case SDL_KEYDOWN: {
-                KeyEvent key_event;
-                key_event.action = event->key.state;
-                key_event.key    = event->key.keysym.sym;
-                key_event.repeat = event->key.repeat;
-                KeyHandler::OnKeyPress_Event(key_event);
-                break;
-            }
-            case SDL_KEYUP: {
-                KeyEvent key_event;
-                key_event.action = event->key.state;
-                key_event.key    = event->key.keysym.sym;
-                key_event.repeat = event->key.repeat;
-                KeyHandler::OnKeyPress_Event(key_event);
-                break;
+                case SDL_MOUSEMOTION: {
+                    MouseEvent mouse_event;
+                    mouse_event.x = m_SdlEvent.motion.x;
+                    mouse_event.y = m_SdlEvent.motion.y;
+                    MouseHandler::OnMouseMove_Event(mouse_event);
+                    break;
+                }
+                case SDL_MOUSEBUTTONDOWN: {
+                    MouseEvent mouse_event;
+                    mouse_event.x      = m_SdlEvent.motion.x;
+                    mouse_event.y      = m_SdlEvent.motion.y;
+                    mouse_event.button = (u8)m_SdlEvent.button.button - 1;
+                    mouse_event.clicks = m_SdlEvent.button.clicks;
+                    mouse_event.action = m_SdlEvent.button.state;
+                    MouseHandler::OnMouseButton_Event(mouse_event);
+                    break;
+                }
+                case SDL_MOUSEBUTTONUP: {
+                    MouseEvent mouse_event;
+                    mouse_event.x      = m_SdlEvent.motion.x;
+                    mouse_event.y      = m_SdlEvent.motion.y;
+                    mouse_event.button = (u8)m_SdlEvent.button.button - 1;
+                    mouse_event.clicks = m_SdlEvent.button.clicks;
+                    mouse_event.action = m_SdlEvent.button.state;
+                    MouseHandler::OnMouseButton_Event(mouse_event);
+                    break;
+                }
+                case SDL_MOUSEWHEEL: {
+                    MouseEvent mouse_event;
+                    mouse_event.x         = m_SdlEvent.wheel.mouseX;
+                    mouse_event.y         = m_SdlEvent.wheel.mouseY;
+                    mouse_event.scrollX   = m_SdlEvent.wheel.x;
+                    mouse_event.scrollY   = m_SdlEvent.wheel.y;
+                    mouse_event.scrollDir = m_SdlEvent.wheel.direction;
+                    MouseHandler::OnMouseScroll_Event(mouse_event);
+                    break;
+                }
+                case SDL_KEYDOWN: {
+                    KeyEvent key_event;
+                    key_event.action = m_SdlEvent.key.state;
+                    key_event.key    = m_SdlEvent.key.keysym.sym;
+                    key_event.repeat = m_SdlEvent.key.repeat;
+                    KeyHandler::OnKeyPress_Event(key_event);
+                    break;
+                }
+                case SDL_KEYUP: {
+                    KeyEvent key_event;
+                    key_event.action = m_SdlEvent.key.state;
+                    key_event.key    = m_SdlEvent.key.keysym.sym;
+                    key_event.repeat = m_SdlEvent.key.repeat;
+                    KeyHandler::OnKeyPress_Event(key_event);
+                    break;
+                }
             }
         }
-        return 0;
     }
 
     void Window::Update()
@@ -240,15 +247,8 @@ namespace codex {
         DebugDraw::Begin();
 #endif
 
-        // Handle events
-        while (SDL_PollEvent(&m_SdlEvent))
-        {
-            switch (m_SdlEvent.type)
-            {
-                case SDL_QUIT: Application::Get().Stop(); return;
-                default: break;
-            }
-        }
+        // Poll events
+        ProcessEvents();
 
         // Update scene
 #ifdef CODEX_CONF_DEBUG

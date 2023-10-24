@@ -3,6 +3,7 @@
 #include "../Core/MouseHandler.h"
 #include "../Renderer/DebugDraw.h"
 #include "../Core/Window.h"
+#include "../Scene/Components.h"
 
 namespace codex {
 	static std::unique_ptr<SpriteSheet> sp = nullptr;
@@ -16,7 +17,7 @@ namespace codex {
 	{
 		// TODO: Make Resources to be a singleton sub system that can be initialized and disposed
 		// so that we can dispose all of its resources from the Window class from the corecrl thread.
-		m_Shader = Resources::Load<Shader>("GLShaders/texture2d.glsl");
+		m_Shader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
 		m_CurrentActiveAction = EditorAction::Select;
 	}
 
@@ -40,15 +41,15 @@ namespace codex {
 
 #ifdef CX_MODE_STANDALONE
 		fmt::println("creating ice_cube entity.");
-		auto ent = m_Manager.CreateEntity();
-		Sprite sprite = { Resources::Load<Texture2D>("ice_cube.png") };
+		auto ent = CreateEntity();
+		Sprite sprite = { Resources::Load<Texture2D>("Sprites/ice_cube.jpg") };
 		ent.AddComponent<SpriteRendererComponent>(sprite);
 
-		auto ent1 = m_Manager.CreateEntity();
+		auto ent1 = CreateEntity();
 		auto& trans = ent1.GetComponent<TransformComponent>();
 		trans.position.x = 400;
 		trans.position.y = 300;
-		ent1.AddComponent<SpriteRendererComponent>(Sprite { Resources::Load<Texture2D>("dun_tileset.png")});
+		ent1.AddComponent<SpriteRendererComponent>(Sprite { Resources::Load<Texture2D>("Sprites/dun_tileset.png")});
 #endif
 	}
 
@@ -176,6 +177,19 @@ namespace codex {
 				renderer_component.GetZIndex(),
 				(i32)entity.GetId()
 			);
+		}
+
+		for (auto& entity : GetAllEntitiesWithComponent<NativeBehaviourComponent>())
+		{
+			// TODO: This should happen OnScenePlay.
+			auto& behaviour_component = entity.GetComponent<NativeBehaviourComponent>();
+			if (!behaviour_component.instance)
+			{
+				behaviour_component.instance = behaviour_component.Instantiate();
+				behaviour_component.instance->m_Owner = entity;
+				behaviour_component.instance->Init();
+			}
+			behaviour_component.instance->Update(deltaTime);
 		}
 
 		for (auto& entity : GetAllEntitiesWithComponent<TilemapComponent>())

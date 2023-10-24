@@ -37,10 +37,9 @@ namespace codex {
 		~SpriteBatchRenderer();
 
 	public:
-		inline Shader* GetShader() const
-			{ return m_Shader; }
+        inline Shader* GetShader() const { return m_Shader; }
 
-	public:
+    public:
 		void Begin();
 		void End();
 		void BindShader(Shader* shader);
