@@ -217,7 +217,7 @@ namespace codex {
                 case SDL_KEYDOWN: {
                     KeyEvent key_event;
                     key_event.action = m_SdlEvent.key.state;
-                    key_event.key    = m_SdlEvent.key.keysym.sym;
+                    key_event.key    = Key(m_SdlEvent.key.keysym.sym);
                     key_event.repeat = m_SdlEvent.key.repeat;
                     KeyHandler::OnKeyPress_Event(key_event);
                     break;
@@ -225,7 +225,7 @@ namespace codex {
                 case SDL_KEYUP: {
                     KeyEvent key_event;
                     key_event.action = m_SdlEvent.key.state;
-                    key_event.key    = m_SdlEvent.key.keysym.sym;
+                    key_event.key    = Key(m_SdlEvent.key.keysym.sym);
                     key_event.repeat = m_SdlEvent.key.repeat;
                     KeyHandler::OnKeyPress_Event(key_event);
                     break;
@@ -272,7 +272,7 @@ namespace codex {
         */
 
         // Exit
-        if (KeyHandler::IsKeyDown(SDLK_ESCAPE))
+        if (KeyHandler::IsKeyDown(Key::Escape))
         {
             Application::Get().Stop();
             return;

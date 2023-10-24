@@ -67,7 +67,7 @@ namespace codex {
 		}
 	}
 
-	TilemapComponent::TilemapComponent(std::shared_ptr<Texture2D> texture, const Vector2f gridSize, const Vector2f tileSize) :
+	TilemapComponent::TilemapComponent(ResRef<Texture2D> texture, const Vector2f gridSize, const Vector2f tileSize) :
 		m_Texture(texture), m_GridSize(gridSize), m_TileSize(tileSize), m_Layer(0)
 	{
 

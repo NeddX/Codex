@@ -16,6 +16,9 @@ namespace codex {
 	public:
 		constexpr usize inline GetId() const noexcept { return m_Id; }
 	};
+
+    template<typename T, typename = typename std::enable_if<std::is_base_of<IResource, T>::value>::type>
+    using ResRef = std::shared_ptr<T>;
 }
 
 #endif // CODEX_CORE_IRESROUCE_H

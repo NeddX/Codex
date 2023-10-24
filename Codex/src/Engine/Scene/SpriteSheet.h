@@ -11,7 +11,7 @@ namespace codex {
 	class SpriteSheet
 	{
 	private:
-		std::shared_ptr<Texture2D> m_Texture;
+		ResRef<Texture2D> m_Texture;
 		std::vector<Vector2f> m_SpriteCoords;
 		std::vector<Sprite> m_Sprites;
 		i32 m_Width;
@@ -22,7 +22,7 @@ namespace codex {
 
 	public:
 		SpriteSheet(
-			std::shared_ptr<Texture2D> texture,
+			ResRef<Texture2D> texture,
 			i32 spriteWidth,
 			i32 spriteHeight,
 			i32 spriteCount,

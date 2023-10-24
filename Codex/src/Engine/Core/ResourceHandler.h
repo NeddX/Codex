@@ -31,7 +31,7 @@ namespace codex {
         static Resources* m_Instance;
 
     private:
-        std::unordered_map<usize, std::shared_ptr<IResource>> m_Resources;
+        std::unordered_map<usize, ResRef<IResource>> m_Resources;
 
     public:
         static void Init();
@@ -39,7 +39,7 @@ namespace codex {
 
     public:
         template <typename T>
-        static std::shared_ptr<T> Load(const char* filePath)
+        static ResRef<T> Load(const char* filePath)
         {
             static_assert("Type not supported.");
             return nullptr;
@@ -47,7 +47,7 @@ namespace codex {
 
     public:
         template <typename T>
-        inline static std::shared_ptr<T> GetResource(const usize id)
+        inline static ResRef<T> GetResource(const usize id)
         {
             auto it = m_Instance->m_Resources.find(id);
             if (it != m_Instance->m_Resources.end())
@@ -56,7 +56,7 @@ namespace codex {
                 throw ResourceNotFoundException(fmt::format("Hash Id {} was not present in the resource pool.", id).c_str());
         }
         template <typename T>
-        inline static std::shared_ptr<T> GetResource(const std::string_view filePath)
+        inline static ResRef<T> GetResource(const std::string_view filePath)
         {
             return GetResource<T>(util::Crypto::DJB2Hash(filePath));
         }
@@ -72,16 +72,16 @@ namespace codex {
             usize id = util::Crypto::DJB2Hash(filePath);
             return HasResource(id);
         }
-        inline static std::unordered_map<usize, std::shared_ptr<IResource>>& GetAllResources()
+        inline static std::unordered_map<usize, ResRef<IResource>>& GetAllResources()
         {
             return m_Instance->m_Resources;
         }
     };
 
     template <>
-    std::shared_ptr<Texture2D> Resources::Load(const char* filePath);
+    ResRef<Texture2D> Resources::Load(const char* filePath);
     template <>
-    std::shared_ptr<Shader> Resources::Load(const char* filePath);
+    ResRef<Shader> Resources::Load(const char* filePath);
 
 } // namespace codex
 

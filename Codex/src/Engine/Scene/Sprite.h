@@ -3,30 +3,30 @@
 
 #include "../Core/Geomtryd.h"
 #include "../Renderer/Texture2D.h"
+#include "../Core/IResource.h"
 
 namespace codex {
     class Sprite
     {
     private:
-        std::shared_ptr<Texture2D> m_Texture;
-        Rectf                      m_SrcRect;
+        ResRef<Texture2D> m_Texture;
+        Rectf             m_SrcRect;
 
     public:
-        Sprite(std::shared_ptr<Texture2D> texture) : m_Texture(texture)
+        Sprite(ResRef<Texture2D> texture) : m_Texture(texture)
         {
             if (m_Texture)
                 m_SrcRect = {0.0f, 0.0f, (f32)texture->GetWidth(), (f32)texture->GetHeight()};
         }
-        Sprite(std::shared_ptr<Texture2D> texture, const Rectf textureCoords)
-            : m_Texture(texture), m_SrcRect(textureCoords)
-        {
-        }
+        Sprite(ResRef<Texture2D> texture, const Rectf textureCoords) : m_Texture(texture), m_SrcRect(textureCoords) {}
 
     public:
-        inline std::shared_ptr<Texture2D> GetTexture() const { return m_Texture; }
-        inline Rectf                      GetTextureCoords() const { return m_SrcRect; }
-        inline void                       SetTexture(std::shared_ptr<Texture2D> texture) { m_Texture = texture; }
-        inline void                       SetTextureCoords(const Rectf textureCoords) { m_SrcRect = textureCoords; }
+        inline ResRef<Texture2D> GetTexture() const noexcept { return m_Texture; }
+        inline Rectf             GetTextureCoords() const noexcept { return m_SrcRect; }
+        inline void              SetTexture(ResRef<Texture2D> texture) noexcept { m_Texture = texture; }
+        inline void              SetTextureCoords(const Rectf textureCoords) noexcept { m_SrcRect = textureCoords; }
+        inline i32               GetWidth() const noexcept { return m_Texture->GetWidth(); }
+        inline i32               GetHeight() const noexcept { return m_Texture->GetHeight(); }
     };
 } // namespace codex
 

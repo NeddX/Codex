@@ -17,7 +17,7 @@ namespace codex {
     {
     private:
         SpriteBatchRenderer*    m_SpriteBatch;
-        std::shared_ptr<Shader> m_Shader;
+        ResRef<Shader> m_Shader;
         Vector2f                m_SelectedTileCoord;
         EditorAction            m_CurrentActiveAction;
         u32                     m_SelectedEntityId;

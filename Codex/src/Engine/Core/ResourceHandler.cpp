@@ -29,7 +29,7 @@ namespace codex {
     }
 
     template <>
-    std::shared_ptr<Texture2D> Resources::Load(const char* filePath)
+    ResRef<Texture2D> Resources::Load(const char* filePath)
     {
         if (HasResource(filePath))
             return GetResource<Texture2D>(filePath);
@@ -43,7 +43,7 @@ namespace codex {
             TextureProperties props;
             props.filterMode = TextureFilterMode::Nearest;
 
-            std::shared_ptr<Texture2D> texture = std::make_shared<Texture2D>(filePath, props);
+            ResRef<Texture2D> texture = std::make_shared<Texture2D>(filePath, props);
             m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
             fs.close();
             fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);
@@ -58,13 +58,13 @@ namespace codex {
     }
 
     template <>
-    std::shared_ptr<Shader> Resources::Load(const char* filePath)
+    ResRef<Shader> Resources::Load(const char* filePath)
     {
         std::ifstream fs(filePath);
         if (fs.is_open())
         {
             usize id = util::Crypto::DJB2Hash(filePath);
-            std::shared_ptr<Shader> texture = std::make_shared<Shader>(filePath);
+            ResRef<Shader> texture = std::make_shared<Shader>(filePath);
             m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
             fs.close();
             fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);

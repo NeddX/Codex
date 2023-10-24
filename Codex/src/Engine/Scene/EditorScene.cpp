@@ -7,7 +7,7 @@
 
 namespace codex {
 	static std::unique_ptr<SpriteSheet> sp = nullptr;
-	static std::shared_ptr<Texture2D> m_TestTex = nullptr;
+	static ResRef<Texture2D> m_TestTex = nullptr;
 	static Entity ent((entt::entity)0, nullptr);
 
 	bool isDragging = false;
@@ -58,7 +58,7 @@ namespace codex {
 		// TODO: Improve.
 		static f32 speed = 1.6f;
 		static Vector2f previous_mouse_pos;
-		if (MouseHandler::IsMouseDown(2))
+		if (MouseHandler::IsMouseDown(MouseButton::RightMouse))
 		{
 			if (MouseHandler::IsDragging())
 			{
@@ -83,7 +83,7 @@ namespace codex {
 		{
 			case EditorAction::TilemapBrush:
 			{
-				if (!MouseHandler::IsMouseDown(0)) break;
+				if (!MouseHandler::IsMouseDown(MouseButton::LeftMouse)) break;
 
 				auto mouse = GetMousePositionInWorld();
 				auto ent = Entity(m_SelectedEntityId, this);
@@ -105,7 +105,7 @@ namespace codex {
 			}
 			case EditorAction::TilemapErase:
 			{
-				if (!MouseHandler::IsMouseDown(0)) break;
+				if (!MouseHandler::IsMouseDown(MouseButton::LeftMouse)) break;
 
 				auto mouse = GetMousePositionInWorld();
 				auto ent = Entity(m_SelectedEntityId, this);
