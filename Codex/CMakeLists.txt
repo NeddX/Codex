@@ -14,50 +14,38 @@ if (UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 endif()
 
-# ==================================================== #
-#   Export macros that describe the current platform   #
-# =============--------------------------------------- #
-# Determine the system and compiler information
-# Determine the system and compiler information
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_LINUX)
-    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_UNIX)
-    set(CX_PLATFORM_LINUX 1)
-    set(CX_PLATFORM_UNIX 1)
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_OSX)
-    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_UNIX)
-    set(CX_PLATFORM_OSX 1)
-    set(CX_PLATFORM_UNIX 1)
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_WINDOWS)
-    set(CX_PLATFORM_WINDOWS 1)
-else()
-    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_UNKNOWN)
-    set(CX_PLATFORM_UNKNOWN 1)
+# Define macros that describe the current platform.
+if (DEFINED CX_PLATFORM_UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 endif()
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+if(DEFINED CX_PLATFORM_LINUX)
+    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_LINUX)
+    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_UNIX)
+elseif(DEFINED CX_PLATFORM_OSX)
+    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_OSX)
+    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_UNIX)
+elseif(DEFINED CX_PLATFORM_WINDOWS)
+    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_WINDOWS)
+else()
+    target_compile_definitions(CodexEngine PRIVATE CX_PLATFORM_UNKNOWN)
+endif()
+
+if(DEFINED CX_COMPILER_GCC)
     target_compile_definitions(CodexEngine PRIVATE CX_COMPILER_GCC)
-    set(CX_COMPILER_GCC 1)
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+elseif(DEFINED CX_COMPILER_CLANG)
     target_compile_definitions(CodexEngine PRIVATE CX_COMPILER_CLANG)
-    set(CX_COMPILER_CLANG 1)
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+elseif(DEFINED CX_COMPILER_MSVC)
     target_compile_definitions(CodexEngine PRIVATE CX_COMPILER_MSVC)
-    set(CX_COMPILER_MSVC 1)
 else()
     target_compile_definitions(CodexEngine PRIVATE CX_COMPILER_UNKNOWN)
-    set(CX_COMPILER_UNKNOWN 1)
 endif()
 
 # Determine the processor architecture
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+if(DEFINED CX_WORD_SIZE_64)
     target_compile_definitions(CodexEngine PRIVATE CX_WORD_SIZE_64)
-    set(CX_WORD_SIZE_64 1)
 else()
     target_compile_definitions(CodexEngine PRIVATE CX_WORD_SIZE_32)
-    set(CX_WORD_SIZE_32 1)
 endif()
 
 # Print the platform information
@@ -197,7 +185,7 @@ target_include_directories(CodexEngine PUBLIC src/)
 
 # Add the precompiled header
 target_include_directories(CodexEngine PUBLIC src/PCH)
-#target_precompile_headers(CodexEngine PRIVATE src/PCH/sdafx.h)
+target_precompile_headers(CodexEngine PRIVATE src/PCH/sdafx.h)
 #target_include_directories(CodexEngine-static PUBLIC src/PCH)
 #target_precompile_headers(CodexEngine-static PRIVATE src/PCH/sdafx.h)
 
