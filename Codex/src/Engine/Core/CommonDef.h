@@ -4,7 +4,11 @@
 #include <cstdint>
 
 #if defined(_MSC_VER)
-#define CODEX_EXPORT __declspec(dllexport)
+#ifdef CX_BUILD_LIB
+#define CODEX_API __declspec(dllexport)    
+#else
+#define CODEX_API __declspec(dllimport)
+#endif
 #elif defined(__clang__) || defined(__GNUC__)
 #define CODEX_EXPORT __attribute__((visibility("default")))
 #endif

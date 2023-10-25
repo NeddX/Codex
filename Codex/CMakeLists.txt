@@ -9,10 +9,17 @@ add_library(CodexEngine-static STATIC ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 set_property(TARGET CodexEngine PROPERTY CXX_STANDARD 17)
 set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 17)
 
+# For exporting the symbols on windows.
+if(DEFINED CX_PLATFORM_WINDOWS)
+	set_target_properties(CodexEngine-static PROPERTIES OUTPUT_NAME "CodexEngine")
+endif()
+
 # Position independent code for shared libraries.
 if (DEFINED CX_PLATFORM_UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 endif()
+
+target_compile_definitions(CodexEngine PRIVATE CX_BUILD_LIB)
 
 # Define macros that describe the current platform.
 if(DEFINED CX_PLATFORM_LINUX)

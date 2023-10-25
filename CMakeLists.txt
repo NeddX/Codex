@@ -8,6 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 # ==================================================== #
 #   Export macros that describe the current platform   #
 # ==================================================== #
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(CX_PLATFORM_LINUX 1)
     set(CX_PLATFORM_UNIX 1)
