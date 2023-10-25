@@ -38,7 +38,7 @@ namespace codex {
 
     protected:
         const ApplicationProperties m_Properties;
-        Window::Box m_Window = nullptr;
+        Window::Box  m_Window = nullptr;
         bool m_Running = true;
 
     private:

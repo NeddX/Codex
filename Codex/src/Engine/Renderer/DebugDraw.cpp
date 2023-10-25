@@ -19,7 +19,7 @@ namespace codex {
 			{
 				m_Instance->m_Shader = std::make_unique<Shader>("GLShaders/debugLine2D.glsl");
 			}
-			catch (const std::exception& ex)
+			catch (const std::exception&)
 			{
 				CX_THROW_DEF(ShaderNotFoundException);
 			}

@@ -15,10 +15,15 @@ cpwd=$pwd
 
 if [ -z "$1" ]; then
     build_conf="Debug"
-elif [[ "$build_conf" == "clean" ]]; then
+elif [[ "$1" == "clean" ]]; then
     if [ -d "builds/$platform" ]; then
         cmake --build -B "builds/$platform" --target clean
     fi
+elif [[ "$1" == "vs2022" ]]; then
+	mkdir -p "builds/vs2022"
+	cmake ./ -G "Visual Studio 17" -B "builds/vs2022"
+	cmake --build "builds/vs2022"
+	exit
 else
     build_conf="$1"
 fi
