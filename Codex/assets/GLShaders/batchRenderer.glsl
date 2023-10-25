@@ -25,6 +25,8 @@ void main()
 #shader_type fragment
 #version 330 core
 
+#define CX_MAX_SLOT_COUNT 32
+
 in vec4 o_Colour;
 in vec2 o_TexCoord;
 in float o_TexID;
@@ -63,6 +65,7 @@ void main()
 			case 7:
 				FragColour = texture(u_Textures[7], o_TexCoord) * o_Colour;
 				break;
+#if CX_MAX_SLOT_COUNT >= 16
 			case 8:
 				FragColour = texture(u_Textures[8], o_TexCoord) * o_Colour;
 				break;
@@ -87,6 +90,8 @@ void main()
 			case 15:
 				FragColour = texture(u_Textures[15], o_TexCoord) * o_Colour;
 				break;
+#endif
+#if CX_MAX_SLOT_COUNT >= 32
 			case 16:
 				FragColour = texture(u_Textures[16], o_TexCoord) * o_Colour;
 				break;
@@ -135,6 +140,7 @@ void main()
 			case 31:
 				FragColour = texture(u_Textures[31], o_TexCoord) * o_Colour;
 				break;
+#endif
 		}
 		//FragColour = texture(u_Textures[u_SelectedTexture], o_TexCoord) * o_Colour;
 	}

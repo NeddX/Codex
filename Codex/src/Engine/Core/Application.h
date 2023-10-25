@@ -49,8 +49,9 @@ namespace codex {
         virtual ~Application();
 
     public:
-        inline static Window& GetWindow() noexcept { return *m_Instance->m_Window; }
+        inline static Window&      GetWindow() noexcept { return *m_Instance->m_Window; }
         inline static Application& Get() noexcept { return *m_Instance; }
+        inline static u32          GetFps() noexcept { return m_Instance->m_Window->m_Fps; }
 
     public:
         void Run();

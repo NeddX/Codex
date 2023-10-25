@@ -9,7 +9,7 @@ namespace codex {
     // Forward decelerations
     class Window;
 
-    enum class MouseButton : u8
+    enum class Mouse : u8
     {
         LeftMouse   = SDL_BUTTON_LEFT,
         MiddleMouse = SDL_BUTTON_MIDDLE,
@@ -52,9 +52,9 @@ namespace codex {
         static inline i32      GetScrollX() noexcept { return m_Instance->m_ScrollX; }
         static inline i32      GetScrollY() noexcept { return m_Instance->m_ScrollY; }
         static inline bool     IsDragging() noexcept { return m_Instance->m_Dragging; }
-        static inline bool     IsMouseDown(const MouseButton mouseButton) noexcept
+        static inline bool     IsMouseDown(const Mouse mouseButton) noexcept
         {
-            return m_Instance->m_ButtonsPressed[(usize)mouseButton];
+            return m_Instance->m_ButtonsPressed[(usize)mouseButton - 1];
         }
 
     protected:

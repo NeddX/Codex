@@ -44,14 +44,14 @@ namespace codex {
 
 	void MouseHandler::OnMouseMove_Event(const MouseEvent event) noexcept
 	{
-		m_Instance->m_LastPosX = m_Instance->m_PosX;
-		m_Instance->m_LastPosY = m_Instance->m_PosY;
-		m_Instance->m_PosX = event.x;
-		m_Instance->m_PosY = event.y;
-		m_Instance->m_Dragging = m_Instance->m_ButtonsPressed.any();
-	}
+        m_Instance->m_LastPosX = m_Instance->m_PosX;
+        m_Instance->m_LastPosY = m_Instance->m_PosY;
+        m_Instance->m_PosX     = event.x;
+        m_Instance->m_PosY     = event.y;
+        m_Instance->m_Dragging = m_Instance->m_ButtonsPressed.any();
+    }
 
-	void MouseHandler::OnMouseButton_Event(const MouseEvent event) noexcept
+    void MouseHandler::OnMouseButton_Event(const MouseEvent event) noexcept
 	{
 		if (event.button <= 2)
 		{

@@ -58,7 +58,7 @@ namespace codex {
 		// TODO: Improve.
 		static f32 speed = 1.6f;
 		static Vector2f previous_mouse_pos;
-		if (MouseHandler::IsMouseDown(MouseButton::RightMouse))
+		if (MouseHandler::IsMouseDown(Mouse::RightMouse))
 		{
 			if (MouseHandler::IsDragging())
 			{
@@ -83,7 +83,7 @@ namespace codex {
 		{
 			case EditorAction::TilemapBrush:
 			{
-				if (!MouseHandler::IsMouseDown(MouseButton::LeftMouse)) break;
+				if (!MouseHandler::IsMouseDown(Mouse::LeftMouse)) break;
 
 				auto mouse = GetMousePositionInWorld();
 				auto ent = Entity(m_SelectedEntityId, this);
@@ -105,7 +105,7 @@ namespace codex {
 			}
 			case EditorAction::TilemapErase:
 			{
-				if (!MouseHandler::IsMouseDown(MouseButton::LeftMouse)) break;
+				if (!MouseHandler::IsMouseDown(Mouse::LeftMouse)) break;
 
 				auto mouse = GetMousePositionInWorld();
 				auto ent = Entity(m_SelectedEntityId, this);

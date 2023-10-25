@@ -16,7 +16,7 @@ public:
 
         std::cout << "PlayerController initialized.\n";
         trans  = &GetComponent<TransformComponent>();
-        sprite = &GetComponent<codex::SpriteRendererComponent>().GetSprite();
+        sprite = &GetComponent<SpriteRendererComponent>().GetSprite();
     }
     void Update(const codex::f32 deltaTime) override
     {
@@ -48,10 +48,9 @@ public:
             trans->scale.x -= 1.0f * deltaTime;
             trans->scale.y -= 1.0f * deltaTime;
         }
-
-        if (MouseHandler::IsMouseDown(MouseButton::LeftMouse))
+        if (KeyHandler::IsKeyDown(Key::P))
         {
-            fmt::println("cool");
+            std::cout << "FPS: " << Application::GetFps() << std::endl;
         }
     }
 };
