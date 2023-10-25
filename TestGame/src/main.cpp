@@ -1,5 +1,5 @@
 #include <Codex.h>
-//#include <Engine/Core/EntryPoint.h>
+#include <Engine/Core/EntryPoint.h>
 #include <iostream>
 
 class PlayerController : public codex::NativeBehaviour
@@ -80,7 +80,7 @@ public:
     ~TestGame() override {}
 };
 
-/*
+
 codex::Application* codex::CreateApplication(const codex::ApplicationCLIArgs args)
 {
     return new TestGame(codex::ApplicationProperties{
@@ -90,4 +90,3 @@ codex::Application* codex::CreateApplication(const codex::ApplicationCLIArgs arg
         .windowProperties = codex::WindowProperties{.width = 800, .height = 600, .frameCap = 0, .vsync = true}
     });
 }
-*/
