@@ -1,7 +1,7 @@
 add_executable (TestGame "src/main.cpp")
 
-# Set the C++ Standard to 17 for this target
-set_property(TARGET TestGame PROPERTY CXX_STANDARD 17)
+# Set the C++ Standard to 20 for this target
+set_property(TARGET TestGame PROPERTY CXX_STANDARD 20)
 
 target_link_libraries(TestGame CodexEngine)
 add_dependencies(TestGame CodexEngine)
@@ -31,6 +31,7 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:SDL2> $<TARGET_FILE_DIR:TestGame>
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:SDL2main> $<TARGET_FILE_DIR:TestGame>
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:CodexEngine> $<TARGET_FILE_DIR:TestGame>
+	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:CodexEngine-static> $<TARGET_FILE_DIR:TestGame>
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CODEX_CMAKE_SOURCE_DIR}/assets/GLShaders/" "${CMAKE_BINARY_DIR}/TestGame/GLShaders/"
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CODEX_CMAKE_SOURCE_DIR}/assets/Sprites/" "${CMAKE_BINARY_DIR}/TestGame/Sprites/"
 )

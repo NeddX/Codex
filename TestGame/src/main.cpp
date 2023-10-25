@@ -80,6 +80,7 @@ public:
     ~TestGame() override {}
 };
 
+
 codex::Application* codex::CreateApplication(const codex::ApplicationCLIArgs args)
 {
     auto props = codex::WindowProperties{};

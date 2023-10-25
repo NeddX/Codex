@@ -5,7 +5,7 @@ file(GLOB_RECURSE ENGINE_HEADERS "src/Engine/*.h")
 add_library(CodexEngine SHARED ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 add_library(CodexEngine-static STATIC ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 
-# Set the C++ Standard to 20 (now stable) for this target
+# Set the C++ Standard to 17 for this target.
 set_property(TARGET CodexEngine PROPERTY CXX_STANDARD 17)
 set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 17)
 
