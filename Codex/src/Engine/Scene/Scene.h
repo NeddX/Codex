@@ -1,8 +1,6 @@
 #ifndef CODEX_CORE_SCENE_H
 #define CODEX_CORE_SCENE_H
 
-#include <sdafx.h>
-
 #include "../Core/Camera.h"
 #include "../Renderer/Renderer.h"
 #include "../Scene/SpriteSheet.h"

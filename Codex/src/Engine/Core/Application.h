@@ -12,8 +12,8 @@ namespace codex {
     struct ApplicationCLIArgs
     {
     public:
-        int count         = 0;
-        char** args = nullptr;
+        int    count = 0;
+        char** args  = nullptr;
 
     public:
         const char* operator[](const usize index) const

@@ -5,14 +5,21 @@ file(GLOB_RECURSE ENGINE_HEADERS "src/Engine/*.h")
 add_library(CodexEngine SHARED ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 add_library(CodexEngine-static STATIC ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 
-# Set the C++ Standard to 20 (now stable) for this target
-set_property(TARGET CodexEngine PROPERTY CXX_STANDARD 20)
-set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 20)
+# Set the C++ Standard to 17 for this target.
+set_property(TARGET CodexEngine PROPERTY CXX_STANDARD 17)
+set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 17)
+
+# For exporting the symbols on windows.
+if(DEFINED CX_PLATFORM_WINDOWS)
+	set_target_properties(CodexEngine-static PROPERTIES OUTPUT_NAME "CodexEngine")
+endif()
 
 # Position independent code for shared libraries.
 if (DEFINED CX_PLATFORM_UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 endif()
+
+target_compile_definitions(CodexEngine PRIVATE CX_BUILD_LIB)
 
 # Define macros that describe the current platform.
 if(DEFINED CX_PLATFORM_LINUX)
@@ -210,10 +217,10 @@ target_include_directories(CodexEngine-static PUBLIC src/Engine)
 
 # Add the precompiled header
 target_include_directories(CodexEngine PUBLIC src/PCH)
-target_precompile_headers(CodexEngine PRIVATE src/PCH/sdafx.h)
+#target_precompile_headers(CodexEngine PRIVATE src/PCH/sdafx.h)
 
 target_include_directories(CodexEngine-static PUBLIC src/PCH)
-target_precompile_headers(CodexEngine-static PRIVATE src/PCH/sdafx.h)
+#target_precompile_headers(CodexEngine-static PRIVATE src/PCH/sdafx.h)
 
 # No idea what this is.
 #target_link_libraries(CodexEngine-static ${CMAKE_DL_LIBS})
