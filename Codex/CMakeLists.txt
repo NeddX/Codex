@@ -5,12 +5,12 @@ file(GLOB_RECURSE ENGINE_HEADERS "src/Engine/*.h")
 add_library(CodexEngine SHARED ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 #add_library(CodexEngine-static STATIC ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 
-# Set the C++ Standard to 17 for this target
-set_property(TARGET CodexEngine PROPERTY CXX_STANDARD 17)
-#set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 17)
+# Set the C++ Standard to 20 (now stable) for this target
+set_property(TARGET CodexEngine PROPERTY CXX_STANDARD 20)
+#set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 20)
 
 # Position independent code for shared libraries.
-if (UNIX)
+if (DEFINED CX_PLATFORM_UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 endif()
 
@@ -51,7 +51,7 @@ endif()
 # Print the platform information
 message(":: Platform OS: ${CMAKE_SYSTEM_NAME}")
 message(":: Platform Compiler: ${CMAKE_CXX_COMPILER_ID}")
-message(":: Architecture: ${CMAKE_SIZEOF_VOID_P} bits")
+message(":: Architecture word size: ${CMAKE_SIZEOF_VOID_P} bytes")
 
 if(DEFINED CX_COMPILER_CLANG OR DEFINED CX_COMPILER_GCC)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer")
@@ -160,14 +160,14 @@ target_include_directories(CodexEngine PUBLIC ${ENTT_INCLUDE_DIRS})
 #   Configuration specific macros   #
 # ================================= #
 target_compile_definitions(CodexEngine PRIVATE
-    $<$<CONFIG:Debug>:CODEX_CONF_DEBUG>
-    $<$<CONFIG:Release>:CODEX_CONF_RELEASE>
-    $<$<CONFIG:Shipping>:CODEX_CONF_SHIPPING>
+    $<$<CONFIG:Debug>:CX_CONFIG_DEBUG>
+    $<$<CONFIG:Release>:CX_CONFIG_RELEASE>
+    $<$<CONFIG:Shipping>:CX_CONFIG_SHIPPING>
 )
 #target_compile_definitions(CodexEngine-static PRIVATE
-#    $<$<CONFIG:Debug>:CODEX_CONF_DEBUG>
-#    $<$<CONFIG:Release>:CODEX_CONF_RELEASE>
-#    $<$<CONFIG:Shipping>:CODEX_CONF_SHIPPING>
+#    $<$<CONFIG:Debug>:CX_CONFIG_DEBUG>
+#    $<$<CONFIG:Release>:CX_CONFIG_RELEASE>
+#    $<$<CONFIG:Shipping>:CX_CONFIG_SHIPPING>
 #)
 
 # =============== #
@@ -194,7 +194,7 @@ target_precompile_headers(CodexEngine PRIVATE src/PCH/sdafx.h)
 #target_link_libraries(CodexEngine ${CMAKE_DL_LIBS})
 
 # Treat all warnings as errors for QUALITY
-if (MSVC)
+if (CX_COMPILER_MSVC)
     target_compile_options(CodexEngine PRIVATE /W3 /WX)
 else()
     #target_compile_options(CodexEngine PRIVATE -Wall -Wextra -Wno-error=extra -Werror)

@@ -39,9 +39,6 @@ namespace codex {
         u32         flags      = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
         bool        vsync      = true;
         bool        borderless = false;
-
-    public:
-        WindowProperties() = default;
     };
 
     class Window
