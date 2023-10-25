@@ -7,7 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
 # ==================================================== #
 #   Export macros that describe the current platform   #
-# =============--------------------------------------- #
+# ==================================================== #
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(CX_PLATFORM_LINUX 1)
     set(CX_PLATFORM_UNIX 1)
@@ -35,6 +35,10 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(CX_WORD_SIZE_64 1)
 else()
     set(CX_WORD_SIZE_32 1)
+endif()
+
+if (CX_PLATFORM_WINDOWS)
+  set(CODEX_PLATFORM_WIN32 1)
 endif()
 
 # Add sub projects
