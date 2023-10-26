@@ -12,6 +12,7 @@ set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 20)
 # For exporting the symbols on windows.
 if(DEFINED CX_PLATFORM_WINDOWS)
     set_target_properties(CodexEngine-static PROPERTIES OUTPUT_NAME "CodexEngine")
+	set_target_properties(CodexEngine-static PROPERTIES COMPILE_PDB_NAME "CodexEngine-static")
 endif()
 
 # Position independent code for shared libraries.
