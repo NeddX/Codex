@@ -83,15 +83,10 @@ public:
 
 codex::Application* codex::CreateApplication(const codex::ApplicationCLIArgs args)
 {
-    auto props = codex::WindowProperties{};
-    props.width = 800;
-    props.height = 600;
-    props.frameCap = 0;
-    props.vsync = true;
     return new TestGame(codex::ApplicationProperties{
-        "TestGame",
-        ". / ",
-        args,
-        props
+        .name = "TestGame",
+        .cwd = ". /",
+        .args = args,
+        .windowProperties = { .width = 800, .height = 600, .frameCap = 0, .vsync = true }
     });
 }
