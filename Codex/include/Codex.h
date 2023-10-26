@@ -2,7 +2,6 @@
 #define CODEX_H
 
 // Core
-#include "../src/Engine/Core/Application.h"
 #include "../src/Engine/Core/Window.h"
 #include "../src/Engine/Core/CommonDef.h"
 #include "../src/Engine/Core/Camera.h"
@@ -11,6 +10,7 @@
 #include "../src/Engine/Core/MouseHandler.h"
 #include "../src/Engine/Core/ResourceHandler.h"
 #include "../src/Engine/Core/Exception.h"
+#include "../src/Engine/Core/Application.h"
 
 // Scene
 #include "../src/Engine/Scene/Scene.h"

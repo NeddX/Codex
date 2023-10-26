@@ -66,7 +66,7 @@ namespace fmt {
 		template<typename FormatContext>
 		auto format(const codex::Vector2f& vec, FormatContext& ctx) 
 		{ 
-			return format_to(ctx.out(), "({}, {})", vec.x, vec.y); 
+			return fmt::format_to(ctx.out(), "({}, {})", vec.x, vec.y);
 		}
 	};
 
@@ -80,7 +80,7 @@ namespace fmt {
 		template<typename FormatContext>
 		auto format(const codex::Vector3f& vec, FormatContext& ctx)
 		{
-			return format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
+			return fmt::format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
 		}
 	};
 
@@ -94,7 +94,7 @@ namespace fmt {
 		template<typename FormatContext>
 		auto format(const codex::Vector4f& vec, FormatContext& ctx)
 		{
-			return format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.z, vec.w);
+			return fmt::format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.z, vec.w);
 		}
 	};
 
@@ -108,7 +108,7 @@ namespace fmt {
 		template<typename FormatContext>
 		auto format(const codex::Rectf& vec, FormatContext& ctx)
 		{
-			return format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.w, vec.h);
+			return fmt::format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.w, vec.h);
 		}
 	};
 }

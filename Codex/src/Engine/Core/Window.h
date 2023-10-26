@@ -6,6 +6,7 @@
 #include "Exception.h"
 #include "../Renderer/Renderer.h"
 #include "../Scene/Scene.h"
+#include "../Scene/ECS.h"
 #include "CommonDef.h"
 
 namespace codex {

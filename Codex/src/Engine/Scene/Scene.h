@@ -42,15 +42,7 @@ namespace codex {
 
     public:
 		template<typename T>
-		inline std::vector<Entity> GetAllEntitiesWithComponent()
-		{
-			auto view = m_Registry.view<T>();
-			std::vector<Entity> entities;
-			entities.reserve(view.size_hint());
-			for (auto& e : view)
-				entities.emplace_back(e, this);
-			return entities;
-		}
+		std::vector<Entity> GetAllEntitiesWithComponent();
 
 	public:
 		Entity CreateEntity(const std::string_view tag = "default tag");

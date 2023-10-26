@@ -6,12 +6,12 @@ add_library(CodexEngine SHARED ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 add_library(CodexEngine-static STATIC ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 
 # Set the C++ Standard to 17 for this target.
-set_property(TARGET CodexEngine PROPERTY CXX_STANDARD 17)
-set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 17)
+set_property(TARGET CodexEngine PROPERTY CXX_STANDARD 20)
+set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 20)
 
 # For exporting the symbols on windows.
 if(DEFINED CX_PLATFORM_WINDOWS)
-	set_target_properties(CodexEngine-static PROPERTIES OUTPUT_NAME "CodexEngine")
+    set_target_properties(CodexEngine-static PROPERTIES OUTPUT_NAME "CodexEngine")
 endif()
 
 # Position independent code for shared libraries.

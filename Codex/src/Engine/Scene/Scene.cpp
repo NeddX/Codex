@@ -29,6 +29,26 @@ namespace codex {
         m_Registry.destroy((entt::entity)entity);
     }
 
+    // NOTE: Potentially non-standard!
+    template <typename T>
+    std::vector<Entity> Scene::GetAllEntitiesWithComponent()
+    {
+        auto                view = m_Registry.view<T>();
+        std::vector<Entity> entities;
+        entities.reserve(view.size_hint());
+        for (auto& e : view)
+            entities.emplace_back(e, this);
+        return entities;
+    }
+
+    template std::vector<Entity> Scene::GetAllEntitiesWithComponent<TagComponent>();
+    template std::vector<Entity> Scene::GetAllEntitiesWithComponent<TransformComponent>();
+    template std::vector<Entity> Scene::GetAllEntitiesWithComponent<SpriteRendererComponent>();
+    template std::vector<Entity> Scene::GetAllEntitiesWithComponent<GridRendererComponent>();
+    template std::vector<Entity> Scene::GetAllEntitiesWithComponent<NativeBehaviourComponent>();
+    template std::vector<Entity> Scene::GetAllEntitiesWithComponent<TilemapComponent>();
+
+
     std::vector<Entity> Scene::GetAllEntitesWithTag(const std::string_view tag)
     {
         auto view = m_Registry.view<TagComponent>();
