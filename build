@@ -4,8 +4,8 @@
 clear
 echo "Build started"
 
-export CC=$(which clang)
-export CXX=$(which clang++)
+export CC=$(which gcc)
+export CXX=$(which g++)
 
 kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | tr '[:upper:]' '[:lower:]')

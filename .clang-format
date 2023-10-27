@@ -24,7 +24,6 @@ NamespaceIndentation: All
 AccessModifierOffset: -4
 AllowShortFunctionsOnASingleLine: InlineOnly
 AlignAfterOpenBracket: Align
-AlignArrayOfStructures: Left
 AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveMacros:
     Enabled: true
@@ -35,3 +34,5 @@ AlignEscapedNewlines: Right
 AllowShortBlocksOnASingleLine: Always
 AllowShortEnumsOnASingleLine: false
 AlignConsecutiveDeclarations: true
+AlwaysBreakTemplateDeclarations: true
+Cpp11BracedListStyle: false

@@ -1,11 +1,13 @@
 #include "Window.h"
-#include "Application.h"
 #include "../Renderer/DebugDraw.h"
 #include "../Renderer/TexturePicking.h"
 #include "../Scene/EditorScene.h"
 #include "../Scene/LevelScene.h"
+#include "Application.h"
 #include "KeyHandler.h"
 #include "MouseHandler.h"
+
+#include <imgui_impl_sdl2.h>
 
 namespace codex {
     Window::Window()
@@ -42,7 +44,7 @@ namespace codex {
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
             CX_THROW_DEF(SDLException);
-            //SDLThrowError(__LINE__, "ERROR: FAILED TO INITIALIZE SDL!");
+            // SDLThrowError(__LINE__, "ERROR: FAILED TO INITIALIZE SDL!");
             return;
         }
         SDLCheckError(__LINE__);
@@ -58,7 +60,8 @@ namespace codex {
         if (m_NativeWindow)
         {
             m_SdlWindow = SDL_CreateWindowFrom(m_NativeWindow, m_Flags | SDL_WINDOW_OPENGL);
-            fmt::println("Creating an SDL Window from a native window. Native window address {}", (void*)m_NativeWindow);
+            fmt::println("Creating an SDL Window from a native window. Native window address {}",
+                         (void*)m_NativeWindow);
         }
         else
             m_SdlWindow =
@@ -67,7 +70,7 @@ namespace codex {
         if (!m_SdlWindow)
         {
             CX_THROW(SDLException, "Failed to create an SDL window.");
-            //SDLThrowError(__LINE__, "ERROR: FAILED TO CREATE SDL WINDOW!");
+            // SDLThrowError(__LINE__, "ERROR: FAILED TO CREATE SDL WINDOW!");
         }
         SDLCheckError(__LINE__);
 
@@ -76,7 +79,7 @@ namespace codex {
         if (!m_GlContext)
         {
             CX_THROW(SDLException, "Failed to create an OpenGL context from the SDL window.");
-            //SDLThrowError(__LINE__, "ERROR: FAILED TO CREATE AN OPENGL CONTEXT FROM SDL WINDOW!");
+            // SDLThrowError(__LINE__, "ERROR: FAILED TO CREATE AN OPENGL CONTEXT FROM SDL WINDOW!");
         }
         SDLCheckError(__LINE__);
 
@@ -89,8 +92,7 @@ namespace codex {
             gladLoadGL();
             gladLoadGLLoader(SDL_GL_GetProcAddress);
             fmt::println("GLad loaded.\nVendor:\t\t{}\nRenderer:\t{}\nVersion:\tP{}",
-                         (const char*)glGetString(GL_VENDOR),
-                         (const char*)glGetString(GL_RENDERER),
+                         (const char*)glGetString(GL_VENDOR), (const char*)glGetString(GL_RENDERER),
                          (const char*)glGetString(GL_VERSION));
         }
         else
@@ -114,7 +116,7 @@ namespace codex {
         // TODO: When in editor mode, the initial window size is 0 by 0 which causes
         // gl to crash when creating the framebuffer for texture picking.
         // m_TexPick = std::make_unique<TexturePicking>(GetWidth(), GetHeight());
-        //m_BatcherShader = std::make_unique<Shader>("texture2d.glsl");
+        // m_BatcherShader = std::make_unique<Shader>("texture2d.glsl");
 
         // Initialize subsystems
         KeyHandler::Init();
@@ -126,13 +128,13 @@ namespace codex {
         ChangeScene(0);
 
         // Add the event watcher and call update
-        //SDL_AddEventWatch(SDLEventFilterWatch_Bootstrap, this);
+        // SDL_AddEventWatch(SDLEventFilterWatch_Bootstrap, this);
         fmt::println("Window subsystem initialized.");
     }
 
     void Window::SDLCheckError(const i32 line)
     {
-#ifdef CODEX_CONF_DEBUG
+#ifdef CX_CONFIG_DEBUG
         const char* error = SDL_GetError();
         if (*error != 0)
         {
@@ -155,6 +157,7 @@ namespace codex {
     {
         while (SDL_PollEvent(&m_SdlEvent))
         {
+            ImGui_ImplSDL2_ProcessEvent(&m_SdlEvent);
             switch (m_SdlEvent.type)
             {
                 using MouseEvent = MouseHandler::MouseEvent;
@@ -168,11 +171,11 @@ namespace codex {
                     switch (m_SdlEvent.window.event)
                     {
                         case SDL_WINDOWEVENT_RESIZED: {
-//#ifdef CX_MODE_STANDALONE // Process resize events only when in standalone mode.
+                            // #ifdef CX_MODE_STANDALONE // Process resize events only when in standalone mode.
                             i32 width  = m_SdlEvent.window.data1;
                             i32 height = m_SdlEvent.window.data2;
                             OnWindowResize_Event(width, height);
-//#endif
+                            // #endif
                             break;
                         }
                     }
@@ -234,12 +237,10 @@ namespace codex {
         }
     }
 
-    void Window::Update()
+    void Window::Update(const f32 delta_time)
     {
         // static mgl::FrameBufferProperties props(GetWidth(), GetHeight(), { mgl::TextureFormat::RGBA8,
         // mgl::TextureFormat::RedInt32 }); static mgl::FrameBuffer* fb = new mgl::FrameBuffer(props);
-        static f32 delta_time = -1.0f;
-
         m_Renderer->SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
         m_Renderer->Clear();
 
@@ -254,11 +255,9 @@ namespace codex {
 #ifdef CODEX_CONF_DEBUG
         DebugDraw::Render();
 #endif
-        if (delta_time != -1.0f)
-        {
-            m_CurrentScene->Update(delta_time);
-            m_CurrentScene->Render(delta_time);
-        }
+
+        m_CurrentScene->Update(delta_time);
+        m_CurrentScene->Render(delta_time);
 
         /*
         if (MouseHandler::IsMouseDown(0))
@@ -271,17 +270,6 @@ namespace codex {
         }
         */
 
-        // Exit
-        if (KeyHandler::IsKeyDown(Key::Escape))
-        {
-            Application::Get().Stop();
-            return;
-        }
-
-        m_Tp2      = std::chrono::system_clock::now();
-        delta_time = std::chrono::duration<f32>(m_Tp2 - m_Tp1).count();
-        m_Tp1      = m_Tp2;
-        m_Fps      = (u32)(1.0f / delta_time);
         // SDL_SetWindowTitle(m_SdlWindow, fmt::format("ms: {} fps: {}", delta_time, m_Fps).c_str());
         if (m_FrameCap > 0)
             SDL_Delay((u32)(1.0f / (f32)m_FrameCap * 1000.0f));
@@ -294,13 +282,11 @@ namespace codex {
         switch (sceneId)
         {
             case 0:
-                m_CurrentScene = std::make_unique<EditorScene>(m_Renderer.get(), m_Width,
-                                                               m_Height);
+                m_CurrentScene = std::make_unique<EditorScene>(m_Renderer.get(), m_Width, m_Height);
                 m_CurrentScene->Init();
                 break;
             case 1:
-                m_CurrentScene = std::make_unique<LevelScene>(m_Renderer.get(), m_Width,
-                                                              m_Height);
+                m_CurrentScene = std::make_unique<LevelScene>(m_Renderer.get(), m_Width, m_Height);
                 m_CurrentScene->Init();
                 break;
             default: break;

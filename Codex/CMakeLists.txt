@@ -12,7 +12,7 @@ set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 20)
 # For exporting the symbols on windows.
 if(DEFINED CX_PLATFORM_WINDOWS)
     set_target_properties(CodexEngine-static PROPERTIES OUTPUT_NAME "CodexEngine")
-	set_target_properties(CodexEngine-static PROPERTIES COMPILE_PDB_NAME "CodexEngine-static")
+    set_target_properties(CodexEngine-static PROPERTIES COMPILE_PDB_NAME "CodexEngine-static")
 endif()
 
 # Position independent code for shared libraries.
@@ -41,9 +41,9 @@ else()
     target_compile_definitions(CodexEngine-static PRIVATE CX_PLATFORM_UNKNOWN)
 endif()
 
-if(DEFINED CX_COMPILER_GCC)
-    target_compile_definitions(CodexEngine PRIVATE CX_COMPILER_GCC)
-    target_compile_definitions(CodexEngine-static PRIVATE CX_COMPILER_GCC)
+if(DEFINED CX_COMPILER_GNUC)
+    target_compile_definitions(CodexEngine PRIVATE CX_COMPILER_GNUC)
+    target_compile_definitions(CodexEngine-static PRIVATE CX_COMPILER_GNUC)
 elseif(DEFINED CX_COMPILER_CLANG)
     target_compile_definitions(CodexEngine PRIVATE CX_COMPILER_CLANG)
     target_compile_definitions(CodexEngine-static PRIVATE CX_COMPILER_CLANG)
@@ -135,13 +135,36 @@ target_link_libraries(CodexEngine-static ${FMT_LIBRARIES})
 
 # glad
 set(GLAD_INCLUDE_DIRS vendor/glad/include)
-set(GLAD_SOURCE_FILE vendor/glad/src/glad.cpp)
+set(GLAD_SOURCE_FILES vendor/glad/src/glad.cpp)
 
 target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIRS})
-target_sources(CodexEngine PRIVATE ${GLAD_SOURCE_FILE})
+target_sources(CodexEngine PRIVATE ${GLAD_SOURCE_FILES})
 
 target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIRS})
-target_sources(CodexEngine-static PRIVATE ${GLAD_SOURCE_FILE})
+target_sources(CodexEngine-static PRIVATE ${GLAD_SOURCE_FILES})
+
+# ImGui
+set(IMGUI_INCLUDE_DIRS vendor/imgui vendor/imgui/backends vendor/imgui/examples vendor/imgui/misc)
+file(GLOB_RECURSE IMGUI_HEADER_FILES
+    "vendor/imgui/imconfig.h"
+    "vendor/imgui/imgui.h"
+    "vendor/imgui/imgui_internal.h"
+    "vendor/imgui/imstb_rectpack.h"
+    "vendor/imgui/imstb_textedit.h"
+    "vendor/imgui/imstb_truetype.h")
+file(GLOB_RECURSE IMGUI_SOURCE_FILES
+    "vendor/imgui/imgui.cpp"
+    "vendor/imgui/imgui_widgets.cpp"
+    "vendor/imgui/imgui_draw.cpp"
+    "vendor/imgui/imgui_demo.cpp"
+    "vendor/imgui/imgui_tables.cpp"
+    "vendor/imgui/backends/imgui_impl_opengl3.cpp"
+    "vendor/imgui/backends/imgui_impl_sdl2.cpp")
+target_sources(CodexEngine PRIVATE ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
+target_sources(CodexEngine-static PRIVATE ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
+
+target_include_directories(CodexEngine PUBLIC ${IMGUI_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PRIVATE ${IMGUI_INCLUDE_DIRS})
 
 # glm
 add_subdirectory(vendor/glm ${PROJECT_BINARY_DIR}/glm)

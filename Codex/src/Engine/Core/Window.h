@@ -3,11 +3,11 @@
 
 #include <sdafx.h>
 
-#include "Exception.h"
 #include "../Renderer/Renderer.h"
-#include "../Scene/Scene.h"
 #include "../Scene/ECS.h"
+#include "../Scene/Scene.h"
 #include "CommonDef.h"
+#include "Exception.h"
 
 namespace codex {
     // Forward declerations
@@ -71,13 +71,16 @@ namespace codex {
         ~Window();
 
     public:
-        inline i32    GetWidth() const { return m_Width; }
-        inline i32    GetHeight() const { return m_Height; }
-        inline Scene* GetCurrentScene() const { return m_CurrentScene.get(); }
+        inline i32            GetWidth() const noexcept { return m_Width; }
+        inline i32            GetHeight() const noexcept { return m_Height; }
+        inline Scene*         GetCurrentScene() const noexcept { return m_CurrentScene.get(); }
+        inline void           SetTitle(const char* newTitle) noexcept { SDL_SetWindowTitle(m_SdlWindow, newTitle); }
+        inline SDL_Window*    GetNativeWindow() noexcept { return m_SdlWindow; }
+        inline SDL_GLContext* GetGlContext() noexcept { return &m_GlContext; }
 
     public:
         void Init(const WindowProperties windowInfo = WindowProperties(), const void* nativeWindow = nullptr);
-        void Update();
+        void Update(const f32 delta_time);
         void ProcessEvents();
         void ChangeScene(const i32 sceneId);
         void SDLCheckError(const i32 line = -1);
