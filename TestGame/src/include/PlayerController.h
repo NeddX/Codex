@@ -22,33 +22,33 @@ public:
     {
         using namespace codex;
 
-        if (KeyHandler::IsKeyDown(Key::W))
+        if (Input::IsKeyDown(Key::W))
         {
             trans->position.y -= velocity * deltaTime;
         }
-        if (KeyHandler::IsKeyDown(Key::A))
+        if (Input::IsKeyDown(Key::A))
         {
             trans->position.x -= velocity * deltaTime;
         }
-        if (KeyHandler::IsKeyDown(Key::S))
+        if (Input::IsKeyDown(Key::S))
         {
             trans->position.y += velocity * deltaTime;
         }
-        if (KeyHandler::IsKeyDown(Key::D))
+        if (Input::IsKeyDown(Key::D))
         {
             trans->position.x += velocity * deltaTime;
         }
-        if (KeyHandler::IsKeyDown(Key::Up))
+        if (Input::IsKeyDown(Key::Up))
         {
             trans->scale.x += 1.0f * deltaTime;
             trans->scale.y += 1.0f * deltaTime;
         }
-        if (KeyHandler::IsKeyDown(Key::Down))
+        if (Input::IsKeyDown(Key::Down))
         {
             trans->scale.x -= 1.0f * deltaTime;
             trans->scale.y -= 1.0f * deltaTime;
         }
-        if (KeyHandler::IsKeyDown(Key::P))
+        if (Input::IsKeyDown(Key::P))
         {
             std::cout << "FPS: " << Application::GetFps() << std::endl;
         }

@@ -1,5 +1,5 @@
 #include "EditorScene.h"
-#include "../Core/MouseHandler.h"
+#include "../Core/Input.h"
 #include "../Core/Window.h"
 #include "../Renderer/DebugDraw.h"
 #include "../Scene/Components.h"
@@ -57,19 +57,18 @@ namespace codex {
         // TODO: Improve.
         static f32      speed = 1.6f;
         static Vector2f previous_mouse_pos;
-        if (MouseHandler::IsMouseDown(Mouse::RightMouse))
+        if (Input::IsMouseDown(Mouse::RightMouse))
         {
-            if (MouseHandler::IsDragging())
+            if (Input::IsDragging())
             {
                 if (!isDragging)
                 {
-                    mouseStart = MouseHandler::GetMousePos();
+                    mouseStart = Input::GetMousePos();
                     isDragging = true;
                 }
-                if (auto mouse_pos = MouseHandler::GetMousePos(); mouse_pos != previous_mouse_pos && isDragging)
+                if (auto mouse_pos = Input::GetMousePos(); mouse_pos != previous_mouse_pos && isDragging)
                 {
-                    GetCamera()->position +=
-                        (speed * Vector2f(MouseHandler::GetMouseDeltaX(), MouseHandler::GetMouseDeltaY()));
+                    GetCamera()->position += (speed * Vector2f(Input::GetMouseDeltaX(), Input::GetMouseDeltaY()));
                 }
             }
             else
@@ -81,7 +80,7 @@ namespace codex {
         switch (m_CurrentActiveAction)
         {
             case EditorAction::TilemapBrush: {
-                if (!MouseHandler::IsMouseDown(Mouse::LeftMouse))
+                if (!Input::IsMouseDown(Mouse::LeftMouse))
                     break;
 
                 auto mouse = GetMousePositionInWorld();
@@ -100,7 +99,7 @@ namespace codex {
                 break;
             }
             case EditorAction::TilemapErase: {
-                if (!MouseHandler::IsMouseDown(Mouse::LeftMouse))
+                if (!Input::IsMouseDown(Mouse::LeftMouse))
                     break;
 
                 auto mouse = GetMousePositionInWorld();

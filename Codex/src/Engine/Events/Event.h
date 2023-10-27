@@ -3,6 +3,26 @@
 
 #include <sdafx.h>
 
+#define EVENT_CLASS_TYPE(type)                                                                                         \
+    static EventType GetStaticType()                                                                                   \
+    {                                                                                                                  \
+        return EventType::type;                                                                                        \
+    }                                                                                                                  \
+    EventType GetType() const noexcept override                                                                        \
+    {                                                                                                                  \
+        return GetStaticType();                                                                                        \
+    }                                                                                                                  \
+    const char* GetName() const noexcept override                                                                      \
+    {                                                                                                                  \
+        return #type;                                                                                                  \
+    }
+
+#define EVENT_CLASS_CATEGORY(category)                                                                                 \
+    u32 GetCategory() const noexcept override                                                                          \
+    {                                                                                                                  \
+        return category;                                                                                               \
+    }
+
 namespace codex {
     enum class EventType : u8
     {
@@ -27,7 +47,7 @@ namespace codex {
         // Mouse events.
         MouseDown,
         MouseUp,
-        MoveMove,
+        MouseMove,
         MouseScroll
     };
 
@@ -50,9 +70,9 @@ namespace codex {
         virtual ~Event() = default;
 
     public:
-        virtual EventType   GetType() const noexcept = 0;
-        virtual const char* GetName() const noexcept = 0;
-        virtual u32         GetCategory() const      = 0;
+        virtual EventType   GetType() const noexcept     = 0;
+        virtual const char* GetName() const noexcept     = 0;
+        virtual u32         GetCategory() const noexcept = 0;
         virtual std::string ToString() const noexcept { return GetName(); }
 
     public:
@@ -69,7 +89,15 @@ namespace codex {
 
     public:
         template <typename T, typename F>
-        bool Dispatch(const F& delegate);
+        bool Dispatch(const F& delegate)
+        {
+            if (m_Event.GetType() != T::GetStaticType())
+            {
+                m_Event.handled |= delegate((T&)m_Event);
+                return true;
+            }
+            return false;
+        }
     };
 } // namespace codex
 

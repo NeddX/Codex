@@ -3,15 +3,15 @@
 
 #include <sdafx.h>
 
+#include "../Events/Event.h"
 #include "../Renderer/Renderer.h"
-#include "../Scene/ECS.h"
-#include "../Scene/Scene.h"
 #include "CommonDef.h"
 #include "Exception.h"
 
 namespace codex {
     // Forward declerations
     class Application;
+    class Scene;
 
     class SDLException : public CodexException
     {
@@ -44,7 +44,8 @@ namespace codex {
 
     class Window
     {
-        using Box = std::unique_ptr<Window, std::function<void(Window*)>>;
+        using Box                   = std::unique_ptr<Window, std::function<void(Window*)>>;
+        using EventCallbackDelegate = std::function<void(Event&)>;
 
         friend class Application;
 
@@ -61,6 +62,7 @@ namespace codex {
         SDL_Window*                           m_SdlWindow;
         SDL_GLContext                         m_GlContext;
         SDL_Event                             m_SdlEvent;
+        EventCallbackDelegate                 m_EventCallback;
 
     private:
         Window();
@@ -77,6 +79,7 @@ namespace codex {
         inline void           SetTitle(const char* newTitle) noexcept { SDL_SetWindowTitle(m_SdlWindow, newTitle); }
         inline SDL_Window*    GetNativeWindow() noexcept { return m_SdlWindow; }
         inline SDL_GLContext* GetGlContext() noexcept { return &m_GlContext; }
+        inline void SetEventCallback(const EventCallbackDelegate& callback) noexcept { m_EventCallback = callback; }
 
     public:
         void Init(const WindowProperties windowInfo = WindowProperties(), const void* nativeWindow = nullptr);

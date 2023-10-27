@@ -1,11 +1,18 @@
-#ifndef CODEX_CORE_KEY_HANDLER_H
-#define CODEX_CORE_KEY_HANDLER_H
+#ifndef CODEX_CORE_INPUT_H
+#define CODEX_CORE_INPUT_H
 
 #include <sdafx.h>
 
+#include "Geomtryd.h"
+
 namespace codex {
-    // Forward decelerations
-    class Window;
+    // Forward decelrations.
+    class KeyDownEvent;
+    class KeyUpEvent;
+    class MouseDownEvent;
+    class MouseUpEvent;
+    class MouseMoveEvent;
+    class MouseScrollEvent;
 
     enum class Key
     {
@@ -13,7 +20,7 @@ namespace codex {
 
         Return       = SDLK_RETURN,
         CapsLock     = SDLK_CAPSLOCK,
-        Escape          = SDLK_ESCAPE,
+        Escape       = SDLK_ESCAPE,
         Backspace    = SDLK_BACKSPACE,
         Tab          = SDLK_TAB,
         Space        = SDLK_SPACE,
@@ -270,37 +277,77 @@ namespace codex {
         EndCall          = SDLK_ENDCALL,
     };
 
-    class KeyHandler
+    const char* KeyToString(const Key key) noexcept;
+
+    enum class Mouse : u8
     {
-        friend class Window;
+        LeftMouse   = SDL_BUTTON_LEFT,
+        MiddleMouse = SDL_BUTTON_MIDDLE,
+        RightMouse  = SDL_BUTTON_RIGHT,
+        X1Mouse     = SDL_BUTTON_X1,
+        X2Mouse     = SDL_BUTTON_X2
+    };
+
+    const char* MouseToString(const Mouse button) noexcept;
+
+    class Input
+    {
+    private:
+        static Input*                        m_Instance;
+        static std::unordered_map<Key, bool> m_KeysDown;
+        static std::bitset<3>                m_ButtonsDown;
 
     private:
-        static KeyHandler* m_Instance;
-
-    private:
-        std::unordered_map<Key, bool> m_KeysPressed;
-
-    private:
-        KeyHandler();
-        ~KeyHandler();
-
-    protected:
-        struct KeyEvent
-        {
-            Key key;
-            u8  action, repeat;
-        };
-
-    protected:
-        static void Init() noexcept;
-        static void Destroy() noexcept;
+        i32  m_MousePosX;
+        i32  m_MousePosY;
+        i32  m_MouseLastPosX;
+        i32  m_MouseLastPosY;
+        i32  m_MouseScrollX;
+        i32  m_MouseScrollY;
+        bool m_MouseDragging;
 
     public:
-        static inline bool IsKeyDown(const Key key) noexcept { return m_Instance->m_KeysPressed[key]; }
+        static Input* Get();
+        static void   Destroy();
+        static bool   IsKeyDown(const Key key);
+        static bool   IsMouseDown(const Mouse button);
 
-    protected:
-        static void OnKeyPress_Event(const KeyEvent event);
+    public:
+        static inline i32      GetMouseX() noexcept { return m_Instance->m_MousePosX; }
+        static inline i32      GetMouseY() noexcept { return m_Instance->m_MousePosY; }
+        static inline Vector2f GetMousePos() noexcept { return Vector2f(GetMouseX(), GetMouseY()); }
+        static inline i32  GetMouseDeltaX() noexcept { return m_Instance->m_MouseLastPosX - m_Instance->m_MousePosX; }
+        static inline i32  GetMouseDeltaY() noexcept { return m_Instance->m_MouseLastPosY - m_Instance->m_MousePosY; }
+        static inline i32  GetScrollX() noexcept { return m_Instance->m_MouseScrollX; }
+        static inline i32  GetScrollY() noexcept { return m_Instance->m_MouseScrollY; }
+        static inline bool IsDragging() noexcept { return m_Instance->m_MouseDragging; }
+
+    public:
+        bool OnKeyDown_Event(const KeyDownEvent event);
+        bool OnKeyUp_Event(const KeyUpEvent event);
+        bool OnMouseDown_Event(const MouseDownEvent event);
+        bool OnMouseUp_Event(const MouseUpEvent event);
+        bool OnMouseMove_Event(const MouseMoveEvent event);
+        bool OnMouseScroll_Event(const MouseScrollEvent event);
     };
 } // namespace codex
 
-#endif // CODEX_CORE_KEY_HANDLER_H
+namespace fmt {
+    template <>
+    struct formatter<codex::Key>
+    {
+        template <typename ParseContext>
+        constexpr auto parse(ParseContext& ctx)
+        {
+            return ctx.begin();
+        }
+
+        template <typename FormatContext>
+        auto format(const codex::Key& key, FormatContext& ctx)
+        {
+            return fmt::format_to(ctx.out(), "{}", codex::KeyToString(key));
+        }
+    };
+} // namespace fmt
+
+#endif // CODEX_CORE_INPUT_H

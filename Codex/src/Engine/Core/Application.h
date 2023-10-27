@@ -6,6 +6,7 @@
 #include "../Events/Event.h"
 #include "../ImGui/ImGuiLayer.h"
 #include "CommonDef.h"
+#include "Input.h"
 #include "LayerStack.h"
 #include "Window.h"
 
@@ -49,6 +50,7 @@ namespace codex {
         u32                                   m_Fps;
         f32                                   m_DeltaTime  = 0.0f;
         ImGuiLayer*                           m_ImGuiLayer = nullptr;
+        Input*                                m_Input      = nullptr;
 
     private:
         static Application* m_Instance;

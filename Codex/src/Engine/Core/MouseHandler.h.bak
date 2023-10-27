@@ -9,15 +9,6 @@ namespace codex {
     // Forward decelerations
     class Window;
 
-    enum class Mouse : u8
-    {
-        LeftMouse   = SDL_BUTTON_LEFT,
-        MiddleMouse = SDL_BUTTON_MIDDLE,
-        RightMouse  = SDL_BUTTON_RIGHT,
-        X1Mouse     = SDL_BUTTON_X1,
-        X2Mouse     = SDL_BUTTON_X2
-    };
-
     class MouseHandler
     {
         friend class Window;

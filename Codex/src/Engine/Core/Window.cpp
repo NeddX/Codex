@@ -1,11 +1,13 @@
 #include "Window.h"
+#include "../Events/ApplicationEvent.h"
+#include "../Events/KeyEvent.h"
+#include "../Events/MouseEvent.h"
 #include "../Renderer/DebugDraw.h"
 #include "../Renderer/TexturePicking.h"
 #include "../Scene/EditorScene.h"
 #include "../Scene/LevelScene.h"
 #include "Application.h"
-#include "KeyHandler.h"
-#include "MouseHandler.h"
+#include "Input.h"
 
 #include <imgui_impl_sdl2.h>
 
@@ -17,9 +19,9 @@ namespace codex {
     Window::~Window()
     {
         DebugDraw::Destroy();
-        KeyHandler::Destroy();
-        MouseHandler::Destroy();
         Resources::Destroy();
+        // KeyHandler::Destroy();
+        // MouseHandler::Destroy();
         SDL_GL_DeleteContext(m_GlContext);
         SDL_DestroyWindow(m_SdlWindow);
         SDL_Quit();
@@ -119,8 +121,8 @@ namespace codex {
         // m_BatcherShader = std::make_unique<Shader>("texture2d.glsl");
 
         // Initialize subsystems
-        KeyHandler::Init();
-        MouseHandler::Init();
+        // KeyHandler::Init();
+        // MouseHandler::Init();
         DebugDraw::Init();
         Resources::Init();
 
@@ -160,9 +162,6 @@ namespace codex {
             ImGui_ImplSDL2_ProcessEvent(&m_SdlEvent);
             switch (m_SdlEvent.type)
             {
-                using MouseEvent = MouseHandler::MouseEvent;
-                using KeyEvent   = KeyHandler::KeyEvent;
-
                 case SDL_QUIT: {
                     Application::Get().Stop();
                     break;
@@ -171,23 +170,36 @@ namespace codex {
                     switch (m_SdlEvent.window.event)
                     {
                         case SDL_WINDOWEVENT_RESIZED: {
-                            // #ifdef CX_MODE_STANDALONE // Process resize events only when in standalone mode.
-                            i32 width  = m_SdlEvent.window.data1;
-                            i32 height = m_SdlEvent.window.data2;
-                            OnWindowResize_Event(width, height);
-                            // #endif
+                            i32               width  = m_SdlEvent.window.data1;
+                            i32               height = m_SdlEvent.window.data2;
+                            WindowResizeEvent e(width, height);
+                            if (m_EventCallback)
+                            {
+                                m_EventCallback(e);
+                            }
                             break;
                         }
                     }
                 }
                 case SDL_MOUSEMOTION: {
-                    MouseEvent mouse_event;
-                    mouse_event.x = m_SdlEvent.motion.x;
-                    mouse_event.y = m_SdlEvent.motion.y;
-                    MouseHandler::OnMouseMove_Event(mouse_event);
+                    MouseMoveEvent e(m_SdlEvent.motion.x, m_SdlEvent.motion.y);
+                    if (m_EventCallback)
+                    {
+                        m_EventCallback(e);
+                    }
+                    // MouseEvent mouse_event;
+                    // mouse_event.x = m_SdlEvent.motion.x;
+                    // mouse_event.y = m_SdlEvent.motion.y;
+                    // MouseHandler::OnMouseMove_Event(mouse_event);
                     break;
                 }
                 case SDL_MOUSEBUTTONDOWN: {
+                    MouseDownEvent e(Mouse(m_SdlEvent.button.button - 1), m_SdlEvent.motion.x, m_SdlEvent.motion.y);
+                    if (m_EventCallback)
+                    {
+                        m_EventCallback(e);
+                    }
+                    /*
                     MouseEvent mouse_event;
                     mouse_event.x      = m_SdlEvent.motion.x;
                     mouse_event.y      = m_SdlEvent.motion.y;
@@ -195,19 +207,34 @@ namespace codex {
                     mouse_event.clicks = m_SdlEvent.button.clicks;
                     mouse_event.action = m_SdlEvent.button.state;
                     MouseHandler::OnMouseButton_Event(mouse_event);
+                    */
+                    // MouseDownEvent e((Mouse)(m_SdlEvent.button.button - 1));
                     break;
                 }
                 case SDL_MOUSEBUTTONUP: {
-                    MouseEvent mouse_event;
+                    MouseUpEvent e(Mouse(m_SdlEvent.button.button - 1), m_SdlEvent.motion.x, m_SdlEvent.motion.y);
+                    if (m_EventCallback)
+                    {
+                        m_EventCallback(e);
+                    }
+                    /*/MouseEvent mouse_event;
                     mouse_event.x      = m_SdlEvent.motion.x;
                     mouse_event.y      = m_SdlEvent.motion.y;
                     mouse_event.button = (u8)m_SdlEvent.button.button - 1;
                     mouse_event.clicks = m_SdlEvent.button.clicks;
                     mouse_event.action = m_SdlEvent.button.state;
                     MouseHandler::OnMouseButton_Event(mouse_event);
+                    */
                     break;
                 }
                 case SDL_MOUSEWHEEL: {
+                    MouseScrollEvent e(Mouse(m_SdlEvent.button.button - 1), m_SdlEvent.wheel.x, m_SdlEvent.wheel.y,
+                                       m_SdlEvent.wheel.x, m_SdlEvent.wheel.y);
+                    if (m_EventCallback)
+                    {
+                        m_EventCallback(e);
+                    }
+                    /*
                     MouseEvent mouse_event;
                     mouse_event.x         = m_SdlEvent.wheel.mouseX;
                     mouse_event.y         = m_SdlEvent.wheel.mouseY;
@@ -215,22 +242,37 @@ namespace codex {
                     mouse_event.scrollY   = m_SdlEvent.wheel.y;
                     mouse_event.scrollDir = m_SdlEvent.wheel.direction;
                     MouseHandler::OnMouseScroll_Event(mouse_event);
+                    */
                     break;
                 }
                 case SDL_KEYDOWN: {
+                    KeyDownEvent e(Key(m_SdlEvent.key.keysym.sym), m_SdlEvent.key.repeat);
+                    if (m_EventCallback)
+                    {
+                        m_EventCallback(e);
+                    }
+                    /*
                     KeyEvent key_event;
                     key_event.action = m_SdlEvent.key.state;
                     key_event.key    = Key(m_SdlEvent.key.keysym.sym);
                     key_event.repeat = m_SdlEvent.key.repeat;
                     KeyHandler::OnKeyPress_Event(key_event);
+                    */
                     break;
                 }
                 case SDL_KEYUP: {
+                    KeyUpEvent e(Key(m_SdlEvent.key.keysym.sym));
+                    if (m_EventCallback)
+                    {
+                        m_EventCallback(e);
+                    }
+                    /*
                     KeyEvent key_event;
                     key_event.action = m_SdlEvent.key.state;
                     key_event.key    = Key(m_SdlEvent.key.keysym.sym);
                     key_event.repeat = m_SdlEvent.key.repeat;
                     KeyHandler::OnKeyPress_Event(key_event);
+                    */
                     break;
                 }
             }

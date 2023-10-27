@@ -2,6 +2,7 @@
 #define CODEX_CORE_COMMON_DEFINITIONS_H
 
 #include <cstdint>
+#include <functional>
 
 #if defined(CX_COMPILER_MSVC)
 #ifdef CX_BUILD_LIB
@@ -59,6 +60,12 @@ namespace codex {
     inline constexpr T ArrayCount(const T (&arr)[n])
     {
         return sizeof(arr) / sizeof(arr[0]);
+    }
+
+    template <typename Fn>
+    inline constexpr auto BindEventDelegate(auto* self, Fn delegate)
+    {
+        return [self, delegate](auto&&... args) { return (self->*delegate)(std::forward<decltype(args)>(args)...); };
     }
 } // namespace codex
 

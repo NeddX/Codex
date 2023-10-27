@@ -1,5 +1,8 @@
 #include "Application.h"
+#include "../Events/KeyEvent.h"
+#include "../Events/MouseEvent.h"
 #include "Exception.h"
+#include "Input.h"
 
 namespace codex {
     Application* Application::m_Instance = nullptr;
@@ -11,8 +14,10 @@ namespace codex {
             m_Instance = this;
             m_Window   = Window::Box(new Window(), [](Window* window) { delete window; });
             m_Window->Init(m_Properties.windowProperties);
+            m_Window->SetEventCallback(BindEventDelegate(this, &Application::OnEvent));
             m_ImGuiLayer = new ImGuiLayer();
             PushOverlay(m_ImGuiLayer);
+            m_Input = Input::Get();
         }
         catch (const CodexException& ex)
         {
@@ -23,6 +28,7 @@ namespace codex {
 
     Application::~Application()
     {
+        Input::Destroy();
         m_Instance = nullptr;
     }
 
@@ -39,7 +45,7 @@ namespace codex {
                         layer->Update(m_DeltaTime);
                 }
 
-                if (KeyHandler::IsKeyDown(Key::Escape))
+                if (Input::IsKeyDown(Key::Escape))
                 {
                     Stop();
                     return;
@@ -67,6 +73,14 @@ namespace codex {
 
     void Application::OnEvent(Event& e)
     {
+        EventDispatcher d(e);
+        d.Dispatch<KeyDownEvent>(BindEventDelegate(m_Input, &Input::OnKeyDown_Event));
+        // d.Dispatch<KeyUpEvent>(BindEventDelegate(m_Input, &Input::OnKeyUp_Event));
+        // d.Dispatch<MouseDownEvent>(BindEventDelegate(m_Input, &Input::OnMouseDown_Event));
+        // d.Dispatch<MouseUpEvent>(BindEventDelegate(m_Input, &Input::OnMouseUp_Event));
+        // d.Dispatch<MouseMoveEvent>(BindEventDelegate(m_Input, &Input::OnMouseMove_Event));
+        // d.Dispatch<MouseScrollEvent>(BindEventDelegate(m_Input, &Input::OnMouseScroll_Event));
+        //  fmt::println("Event: {}", e.GetName());
     }
 
     void Application::PushLayer(Layer* layer)

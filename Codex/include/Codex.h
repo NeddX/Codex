@@ -7,8 +7,7 @@
 #include "../src/Engine/Core/CommonDef.h"
 #include "../src/Engine/Core/Exception.h"
 #include "../src/Engine/Core/Geomtryd.h"
-#include "../src/Engine/Core/KeyHandler.h"
-#include "../src/Engine/Core/MouseHandler.h"
+#include "../src/Engine/Core/Input.h"
 #include "../src/Engine/Core/ResourceHandler.h"
 #include "../src/Engine/Core/Window.h"
 
