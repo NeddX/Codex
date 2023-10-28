@@ -8,3 +8,7 @@
 	path = Codex/vendor/imgui
 	url = https://github.com/ocornut/imgui
 	branch = docking
+[submodule "Codex/vendor/SDL"]
+	path = Codex/vendor/SDL
+	url = https://github.com/libsdl-org/SDL
+	branch = release-2.28.x
