@@ -12,7 +12,8 @@ namespace codex {
 
     void LayerStack::PushLayer(Layer* layer)
     {
-        m_Layers.emplace(m_Layers.begin() + m_LayerPointer++, layer);
+        m_Layers.insert(m_Layers.begin() + m_LayerPointer++, layer);
+        //m_Layers.emplace(m_Layers.begin() + m_LayerPointer++, layer);
     }
 
     void LayerStack::PushOverlay(Layer* overlay)

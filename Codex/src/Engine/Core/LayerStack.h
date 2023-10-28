@@ -10,7 +10,7 @@ namespace codex {
     {
     private:
         std::vector<Layer*> m_Layers;
-        u32                 m_LayerPointer;
+        u32                 m_LayerPointer = 0;
 
     public:
         LayerStack() = default;
