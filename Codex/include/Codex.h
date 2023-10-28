@@ -17,8 +17,6 @@
 // Scene
 #include "../src/Engine/Scene/Components.h"
 #include "../src/Engine/Scene/ECS.h"
-#include "../src/Engine/Scene/EditorScene.h"
-#include "../src/Engine/Scene/LevelScene.h"
 #include "../src/Engine/Scene/Scene.h"
 
 // Renderer

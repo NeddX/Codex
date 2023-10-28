@@ -76,6 +76,7 @@ namespace codex {
         i32 index = 0;
         for (const auto& line : m_Lines)
         {
+            /*
             for (i32 i = 0; i < 2; ++i)
             {
                 Vector3f pos    = (i == 0) ? Vector3f(line.GetSource(), 0.0f) : Vector3f(line.GetDestination(), 0.0f);
@@ -114,6 +115,7 @@ namespace codex {
             m_Instance->m_Shader->Unbind();
             m_Instance->m_Vao->Unbind();
             m_Instance->m_Vbo->Unbind();
+            */
             // m_Ebo->Unbind();
         }
     }

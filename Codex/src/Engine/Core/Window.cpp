@@ -4,11 +4,10 @@
 #include "../Events/MouseEvent.h"
 #include "../Renderer/DebugDraw.h"
 #include "../Renderer/TexturePicking.h"
-#include "../Scene/EditorScene.h"
-#include "../Scene/LevelScene.h"
 #include "Application.h"
 #include "Input.h"
 
+#include <imgui.h>
 #include <imgui_impl_sdl2.h>
 
 namespace codex {
@@ -18,10 +17,6 @@ namespace codex {
 
     Window::~Window()
     {
-        DebugDraw::Destroy();
-        Resources::Destroy();
-        // KeyHandler::Destroy();
-        // MouseHandler::Destroy();
         SDL_GL_DeleteContext(m_GlContext);
         SDL_DestroyWindow(m_SdlWindow);
         SDL_Quit();
@@ -109,15 +104,6 @@ namespace codex {
         // m_TexPick = std::make_unique<TexturePicking>(GetWidth(), GetHeight());
         // m_BatcherShader = std::make_unique<Shader>("texture2d.glsl");
 
-        // Initialize subsystems
-        // KeyHandler::Init();
-        // MouseHandler::Init();
-
-        // Initialize scene
-        // ChangeScene(0);
-
-        // Add the event watcher and call update
-        // SDL_AddEventWatch(SDLEventFilterWatch_Bootstrap, this);
         fmt::println("Window subsystem initialized.");
     }
 
@@ -144,6 +130,7 @@ namespace codex {
 
     void Window::ProcessEvents()
     {
+        auto& io = ImGui::GetIO();
         while (SDL_PollEvent(&m_SdlEvent))
         {
             ImGui_ImplSDL2_ProcessEvent(&m_SdlEvent);
@@ -173,6 +160,9 @@ namespace codex {
                     }
                 }
                 case SDL_MOUSEMOTION: {
+                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
+                        break;
+
                     MouseMoveEvent e(m_SdlEvent.motion.x, m_SdlEvent.motion.y);
                     if (m_EventCallback)
                     {
@@ -181,6 +171,9 @@ namespace codex {
                     break;
                 }
                 case SDL_MOUSEBUTTONDOWN: {
+                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
+                        break;
+
                     MouseDownEvent e(Mouse(m_SdlEvent.button.button), m_SdlEvent.motion.x, m_SdlEvent.motion.y);
                     if (m_EventCallback)
                     {
@@ -189,6 +182,9 @@ namespace codex {
                     break;
                 }
                 case SDL_MOUSEBUTTONUP: {
+                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
+                        break;
+
                     MouseUpEvent e(Mouse(m_SdlEvent.button.button), m_SdlEvent.motion.x, m_SdlEvent.motion.y);
                     if (m_EventCallback)
                     {
@@ -197,6 +193,9 @@ namespace codex {
                     break;
                 }
                 case SDL_MOUSEWHEEL: {
+                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
+                        break;
+
                     MouseScrollEvent e(Mouse(m_SdlEvent.button.button - 1), m_SdlEvent.wheel.x, m_SdlEvent.wheel.y,
                                        m_SdlEvent.wheel.x, m_SdlEvent.wheel.y);
                     if (m_EventCallback)
@@ -206,6 +205,9 @@ namespace codex {
                     break;
                 }
                 case SDL_KEYDOWN: {
+                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
+                        break;
+
                     KeyDownEvent e(Key(m_SdlEvent.key.keysym.sym), m_SdlEvent.key.repeat);
                     if (m_EventCallback)
                     {
@@ -214,6 +216,9 @@ namespace codex {
                     break;
                 }
                 case SDL_KEYUP: {
+                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
+                        break;
+
                     KeyUpEvent e(Key(m_SdlEvent.key.keysym.sym));
                     if (m_EventCallback)
                     {
@@ -244,9 +249,6 @@ namespace codex {
         DebugDraw::Render();
 #endif
 
-        m_CurrentScene->Update(delta_time);
-        m_CurrentScene->Render(delta_time);
-
         /*
         if (MouseHandler::IsMouseDown(0))
         {
@@ -272,27 +274,11 @@ namespace codex {
         SDL_GL_SwapWindow(m_SdlWindow);
     }
 
-    void Window::ChangeScene(const i32 sceneId)
-    {
-        switch (sceneId)
-        {
-            case 0:
-                m_CurrentScene = std::make_unique<EditorScene>(m_Renderer.get(), m_Width, m_Height);
-                m_CurrentScene->Init();
-                break;
-            case 1:
-                m_CurrentScene = std::make_unique<LevelScene>(m_Renderer.get(), m_Width, m_Height);
-                m_CurrentScene->Init();
-                break;
-            default: break;
-        }
-    }
-
     void Window::OnWindowResize_Event(const i32 newWidth, const i32 newHeight)
     {
         if (newWidth == 0 || newHeight == 0)
             return;
         glViewport(0, 0, newWidth, newHeight);
-        m_CurrentScene->OnWindowResize_Event(newWidth, newHeight);
+        // m_CurrentScene->OnWindowResize_Event(newWidth, newHeight);
     }
 } // namespace codex

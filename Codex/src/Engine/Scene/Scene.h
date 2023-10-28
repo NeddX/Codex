@@ -21,24 +21,21 @@ namespace codex {
         i32                     m_Width;
         i32                     m_Height;
         std::unique_ptr<Camera> m_Camera;
-        Renderer*               m_Renderer;
         entt::registry          m_Registry;
 
     private:
         bool m_Running;
 
     public:
-        Scene(Renderer* renderer, const i32 width, const i32 height);
-        virtual ~Scene() = default;
+        Scene(const i32 width, const i32 height);
+        ~Scene() = default;
 
     public:
         inline Camera*  GetCamera() const { return m_Camera.get(); }
         inline Vector2f GetMousePositionInWorld()
         {
-            /*
-            return Vector2f(MouseHandler::GetMouseX() + m_Camera->position.x,
-                            MouseHandler::GetMouseY() + m_Camera->position.y);
-            */
+            return Vector2f((f32)Input::GetMouseX() + m_Camera->position.x,
+                            (f32)Input::GetMouseY() + m_Camera->position.y);
             return Vector2f();
         }
 
@@ -59,13 +56,9 @@ namespace codex {
             m_Camera->SetHeight(newHeight);
         }
 
-    private:
-        virtual void Init();
-
     public:
-        virtual void Start()                     = 0;
-        virtual void Update(const f32 deltaTime) = 0;
-        virtual void Render(const f32 deltaTime) = 0;
+        void Start();
+        void Update(const f32 deltaTime);
     };
 } // namespace codex
 

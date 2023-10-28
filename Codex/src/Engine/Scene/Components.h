@@ -66,22 +66,14 @@ namespace codex {
         friend class Entity;
 
     private:
-        Vector4f m_Colour;
         // TODO: Handle sprite renderers that do not have an actual sprite.
         Sprite m_Sprite;
-        i32    m_ZIndex;
 
     public:
-        SpriteRendererComponent(const Vector4f colour);
-        SpriteRendererComponent(const Sprite sprite, const Vector4f colour = Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
+        SpriteRendererComponent(const Sprite sprite);
 
     public:
-        inline Vector4f GetColour() const { return m_Colour; }
-        inline Sprite&  GetSprite() { return m_Sprite; }
-        inline i32      GetZIndex() const { return m_ZIndex; }
-        inline void     SetSprite(const Sprite newSprite) { m_Sprite = newSprite; }
-        inline void     SetZIndex(const i32 newIndex) { m_ZIndex = newIndex; }
-        inline void     SetColour(const Vector4f newColour) { m_Colour = newColour; }
+        inline Sprite& GetSprite() { return m_Sprite; }
     };
 
     struct GridRendererComponent : public IComponent
@@ -110,7 +102,8 @@ namespace codex {
         void (*destroy)(NativeBehaviourComponent*);
 
     public:
-        template <typename T> void Bind()
+        template <typename T>
+        void Bind()
         {
             Instantiate = []() { return (NativeBehaviour*)new T(); };
             destroy     = [](NativeBehaviourComponent* zis)
