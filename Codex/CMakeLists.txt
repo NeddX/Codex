@@ -164,7 +164,7 @@ target_sources(CodexEngine PRIVATE ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
 target_sources(CodexEngine-static PRIVATE ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
 
 target_include_directories(CodexEngine PUBLIC ${IMGUI_INCLUDE_DIRS})
-target_include_directories(CodexEngine-static PRIVATE ${IMGUI_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${IMGUI_INCLUDE_DIRS})
 
 # glm
 add_subdirectory(vendor/glm ${PROJECT_BINARY_DIR}/glm)
@@ -237,7 +237,7 @@ target_include_directories(CodexEngine PUBLIC include/)
 target_include_directories(CodexEngine PUBLIC src/)
 
 target_include_directories(CodexEngine-static PUBLIC include/)
-target_include_directories(CodexEngine-static PUBLIC src/Engine)
+target_include_directories(CodexEngine-static PUBLIC src/)
 
 # Add the precompiled header
 target_include_directories(CodexEngine PUBLIC src/PCH)

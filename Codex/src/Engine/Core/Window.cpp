@@ -61,7 +61,7 @@ namespace codex {
         // Create SDL Window.
         if (m_NativeWindow)
         {
-            //m_SdlWindow = SDL_CreateWindowFrom(m_NativeWindow, m_Flags | SDL_WINDOW_OPENGL);
+            // m_SdlWindow = SDL_CreateWindowFrom(m_NativeWindow, m_Flags | SDL_WINDOW_OPENGL);
             fmt::println("Creating an SDL Window from a native window. Native window address {}",
                          (void*)m_NativeWindow);
             CX_THROW(SDLException, "Native windows are not supported.");
@@ -192,10 +192,6 @@ namespace codex {
                     {
                         m_EventCallback(e);
                     }
-                    // MouseEvent mouse_event;
-                    // mouse_event.x = m_SdlEvent.motion.x;
-                    // mouse_event.y = m_SdlEvent.motion.y;
-                    // MouseHandler::OnMouseMove_Event(mouse_event);
                     break;
                 }
                 case SDL_MOUSEBUTTONDOWN: {
@@ -204,16 +200,6 @@ namespace codex {
                     {
                         m_EventCallback(e);
                     }
-                    /*
-                    MouseEvent mouse_event;
-                    mouse_event.x      = m_SdlEvent.motion.x;
-                    mouse_event.y      = m_SdlEvent.motion.y;
-                    mouse_event.button = (u8)m_SdlEvent.button.button - 1;
-                    mouse_event.clicks = m_SdlEvent.button.clicks;
-                    mouse_event.action = m_SdlEvent.button.state;
-                    MouseHandler::OnMouseButton_Event(mouse_event);
-                    */
-                    // MouseDownEvent e((Mouse)(m_SdlEvent.button.button - 1));
                     break;
                 }
                 case SDL_MOUSEBUTTONUP: {
@@ -222,14 +208,6 @@ namespace codex {
                     {
                         m_EventCallback(e);
                     }
-                    /*/MouseEvent mouse_event;
-                    mouse_event.x      = m_SdlEvent.motion.x;
-                    mouse_event.y      = m_SdlEvent.motion.y;
-                    mouse_event.button = (u8)m_SdlEvent.button.button - 1;
-                    mouse_event.clicks = m_SdlEvent.button.clicks;
-                    mouse_event.action = m_SdlEvent.button.state;
-                    MouseHandler::OnMouseButton_Event(mouse_event);
-                    */
                     break;
                 }
                 case SDL_MOUSEWHEEL: {
@@ -239,15 +217,6 @@ namespace codex {
                     {
                         m_EventCallback(e);
                     }
-                    /*
-                    MouseEvent mouse_event;
-                    mouse_event.x         = m_SdlEvent.wheel.mouseX;
-                    mouse_event.y         = m_SdlEvent.wheel.mouseY;
-                    mouse_event.scrollX   = m_SdlEvent.wheel.x;
-                    mouse_event.scrollY   = m_SdlEvent.wheel.y;
-                    mouse_event.scrollDir = m_SdlEvent.wheel.direction;
-                    MouseHandler::OnMouseScroll_Event(mouse_event);
-                    */
                     break;
                 }
                 case SDL_KEYDOWN: {
@@ -256,13 +225,6 @@ namespace codex {
                     {
                         m_EventCallback(e);
                     }
-                    /*
-                    KeyEvent key_event;
-                    key_event.action = m_SdlEvent.key.state;
-                    key_event.key    = Key(m_SdlEvent.key.keysym.sym);
-                    key_event.repeat = m_SdlEvent.key.repeat;
-                    KeyHandler::OnKeyPress_Event(key_event);
-                    */
                     break;
                 }
                 case SDL_KEYUP: {
@@ -271,13 +233,6 @@ namespace codex {
                     {
                         m_EventCallback(e);
                     }
-                    /*
-                    KeyEvent key_event;
-                    key_event.action = m_SdlEvent.key.state;
-                    key_event.key    = Key(m_SdlEvent.key.keysym.sym);
-                    key_event.repeat = m_SdlEvent.key.repeat;
-                    KeyHandler::OnKeyPress_Event(key_event);
-                    */
                     break;
                 }
             }

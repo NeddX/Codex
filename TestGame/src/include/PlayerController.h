@@ -48,9 +48,5 @@ public:
             trans->scale.x -= 1.0f * deltaTime;
             trans->scale.y -= 1.0f * deltaTime;
         }
-        if (Input::IsKeyDown(Key::P))
-        {
-            std::cout << "FPS: " << Application::GetFps() << std::endl;
-        }
     }
 };
