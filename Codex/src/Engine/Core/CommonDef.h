@@ -23,6 +23,8 @@
 #elif CX_COMPILER_CLANG
 #define CX_DEBUG_TRAP()    __builtin_debugtrap()
 #define CX_PRETTY_FUNCTION __PRETTY_FUNCTION__
+#else
+#error "Unknown compiler"
 #endif
 
 namespace codex {

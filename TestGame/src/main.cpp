@@ -23,6 +23,9 @@ public:
         // sprite.SetTextureCoords({ 0.0f, 0.0f, (codex::f32)sprite.GetWidth() * scale_factor,
         // (codex::f32)sprite.GetHeight() * scale_factor, });
         m_Player.AddComponent<codex::SpriteRendererComponent>(sprite);
+        auto& res= m_Player.GetComponent<codex::TransformComponent>().scale;
+        res.x = 0.05f;
+        res.y = 0.05f;
 
         m_Player.AddComponent<codex::NativeBehaviourComponent>().Bind<PlayerController>();
     }

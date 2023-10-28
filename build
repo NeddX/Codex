@@ -4,8 +4,10 @@
 clear
 echo "Build started"
 
-export CC=$(which gcc)
-export CXX=$(which g++)
+if [ -z "$CC" ]; then
+	export CC=$(which gcc)
+	export CXX=$(which g++)
+fi
 
 kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | tr '[:upper:]' '[:lower:]')

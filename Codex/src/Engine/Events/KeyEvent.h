@@ -1,4 +1,4 @@
-#ifndef CODEX_EVENNTS_KEY_EVENT_H
+#ifndef CODEX_EVENTS_KEY_EVENT_H
 #define CODEX_EVENTS_KEY_EVENT_H
 
 #include <sdafx.h>

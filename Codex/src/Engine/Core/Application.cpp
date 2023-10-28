@@ -15,8 +15,8 @@ namespace codex {
             m_Window   = Window::Box(new Window(), [](Window* window) { delete window; });
             m_Window->Init(m_Properties.windowProperties);
             m_Window->SetEventCallback(BindEventDelegate(this, &Application::OnEvent));
-            //m_ImGuiLayer = new ImGuiLayer();
-            //PushOverlay(m_ImGuiLayer);
+            m_ImGuiLayer = new ImGuiLayer();
+            PushOverlay(m_ImGuiLayer);
             m_Input = Input::Get();
         }
         catch (const CodexException& ex)

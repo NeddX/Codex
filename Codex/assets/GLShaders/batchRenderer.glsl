@@ -25,13 +25,13 @@ void main()
 #shader_type fragment
 #version 330 core
 
-#define CX_MAX_SLOT_COUNT 32
+#define CX_MAX_SLOT_COUNT 16
 
 in vec4 o_Colour;
 in vec2 o_TexCoord;
 in float o_TexID;
 
-uniform sampler2D u_Textures[32];
+uniform sampler2D u_Textures[CX_MAX_SLOT_COUNT];
 
 out vec4 FragColour;
 

@@ -4,10 +4,6 @@
 [submodule "Codex/vendor/fmt"]
 	path = Codex/vendor/fmt
 	url = https://github.com/fmtlib/fmt
-[submodule "Codex/vendor/SDL"]
-	path = Codex/vendor/SDL
-	url = https://github.com/NeddX/SDL
-	branch = release-2.26.x
 [submodule "Codex/vendor/imgui"]
 	path = Codex/vendor/imgui
 	url = https://github.com/ocornut/imgui
