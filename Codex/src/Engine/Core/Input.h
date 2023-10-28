@@ -298,13 +298,13 @@ namespace codex {
         static std::bitset<3>                m_ButtonsDown;
 
     private:
-        i32  m_MousePosX;
-        i32  m_MousePosY;
-        i32  m_MouseLastPosX;
-        i32  m_MouseLastPosY;
-        i32  m_MouseScrollX;
-        i32  m_MouseScrollY;
-        bool m_MouseDragging;
+        i32  m_MousePosX     = 0;
+        i32  m_MousePosY     = 0;
+        i32  m_MouseLastPosX = 0;
+        i32  m_MouseLastPosY = 0;
+        i32  m_MouseScrollX  = 0;
+        i32  m_MouseScrollY  = 0;
+        bool m_MouseDragging = false;
 
     public:
         static Input* Get();
@@ -313,14 +313,21 @@ namespace codex {
         static bool   IsMouseDown(const Mouse button);
 
     public:
-        static inline i32      GetMouseX() noexcept { return m_Instance->m_MousePosX; }
-        static inline i32      GetMouseY() noexcept { return m_Instance->m_MousePosY; }
+        static inline i32 GetMouseX() noexcept { return m_Instance->m_MousePosX; }
+        static inline i32 GetMouseY() noexcept { return m_Instance->m_MousePosY; }
+        static inline i32 GetMouseDeltaX() noexcept { return m_Instance->m_MouseLastPosX - m_Instance->m_MousePosX; }
+        static inline i32 GetMouseDeltaY() noexcept { return m_Instance->m_MouseLastPosY - m_Instance->m_MousePosY; }
         static inline Vector2f GetMousePos() noexcept { return Vector2f(GetMouseX(), GetMouseY()); }
-        static inline i32  GetMouseDeltaX() noexcept { return m_Instance->m_MouseLastPosX - m_Instance->m_MousePosX; }
-        static inline i32  GetMouseDeltaY() noexcept { return m_Instance->m_MouseLastPosY - m_Instance->m_MousePosY; }
-        static inline i32  GetScrollX() noexcept { return m_Instance->m_MouseScrollX; }
-        static inline i32  GetScrollY() noexcept { return m_Instance->m_MouseScrollY; }
-        static inline bool IsDragging() noexcept { return m_Instance->m_MouseDragging; }
+        static inline i32      GetScrollX() noexcept { return m_Instance->m_MouseScrollX; }
+        static inline i32      GetScrollY() noexcept { return m_Instance->m_MouseScrollY; }
+        static inline bool     IsMouseDragging() noexcept { return m_Instance->m_MouseDragging; }
+        static inline void     EndFrame() noexcept
+        {
+            m_Instance->m_MouseLastPosX = m_Instance->m_MousePosX;
+            m_Instance->m_MouseLastPosY = m_Instance->m_MousePosY;
+            m_Instance->m_MouseScrollX  = 0;
+            m_Instance->m_MouseScrollY  = 0;
+        }
 
     public:
         bool OnKeyDown_Event(const KeyDownEvent event);

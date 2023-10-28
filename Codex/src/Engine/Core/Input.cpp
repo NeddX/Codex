@@ -300,21 +300,23 @@ namespace codex {
     bool Input::OnMouseMove_Event(const MouseMoveEvent event)
     {
         m_MouseLastPosX = m_MousePosX;
-        m_MouseLastPosY = m_MouseLastPosY;
+        m_MouseLastPosY = m_MousePosY;
         m_MousePosX     = event.GetX();
         m_MousePosY     = event.GetY();
+        m_MouseDragging = m_ButtonsDown.any();
         return true;
     }
 
     bool Input::OnMouseUp_Event(const MouseUpEvent event)
     {
-        m_ButtonsDown[(usize)event.GetMouseButton() - 1] = true;
+        m_ButtonsDown[(usize)event.GetMouseButton() - 1] = false;
+        m_Instance->m_MouseDragging                      = false;
         return true;
     }
 
     bool Input::OnMouseDown_Event(const MouseDownEvent event)
     {
-        m_ButtonsDown[(usize)event.GetMouseButton() - 1] = false;
+        m_ButtonsDown[(usize)event.GetMouseButton() - 1] = true;
         return true;
     }
 

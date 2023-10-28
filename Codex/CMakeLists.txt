@@ -241,10 +241,10 @@ target_include_directories(CodexEngine-static PUBLIC src/Engine)
 
 # Add the precompiled header
 target_include_directories(CodexEngine PUBLIC src/PCH)
-#target_precompile_headers(CodexEngine PRIVATE src/PCH/sdafx.h)
+target_precompile_headers(CodexEngine PRIVATE src/PCH/sdafx.h)
 
 target_include_directories(CodexEngine-static PUBLIC src/PCH)
-#target_precompile_headers(CodexEngine-static PRIVATE src/PCH/sdafx.h)
+target_precompile_headers(CodexEngine-static PRIVATE src/PCH/sdafx.h)
 
 # No idea what this is.
 #target_link_libraries(CodexEngine-static ${CMAKE_DL_LIBS})

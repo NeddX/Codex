@@ -57,9 +57,10 @@ namespace codex {
         // TODO: Improve.
         static f32      speed = 1.6f;
         static Vector2f previous_mouse_pos;
+
         if (Input::IsMouseDown(Mouse::RightMouse))
         {
-            if (Input::IsDragging())
+            if (Input::IsMouseDragging())
             {
                 if (!isDragging)
                 {

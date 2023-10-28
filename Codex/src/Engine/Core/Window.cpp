@@ -169,6 +169,10 @@ namespace codex {
                 case SDL_WINDOWEVENT: {
                     switch (m_SdlEvent.window.event)
                     {
+                        case SDL_WINDOWEVENT_CLOSE: {
+                            Application::Get().Stop();
+                            break;
+                        }
                         case SDL_WINDOWEVENT_RESIZED: {
                             i32               width  = m_SdlEvent.window.data1;
                             i32               height = m_SdlEvent.window.data2;
@@ -194,7 +198,7 @@ namespace codex {
                     break;
                 }
                 case SDL_MOUSEBUTTONDOWN: {
-                    MouseDownEvent e(Mouse(m_SdlEvent.button.button - 1), m_SdlEvent.motion.x, m_SdlEvent.motion.y);
+                    MouseDownEvent e(Mouse(m_SdlEvent.button.button), m_SdlEvent.motion.x, m_SdlEvent.motion.y);
                     if (m_EventCallback)
                     {
                         m_EventCallback(e);
@@ -212,7 +216,7 @@ namespace codex {
                     break;
                 }
                 case SDL_MOUSEBUTTONUP: {
-                    MouseUpEvent e(Mouse(m_SdlEvent.button.button - 1), m_SdlEvent.motion.x, m_SdlEvent.motion.y);
+                    MouseUpEvent e(Mouse(m_SdlEvent.button.button), m_SdlEvent.motion.x, m_SdlEvent.motion.y);
                     if (m_EventCallback)
                     {
                         m_EventCallback(e);
@@ -317,6 +321,9 @@ namespace codex {
             SDL_Delay((u32)(1.0f / (f32)m_FrameCap * 1000.0f));
         m_FrameCount++;
         SDL_GL_SwapWindow(m_SdlWindow);
+
+        // FIXME: Fix the mouse dragging thing...
+        Input::EndFrame();
     }
 
     void Window::ChangeScene(const i32 sceneId)

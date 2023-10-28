@@ -91,7 +91,7 @@ namespace codex {
         template <typename T, typename F>
         bool Dispatch(const F& delegate)
         {
-            if (m_Event.GetType() != T::GetStaticType())
+            if (m_Event.GetType() == T::GetStaticType())
             {
                 m_Event.handled |= delegate((T&)m_Event);
                 return true;
@@ -114,7 +114,22 @@ namespace fmt {
         template <typename FormatContext>
         auto format(const codex::Event& event, FormatContext& ctx)
         {
-            return fmt::format_to(ctx.out(), "{}", event.GetName());
+            static const char* type_str_arr[] = { "None",
+
+                                                  // Window events.
+                                                  "WindowClose", "WindowResize", "WindowFocus", "WindowLostFocus",
+                                                  "WindowMove",
+
+                                                  // Application events.
+                                                  "AppTick", "AppUpdate", "AppRender",
+
+                                                  // Key evennts.
+                                                  "KeyDown", "KeyUp",
+
+                                                  // Mouse events.
+                                                  "MouseDown", "MouseUp", "MouseMove", "MouseScroll" };
+            return fmt::format_to(ctx.out(), "(Name: {}, Type: {})", event.GetName(),
+                                  type_str_arr[(codex::usize)event.GetType()]);
         }
     };
 } // namespace fmt
