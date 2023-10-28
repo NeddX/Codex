@@ -36,5 +36,5 @@ codex::Application* codex::CreateApplication(const codex::ApplicationCLIArgs arg
         .name             = "TestGame",
         .cwd              = "./",
         .args             = args,
-        .windowProperties = { .width = 800, .height = 600, .frameCap = 300, .vsync = false } });
+        .windowProperties = { .width = 800, .height = 600, .frameCap = 0, .vsync = false } });
 }

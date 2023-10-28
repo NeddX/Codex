@@ -159,7 +159,7 @@ namespace codex {
     {
         while (SDL_PollEvent(&m_SdlEvent))
         {
-            ImGui_ImplSDL2_ProcessEvent(&m_SdlEvent);
+            //ImGui_ImplSDL2_ProcessEvent(&m_SdlEvent);
             switch (m_SdlEvent.type)
             {
                 case SDL_QUIT: {
