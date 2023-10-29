@@ -4,7 +4,7 @@
 
 using namespace codex;
 
-class ImGuiEditor : public Layer
+class EditorLayer : public Layer
 {
 private:
     std::unique_ptr<Scene>  m_Scene       = nullptr;
@@ -22,7 +22,7 @@ public:
         m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
         m_Camera      = std::make_unique<Camera>(width, height);
 
-        Renderer::GetSpriteBatchRenderer(m_BatchShader.get());
+        BatchRenderer2D::BindShader(m_BatchShader.get());
 
         auto tex = Resources::Load<Texture2D>("Sprites/machine.png");
 
@@ -38,6 +38,8 @@ public:
         // m_Player.AddComponent<NativeBehaviourComponent>().Bind<PlayerController>();
     }
 
+    void OnDetach() override { BatchRenderer2D::Destroy(); }
+
     void Update(const f32 deltaTime) override
     {
         m_BatchShader->Bind();
@@ -45,9 +47,9 @@ public:
         m_BatchShader->SetUniformMat4f("u_View", m_Camera->GetViewMatrix());
         m_BatchShader->SetUniformMat4f("u_Proj", m_Camera->GetProjectionMatrix());
 
-        Renderer::Begin();
+        BatchRenderer2D::Begin();
         m_Scene->Update(deltaTime);
-        Renderer::End();
+        BatchRenderer2D::End();
     }
 
     void ImGuiRender() override
@@ -58,7 +60,6 @@ public:
         ImVec4 clear_color         = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
         ImGui::ShowDemoWindow(&show_demo_window);
 
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
         {
             static float f       = 0.0f;
             static int   counter = 0;
@@ -82,15 +83,27 @@ public:
             ImGui::End();
         }
 
-        // 3. Show another simple window.
-        if (show_another_window)
         {
-            ImGui::Begin("Another Window",
-                         &show_another_window); // Pass a pointer to our bool variable (the window will have a closing
-                                                // button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
+            ImGui::Begin("Render Info");
+            ImGui::Text("Renderer information");
+            ImGui::Text("Batch count: %zu", BatchRenderer2D::GeBatchCount());
+            ImGui::Text("Total quad count: %zu", BatchRenderer2D::GetQuadCount());
+            ImGui::End();
+        }
+
+        {
+            auto& c            = m_Player.GetComponent<TransformComponent>();
+            float pos_arr[3]   = { c.position.x, c.position.y, c.position.z };
+            float scale_arr[3] = { c.scale.x, c.scale.y, c.scale.z };
+            ImGui::Begin("Entity edit panel");
+            ImGui::DragFloat3("Entity Position", pos_arr, 1.0f, -1000.0f, 1000.0f);
+            ImGui::DragFloat3("Entity Scale", scale_arr, 0.01f, -1000.0f, 1000.0f);
+            c.position.x = pos_arr[0];
+            c.position.y = pos_arr[1];
+            c.position.z = pos_arr[2];
+            c.scale.x    = scale_arr[0];
+            c.scale.y    = scale_arr[1];
+            c.scale.z    = scale_arr[2];
             ImGui::End();
         }
     }

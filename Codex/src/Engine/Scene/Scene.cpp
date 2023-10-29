@@ -81,10 +81,10 @@ namespace codex {
         {
             auto& transform_component = entity.GetComponent<TransformComponent>();
             auto& renderer_component  = entity.GetComponent<SpriteRendererComponent>();
-            Renderer::RenderSprite(renderer_component.GetSprite(),
-                                   { transform_component.position.x, transform_component.position.y,
-                                     transform_component.scale.x, transform_component.scale.y },
-                                   -1);
+            BatchRenderer2D::RenderSprite(renderer_component.GetSprite(),
+                                          { transform_component.position.x, transform_component.position.y,
+                                            transform_component.scale.x, transform_component.scale.y },
+                                          -1);
         }
 
         for (auto& entity : GetAllEntitiesWithComponent<NativeBehaviourComponent>())
