@@ -6,7 +6,50 @@ using namespace codex;
 
 class ImGuiEditor : public Layer
 {
+private:
+    std::unique_ptr<Scene>  m_Scene       = nullptr;
+    Entity                  m_Player      = Entity::None();
+    ResRef<Shader>          m_BatchShader = nullptr;
+    std::unique_ptr<Camera> m_Camera      = nullptr;
+
 public:
+    void OnAttach() override
+    {
+        auto width  = Application::GetWindow().GetWidth();
+        auto height = Application::GetWindow().GetHeight();
+        m_Scene  = std::make_unique<Scene>(Application::GetWindow().GetWidth(), Application::GetWindow().GetHeight());
+        m_Player = m_Scene->CreateEntity();
+        m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
+        m_Camera      = std::make_unique<Camera>(width, height);
+
+        Renderer::GetSpriteBatchRenderer(m_BatchShader.get());
+
+        auto tex = Resources::Load<Texture2D>("Sprites/machine.png");
+
+        Sprite sprite(tex);
+        // codex::f32 scale_factor = 0.05f;
+        // sprite.SetTextureCoords({ 0.0f, 0.0f, (codex::f32)sprite.GetWidth() * scale_factor,
+        // (codex::f32)sprite.GetHeight() * scale_factor, });
+        m_Player.AddComponent<SpriteRendererComponent>(sprite);
+        auto& res = m_Player.GetComponent<TransformComponent>().scale;
+        res.x     = 0.05f;
+        res.y     = 0.05f;
+
+        // m_Player.AddComponent<NativeBehaviourComponent>().Bind<PlayerController>();
+    }
+
+    void Update(const f32 deltaTime) override
+    {
+        m_BatchShader->Bind();
+        m_BatchShader->Bind();
+        m_BatchShader->SetUniformMat4f("u_View", m_Camera->GetViewMatrix());
+        m_BatchShader->SetUniformMat4f("u_Proj", m_Camera->GetProjectionMatrix());
+
+        Renderer::Begin();
+        m_Scene->Update(deltaTime);
+        Renderer::End();
+    }
+
     void ImGuiRender() override
     {
         auto&  io                  = ImGui::GetIO();

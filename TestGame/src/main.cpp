@@ -8,8 +8,7 @@
 class TestGame : public codex::Application
 {
 private:
-    codex::EditorScene* m_Scene  = nullptr;
-    codex::Entity       m_Player = codex::Entity::None();
+    codex::Entity m_Player = codex::Entity::None();
 
 public:
     TestGame(const codex::ApplicationProperties& properties) : codex::Application(properties)

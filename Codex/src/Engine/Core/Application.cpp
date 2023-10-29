@@ -42,6 +42,8 @@ namespace codex {
 
     Application::~Application()
     {
+        DebugDraw::Destroy();
+        Resources::Destroy();
         Input::Destroy();
         m_Instance = nullptr;
     }
