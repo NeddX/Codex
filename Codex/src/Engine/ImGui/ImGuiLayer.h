@@ -22,7 +22,6 @@ namespace codex {
     public:
         void OnAttach() override;
         void OnDetach() override;
-        void Update(const f32 deltaTime) override;
         void OnEvent(Event& event) override;
 
     public:

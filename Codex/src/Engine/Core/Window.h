@@ -84,6 +84,7 @@ namespace codex {
     public:
         void Init(const WindowProperties windowInfo = WindowProperties(), const void* nativeWindow = nullptr);
         void Update(const f32 delta_time);
+        void SwapBuffers();
         void ProcessEvents();
         void ChangeScene(const i32 sceneId);
         void SDLCheckError(const i32 line = -1);

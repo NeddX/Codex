@@ -103,18 +103,6 @@ namespace codex {
             CX_THROW_DEF(GLADException);
         }
 
-        // Create the renderer
-        m_Renderer = std::make_unique<Renderer>(m_Width, m_Height);
-
-        m_Renderer->SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
-        m_Renderer->Clear();
-        SDL_GL_SwapWindow(m_SdlWindow);
-
-        // Blending
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glViewport(0, 0, m_Width, m_Height);
-
         // MISC
         // TODO: When in editor mode, the initial window size is 0 by 0 which causes
         // gl to crash when creating the framebuffer for texture picking.
@@ -124,11 +112,9 @@ namespace codex {
         // Initialize subsystems
         // KeyHandler::Init();
         // MouseHandler::Init();
-        DebugDraw::Init();
-        Resources::Init();
 
         // Initialize scene
-        ChangeScene(0);
+        // ChangeScene(0);
 
         // Add the event watcher and call update
         // SDL_AddEventWatch(SDLEventFilterWatch_Bootstrap, this);
@@ -272,14 +258,18 @@ namespace codex {
         }
         */
 
-        // SDL_SetWindowTitle(m_SdlWindow, fmt::format("ms: {} fps: {}", delta_time, m_Fps).c_str());
         if (m_FrameCap > 0)
             SDL_Delay((u32)(1.0f / (f32)m_FrameCap * 1000.0f));
         m_FrameCount++;
         SDL_GL_SwapWindow(m_SdlWindow);
+    }
 
-        // FIXME: Fix the mouse dragging thing...
-        Input::EndFrame();
+    void Window::SwapBuffers()
+    {
+        if (m_FrameCap > 0)
+            SDL_Delay((u32)(1.0f / (f32)m_FrameCap * 1000.0f));
+        m_FrameCount++;
+        SDL_GL_SwapWindow(m_SdlWindow);
     }
 
     void Window::ChangeScene(const i32 sceneId)

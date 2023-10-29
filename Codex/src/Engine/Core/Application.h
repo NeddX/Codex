@@ -5,6 +5,7 @@
 
 #include "../Events/Event.h"
 #include "../ImGui/ImGuiLayer.h"
+#include "../Renderer/Renderer.h"
 #include "CommonDef.h"
 #include "Input.h"
 #include "LayerStack.h"
@@ -13,6 +14,9 @@
 int main(int argc, char** argv);
 
 namespace codex {
+    // Forward declerations.
+    class WindowResizeEvent;
+
     struct ApplicationCLIArgs
     {
     public:
@@ -51,6 +55,7 @@ namespace codex {
         f32                                   m_DeltaTime  = 0.0f;
         ImGuiLayer*                           m_ImGuiLayer = nullptr;
         Input*                                m_Input      = nullptr;
+        std::unique_ptr<Renderer>             m_Renderer   = nullptr;
 
     private:
         static Application* m_Instance;
@@ -64,6 +69,10 @@ namespace codex {
         inline static Application& Get() noexcept { return *m_Instance; }
         inline static u32          GetFps() noexcept { return m_Instance->m_Window->m_Fps; }
         inline static f32          GetDelta() noexcept { return m_Instance->m_DeltaTime; }
+        inline ImGuiLayer&         GetImGuiLayer() const noexcept { return *m_ImGuiLayer; }
+
+    public:
+        bool OnWindowResize_Event(const WindowResizeEvent& event);
 
     public:
         void Run();
