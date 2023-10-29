@@ -47,6 +47,4 @@ endif()
 #add_subdirectory("CodexAPI")
 add_subdirectory("Codex")
 add_subdirectory("TestGame")
-#add_subdirectory("CodexEditor")
-
-
+add_subdirectory("CodexEditor")

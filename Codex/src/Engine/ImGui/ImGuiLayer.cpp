@@ -29,7 +29,7 @@ namespace codex {
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
         f32 font_size = 20.0f;
         io.Fonts->AddFontFromFileTTF("Fonts/roboto/Roboto-Bold.ttf", font_size);

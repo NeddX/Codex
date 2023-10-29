@@ -23,7 +23,7 @@
 #include "../src/Engine/Renderer/RenderBatch.h"
 #include "../src/Engine/Renderer/Renderer.h"
 #include "../src/Engine/Renderer/Shader.h"
-#include "../src/Engine/Renderer/SpriteBatchRenderer.h"
+#include "../src/Engine/Renderer/BatchRenderer2D.h"
 #include "../src/Engine/Renderer/Texture2D.h"
 
 #endif // CODEX_H

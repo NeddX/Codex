@@ -2,7 +2,6 @@
 #include <Engine/Core/EntryPoint.h>
 #include <iostream>
 
-#include "include/ImGuiEditor.h"
 #include "include/PlayerController.h"
 
 class TestGame : public codex::Application
@@ -30,8 +29,6 @@ public:
 
         m_Player.AddComponent<codex::NativeBehaviourComponent>().Bind<PlayerController>();
         */
-
-        PushLayer(new ImGuiEditor());
     }
 
     ~TestGame() override {}
