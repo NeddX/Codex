@@ -62,6 +62,14 @@ namespace codex {
         return entities;
     }
 
+    std::vector<Entity> Scene::GetAllEntities()
+    {
+        std::vector<Entity> entities;
+        entities.reserve(m_Registry.size());
+        // m_Registry.each([&entities](auto& entity) { entities.push_back(entity); });
+        return entities;
+    }
+
     void Scene::Start()
     {
         /*for (const auto& ent : m_Entities)

@@ -31,7 +31,7 @@ namespace codex {
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-        f32 font_size = 20.0f;
+        f32 font_size = 16.0f;
         io.Fonts->AddFontFromFileTTF("Fonts/roboto/Roboto-Bold.ttf", font_size);
         io.FontDefault = io.Fonts->AddFontFromFileTTF("Fonts/roboto/Roboto-Regular.ttf", font_size);
 

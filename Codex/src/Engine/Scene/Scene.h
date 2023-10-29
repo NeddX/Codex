@@ -48,6 +48,7 @@ namespace codex {
         void                RemoveEntity(const Entity entity);
         void                RemoveEntity(const u32 entity);
         std::vector<Entity> GetAllEntitesWithTag(const std::string_view tag);
+        std::vector<Entity> GetAllEntities();
 
     public:
         void OnWindowResize_Event(const i32 newWidth, const i32 newHeight)

@@ -21,5 +21,5 @@ codex::Application* codex::CreateApplication(const codex::ApplicationCLIArgs arg
         .name             = "CodexEditor",
         .cwd              = "./",
         .args             = args,
-        .windowProperties = { .width = 800, .height = 600, .frameCap = 0, .vsync = false } });
+        .windowProperties = { .width = 1280, .height = 720, .frameCap = 60, .vsync = false } });
 }
