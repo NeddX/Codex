@@ -17,9 +17,15 @@ public:
 
 codex::Application* codex::CreateApplication(const codex::ApplicationCLIArgs args)
 {
-    return new CodexEditor(codex::ApplicationProperties{
-        .name             = "CodexEditor",
-        .cwd              = "./",
-        .args             = args,
-        .windowProperties = { .width = 1280, .height = 720, .frameCap = 60, .vsync = false } });
+    return new CodexEditor(
+        codex::ApplicationProperties{ .name             = "CodexEditor",
+                                      .cwd              = "./",
+                                      .args             = args,
+                                      .windowProperties = {
+                                          .width    = 1280,
+                                          .height   = 720,
+                                          .frameCap = 60,
+                                          .flags    = SDL_WINDOW_MAXIMIZED | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE,
+                                          .vsync    = false,
+                                      } });
 }

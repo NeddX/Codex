@@ -91,10 +91,17 @@ namespace codex {
             auto& renderer_component  = entity.GetComponent<SpriteRendererComponent>();
             if (renderer_component.GetSprite())
             {
+                auto size = renderer_component.GetSprite().GetSize();
                 BatchRenderer2D::RenderSprite(renderer_component.GetSprite(),
                                               { transform_component.position.x, transform_component.position.y,
-                                                transform_component.scale.x, transform_component.scale.y },
+                                                size.x * transform_component.scale.x,
+                                                size.y * transform_component.scale.y },
                                               -1);
+                /*
+BatchRenderer2D::RenderSprite(
+renderer_component.GetSprite(),
+{ transform_component.position.x, transform_component.position.y, 0.05f, 0.05f }, -1);
+*/
             }
         }
 

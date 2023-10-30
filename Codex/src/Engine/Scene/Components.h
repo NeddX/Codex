@@ -42,24 +42,24 @@ namespace codex {
 
     public:
         Vector3f position;
-        Vector3f rotation; // Use quaternions
+        Vector3f rotation;
         Vector3f scale;
 
     public:
         TransformComponent(const Vector3f position = Vector3f(), const Vector3f rotation = Vector3f(),
                            const Vector3f scale = Vector3f(1.0f, 1.0f, 1.0f));
+
+    public:
+        inline Matrix4f GetTransform() const noexcept
+        {
+            Matrix4f transform_mat = glm::identity<Matrix4f>();
+            transform_mat          = glm::translate(transform_mat, position);
+            transform_mat          = glm::rotate(transform_mat, glm::radians(rotation.x), glm::vec3(0.0f, 0.0f, 1.0f));
+            transform_mat          = glm::rotate(transform_mat, glm::radians(rotation.y), glm::vec3(0.0f, 0.0f, 1.0f));
+            transform_mat          = glm::scale(transform_mat, scale);
+            return transform_mat;
+        }
     };
-
-    /*struct TransformComponent
-    {
-    public:
-        Matrix4f transform;
-
-    public:
-        TransformComponent() = default;
-        TransformComponent(const TransformComponent&) = default;
-        TransformComponent(Matrix4f transform) : transform(transform) {}
-    };*/
 
     struct SpriteRendererComponent : public IComponent
     {

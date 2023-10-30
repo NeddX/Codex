@@ -37,3 +37,10 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:CodexEngine-static> $<TARGET_FILE_DIR:CodexEditor>
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CODEX_CMAKE_SOURCE_DIR}/assets/" "${CMAKE_BINARY_DIR}/CodexEditor"
 )
+
+# tinyfiledialogs
+set(TFDS_INCLUDE_DIRS vendor/tinyfiledialogs)
+set(TFDS_SOURCE_FILES vendor/tinyfiledialogs/tinyfiledialogs.c)
+
+target_include_directories(CodexEditor PUBLIC ${TFDS_INCLUDE_DIRS})
+target_sources(CodexEditor PRIVATE ${TFDS_SOURCE_FILES})

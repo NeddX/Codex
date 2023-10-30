@@ -51,7 +51,7 @@ namespace codex {
     }
 
     void BatchRenderer2D::RenderRect(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect,
-                                     const Vector4f colour, const i32 zIndex, const i32 entityId)
+                                     const Vector4f& colour, const f32 rotZ, const i32 zIndex, const i32 entityId)
     {
         for (auto* batch : m_Batches)
         {

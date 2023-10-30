@@ -13,21 +13,25 @@ namespace codex {
     class Renderer
     {
     private:
-        i32                            m_Width;
-        i32                            m_Height;
-        std::unique_ptr<mgl::Renderer> m_InternalRenderer;
+        static i32            m_Width;
+        static i32            m_Height;
+        static mgl::Renderer* m_InternalRenderer;
 
     public:
-        Renderer(const i32 width, const i32 height);
+        Renderer() = default;
 
     public:
-        inline void Clear() const { m_InternalRenderer->Clear(); }
-        inline void SetClearColour(const f32 r, const f32 g, const f32 b, const f32 a) const
+        static void Init(const i32 width, const i32 height);
+        static void Destroy();
+
+    public:
+        static inline void Clear() { m_InternalRenderer->Clear(); }
+        static inline void SetClearColour(const f32 r, const f32 g, const f32 b, const f32 a)
         {
             m_InternalRenderer->SetClearColour(r, g, b, a);
         }
-        inline void Render(const mgl::VertexArray* vertexArray, const mgl::IndexBuffer* indexBuffer,
-                           const mgl::Shader* shader) const
+        static inline void Render(const mgl::VertexArray* vertexArray, const mgl::IndexBuffer* indexBuffer,
+                                  const mgl::Shader* shader)
         {
             m_InternalRenderer->Render(vertexArray, indexBuffer, shader);
         }

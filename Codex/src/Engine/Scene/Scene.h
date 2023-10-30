@@ -52,7 +52,7 @@ namespace codex {
         std::vector<Entity> GetAllEntities();
 
     public:
-        void OnWindowResize_Event(const i32 newWidth, const i32 newHeight)
+        void ViewportResize(const i32 newWidth, const i32 newHeight)
         {
             m_Camera->SetWidth(newWidth);
             m_Camera->SetHeight(newHeight);

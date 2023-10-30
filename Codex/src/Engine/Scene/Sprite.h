@@ -10,7 +10,8 @@ namespace codex {
     {
     private:
         ResRef<Texture2D> m_Texture = nullptr;
-        Rectf             m_SrcRect{};
+        Rectf             m_TextureCoords{};
+        Vector2f          m_SpriteSize{};
         Vector4f          m_Colour{};
         i32               m_ZIndex = 0;
 
@@ -19,13 +20,14 @@ namespace codex {
         Sprite(ResRef<Texture2D> texture, const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f }, const i32 zIndex = 0)
             : m_Texture(texture), m_Colour(colour), m_ZIndex(zIndex)
         {
-            if (m_Texture)
-                m_SrcRect = { 0.0f, 0.0f, (f32)texture->GetWidth(), (f32)texture->GetHeight() };
+            m_TextureCoords = { 0.0f, 0.0f, (f32)texture->GetWidth(), (f32)texture->GetHeight() };
+            m_SpriteSize    = { m_TextureCoords.w, m_TextureCoords.h };
         }
         Sprite(ResRef<Texture2D> texture, const Rectf textureCoords, const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
                const i32 zIndex = 0)
-            : m_Texture(texture), m_SrcRect(textureCoords), m_Colour(colour), m_ZIndex(zIndex)
+            : m_Texture(texture), m_TextureCoords(textureCoords), m_Colour(colour), m_ZIndex(zIndex)
         {
+            m_SpriteSize = { (f32)m_Texture->GetWidth(), (f32)m_Texture->GetHeight() };
         }
 
     public:
@@ -33,14 +35,20 @@ namespace codex {
 
     public:
         inline ResRef<Texture2D> GetTexture() const noexcept { return m_Texture; }
-        inline Rectf&            GetTextureCoords() noexcept { return m_SrcRect; }
-        inline i32               GetWidth() const noexcept { return m_Texture->GetWidth(); }
-        inline i32               GetHeight() const noexcept { return m_Texture->GetHeight(); }
+        inline Rectf&            GetTextureCoords() noexcept { return m_TextureCoords; }
         inline Vector4f&         GetColour() noexcept { return m_Colour; }
         inline i32&              GetZIndex() noexcept { return m_ZIndex; }
-        inline void              SetTexture(ResRef<Texture2D> texture) noexcept { m_Texture = texture; }
+        inline Vector2f          GetSize() const noexcept { return m_SpriteSize; }
+        inline void              SetSize(const Vector2f newSize) noexcept { m_SpriteSize = newSize; }
+        inline void              SetTexture(ResRef<Texture2D> texture) noexcept
+        {
+            m_Texture       = texture;
+            m_TextureCoords = { 0.0f, 0.0f, (f32)m_Texture->GetWidth(), (f32)m_Texture->GetHeight() };
+            m_SpriteSize    = { m_TextureCoords.w, m_TextureCoords.h };
+            m_Colour        = { 1.0f, 1.0f, 1.0f, 1.0f };
+        }
         inline operator bool() const noexcept { return m_Texture != nullptr; }
-    };
+    }; // namespace codex
 } // namespace codex
 
 #endif // CODEX_SCENE_SPRITE_H

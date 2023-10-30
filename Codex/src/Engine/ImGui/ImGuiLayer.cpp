@@ -29,6 +29,7 @@ namespace codex {
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        // Viewports are very buggy when docking as of now.
         // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
         f32 font_size = 16.0f;

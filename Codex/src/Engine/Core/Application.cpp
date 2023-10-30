@@ -25,11 +25,6 @@ namespace codex {
             DebugDraw::Init();
             Resources::Init();
 
-            m_Renderer = std::make_unique<Renderer>(args.windowProperties.width, args.windowProperties.height);
-            m_Renderer->SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
-            m_Renderer->Clear();
-            m_Window->SwapBuffers();
-
             m_ImGuiLayer = new ImGuiLayer();
             PushOverlay(m_ImGuiLayer);
         }
@@ -66,11 +61,11 @@ namespace codex {
         {
             try
             {
-                m_Renderer->SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
-                m_Renderer->Clear();
+                // m_Renderer->SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
+                // m_Renderer->Clear();
 
-                DebugDraw::Begin();
-                DebugDraw::Render();
+                // DebugDraw::Begin();
+                // DebugDraw::Render();
 
                 if (Input::IsKeyDown(Key::Escape))
                 {

@@ -55,7 +55,6 @@ namespace codex {
         f32                                   m_DeltaTime  = 0.0f;
         ImGuiLayer*                           m_ImGuiLayer = nullptr;
         Input*                                m_Input      = nullptr;
-        std::unique_ptr<Renderer>             m_Renderer   = nullptr;
 
     private:
         static Application* m_Instance;
