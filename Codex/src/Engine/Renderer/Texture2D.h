@@ -6,24 +6,25 @@
 #include "../Core/IResource.h"
 
 namespace codex {
-	typedef mgl::TextureProperties TextureProperties;
-	typedef mgl::TextureFilterMode TextureFilterMode;
-	typedef mgl::TextureWrapMode TextureWrapMode;
+    typedef mgl::TextureProperties TextureProperties;
+    typedef mgl::TextureFilterMode TextureFilterMode;
+    typedef mgl::TextureWrapMode   TextureWrapMode;
 
-	class Texture2D : public IResource
-	{
-		friend class ResourceHandler;
+    class Texture2D : public IResource
+    {
+        friend class ResourceHandler;
 
-	private:
-		std::unique_ptr<mgl::Texture> m_RawTexture;
-
-	public:
-		Texture2D(const char* filePath, const TextureProperties textureProperties = {})
-		{
-			m_RawTexture = std::make_unique<mgl::Texture>(filePath, textureProperties);
-		}
+    private:
+        std::unique_ptr<mgl::Texture> m_RawTexture;
 
     public:
+        Texture2D(const char* filePath, const TextureProperties textureProperties = {})
+        {
+            m_RawTexture = std::make_unique<mgl::Texture>(filePath, textureProperties);
+        }
+
+    public:
+        inline u32         GetGlId() const noexcept { return m_RawTexture->GetGlId(); }
         inline u32         GetSlot() const { return m_RawTexture->GetSlot(); }
         inline i32         GetWidth() const { return m_RawTexture->GetWidth(); }
         inline i32         GetHeight() const { return m_RawTexture->GetHeight(); }
@@ -31,6 +32,6 @@ namespace codex {
         inline void        Bind(u32 slot = 0) { m_RawTexture->Bind(slot); }
         inline void        Unbind() const { m_RawTexture->Unbind(); }
     };
-}
+} // namespace codex
 
 #endif // CODEX_CORE_TEXTURE_2D_H

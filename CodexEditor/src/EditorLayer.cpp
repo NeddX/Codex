@@ -44,34 +44,9 @@ void EditorLayer::Update(const f32 deltaTime)
 
 void EditorLayer::ImGuiRender()
 {
-    auto&  io                  = ImGui::GetIO();
-    bool   show_demo_window    = true;
-    bool   show_another_window = false;
-    ImVec4 clear_color         = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    auto& io               = ImGui::GetIO();
+    bool  show_demo_window = true;
     ImGui::ShowDemoWindow(&show_demo_window);
-
-    {
-        static float f       = 0.0f;
-        static int   counter = 0;
-
-        ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
-
-        ImGui::Text("This is some useful text.");          // Display some text (you can use a format strings too)
-        ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &show_demo_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-        if (ImGui::Button(
-                "Button")) // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-        ImGui::End();
-    }
 
     {
         ImGui::Begin("Render Info");
@@ -82,30 +57,22 @@ void EditorLayer::ImGuiRender()
     }
 
     {
-        auto& c            = m_Player.GetComponent<TransformComponent>();
-        float pos_arr[3]   = { c.position.x, c.position.y, c.position.z };
-        float scale_arr[3] = { c.scale.x, c.scale.y, c.scale.z };
-        ImGui::Begin("Entity edit panel");
-        ImGui::DragFloat3("Entity Position", pos_arr, 1.0f, -1000.0f, 1000.0f);
-        ImGui::DragFloat3("Entity Scale", scale_arr, 0.01f, -1000.0f, 1000.0f);
-        c.position.x = pos_arr[0];
-        c.position.y = pos_arr[1];
-        c.position.z = pos_arr[2];
-        c.scale.x    = scale_arr[0];
-        c.scale.y    = scale_arr[1];
-        c.scale.z    = scale_arr[2];
-        ImGui::End();
-    }
-    {
         ImGui::Begin("Scene hierarchy");
-
         if (ImGui::Button("New entity"))
-        {
             ImGui::OpenPopup("new_entity_popup");
-            if (ImGui::BeginPopup("new_entity_popup"))
+        if (ImGui::BeginPopup("new_entity_popup", ImGuiWindowFlags_MenuBar))
+        {
+            std::string name = fmt::format("Entity {}", m_Scene->GetEntityCount() + 1);
+            ImGui::Text("Entity Name: ");
+            ImGui::InputText("##entity_name", &name);
+            ImGui::SameLine();
+            if (ImGui::IsKeyPressed(ImGuiKey_Enter) || ImGui::Button("Add")) // Check for Enter key press
             {
-                ImGui::EndPopup();
+                // Close the popup
+                ImGui::CloseCurrentPopup();
+                m_Scene->CreateEntity(name);
             }
+            ImGui::EndPopup();
         }
 
         ImGui::Text("Entities:");
@@ -113,13 +80,166 @@ void EditorLayer::ImGuiRender()
         for (auto& e : entities)
         {
             auto& tag_component = e.GetComponent<TagComponent>();
-            if (ImGui::TreeNode(tag_component.tag.c_str()))
+            if (ImGui::Selectable(tag_component.tag.c_str(), m_SelectedEntity == e))
             {
-                ImGui::Text("Selected");
                 m_SelectedEntity = e;
-                ImGui::TreePop();
+                if (ImGui::IsMouseDoubleClicked(0))
+                {
+                    auto& t = e.GetComponent<TagComponent>();
+                    ImGui::OpenPopup("new_name_popup");
+                    if (ImGui::BeginPopup("new_name_popup", ImGuiWindowFlags_MenuBar))
+                    {
+                        ImGui::Text("New Name: ");
+                        ImGui::SameLine();
+                        ImGui::InputText("##entity_name", &t.tag);
+                        ImGui::SameLine();
+                        if (ImGui::IsKeyPressed(ImGuiKey_Enter) || ImGui::Button("Enter")) // Check for Enter key press
+                            ImGui::CloseCurrentPopup();
+                        ImGui::EndPopup();
+                    }
+                }
             }
         }
         ImGui::End();
     }
+
+    {
+        ImGui::Begin("Entity properties");
+        if (m_SelectedEntity)
+        {
+            if (ImGui::Button("Add component"))
+                ImGui::OpenPopup("component_popup");
+            if (ImGui::BeginPopup("component_popup"))
+            {
+                if (ImGui::Button("Sprite Renderer Component"))
+                {
+                    m_SelectedEntity.AddComponent<SpriteRendererComponent>(Sprite::Empty());
+                    ImGui::CloseCurrentPopup();
+                }
+                ImGui::EndPopup();
+            }
+
+            if (m_SelectedEntity.HasComponent<TransformComponent>())
+            {
+                if (ImGui::TreeNodeEx("Transform Component", ImGuiTreeNodeFlags_DefaultOpen))
+                {
+                    auto& c = m_SelectedEntity.GetComponent<TransformComponent>();
+                    DrawVec3Control("Position: ", c.position);
+                    DrawVec3Control("Rotation: ", c.rotation);
+                    DrawVec3Control("Scale: ", c.scale, 0.01f);
+
+                    ImGui::TreePop();
+                }
+            }
+
+            if (m_SelectedEntity.HasComponent<SpriteRendererComponent>())
+            {
+                if (ImGui::TreeNodeEx("Sprite Renderer Component", ImGuiTreeNodeFlags_DefaultOpen))
+                {
+                    auto& c      = m_SelectedEntity.GetComponent<SpriteRendererComponent>();
+                    auto& sprite = c.GetSprite();
+
+                    ImGui::Text("Texture: ");
+                    ImGui::SameLine();
+
+                    ImGui::BeginGroup();
+                    if (sprite)
+                        ImGui::Image((void*)(intptr)sprite.GetTexture()->GetGlId(), { 100.0f, 100.0f }, { 0, 1 },
+                                     { 1, 0 });
+                    else
+                        ImGui::Text("No bound texture.");
+
+                    if (ImGui::Button("Load texture", { 100, 0 }))
+                    {
+                        ImGui::OpenPopup("modal_reject");
+
+                        ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+                        ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+                        if (ImGui::BeginPopupModal("modal_reject", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+                        {
+                            ImGui::Text("Opening files is not yet supported.");
+                            ImGui::Separator();
+                            if (ImGui::Button("Ok", { 120, 0 }))
+                            {
+                                ImGui::CloseCurrentPopup();
+                            }
+                            ImGui::EndPopup();
+                        }
+                    }
+                    ImGui::EndGroup();
+
+                    ImGui::TreePop();
+                }
+            }
+        }
+        ImGui::End();
+    }
+}
+
+void EditorLayer::DrawVec3Control(const char* label, Vector3f& values, const f32 speed, const f32 resetValue,
+                                  const f32 columnWidth)
+{
+    ImGuiIO& io        = ImGui::GetIO();
+    auto     bold_font = io.Fonts->Fonts[0];
+
+    ImGui::PushID(label);
+
+    ImGui::Columns(2);
+    ImGui::SetColumnWidth(0, columnWidth);
+    ImGui::Text(label);
+    ImGui::NextColumn();
+
+    ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
+
+    float  lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+    ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
+
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+    ImGui::PushFont(bold_font);
+    if (ImGui::Button("X", buttonSize))
+        values.x = resetValue;
+    ImGui::PopFont();
+    ImGui::PopStyleColor(3);
+
+    ImGui::SameLine();
+    ImGui::DragFloat("##X", &values.x, speed, 0.0f, 0.0f, "%.2f");
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
+    ImGui::PushFont(bold_font);
+    if (ImGui::Button("Y", buttonSize))
+        values.y = resetValue;
+    ImGui::PopFont();
+    ImGui::PopStyleColor(3);
+
+    ImGui::SameLine();
+    ImGui::DragFloat("##Y", &values.y, speed, 0.0f, 0.0f, "%.2f");
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
+    ImGui::PushFont(bold_font);
+    if (ImGui::Button("Z", buttonSize))
+        values.z = resetValue;
+    ImGui::PopFont();
+    ImGui::PopStyleColor(3);
+
+    ImGui::SameLine();
+    ImGui::DragFloat("##Z", &values.z, speed, 0.0f, 0.0f, "%.2f");
+    ImGui::PopItemWidth();
+
+    ImGui::PopStyleVar();
+
+    ImGui::Columns(1);
+
+    ImGui::PopID();
 }

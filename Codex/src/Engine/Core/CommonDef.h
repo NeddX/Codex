@@ -29,8 +29,8 @@
 
 namespace codex {
     using usize   = std::size_t;
-    using i32ptr  = std::intptr_t;
-    using ui32ptr = std::uintptr_t;
+    using intptr  = std::intptr_t;
+    using uintptr = std::uintptr_t;
     using i8      = std::int8_t;
     using i16     = std::int16_t;
     using i32     = std::int32_t;

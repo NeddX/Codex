@@ -24,7 +24,8 @@ namespace codex {
 
     public:
         inline u32 GetId() const { return (u32)(m_Handle); }
-        operator bool() const { return m_Handle != entt::entity{ 0 }; }
+        operator bool() const { return m_Handle != entt::entity{ entt::null }; }
+        bool operator==(const Entity& other) const { return other.m_Handle == m_Handle; }
 
     public:
         template <typename T, typename... TArgs>

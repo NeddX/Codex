@@ -94,6 +94,8 @@
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui.h>
+#include <imgui_internal.h>
+#include <misc/cpp/imgui_stdlib.h>
 
 // Project specific
 #include "../Engine/Utils/include/Util.h"

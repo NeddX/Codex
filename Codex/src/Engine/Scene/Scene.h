@@ -31,13 +31,14 @@ namespace codex {
         ~Scene() = default;
 
     public:
-        inline Camera*  GetCamera() const { return m_Camera.get(); }
-        inline Vector2f GetMousePositionInWorld()
+        inline Camera*  GetCamera() const noexcept { return m_Camera.get(); }
+        inline Vector2f GetMousePositionInWorld() noexcept
         {
             return Vector2f((f32)Input::GetMouseX() + m_Camera->position.x,
                             (f32)Input::GetMouseY() + m_Camera->position.y);
             return Vector2f();
         }
+        inline usize GetEntityCount() const noexcept { return m_Registry.size(); }
 
     public:
         template <typename T>

@@ -18,4 +18,8 @@ public:
     void OnDetach() override;
     void Update(const f32 deltaTime) override;
     void ImGuiRender() override;
+
+public:
+    static void DrawVec3Control(const char* label, Vector3f& values, const f32 speed = 1.0f,
+                                const f32 resetValue = 0.0f, const f32 columnWidth = 100.0f);
 };
