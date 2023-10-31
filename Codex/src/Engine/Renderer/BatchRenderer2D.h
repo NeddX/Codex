@@ -51,17 +51,15 @@ namespace codex {
         static void Begin();
         static void End();
         static void BindShader(Shader* shader);
-        static void RenderRect(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, const Vector4f& colour,
-                               const f32 rotZ, const i32 zIndex = 0, const i32 entityId = -1);
+        static void RenderRect(Texture2D* texture, const Rectf& srcRect, const Matrix4f& mat, const Vector4f& colour,
+                               const i32 zIndex = 0, const i32 entityId = -1);
 
     public:
-        static inline void RenderSprite(const Sprite& sprite, const Rectf& dest, const f32 rotZ,
-                                        const i32 entityId = -1)
+        static inline void RenderSprite(const Sprite& sprite, const Matrix4f& transform, const i32 entityId = -1)
         {
             auto& ncsprite   = (Sprite&)sprite;
             auto& tex_coords = ncsprite.GetTextureCoords();
-            RenderRect(sprite.GetTexture().get(), tex_coords, dest, ncsprite.GetColour(), rotZ, ncsprite.GetZIndex(),
-                       entityId);
+            RenderRect(sprite.GetTexture().get(), tex_coords, transform, ncsprite.GetColour(), ncsprite.GetZIndex());
         }
     };
 } // namespace codex

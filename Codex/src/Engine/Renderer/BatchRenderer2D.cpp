@@ -50,8 +50,9 @@ namespace codex {
             batch->BindShader(shader);
     }
 
+    /*
     void BatchRenderer2D::RenderRect(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect,
-                                     const Vector4f& colour, const f32 rotZ, const i32 zIndex, const i32 entityId)
+                                     const Vector4f& colour, const i32 zIndex, const i32 entityId)
     {
         for (auto* batch : m_Batches)
         {
@@ -69,6 +70,29 @@ namespace codex {
         new_batch->SetZIndex(zIndex);
         new_batch->Flush();
         new_batch->UploadQuad(texture, srcRect, destRect, colour, entityId);
+        m_Batches.push_back(new_batch);
+    }
+    */
+
+    void BatchRenderer2D::RenderRect(Texture2D* texture, const Rectf& srcRect, const Matrix4f& transform,
+                                     const Vector4f& colour, const i32 zIndex, const i32 entityId)
+    {
+        for (auto* batch : m_Batches)
+        {
+            if (batch->HasRoom() && batch->GetZIndex() == zIndex)
+            {
+                if (batch->UploadQuad(texture, srcRect, transform, colour, entityId))
+                    return;
+                else
+                    std::cout << "failed to upload quad\n";
+            }
+        }
+
+        // If there was no space then create a new batch
+        auto* new_batch = new RenderBatch(m_MaxQuadCountPerBatch, m_Shader);
+        new_batch->SetZIndex(zIndex);
+        new_batch->Flush();
+        new_batch->UploadQuad(texture, srcRect, transform, colour, entityId);
         m_Batches.push_back(new_batch);
     }
 } // namespace codex

@@ -92,16 +92,9 @@ namespace codex {
             if (renderer_component.GetSprite())
             {
                 auto size = renderer_component.GetSprite().GetSize();
-                BatchRenderer2D::RenderSprite(renderer_component.GetSprite(),
-                                              { transform_component.position.x, transform_component.position.y,
-                                                size.x * transform_component.scale.x,
-                                                size.y * transform_component.scale.y },
-                                              -1);
-                /*
-BatchRenderer2D::RenderSprite(
-renderer_component.GetSprite(),
-{ transform_component.position.x, transform_component.position.y, 0.05f, 0.05f }, -1);
-*/
+                auto transform = transform_component.GetTransform();
+                transform = transform * glm::scale(glm::identity<Matrix4f>(), { size.x, size.y, 1.0f });
+                BatchRenderer2D::RenderSprite(renderer_component.GetSprite(), transform, -1);
             }
         }
 

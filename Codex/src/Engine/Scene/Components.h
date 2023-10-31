@@ -54,8 +54,9 @@ namespace codex {
         {
             Matrix4f transform_mat = glm::identity<Matrix4f>();
             transform_mat          = glm::translate(transform_mat, position);
-            transform_mat          = glm::rotate(transform_mat, glm::radians(rotation.x), glm::vec3(0.0f, 0.0f, 1.0f));
-            transform_mat          = glm::rotate(transform_mat, glm::radians(rotation.y), glm::vec3(0.0f, 0.0f, 1.0f));
+            transform_mat          = glm::rotate(transform_mat, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+            transform_mat          = glm::rotate(transform_mat, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+            transform_mat          = glm::rotate(transform_mat, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
             transform_mat          = glm::scale(transform_mat, scale);
             return transform_mat;
         }

@@ -11,7 +11,7 @@ private:
     ResRef<Shader>                    m_BatchShader    = nullptr;
     std::unique_ptr<Camera>           m_Camera         = nullptr;
     Entity                            m_SelectedEntity = Entity::None();
-    f32                               m_ColumnWidth    = 150.0f;
+    f32                               m_ColumnWidth    = 120.0f;
     std::unique_ptr<mgl::FrameBuffer> m_Framebuffer    = nullptr;
 
 public:

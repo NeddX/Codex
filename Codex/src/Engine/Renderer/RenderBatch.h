@@ -13,6 +13,16 @@ namespace codex {
     constexpr auto QUAD2D_VERTEX_SIZE =
         QUAD2D_VERTEX_COUNT * QUAD2D_VERTEX_COMPONENT_COUNT; // The total count of the elements in the buffer
 
+    struct QuadVertex
+    {
+        Vector3f vertex;
+        Vector4f colour;
+        Vector2f texCoord;
+        f32 texId;
+        Vector2f texSize;
+        f32 entityId;
+    };
+
     class RenderBatch
     {
     private:
@@ -21,7 +31,8 @@ namespace codex {
         i32                                      m_MaxQuadCount        = 1000;
         i32                                      m_ZIndex              = 0;
         bool                                     m_HasRoom             = true;
-        std::vector<f32>                         m_Verticies;
+        QuadVertex*                              m_Verticies           = nullptr;
+        QuadVertex*                              m_VertexPtr           = nullptr;
         std::unique_ptr<mgl::VertexArray>        m_Vao;
         std::unique_ptr<mgl::VertexBuffer>       m_Vbo;
         std::unique_ptr<mgl::IndexBuffer>        m_Ebo;
@@ -39,15 +50,16 @@ namespace codex {
         inline i32  GetZIndex() const { return m_ZIndex; }
         inline i32  GetCount() const { return m_QuadCount; }
         inline void SetZIndex(i32 newIndex) { m_ZIndex = newIndex; }
+        inline void BindShader(Shader* shader) { m_Shader = shader; }
 
     public:
-        inline void BindShader(Shader* shader) { m_Shader = shader; }
         inline void Flush()
         {
             static bool texture_slots_initialized = false;
             m_QuadCount                           = 0;
             m_HasRoom                             = true;
             m_CurrentTexIndex                     = 0;
+            m_VertexPtr = m_Verticies;
             std::fill(m_TextureList.begin(), m_TextureList.end(), nullptr);
 
             if (!texture_slots_initialized)
@@ -59,8 +71,7 @@ namespace codex {
                 texture_slots_initialized = true;
             }
         }
-        inline bool UploadQuad(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect, const Vector4f colour,
-                               const i32 entityId)
+        inline bool UploadQuad(Texture2D* texture, const Rectf& srcRect, const Matrix4f& transform, const Vector4f& colour, const i32 entityId)
         {
             u16 tex_id     = 0;
             f32 tex_width  = 0.0f;
@@ -84,86 +95,24 @@ namespace codex {
                 tex_height = (f32)texture->GetHeight();
             }
 
-            f32 vertex_buffer_data[] = { destRect.x,
-                                         destRect.y,
-                                         0.0f,
-                                         colour.x,
-                                         colour.y,
-                                         colour.z,
-                                         colour.w,
-                                         srcRect.x,
-                                         srcRect.y,
-                                         (f32)tex_id,
-                                         tex_width,
-                                         tex_height,
-                                         (f32)entityId,
+            Vector4f quad_verticies[4] = { { 0.5f, 0.5f, 0.0f, 1.0f },
+                                           { -0.5f, 0.5f, 0.0f, 1.0f },
+                                           { -0.5f, -0.5f, 0.0f, 1.0f },
+                                           { 0.5f, -0.5f, 0.0f, 1.0f } };
+            Vector2f tex_coords[4]     = { { srcRect.x + srcRect.w, srcRect.y + srcRect.h },
+                                           { srcRect.x, srcRect.y + srcRect.h },
+                                           { srcRect.x, srcRect.y },
+                                           { srcRect.x + srcRect.w, srcRect.y } };
 
-                                         destRect.x + destRect.w,
-                                         destRect.y,
-                                         0.0f,
-                                         colour.x,
-                                         colour.y,
-                                         colour.z,
-                                         colour.w,
-                                         srcRect.x + srcRect.w,
-                                         srcRect.y,
-                                         (f32)tex_id,
-                                         tex_width,
-                                         tex_height,
-                                         (f32)entityId,
-
-                                         destRect.x,
-                                         destRect.y + destRect.h,
-                                         0.0f,
-                                         colour.x,
-                                         colour.y,
-                                         colour.z,
-                                         colour.w,
-                                         srcRect.x,
-                                         srcRect.y + srcRect.h,
-                                         (f32)tex_id,
-                                         tex_width,
-                                         tex_height,
-                                         (f32)entityId,
-
-                                         destRect.x + destRect.w,
-                                         destRect.y + destRect.h,
-                                         0.0f,
-                                         colour.x,
-                                         colour.y,
-                                         colour.z,
-                                         colour.w,
-                                         srcRect.x + srcRect.w,
-                                         srcRect.y + srcRect.h,
-                                         (f32)tex_id,
-                                         tex_width,
-                                         tex_height,
-                                         (f32)entityId };
-
-            // TODO: Consider directly adding the vertex buffer data to m_Verticies instead of creating a temporary
-            // array and then copying the contents of it to m_Verticies.
-
-            u32 offset = m_QuadCount * QUAD2D_VERTEX_SIZE;
-            /*
-            // Verticies
-            m_Verticies[offset] = destRect.x;
-            m_Verticies[offset + 1] = destRect.y;
-            m_Verticies[offset + 2] = 0.0f;
-
-            // Colour
-            m_Verticies[offset + 3] = colour.x;
-            m_Verticies[offset + 4] = colour.y;
-            m_Verticies[offset + 5] = colour.z;
-            m_Verticies[offset + 6] = colour.w;
-
-            // Texture verticies
-            m_Verticies[offset + 7] = srcRect.x;
-            m_Verticies[offset + 8] = srcRect.y;
-
-            // Texture width and height
-
-            */
-            std::memcpy(m_Verticies.data() + offset, vertex_buffer_data, sizeof(vertex_buffer_data));
+            for (usize i = 0; i < QUAD2D_VERTEX_COUNT; ++i)
+            {
+                m_VertexPtr->vertex = transform * quad_verticies[i];
+                m_VertexPtr->colour = colour;
+                m_VertexPtr->texCoord = tex_coords[i];
+                m_VertexPtr->texId = tex_id;
+                m_VertexPtr->texSize = { tex_width, tex_height };
+                ++m_VertexPtr;
+            }
 
             if (++m_QuadCount >= m_MaxQuadCount)
                 m_HasRoom = false;
@@ -180,13 +129,13 @@ namespace codex {
                 u32 offset = (i32)(4 * (i / 6));
 
                 // TODO: Consider using std::memcpy here.
-                index_buffer_data[i]     = 2 + offset;
-                index_buffer_data[i + 1] = 0 + offset;
-                index_buffer_data[i + 2] = 1 + offset;
+                index_buffer_data[i]     = 0 + offset;
+                index_buffer_data[i + 1] = 1 + offset;
+                index_buffer_data[i + 2] = 2 + offset;
 
                 index_buffer_data[i + 3] = 2 + offset;
                 index_buffer_data[i + 4] = 3 + offset;
-                index_buffer_data[i + 5] = 1 + offset;
+                index_buffer_data[i + 5] = 0 + offset;
             }
 
             return index_buffer_data;
@@ -197,7 +146,7 @@ namespace codex {
             m_Vao->Bind();
             m_Ebo->Bind();
             m_Vbo->Bind();
-            m_Vbo->SetBufferSubData<f32>(m_Verticies.data(), 0, QUAD2D_VERTEX_SIZE * m_QuadCount * sizeof(f32));
+            m_Vbo->SetBufferSubData<f32>(m_Verticies, 0, QUAD2D_VERTEX_SIZE * m_QuadCount * sizeof(f32));
 
             for (i32 i = 0; i < m_CurrentTexIndex; ++i)
                 m_TextureList[i]->Bind(i);
