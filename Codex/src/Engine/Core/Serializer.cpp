@@ -9,7 +9,8 @@ namespace codex {
         if (fs.is_open())
         {
             nlohmann::json j = scene;
-            fs << std::setw(4) << j;
+            fmt::println("{}", j.dump(4));
+            //fs << std::setw(4) << j;
             fs.close();
         }
         else
