@@ -1,6 +1,6 @@
 #include "ResourceHandler.h"
-#include "../Renderer/Texture2D.h"
 #include "../Renderer/Shader.h"
+#include "../Renderer/Texture2D.h"
 
 namespace codex {
     Resources* Resources::m_Instance = nullptr;
@@ -43,7 +43,7 @@ namespace codex {
             TextureProperties props;
             props.filterMode = TextureFilterMode::Nearest;
 
-            ResRef<Texture2D> texture = std::make_shared<Texture2D>(filePath, props);
+            ResRef<Texture2D> texture   = std::make_shared<Texture2D>(filePath, props);
             m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
             fs.close();
             fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);
@@ -51,8 +51,9 @@ namespace codex {
         }
         else
         {
-            CX_THROW(ResourceNotFoundException,
-                     fmt::format("Couldn't open file '{}' for reading. Failed to load texture asset.", filePath).c_str());
+            CX_THROW(
+                ResourceNotFoundException,
+                fmt::format("Couldn't open file '{}' for reading. Failed to load texture asset.", filePath).c_str());
             return nullptr;
         }
     }
@@ -63,8 +64,8 @@ namespace codex {
         std::ifstream fs(filePath);
         if (fs.is_open())
         {
-            usize id = util::Crypto::DJB2Hash(filePath);
-            ResRef<Shader> texture = std::make_shared<Shader>(filePath);
+            usize          id           = util::Crypto::DJB2Hash(filePath);
+            ResRef<Shader> texture      = std::make_shared<Shader>(filePath);
             m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
             fs.close();
             fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);
@@ -72,8 +73,9 @@ namespace codex {
         }
         else
         {
-            CX_THROW(ResourceNotFoundException,
-                     fmt::format("Couldn't open file '{}' for reading. Failed to load shader asset.", filePath).c_str());
+            CX_THROW(
+                ResourceNotFoundException,
+                fmt::format("Couldn't open file '{}' for reading. Failed to load shader asset.", filePath).c_str());
             return nullptr;
         }
     }
