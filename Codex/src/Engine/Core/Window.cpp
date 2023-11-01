@@ -160,9 +160,6 @@ namespace codex {
                     }
                 }
                 case SDL_MOUSEMOTION: {
-                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
-                        break;
-
                     MouseMoveEvent e(m_SdlEvent.motion.x, m_SdlEvent.motion.y);
                     if (m_EventCallback)
                     {
@@ -171,9 +168,6 @@ namespace codex {
                     break;
                 }
                 case SDL_MOUSEBUTTONDOWN: {
-                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
-                        break;
-
                     MouseDownEvent e(Mouse(m_SdlEvent.button.button), m_SdlEvent.motion.x, m_SdlEvent.motion.y);
                     if (m_EventCallback)
                     {
@@ -182,9 +176,6 @@ namespace codex {
                     break;
                 }
                 case SDL_MOUSEBUTTONUP: {
-                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
-                        break;
-
                     MouseUpEvent e(Mouse(m_SdlEvent.button.button), m_SdlEvent.motion.x, m_SdlEvent.motion.y);
                     if (m_EventCallback)
                     {
@@ -193,9 +184,6 @@ namespace codex {
                     break;
                 }
                 case SDL_MOUSEWHEEL: {
-                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
-                        break;
-
                     MouseScrollEvent e(Mouse(m_SdlEvent.button.button - 1), m_SdlEvent.wheel.x, m_SdlEvent.wheel.y,
                                        m_SdlEvent.wheel.x, m_SdlEvent.wheel.y);
                     if (m_EventCallback)
@@ -205,9 +193,6 @@ namespace codex {
                     break;
                 }
                 case SDL_KEYDOWN: {
-                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
-                        break;
-
                     KeyDownEvent e(Key(m_SdlEvent.key.keysym.sym), m_SdlEvent.key.repeat);
                     if (m_EventCallback)
                     {
@@ -216,9 +201,6 @@ namespace codex {
                     break;
                 }
                 case SDL_KEYUP: {
-                    if (io.WantCaptureKeyboard || io.WantCaptureMouse)
-                        break;
-
                     KeyUpEvent e(Key(m_SdlEvent.key.keysym.sym));
                     if (m_EventCallback)
                     {

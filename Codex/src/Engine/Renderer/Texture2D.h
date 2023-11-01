@@ -31,6 +31,12 @@ namespace codex {
         inline const char* GetFilePath() const { return m_RawTexture->GetFilePath(); }
         inline void        Bind(u32 slot = 0) { m_RawTexture->Bind(slot); }
         inline void        Unbind() const { m_RawTexture->Unbind(); }
+
+    public:
+        friend void to_json(nlohmann::json& j, const Texture2D& texture)
+        {
+            j = { { "m_Id", texture.m_Id }, { "m_FilePath", texture.GetFilePath() } };
+        }
     };
 } // namespace codex
 

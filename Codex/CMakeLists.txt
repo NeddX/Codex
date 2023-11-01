@@ -133,6 +133,17 @@ target_link_libraries(CodexEngine ${FMT_LIBRARIES})
 target_include_directories(CodexEngine-static PRIVATE ${FMT_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${FMT_LIBRARIES})
 
+# nlohmann json
+add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json)
+set(JSON_INCLUDE_DIRS vendor/json/include)
+set(JSON_LIBRARIES nlohmann_json)
+
+target_include_directories(CodexEngine PUBLIC ${JSON_INCLUDE_DIRS})
+target_link_libraries(CodexEngine ${JSON_LIBRARIES})
+
+target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIRS})
+target_link_libraries(CodexEngine-static ${JSON_LIBRARIES})
+
 # glad
 set(GLAD_INCLUDE_DIRS vendor/glad/include)
 set(GLAD_SOURCE_FILES vendor/glad/src/glad.cpp)
@@ -141,7 +152,7 @@ target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIRS})
 target_sources(CodexEngine PRIVATE ${GLAD_SOURCE_FILES})
 
 target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIRS})
-target_sources(CodexEngine-static PRIVATE ${GLAD_SOURCE_FILES})
+target_sources(CodexEngine-static PUBLIC ${GLAD_SOURCE_FILES})
 
 # ImGui
 set(IMGUI_INCLUDE_DIRS vendor/imgui vendor/imgui/backends vendor/imgui/examples vendor/imgui/misc)
@@ -160,8 +171,8 @@ file(GLOB_RECURSE IMGUI_SOURCE_FILES
     "vendor/imgui/imgui_tables.cpp"
     "vendor/imgui/backends/imgui_impl_opengl3.cpp"
     "vendor/imgui/backends/imgui_impl_sdl2.cpp")
-target_sources(CodexEngine PRIVATE ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
-target_sources(CodexEngine-static PRIVATE ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
+target_sources(CodexEngine PUBLIC ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
+target_sources(CodexEngine-static PUBLIC ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
 
 target_include_directories(CodexEngine PUBLIC ${IMGUI_INCLUDE_DIRS})
 target_include_directories(CodexEngine-static PUBLIC ${IMGUI_INCLUDE_DIRS})
@@ -171,10 +182,10 @@ add_subdirectory(vendor/glm ${PROJECT_BINARY_DIR}/glm)
 set(GLM_INCLUDE_DIRS vendor/glm/glm)
 set(GLM_LIBRARIES glm)
 
-target_include_directories(CodexEngine PRIVATE ${GLM_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${GLM_INCLUDE_DIRS})
 target_link_libraries(CodexEngine ${GLM_LIBRARIES})
 
-target_include_directories(CodexEngine-static PRIVATE ${GLM_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${GLM_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${GLM_LIBRARIES})
 
 # mgl
@@ -200,10 +211,10 @@ find_package(OpenGL REQUIRED)
 if (UNIX)
     find_package(GLUT REQUIRED)
 endif()
-target_include_directories(CodexEngine PRIVATE ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
 target_link_libraries(CodexEngine ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
 
-target_include_directories(CodexEngine-static PRIVATE ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
 
 # entt
@@ -245,10 +256,6 @@ target_precompile_headers(CodexEngine PRIVATE src/PCH/sdafx.h)
 
 target_include_directories(CodexEngine-static PUBLIC src/PCH)
 target_precompile_headers(CodexEngine-static PRIVATE src/PCH/sdafx.h)
-
-# No idea what this is.
-#target_link_libraries(CodexEngine-static ${CMAKE_DL_LIBS})
-#target_link_libraries(CodexEngine ${CMAKE_DL_LIBS})
 
 # Treat all warnings as errors for QUALITY
 if (CX_COMPILER_MSVC)

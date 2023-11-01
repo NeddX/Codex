@@ -3,6 +3,7 @@
 
 #include "../Core/Geomtryd.h"
 #include "../Core/IResource.h"
+#include "../Core/ResourceHandler.h"
 #include "../Renderer/Texture2D.h"
 
 namespace codex {
@@ -48,6 +49,26 @@ namespace codex {
             m_Colour        = { 1.0f, 1.0f, 1.0f, 1.0f };
         }
         inline operator bool() const noexcept { return m_Texture != nullptr; }
+
+    public:
+        friend void to_json(nlohmann::json& j, const Sprite& sprite)
+        {
+            j = { { "m_Texture", *sprite.m_Texture },
+                  { "m_TextureCoords", sprite.m_TextureCoords },
+                  { "m_SpriteSize", sprite.m_SpriteSize },
+                  { "m_Colour", sprite.m_Colour },
+                  { "m_ZIndex", sprite.m_ZIndex } };
+        }
+        friend void from_json(const nlohmann::json& j, Sprite& sprite)
+        {
+            std::string path;
+            j.at("m_Texture").at("m_FilePath").get_to(path);
+            j.at("m_TextureCoords").get_to(sprite.m_TextureCoords);
+            j.at("m_SpriteSize").get_to(sprite.m_SpriteSize);
+            j.at("m_Colour").get_to(sprite.m_Colour);
+            j.at("m_ZIndex").get_to(sprite.m_ZIndex);
+            sprite.m_Texture = Resources::Load<Texture2D>(path.c_str());
+        }
     }; // namespace codex
 } // namespace codex
 

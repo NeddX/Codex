@@ -96,6 +96,9 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <misc/cpp/imgui_stdlib.h>
+#include <nlohmann/json.hpp>
+#include <nlohmann/json_fwd.hpp>
+#include <nlohmann/ordered_map.hpp>
 
 // Project specific
 #include "../Engine/Utils/include/Util.h"

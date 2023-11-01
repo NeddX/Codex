@@ -24,7 +24,7 @@ codex::Application* codex::CreateApplication(const codex::ApplicationCLIArgs arg
                                       .windowProperties = {
                                           .width    = 1280,
                                           .height   = 720,
-                                          .frameCap = 60,
+                                          .frameCap = 300,
                                           .flags    = SDL_WINDOW_MAXIMIZED | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE,
                                           .vsync    = false,
                                       } });

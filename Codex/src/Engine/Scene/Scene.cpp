@@ -4,13 +4,6 @@
 #include "ECS.h"
 
 namespace codex {
-    Scene::Scene(const i32 width, const i32 height) : m_Width(width), m_Height(height)
-    {
-        m_Running = false;
-        m_Camera  = std::make_unique<Camera>(width, height);
-        // m_ActiveEntity = nullptr;
-    }
-
     Entity Scene::CreateEntity(const std::string_view defaultTag)
     {
         Entity entity(m_Registry.create(), this);
@@ -66,7 +59,14 @@ namespace codex {
     {
         std::vector<Entity> entities;
         entities.reserve(m_Registry.size());
-        // m_Registry.each([&entities](auto& entity) { entities.push_back(entity); });
+        m_Registry.each(
+            [&](const auto entityId)
+            {
+                const auto entity = Entity(entityId, this);
+                if (!entity)
+                    return;
+                entities.push_back(entity);
+            });
         return entities;
     }
 
@@ -74,7 +74,6 @@ namespace codex {
     {
         /*for (const auto& ent : m_Entities)
             ent->Start();*/
-        m_Running = true;
     }
 
     void Scene::Update(const f32 deltaTime)
@@ -89,11 +88,11 @@ namespace codex {
         {
             auto& transform_component = entity.GetComponent<TransformComponent>();
             auto& renderer_component  = entity.GetComponent<SpriteRendererComponent>();
-            if (renderer_component.GetSprite())
+            if (auto& s = renderer_component.GetSprite(); s)
             {
-                auto size = renderer_component.GetSprite().GetSize();
                 auto transform = transform_component.GetTransform();
-                transform = transform * glm::scale(glm::identity<Matrix4f>(), { size.x, size.y, 1.0f });
+                auto size      = s.GetSize();
+                transform      = transform * glm::scale(glm::identity<Matrix4f>(), { size.x, size.y, 1.0f });
                 BatchRenderer2D::RenderSprite(renderer_component.GetSprite(), transform, -1);
             }
         }
@@ -134,5 +133,15 @@ namespace codex {
             }
         }
         */
+    }
+
+    void to_json(nlohmann::json& j, const Scene& scene)
+    {
+        std::vector<Entity> entities;
+        entities.reserve(scene.m_Registry.size());
+        scene.m_Registry.each([&](const auto entityId) { entities.emplace_back(entityId, (Scene*)&scene); });
+
+        j["Name"]     = scene.m_Name;
+        j["Entities"] = entities;
     }
 } // namespace codex

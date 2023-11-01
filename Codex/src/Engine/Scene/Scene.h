@@ -11,34 +11,26 @@ namespace codex {
     // Forward declarations
     class Window;
     class Entity;
+    class Serializer;
 
     class Scene
     {
+        friend class Serializer;
         friend class Window;
         friend class Entity;
 
-    protected:
-        i32                     m_Width;
-        i32                     m_Height;
-        std::unique_ptr<Camera> m_Camera;
-        entt::registry          m_Registry;
-
     private:
-        bool m_Running;
+        entt::registry m_Registry;
+        std::string    m_Name = "Default scene";
 
     public:
-        Scene(const i32 width, const i32 height);
+        Scene()  = default;
         ~Scene() = default;
 
     public:
-        inline Camera*  GetCamera() const noexcept { return m_Camera.get(); }
-        inline Vector2f GetMousePositionInWorld() noexcept
-        {
-            return Vector2f((f32)Input::GetMouseX() + m_Camera->position.x,
-                            (f32)Input::GetMouseY() + m_Camera->position.y);
-            return Vector2f();
-        }
-        inline usize GetEntityCount() const noexcept { return m_Registry.size(); }
+        inline std::string&       GetName() noexcept { return m_Name; }
+        inline const std::string& GetName() const noexcept { return m_Name; }
+        inline usize              GetEntityCount() const noexcept { return m_Registry.size(); }
 
     public:
         template <typename T>
@@ -52,15 +44,11 @@ namespace codex {
         std::vector<Entity> GetAllEntities();
 
     public:
-        void ViewportResize(const i32 newWidth, const i32 newHeight)
-        {
-            m_Camera->SetWidth(newWidth);
-            m_Camera->SetHeight(newHeight);
-        }
-
-    public:
         void Start();
         void Update(const f32 deltaTime);
+
+    public:
+        friend void to_json(nlohmann::json& j, const Scene& scene);
     };
 } // namespace codex
 

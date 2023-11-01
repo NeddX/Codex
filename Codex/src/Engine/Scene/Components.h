@@ -11,9 +11,11 @@ namespace codex {
     // Forward decelerations
     class Camera;
     class Entity;
+    class Serializer;
 
     struct IComponent
     {
+        friend class Serializer;
         friend class Entity;
 
     protected:
@@ -22,10 +24,14 @@ namespace codex {
     protected:
         virtual void Start() {}
         virtual ~IComponent() = default;
+
+    public:
+        CX_COMPONENT_SERIALIZABLE()
     };
 
     struct TagComponent : public IComponent
     {
+        friend class Serializer;
         friend class Entity;
 
     public:
@@ -34,10 +40,14 @@ namespace codex {
     public:
         TagComponent();
         TagComponent(const std::string_view tag);
+
+    public:
+        CX_COMPONENT_SERIALIZABLE()
     };
 
     struct TransformComponent : public IComponent
     {
+        friend class Serializer;
         friend class Entity;
 
     public:
@@ -60,10 +70,14 @@ namespace codex {
             transform_mat          = glm::scale(transform_mat, scale);
             return transform_mat;
         }
+
+    public:
+        CX_COMPONENT_SERIALIZABLE()
     };
 
     struct SpriteRendererComponent : public IComponent
     {
+        friend class Serializer;
         friend class Entity;
 
     private:
@@ -71,14 +85,18 @@ namespace codex {
         Sprite m_Sprite;
 
     public:
-        SpriteRendererComponent(const Sprite sprite);
+        SpriteRendererComponent(const Sprite& sprite);
 
     public:
         inline Sprite& GetSprite() { return m_Sprite; }
+
+    public:
+        CX_COMPONENT_SERIALIZABLE()
     };
 
     struct GridRendererComponent : public IComponent
     {
+        friend class Serializer;
         friend class Entity;
 
     private:
@@ -94,10 +112,17 @@ namespace codex {
 
     public:
         void Render();
+
+    public:
+        CX_COMPONENT_SERIALIZABLE()
     };
 
     struct NativeBehaviourComponent : public IComponent
     {
+        friend class Serializer;
+        friend class Entity;
+
+    public:
         NativeBehaviour* instance = nullptr;
         NativeBehaviour* (*Instantiate)();
         void (*destroy)(NativeBehaviourComponent*);
@@ -113,10 +138,14 @@ namespace codex {
                 zis->instance = nullptr;
             };
         }
+
+    public:
+        CX_COMPONENT_SERIALIZABLE()
     };
 
     struct TilemapComponent : public IComponent
     {
+        friend class Serializer;
         friend class Entity;
 
     private:
@@ -159,6 +188,9 @@ namespace codex {
         void AddTile(const Vector2f worldPos, const i32 tileId);
         void AddTile(const Vector2f worldPos, const Vector2f tilePos);
         void RemoveTile(const Vector2f worldPos);
+
+    public:
+        CX_COMPONENT_SERIALIZABLE()
     };
 } // namespace codex
 

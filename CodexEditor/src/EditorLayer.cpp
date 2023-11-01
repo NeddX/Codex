@@ -6,7 +6,7 @@ void EditorLayer::OnAttach()
 {
     auto width    = Application::GetWindow().GetWidth();
     auto height   = Application::GetWindow().GetHeight();
-    m_Scene       = std::make_unique<Scene>(Application::GetWindow().GetWidth(), Application::GetWindow().GetHeight());
+    m_Scene       = std::make_unique<Scene>();
     m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
     m_Camera      = std::make_unique<Camera>(width, height);
 
@@ -51,11 +51,52 @@ void EditorLayer::ImGuiRender()
 
     ImGui::ShowDemoWindow(&show_demo_window);
 
+    // File menu
+    {
+        ImGui::BeginMainMenuBar();
+        if (ImGui::BeginMenu("File"))
+        {
+            // Add File menu items here
+            if (ImGui::MenuItem("Open", "Ctrl+O"))
+            {
+                const char* filters[] = { "*.cxproj" };
+                const char* file      = tinyfd_openFileDialog("Load a Project.", nullptr, 1, filters, nullptr, 0);
+                if (file)
+                {
+                    Serializer::DeserializeScene(file, *m_Scene);
+                }
+            }
+            if (ImGui::MenuItem("Save", "Ctrl+S"))
+            {
+                // Handle the "Save" action
+                static const char* save_dir = nullptr;
+                if (!save_dir)
+                {
+                    const char* filter_patterns[] = { "*.cxproj" };
+                    save_dir = tinyfd_saveFileDialog("Save Project", "default.cxproj", 1, filter_patterns, NULL);
+                    if (save_dir)
+                    {
+                        Serializer::SerializeScene(save_dir, *m_Scene);
+                    }
+                }
+                else
+                    Serializer::SerializeScene(save_dir, *m_Scene);
+            }
+            if (ImGui::MenuItem("Exit", "Alt+F4"))
+            {
+                Application::Get().Stop();
+            }
+
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
+
     // Engine viewport
     {
         ImGui::Begin("Viewport");
         static ImVec2 viewport_window_size;
-        ImVec2        current_viewport_window_size = ImGui::GetWindowSize();
+        ImVec2        current_viewport_window_size = ImGui::GetContentRegionAvail();
         if (viewport_window_size.x != current_viewport_window_size.x ||
             viewport_window_size.y != current_viewport_window_size.y)
         {
@@ -63,7 +104,7 @@ void EditorLayer::ImGuiRender()
             m_Camera->SetWidth((i32)viewport_window_size.x);
             m_Camera->SetHeight((i32)viewport_window_size.y);
         }
-        ImGui::Image((void*)(intptr)m_Framebuffer->GetColourAttachmentIdAt(0), viewport_window_size, { 0, 1 },
+        ImGui::Image((void*)(intptr)m_Framebuffer->GetColourAttachmentIdAt(0), current_viewport_window_size, { 0, 1 },
                      { 1, 0 });
         ImGui::End();
     }
@@ -71,6 +112,8 @@ void EditorLayer::ImGuiRender()
     {
         ImGui::Begin("Render Info");
         ImGui::Text("Renderer information");
+        ImGui::Text("FPS: %u", Application::GetFps());
+        ImGui::Text("Delta time: %f", Application::GetDelta());
         ImGui::Text("Batch count: %zu", BatchRenderer2D::GeBatchCount());
         ImGui::Text("Total quad count: %zu", BatchRenderer2D::GetQuadCount());
         ImGui::End();

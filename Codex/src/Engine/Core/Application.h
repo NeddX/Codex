@@ -51,7 +51,6 @@ namespace codex {
         bool                                  m_Minimized = false;
         LayerStack                            m_LayerStack;
         std::chrono::system_clock::time_point m_Tp1, m_Tp2;
-        u32                                   m_Fps;
         f32                                   m_DeltaTime  = 0.0f;
         ImGuiLayer*                           m_ImGuiLayer = nullptr;
         Input*                                m_Input      = nullptr;
@@ -66,7 +65,7 @@ namespace codex {
     public:
         inline static Window&      GetWindow() noexcept { return *m_Instance->m_Window; }
         inline static Application& Get() noexcept { return *m_Instance; }
-        inline static u32          GetFps() noexcept { return m_Instance->m_Window->m_Fps; }
+        inline static u32          GetFps() noexcept { return (u32)(1.0f / m_Instance->m_DeltaTime); }
         inline static f32          GetDelta() noexcept { return m_Instance->m_DeltaTime; }
         inline ImGuiLayer&         GetImGuiLayer() const noexcept { return *m_ImGuiLayer; }
 

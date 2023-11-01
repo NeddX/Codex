@@ -6,9 +6,15 @@
 #include "Scene.h"
 
 namespace codex {
+    // Forward declerations.
+    class Serializer;
+    class SpriteRendererComponent;
+
     class Entity
     {
+        friend class Serializer;
         friend class Scene;
+        friend class SpriteRendererComponent;
 
     private:
         entt::entity m_Handle{ entt::null };
@@ -50,10 +56,14 @@ namespace codex {
             return m_Scene->m_Registry.get<T>(m_Handle);
         }
         template <typename T>
-        bool HasComponent()
+        bool HasComponent() const
         {
             return m_Scene->m_Registry.any_of<T>(m_Handle);
         }
+
+    public:
+        friend void to_json(nlohmann::json& j, const Entity& entity);
+        friend void from_json(const nlohmann::json& j, Entity& entity);
     };
 } // namespace codex
 #endif // CODEX_SCENE_ECS_H

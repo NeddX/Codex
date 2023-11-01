@@ -20,7 +20,7 @@ namespace codex {
     {
     }
 
-    SpriteRendererComponent::SpriteRendererComponent(const Sprite sprite) : m_Sprite(sprite)
+    SpriteRendererComponent::SpriteRendererComponent(const Sprite& sprite) : m_Sprite(sprite)
     {
     }
 

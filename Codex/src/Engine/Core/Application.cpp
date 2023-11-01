@@ -90,7 +90,6 @@ namespace codex {
                 m_Tp2       = std::chrono::system_clock::now();
                 m_DeltaTime = std::chrono::duration<f32>(m_Tp2 - m_Tp1).count();
                 m_Tp1       = m_Tp2;
-                m_Fps       = (u32)(1.0f / m_DeltaTime);
 
                 m_Window->SwapBuffers();
 
