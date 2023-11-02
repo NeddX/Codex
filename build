@@ -36,6 +36,8 @@ echo "OS: $kernel"
 echo "Architecture: $arch"
 echo "Configuration: $build_conf"
 echo "Build directory: $build_dir"
+echo "C Compiler: $CC"
+echo "CXX Compiler: $CXX"
 echo ""
 
 if [ ! -d "builds" ]; then

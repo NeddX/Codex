@@ -12,3 +12,7 @@
 	path = Codex/vendor/SDL
 	url = https://github.com/libsdl-org/SDL
 	branch = release-2.28.x
+[submodule "Codex/vendor/json"]
+	path = Codex/vendor/json
+	url = https://github.com/nlohmann/json
+	branch = master
