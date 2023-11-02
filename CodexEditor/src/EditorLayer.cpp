@@ -72,6 +72,7 @@ void EditorLayer::ImGuiRender()
                 static const char* save_dir = nullptr;
                 if (!save_dir)
                 {
+                    auto&       c = m_SelectedEntity.GetComponent<SpriteRendererComponent>().GetSprite();
                     const char* filter_patterns[] = { "*.cxproj" };
                     save_dir = tinyfd_saveFileDialog("Save Project", "default.cxproj", 1, filter_patterns, NULL);
                     if (save_dir)
@@ -230,7 +231,6 @@ void EditorLayer::ImGuiRender()
                     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
                     // Texture coordinates
-
                     auto&    tex_coords = sprite.GetTextureCoords();
                     Vector2f pos        = { tex_coords.x, tex_coords.y };
                     Vector2f size       = { tex_coords.w, tex_coords.h };
@@ -270,6 +270,27 @@ void EditorLayer::ImGuiRender()
                     ImGui::TreePop();
                 }
             }
+        }
+
+        {
+            ImGui::Begin("Debug info dump");
+            auto ent = m_Scene->GetAllEntitiesWithComponent<SpriteRendererComponent>();
+            for (auto& e : ent)
+            {
+                auto& c = e.GetComponent<TagComponent>();
+                auto& s = e.GetComponent<SpriteRendererComponent>();
+                if (ImGui::TreeNode(fmt::format("Entity: {}", c.tag).c_str()))
+                {
+                    if (s.GetSprite())
+                    {
+                        ImGui::Text(fmt::format("Path: {}", s.GetSprite().GetTexture()->GetFilePath()).c_str());
+                    }
+                    else
+                        ImGui::Text("No path");
+                    ImGui::TreePop();
+                }
+            }
+            ImGui::End();
         }
         ImGui::End();
     }
