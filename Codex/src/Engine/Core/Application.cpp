@@ -16,6 +16,17 @@ namespace codex {
     {
         try
         {
+            std::filesystem::path new_cwd = args.cwd;
+            if (std::filesystem::exists(new_cwd) && std::filesystem::is_directory(new_cwd))
+            {
+                std::filesystem::current_path(new_cwd);
+            }
+            else
+            {
+                CX_THROW(InvalidPathException,
+                         fmt::format("The path supplied '{}' as the current working directory is invalid.", args.cwd));
+            }
+
             m_Instance = this;
             m_Window   = Window::Box(new Window(), [](Window* window) { delete window; });
             m_Window->Init(m_Properties.windowProperties);
@@ -45,13 +56,16 @@ namespace codex {
 
     bool Application::OnWindowResize_Event(const WindowResizeEvent& event)
     {
-        auto& io = ImGui::GetIO();
-        i32   x = event.GetWidth(), y = event.GetHeight();
-        // m_Window->GetCurrentScene()->GetCamera()->SetWidth(x);
-        // m_Window->GetCurrentScene()->GetCamera()->SetHeight(y);
+        i32 x = event.GetWidth(), y = event.GetHeight();
         glViewport(0, 0, x, y);
-        io.DisplaySize.x = (f32)x;
-        io.DisplaySize.y = (f32)y;
+        if (m_ImGuiLayer)
+        {
+            auto& io = ImGui::GetIO();
+            // m_Window->GetCurrentScene()->GetCamera()->SetWidth(x);
+            // m_Window->GetCurrentScene()->GetCamera()->SetHeight(y);
+            io.DisplaySize.x = (f32)x;
+            io.DisplaySize.y = (f32)y;
+        }
         return true;
     }
 
@@ -61,19 +75,6 @@ namespace codex {
         {
             try
             {
-                // m_Renderer->SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
-                // m_Renderer->Clear();
-
-                // DebugDraw::Begin();
-                // DebugDraw::Render();
-
-                if (Input::IsKeyDown(Key::Escape))
-                {
-                    Stop();
-                    return;
-                }
-
-                // m_Window->Update(m_DeltaTime);
                 m_Window->ProcessEvents();
 
                 if (!m_Minimized)
@@ -81,10 +82,13 @@ namespace codex {
                     for (Layer* layer : m_LayerStack)
                         layer->Update(m_DeltaTime);
 
-                    m_ImGuiLayer->Begin();
-                    for (Layer* layer : m_LayerStack)
-                        layer->ImGuiRender();
-                    m_ImGuiLayer->End();
+                    if (m_ImGuiLayer)
+                    {
+                        m_ImGuiLayer->Begin();
+                        for (Layer* layer : m_LayerStack)
+                            layer->ImGuiRender();
+                        m_ImGuiLayer->End();
+                    }
                 }
 
                 m_Tp2       = std::chrono::system_clock::now();

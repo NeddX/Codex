@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <chrono>
 #include <exception>
+#include <filesystem>
 #include <fstream>
 #include <functional>
 #include <iostream>
@@ -40,7 +41,7 @@
 #include <vector>
 
 // GLAD
-#include <glad/glad.h>
+#include <glad.h>
 
 // Platform specific
 #ifdef CX_PLATFORM_UNIX
@@ -72,6 +73,7 @@
 
 // Codex specific
 #include "../Engine/Core/CommonDef.h"
+#include "../Engine/Math/Math.h"
 
 // Library specific
 #include <fmt/core.h>
@@ -83,15 +85,17 @@
 #include <glm/ext/matrix_clip_space.hpp> // glm::perspective
 #include <glm/ext/matrix_transform.hpp>  // glm::translate, glm::rotate, glm::scale
 #include <glm/ext/scalar_constants.hpp>  // glm::pi
-#include <glm/gtc/type_ptr.hpp>          // glm::value_ptr
-#include <glm/gtx/rotate_vector.hpp>     // glm::rotate(glm::vecX)
-#include <glm/mat4x4.hpp>                // glm::mat4
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp> // glm::value_ptr
+#include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/rotate_vector.hpp> // glm::rotate(glm::vecX)
+#include <glm/mat4x4.hpp>            // glm::mat4
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
 // #include <NetNative.h>
 #include <entt.hpp>
-#define IMGUI_IMPL_OPENGL_LOADER_GLAD
+#define IMGUI_IMPL_OPENGL_LOADER_CUSTOM
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui.h>
 #include <imgui_internal.h>

@@ -15,6 +15,9 @@
 // Events
 #include "../src/Engine/Events/Event.h"
 
+// Math
+#include "../src/Engine/Math/Math.h"
+
 // Scene
 #include "../src/Engine/Scene/Components.h"
 #include "../src/Engine/Scene/ECS.h"

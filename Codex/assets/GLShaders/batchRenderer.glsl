@@ -1,15 +1,17 @@
 #shader_type vertex
-#version 330 core
+#version 450 core
 
-layout(location = 0) in vec3 a_Pos;
-layout(location = 1) in vec4 a_Colour;
-layout(location = 2) in vec2 a_TexCoord;
-layout(location = 3) in float a_TexID;
-layout(location = 4) in vec2 a_TexDim;
+layout (location = 0) in vec4 a_Colour;
+layout (location = 1) in vec3 a_Pos;
+layout (location = 2) in vec2 a_TexCoord;
+layout (location = 3) in vec2 a_TexDim;
+layout (location = 4) in uint a_TexId;
+layout (location = 5) in int a_EntityId;
 
-out vec4 o_Colour;
-out vec2 o_TexCoord;
-out float o_TexID;
+layout (location = 0) out vec4 o_Colour;
+layout (location = 1) out vec2 o_TexCoord;
+layout (location = 2) out flat uint o_TexId;
+layout (location = 3) out flat int o_EntityId;
 
 uniform mat4 u_View;
 uniform mat4 u_Proj;
@@ -18,27 +20,31 @@ void main()
 {
 	o_Colour = a_Colour;
 	o_TexCoord = vec2(a_TexCoord.x / a_TexDim.x, 1.0 - (a_TexCoord.y / a_TexDim.y));
-	o_TexID = a_TexID;
+	o_TexId = a_TexId;
+	o_EntityId = a_EntityId;
 	gl_Position = u_Proj * u_View * vec4(a_Pos, 1.0);
 }
 
 #shader_type fragment
-#version 330 core
+#version 450 core
 
 #define CX_MAX_SLOT_COUNT 16
 
-in vec4 o_Colour;
-in vec2 o_TexCoord;
-in float o_TexID;
+layout (location = 0) out vec4 FragColour;
+layout (location = 1) out int EntityId;
+
+layout (location = 0) in vec4 o_Colour;
+layout (location = 1) in vec2 o_TexCoord;
+layout (location = 2) in flat uint o_TexId;
+layout (location = 3) in flat int o_EntityId;
 
 uniform sampler2D u_Textures[CX_MAX_SLOT_COUNT];
 
-out vec4 FragColour;
-
 void main()
 {
-	int tex_id = int(o_TexID - 1);
-	if (o_TexID > 0)
+	EntityId = o_EntityId;
+	uint tex_id = o_TexId - 1;
+	if (o_TexId > 0)
 	{
 		switch (int(tex_id)) {
 			case 0:
@@ -142,10 +148,7 @@ void main()
 				break;
 #endif
 		}
-		//FragColour = texture(u_Textures[u_SelectedTexture], o_TexCoord) * o_Colour;
 	}
 	else
-	{
 		FragColour = o_Colour;
-	}
 }

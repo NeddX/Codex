@@ -48,7 +48,7 @@ namespace codex {
         SetDarkThemeColours();
 
         ImGui_ImplSDL2_InitForOpenGL(native_window, gl_context);
-        ImGui_ImplOpenGL3_Init("#version 330 core");
+        ImGui_ImplOpenGL3_Init("#version 450 core");
     }
 
     void ImGuiLayer::OnDetach()

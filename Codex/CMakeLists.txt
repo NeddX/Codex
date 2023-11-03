@@ -145,8 +145,8 @@ target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${JSON_LIBRARIES})
 
 # glad
-set(GLAD_INCLUDE_DIRS vendor/glad/include)
-set(GLAD_SOURCE_FILES vendor/glad/src/glad.cpp)
+set(GLAD_INCLUDE_DIRS vendor/glad)
+set(GLAD_SOURCE_FILES vendor/glad/glad.cpp)
 
 target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIRS})
 target_sources(CodexEngine PRIVATE ${GLAD_SOURCE_FILES})

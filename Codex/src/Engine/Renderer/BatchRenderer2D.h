@@ -35,15 +35,16 @@ namespace codex {
         ~BatchRenderer2D()                                           = default;
 
     public:
-        static inline Shader* GetShader() { return m_Shader; }
-        static inline usize   GeBatchCount() { return m_Batches.size(); }
-        static inline usize   GetQuadCount()
+        static inline Shader* GetShader() noexcept { return m_Shader; }
+        static inline usize   GeBatchCount() noexcept { return m_Batches.size(); }
+        static inline usize   GetQuadCount() noexcept
         {
             usize quad_count = 0;
             for (const auto b : m_Batches)
                 quad_count += b->GetCount();
             return quad_count;
         };
+        static inline std::vector<RenderBatch*>& GetBatches() noexcept { return m_Batches; }
 
     public:
         static void Init();
@@ -59,7 +60,8 @@ namespace codex {
         {
             auto& ncsprite   = (Sprite&)sprite;
             auto& tex_coords = ncsprite.GetTextureCoords();
-            RenderRect(sprite.GetTexture().get(), tex_coords, transform, ncsprite.GetColour(), ncsprite.GetZIndex());
+            RenderRect(sprite.GetTexture().get(), tex_coords, transform, ncsprite.GetColour(), ncsprite.GetZIndex(),
+                       entityId);
         }
     };
 } // namespace codex

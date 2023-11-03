@@ -93,7 +93,7 @@ namespace codex {
                 auto transform = transform_component.GetTransform();
                 auto size      = s.GetSize();
                 transform      = transform * glm::scale(glm::identity<Matrix4f>(), { size.x, size.y, 1.0f });
-                BatchRenderer2D::RenderSprite(renderer_component.GetSprite(), transform, -1);
+                BatchRenderer2D::RenderSprite(renderer_component.GetSprite(), transform, entity.GetId());
             }
         }
 

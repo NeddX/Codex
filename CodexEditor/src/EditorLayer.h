@@ -4,15 +4,23 @@
 
 using namespace codex;
 
+struct SelectedEntityDescriptor
+{
+    Entity   entity = Entity::None();
+    Vector4f overlayColour{ 0.0f, 0.0f, 0.0f, 0.0f };
+};
+
 class EditorLayer : public Layer
 {
 private:
-    std::unique_ptr<Scene>            m_Scene          = nullptr;
-    ResRef<Shader>                    m_BatchShader    = nullptr;
-    std::unique_ptr<Camera>           m_Camera         = nullptr;
-    Entity                            m_SelectedEntity = Entity::None();
-    f32                               m_ColumnWidth    = 120.0f;
-    std::unique_ptr<mgl::FrameBuffer> m_Framebuffer    = nullptr;
+    std::unique_ptr<Scene>            m_Scene       = nullptr;
+    ResRef<Shader>                    m_BatchShader = nullptr;
+    std::unique_ptr<Camera>           m_Camera      = nullptr;
+    f32                               m_ColumnWidth = 120.0f;
+    std::unique_ptr<mgl::FrameBuffer> m_Framebuffer = nullptr;
+    Vector2f                          m_ViewportBounds[2];
+    SelectedEntityDescriptor          m_SelectedEntity;
+    Vector4f                          m_SelectColour = { 0.5f, 1.0f, 0.5f, 1.0f };
 
 public:
     void OnAttach() override;

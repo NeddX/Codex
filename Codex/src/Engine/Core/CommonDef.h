@@ -43,15 +43,6 @@ namespace codex {
     using f64     = double;
     using f128    = long double;
 
-    namespace math {
-        constexpr f32 PI = 3.14159265358979323f;
-
-        inline constexpr f32 ToRadf(const f32 degree)
-        {
-            return degree * (PI / 180.0f);
-        }
-    } // namespace math
-
     template <typename T>
     inline constexpr T BitFlag(const T b)
     {

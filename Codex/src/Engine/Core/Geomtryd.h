@@ -11,17 +11,6 @@ namespace codex {
     using Vector4f = glm::vec4;
     using Rect     = mgl::Rect;
     using Rectf    = mgl::Rectf;
-
-    // TODO: This looks retarded, I am sure there's a better way to accomplish this
-    // using templates.
-    inline f32* ValuePtr(Vector3f vector)
-    {
-        return glm::value_ptr(vector);
-    }
-    inline f32* ValuePtr(Vector2f vector)
-    {
-        return glm::value_ptr(vector);
-    }
 } // namespace codex
 
 namespace nlohmann {
