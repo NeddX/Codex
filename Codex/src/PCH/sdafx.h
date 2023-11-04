@@ -95,7 +95,7 @@
 #include <glm/vec4.hpp> // glm::vec4
 // #include <NetNative.h>
 #include <entt.hpp>
-#define IMGUI_IMPL_OPENGL_LOADER_CUSTOM
+#define IMGUI_IMPL_OPENGL_LOADER_GLAD
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui.h>
 #include <imgui_internal.h>

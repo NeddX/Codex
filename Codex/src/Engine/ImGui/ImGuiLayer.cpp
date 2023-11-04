@@ -23,7 +23,8 @@ namespace codex {
         auto* gl_context    = Application::Get().GetWindow().GetGlContext();
 
         IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
+        if (!ImGui::CreateContext())
+            CX_THROW(CodexException, "Failed to create ImGui context.");
         ImGuiIO& io    = ImGui::GetIO();
         io.DisplaySize = ImVec2((f32)window.GetWidth(), (f32)window.GetHeight()); // Set to your SDL2 window size
         (void)io;
@@ -48,7 +49,13 @@ namespace codex {
         SetDarkThemeColours();
 
         ImGui_ImplSDL2_InitForOpenGL(native_window, gl_context);
+#ifdef CX_OPENGL_VERSION_330
+        fmt::println("ImGui initialized with OpenGL 330 core");
+        ImGui_ImplOpenGL3_Init("#version 330 core");
+#else
+        fmt::println("ImGui initialized with OpenGL 450 core");
         ImGui_ImplOpenGL3_Init("#version 450 core");
+#endif
     }
 
     void ImGuiLayer::OnDetach()
