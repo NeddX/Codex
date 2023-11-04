@@ -123,6 +123,13 @@ namespace codex {
         d.Dispatch<MouseMoveEvent>(BindEventDelegate(m_Input, &Input::OnMouseMove_Event));
         d.Dispatch<MouseScrollEvent>(BindEventDelegate(m_Input, &Input::OnMouseScroll_Event));
         d.Dispatch<WindowResizeEvent>(BindEventDelegate(this, &Application::OnWindowResize_Event));
+
+        for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
+        {
+            // if (e.handled)
+            //     break;
+            (*it)->OnEvent(e);
+        }
     }
 
     void Application::PushLayer(Layer* layer)

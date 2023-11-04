@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Codex.h>
+#include <ImGuizmo.h>
 
 using namespace codex;
 
@@ -8,6 +9,13 @@ struct SelectedEntityDescriptor
 {
     Entity   entity = Entity::None();
     Vector4f overlayColour{ 0.0f, 0.0f, 0.0f, 0.0f };
+};
+
+enum class GizmoMode
+{
+    Translation = ImGuizmo::OPERATION::TRANSLATE,
+    Rotation    = ImGuizmo::OPERATION::ROTATE,
+    Scale       = ImGuizmo::OPERATION::SCALE
 };
 
 class EditorLayer : public Layer
@@ -21,12 +29,18 @@ private:
     Vector2f                          m_ViewportBounds[2];
     SelectedEntityDescriptor          m_SelectedEntity;
     Vector4f                          m_SelectColour = { 0.5f, 1.0f, 0.5f, 1.0f };
+    bool                              m_GizmoActive  = false;
+    GizmoMode                         m_GizmoMode    = GizmoMode::Translation;
 
 public:
     void OnAttach() override;
     void OnDetach() override;
     void Update(const f32 deltaTime) override;
     void ImGuiRender() override;
+
+public:
+    void OnEvent(Event& e) override;
+    bool OnKeyDown_Event(KeyDownEvent& e);
 
 public:
     static void DrawVec3Control(const char* label, Vector3f& values, const f32 columnWidth = 100.0f,

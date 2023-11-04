@@ -1,22 +1,23 @@
 {
+    "Name": "Default scene",
     "Entities": [
         {
             "Components": [
                 {
                     "TagComponent": {
-                        "tag": "Entity 1"
+                        "tag": "Entity 4"
                     }
                 },
                 {
                     "TransformComponent": {
                         "position": {
-                            "x": 304.0,
-                            "y": 133.0,
+                            "x": 164.64288330078125,
+                            "y": 236.39552307128906,
                             "z": 0.0
                         },
                         "rotation": {
                             "x": 0.0,
-                            "y": 0.0,
+                            "y": -0.0,
                             "z": 0.0
                         },
                         "scale": {
@@ -29,80 +30,25 @@
                 {
                     "SpriteRendererComponent": {
                         "m_Sprite": {
-                            "m_Colour": {
-                                "w": 1.0,
-                                "x": 0.5,
-                                "y": 1.0,
-                                "z": 0.5
+                            "m_Texture": {
+                                "m_Id": 0,
+                                "m_FilePath": "Sprites/machine.png"
+                            },
+                            "m_TextureCoords": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "w": 1184.0,
+                                "h": 1184.0
                             },
                             "m_SpriteSize": {
                                 "x": 128.0,
                                 "y": 128.0
                             },
-                            "m_Texture": {
-                                "m_FilePath": "Sprites/machine.png",
-                                "m_Id": 0
-                            },
-                            "m_TextureCoords": {
-                                "h": 1184.0,
-                                "w": 1184.0,
-                                "x": 0.0,
-                                "y": 0.0
-                            },
-                            "m_ZIndex": 0
-                        }
-                    }
-                }
-            ]
-        },
-        {
-            "Components": [
-                {
-                    "TagComponent": {
-                        "tag": "Entity 2"
-                    }
-                },
-                {
-                    "TransformComponent": {
-                        "position": {
-                            "x": 529.0,
-                            "y": 195.0,
-                            "z": 0.0
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        }
-                    }
-                },
-                {
-                    "SpriteRendererComponent": {
-                        "m_Sprite": {
                             "m_Colour": {
-                                "w": 0.2639999985694885,
                                 "x": 1.0,
                                 "y": 1.0,
-                                "z": 1.0
-                            },
-                            "m_SpriteSize": {
-                                "x": 128.0,
-                                "y": 128.0
-                            },
-                            "m_Texture": {
-                                "m_FilePath": "Sprites/ice_cube.jpg",
-                                "m_Id": 0
-                            },
-                            "m_TextureCoords": {
-                                "h": 1920.0,
-                                "w": 1920.0,
-                                "x": 0.0,
-                                "y": 0.0
+                                "z": 1.0,
+                                "w": 1.0
                             },
                             "m_ZIndex": 0
                         }
@@ -120,18 +66,18 @@
                 {
                     "TransformComponent": {
                         "position": {
-                            "x": 322.0,
-                            "y": 359.0,
+                            "x": 321.5378112792969,
+                            "y": 233.59237670898438,
                             "z": 0.0
                         },
                         "rotation": {
                             "x": 0.0,
-                            "y": 0.0,
+                            "y": -0.0,
                             "z": 0.0
                         },
                         "scale": {
-                            "x": 1.0,
-                            "y": 1.0,
+                            "x": 0.9999998807907104,
+                            "y": 0.9999998807907104,
                             "z": 1.0
                         }
                     }
@@ -139,25 +85,25 @@
                 {
                     "SpriteRendererComponent": {
                         "m_Sprite": {
-                            "m_Colour": {
-                                "w": 1.0,
-                                "x": 0.5,
-                                "y": 1.0,
-                                "z": 0.5
-                            },
-                            "m_SpriteSize": {
-                                "x": 599.0,
-                                "y": 254.0
-                            },
                             "m_Texture": {
-                                "m_FilePath": "Sprites/dun_tileset.png",
-                                "m_Id": 0
+                                "m_Id": 0,
+                                "m_FilePath": "Sprites/machine.jpg"
                             },
                             "m_TextureCoords": {
-                                "h": 139.0,
-                                "w": 139.0,
                                 "x": 0.0,
-                                "y": 0.0
+                                "y": 0.0,
+                                "w": 1300.0,
+                                "h": 1300.0
+                            },
+                            "m_SpriteSize": {
+                                "x": 128.0,
+                                "y": 128.0
+                            },
+                            "m_Colour": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0,
+                                "w": 1.0
                             },
                             "m_ZIndex": 0
                         }
@@ -169,47 +115,19 @@
             "Components": [
                 {
                     "TagComponent": {
-                        "tag": "Entity 4"
+                        "tag": "Entity 2"
                     }
                 },
                 {
                     "TransformComponent": {
                         "position": {
-                            "x": 0.0,
-                            "y": 0.0,
+                            "x": 510.3929443359375,
+                            "y": 235.46128845214844,
                             "z": 0.0
                         },
                         "rotation": {
                             "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
-                        }
-                    }
-                }
-            ]
-        },
-        {
-            "Components": [
-                {
-                    "TagComponent": {
-                        "tag": "Entity 5"
-                    }
-                },
-                {
-                    "TransformComponent": {
-                        "position": {
-                            "x": 639.0,
-                            "y": 104.0,
-                            "z": 0.0
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 0.0,
+                            "y": -0.0,
                             "z": 0.0
                         },
                         "scale": {
@@ -222,25 +140,80 @@
                 {
                     "SpriteRendererComponent": {
                         "m_Sprite": {
-                            "m_Colour": {
-                                "w": 1.0,
-                                "x": 1.0,
-                                "y": 1.0,
-                                "z": 1.0
+                            "m_Texture": {
+                                "m_Id": 0,
+                                "m_FilePath": "Sprites/ice_cube.jpg"
+                            },
+                            "m_TextureCoords": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "w": 1920.0,
+                                "h": 1920.0
                             },
                             "m_SpriteSize": {
                                 "x": 128.0,
                                 "y": 128.0
                             },
+                            "m_Colour": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0,
+                                "w": 1.0
+                            },
+                            "m_ZIndex": 0
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "Components": [
+                {
+                    "TagComponent": {
+                        "tag": "Entity 1"
+                    }
+                },
+                {
+                    "TransformComponent": {
+                        "position": {
+                            "x": 292.483154296875,
+                            "y": 393.36962890625,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.9999998807907104,
+                            "y": 0.9999998807907104,
+                            "z": 0.999991238117218
+                        }
+                    }
+                },
+                {
+                    "SpriteRendererComponent": {
+                        "m_Sprite": {
                             "m_Texture": {
-                                "m_FilePath": "Sprites/machine.jpg",
-                                "m_Id": 0
+                                "m_Id": 0,
+                                "m_FilePath": "Sprites/dun_tileset.png"
                             },
                             "m_TextureCoords": {
-                                "h": 1300.0,
-                                "w": 1300.0,
                                 "x": 0.0,
-                                "y": 0.0
+                                "y": 0.0,
+                                "w": 384.0,
+                                "h": 160.0
+                            },
+                            "m_SpriteSize": {
+                                "x": 384.0,
+                                "y": 160.0
+                            },
+                            "m_Colour": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0,
+                                "w": 1.0
                             },
                             "m_ZIndex": 0
                         }
@@ -248,6 +221,5 @@
                 }
             ]
         }
-    ],
-    "Name": "Default scene"
+    ]
 }

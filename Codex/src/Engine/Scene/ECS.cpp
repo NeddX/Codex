@@ -2,45 +2,45 @@
 #include "Components.h"
 
 namespace codex {
-    void to_json(nlohmann::json& j, const Entity& entity)
+    void to_json(nlohmann::ordered_json& j, const Entity& entity)
     {
         // We are not modifying anything anyways.
         auto& e = (Entity&)entity;
 
-        nlohmann::json jentity;
-        jentity["Components"] = nlohmann::json::array();
+        nlohmann::ordered_json jentity;
+        jentity["Components"] = nlohmann::ordered_json::array();
 
         if (e.HasComponent<TagComponent>())
         {
-            auto&          c = e.GetComponent<TagComponent>();
-            nlohmann::json jc;
+            auto&                  c = e.GetComponent<TagComponent>();
+            nlohmann::ordered_json jc;
             jc["TagComponent"]["tag"] = c.tag;
             jentity["Components"].push_back(jc);
         }
         if (e.HasComponent<TransformComponent>())
         {
-            auto&          c = e.GetComponent<TransformComponent>();
-            nlohmann::json jc;
+            auto&                  c = e.GetComponent<TransformComponent>();
+            nlohmann::ordered_json jc;
             jc["TransformComponent"] = { { "position", c.position }, { "rotation", c.rotation }, { "scale", c.scale } };
             jentity["Components"].push_back(jc);
         }
         if (e.HasComponent<SpriteRendererComponent>())
         {
-            auto&          c = e.GetComponent<SpriteRendererComponent>();
-            nlohmann::json jc;
+            auto&                  c = e.GetComponent<SpriteRendererComponent>();
+            nlohmann::ordered_json jc;
             jc["SpriteRendererComponent"]["m_Sprite"] = c.GetSprite();
             jentity["Components"].push_back(jc);
         }
         j = jentity;
     }
 
-    void from_json(const nlohmann::json& j, Entity& entity)
+    void from_json(const nlohmann::ordered_json& j, Entity& entity)
     {
-        auto is_component = [&](auto& j, const char* component) -> nlohmann::json
+        auto is_component = [&](auto& j, const char* component) -> nlohmann::ordered_json
         {
             if (j.is_object() && j.count(component))
                 return j.at(component);
-            return nlohmann::json();
+            return nlohmann::ordered_json();
         };
 
         const auto& components = j.at("Components");

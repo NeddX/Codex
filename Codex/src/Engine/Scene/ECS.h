@@ -62,8 +62,8 @@ namespace codex {
         }
 
     public:
-        friend void to_json(nlohmann::json& j, const Entity& entity);
-        friend void from_json(const nlohmann::json& j, Entity& entity);
+        friend void to_json(nlohmann::ordered_json& j, const Entity& entity);
+        friend void from_json(const nlohmann::ordered_json& j, Entity& entity);
     };
 } // namespace codex
 #endif // CODEX_SCENE_ECS_H

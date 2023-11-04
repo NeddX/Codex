@@ -51,7 +51,7 @@ void EditorLayer::Update(const f32 deltaTime)
     i32      mouse_y       = (i32)my;
 
     if (Input::IsMouseDown(Mouse::LeftMouse) && mouse_x >= 0 && mouse_y >= 0 && mouse_x <= (i32)viewport_size.x &&
-        mouse_y <= (i32)viewport_size.y)
+        mouse_y <= (i32)viewport_size.y && !m_GizmoActive)
     {
         Vector2f scale = { m_Framebuffer->GetProperties().width / viewport_size.x,
                            m_Framebuffer->GetProperties().height / viewport_size.y };
@@ -215,13 +215,18 @@ void EditorLayer::ImGuiRender()
                 auto& c     = m_SelectedEntity.entity.GetComponent<TransformComponent>();
                 auto  trans = c.GetTransform();
 
-                ImGuizmo::Manipulate(glm::value_ptr(view_mat), glm::value_ptr(proj_mat), ImGuizmo::OPERATION::TRANSLATE,
-                                     ImGuizmo::MODE::LOCAL, glm::value_ptr(trans));
+                ImGuizmo::Manipulate(glm::value_ptr(view_mat), glm::value_ptr(proj_mat),
+                                     (ImGuizmo::OPERATION)m_GizmoMode, ImGuizmo::MODE::LOCAL, glm::value_ptr(trans));
 
                 if (ImGuizmo::IsUsing())
                 {
-                    codex::math::TransformDecompose(trans, c.position, c.rotation, c.scale);
+                    Vector3f rot;
+                    codex::math::TransformDecompose(trans, c.position, rot, c.scale);
+                    c.rotation += rot;
+                    m_GizmoActive = true;
                 }
+                else
+                    m_GizmoActive = false;
             }
         }
 
@@ -456,6 +461,24 @@ void EditorLayer::ImGuiRender()
         }
         ImGui::End();
     }
+}
+
+void EditorLayer::OnEvent(Event& e)
+{
+    EventDispatcher d(e);
+    d.Dispatch<KeyDownEvent>(BindEventDelegate(this, &EditorLayer::OnKeyDown_Event));
+}
+
+bool EditorLayer::OnKeyDown_Event(KeyDownEvent& e)
+{
+    switch (e.GetKey())
+    {
+        case Key::Num1: m_GizmoMode = GizmoMode::Translation; return true;
+        case Key::Num2: m_GizmoMode = GizmoMode::Rotation; return true;
+        case Key::Num3: m_GizmoMode = GizmoMode::Scale; return true;
+        default: break;
+    }
+    return false;
 }
 
 void EditorLayer::DrawVec3Control(const char* label, Vector3f& values, const f32 columnWidth, const f32 speed,

@@ -8,7 +8,7 @@ namespace codex {
         std::ofstream fs(path);
         if (fs.is_open())
         {
-            nlohmann::json j = scene;
+            nlohmann::ordered_json j = scene;
             fs << std::setw(4) << j;
             fs.close();
         }
@@ -23,8 +23,8 @@ namespace codex {
         std::ifstream fs(path);
         if (fs.is_open())
         {
-            std::string    str((std::istreambuf_iterator<char>(fs)), std::istreambuf_iterator<char>());
-            nlohmann::json j = nlohmann::json::parse(str);
+            std::string            str((std::istreambuf_iterator<char>(fs)), std::istreambuf_iterator<char>());
+            nlohmann::ordered_json j = nlohmann::json::parse(str);
 
             std::vector<Entity> entities;
             j.at("Name").get_to(scene.m_Name);

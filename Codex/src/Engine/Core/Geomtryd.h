@@ -14,17 +14,17 @@ namespace codex {
 } // namespace codex
 
 namespace nlohmann {
-    void to_json(nlohmann::json& j, const codex::Vector2f& vec);
-    void to_json(nlohmann::json& j, const codex::Vector3f& vec);
-    void to_json(nlohmann::json& j, const codex::Vector4f& vec);
-    void to_json(nlohmann::json& j, const codex::Rect& rect);
-    void to_json(nlohmann::json& j, const codex::Rectf& rect);
+    void to_json(nlohmann::ordered_json& j, const codex::Vector2f& vec);
+    void to_json(nlohmann::ordered_json& j, const codex::Vector3f& vec);
+    void to_json(nlohmann::ordered_json& j, const codex::Vector4f& vec);
+    void to_json(nlohmann::ordered_json& j, const codex::Rect& rect);
+    void to_json(nlohmann::ordered_json& j, const codex::Rectf& rect);
 
-    void from_json(const nlohmann::json& j, codex::Vector2f& vec);
-    void from_json(const nlohmann::json& j, codex::Vector3f& vec);
-    void from_json(const nlohmann::json& j, codex::Vector4f& vec);
-    void from_json(const nlohmann::json& j, codex::Rect& rect);
-    void from_json(const nlohmann::json& j, codex::Rectf& rect);
+    void from_json(const nlohmann::ordered_json& j, codex::Vector2f& vec);
+    void from_json(const nlohmann::ordered_json& j, codex::Vector3f& vec);
+    void from_json(const nlohmann::ordered_json& j, codex::Vector4f& vec);
+    void from_json(const nlohmann::ordered_json& j, codex::Rect& rect);
+    void from_json(const nlohmann::ordered_json& j, codex::Rectf& rect);
 } // namespace nlohmann
 
 namespace std {

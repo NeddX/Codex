@@ -48,7 +48,7 @@ namespace codex {
         void Update(const f32 deltaTime);
 
     public:
-        friend void to_json(nlohmann::json& j, const Scene& scene);
+        friend void to_json(nlohmann::ordered_json& j, const Scene& scene);
     };
 } // namespace codex
 

@@ -135,7 +135,7 @@ namespace codex {
         */
     }
 
-    void to_json(nlohmann::json& j, const Scene& scene)
+    void to_json(nlohmann::ordered_json& j, const Scene& scene)
     {
         std::vector<Entity> entities;
         entities.reserve(scene.m_Registry.size());

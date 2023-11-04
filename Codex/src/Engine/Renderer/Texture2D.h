@@ -33,7 +33,7 @@ namespace codex {
         inline void             Unbind() const { m_RawTexture->Unbind(); }
 
     public:
-        friend void to_json(nlohmann::json& j, const Texture2D& texture)
+        friend void to_json(nlohmann::ordered_json& j, const Texture2D& texture)
         {
             j = { { "m_Id", texture.m_Id }, { "m_FilePath", texture.GetFilePath() } };
         }

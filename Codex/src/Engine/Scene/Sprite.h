@@ -51,7 +51,7 @@ namespace codex {
         inline operator bool() const noexcept { return m_Texture != nullptr; }
 
     public:
-        friend void to_json(nlohmann::json& j, const Sprite& sprite)
+        friend void to_json(nlohmann::ordered_json& j, const Sprite& sprite)
         {
             j = { { "m_Texture", *sprite.m_Texture },
                   { "m_TextureCoords", sprite.m_TextureCoords },
@@ -59,7 +59,7 @@ namespace codex {
                   { "m_Colour", sprite.m_Colour },
                   { "m_ZIndex", sprite.m_ZIndex } };
         }
-        friend void from_json(const nlohmann::json& j, Sprite& sprite)
+        friend void from_json(const nlohmann::ordered_json& j, Sprite& sprite)
         {
             std::string path;
             j.at("m_Texture").at("m_FilePath").get_to(path);

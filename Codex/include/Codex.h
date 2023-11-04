@@ -14,6 +14,8 @@
 
 // Events
 #include "../src/Engine/Events/Event.h"
+#include "../src/Engine/Events/KeyEvent.h"
+#include "../src/Engine/Events/MouseEvent.h"
 
 // Math
 #include "../src/Engine/Math/Math.h"
