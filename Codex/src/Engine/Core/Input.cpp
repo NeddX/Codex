@@ -288,13 +288,13 @@ namespace codex {
     bool Input::OnKeyDown_Event(const KeyDownEvent event)
     {
         m_Instance->m_KeysDown[event.GetKey()] = true;
-        return true;
+        return false;
     }
 
     bool Input::OnKeyUp_Event(const KeyUpEvent event)
     {
         m_Instance->m_KeysDown[event.GetKey()] = false;
-        return true;
+        return false;
     }
 
     bool Input::OnMouseMove_Event(const MouseMoveEvent event)
@@ -304,27 +304,27 @@ namespace codex {
         m_MousePosX     = event.GetX();
         m_MousePosY     = event.GetY();
         m_MouseDragging = m_ButtonsDown.any();
-        return true;
+        return false;
     }
 
     bool Input::OnMouseUp_Event(const MouseUpEvent event)
     {
         m_ButtonsDown[(usize)event.GetMouseButton() - 1] = false;
         m_Instance->m_MouseDragging                      = false;
-        return true;
+        return false;
     }
 
     bool Input::OnMouseDown_Event(const MouseDownEvent event)
     {
         m_ButtonsDown[(usize)event.GetMouseButton() - 1] = true;
-        return true;
+        return false;
     }
 
     bool Input::OnMouseScroll_Event(const MouseScrollEvent event)
     {
         m_MouseScrollX = event.GetOffsetX();
         m_MouseScrollY = event.GetOffsetY();
-        return true;
+        return false;
     }
 
     bool Input::IsKeyDown(const Key key)

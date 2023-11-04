@@ -107,7 +107,7 @@
 // Project specific
 #include "../Engine/Utils/include/Util.h"
 
-// Stupid define my X11.
+// Stupid define by X11.
 #ifdef None
 #undef None
 #endif
