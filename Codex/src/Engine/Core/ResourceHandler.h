@@ -14,7 +14,7 @@ namespace codex {
         using CodexException::CodexException;
 
     public:
-            inline const char* default_message() const noexcept override { return "Bad resource."; }
+        inline const char* default_message() const noexcept override { return "Bad resource."; }
     };
 
     class ResourceNotFoundException : public ResourceException
@@ -37,10 +37,19 @@ namespace codex {
         static void Init();
         static void Destroy();
 
+    private:
+        static ResRef<Texture2D> Load_Texture2D(const std::string_view filePath, const TextureProperties props = {});
+        static ResRef<Shader> Load_Shader(const std::string_view filePath, const std::string_view version = "450 core");
+
     public:
-        template <typename T>
-        static ResRef<T> Load(const char* filePath)
+        template <typename T, typename... TArgs>
+        static ResRef<T> Load(const std::string_view filePath, TArgs&&... args)
         {
+            if constexpr (std::is_same_v<T, Texture2D>)
+                return Load_Texture2D(filePath, std::forward<TArgs>(args)...);
+            else if constexpr (std::is_same_v<T, Shader>)
+                return Load_Shader(filePath, std::forward<TArgs>(args)...);
+
             static_assert("Type not supported.");
             return nullptr;
         }
@@ -53,7 +62,8 @@ namespace codex {
             if (it != m_Instance->m_Resources.end())
                 return std::static_pointer_cast<T>(it->second);
             else
-                throw ResourceNotFoundException(fmt::format("Hash Id {} was not present in the resource pool.", id).c_str());
+                throw ResourceNotFoundException(
+                    fmt::format("Hash Id {} was not present in the resource pool.", id).c_str());
         }
         template <typename T>
         inline static ResRef<T> GetResource(const std::string_view filePath)
@@ -77,12 +87,6 @@ namespace codex {
             return m_Instance->m_Resources;
         }
     };
-
-    template <>
-    ResRef<Texture2D> Resources::Load(const char* filePath);
-    template <>
-    ResRef<Shader> Resources::Load(const char* filePath);
-
 } // namespace codex
 
 #endif // CODEX_CORE_RESOURCE_HANDLER_H

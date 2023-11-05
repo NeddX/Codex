@@ -28,20 +28,16 @@ namespace codex {
         }
     }
 
-    template <>
-    ResRef<Texture2D> Resources::Load(const char* filePath)
+    ResRef<Texture2D> Resources::Load_Texture2D(const std::string_view filePath, const TextureProperties props)
     {
         if (HasResource(filePath))
             return GetResource<Texture2D>(filePath);
 
-        std::ifstream fs(filePath);
+        // TODO: Use std::filesystem::path instead of string_view.
+        std::ifstream fs(std::string{ filePath });
         if (fs.is_open())
         {
             usize id = util::Crypto::DJB2Hash(filePath);
-
-            // TODO: Make it so that the user can pass arguments to Load<T>() !
-            TextureProperties props;
-            props.filterMode = TextureFilterMode::Nearest;
 
             ResRef<Texture2D> texture   = std::make_shared<Texture2D>(filePath, props);
             m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
@@ -58,10 +54,13 @@ namespace codex {
         }
     }
 
-    template <>
-    ResRef<Shader> Resources::Load(const char* filePath)
+    ResRef<Shader> Resources::Load_Shader(const std::string_view filePath, const std::string_view version)
     {
-        std::ifstream fs(filePath);
+        if (HasResource(filePath))
+            return GetResource<Shader>(filePath);
+
+        // TODO: Use std::filesystem::path instead of string_view.
+        std::ifstream fs(std::string{ filePath });
         if (fs.is_open())
         {
             usize          id           = util::Crypto::DJB2Hash(filePath);

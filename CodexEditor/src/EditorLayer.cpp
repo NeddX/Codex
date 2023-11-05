@@ -9,7 +9,8 @@ void EditorLayer::OnAttach()
     auto height   = Application::GetWindow().GetHeight();
     m_Scene       = std::make_unique<Scene>();
     m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
-    m_Camera      = std::make_unique<Camera>(width, height);
+    m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
+    m_Camera = std::make_unique<Camera>(width, height);
 
     Renderer::Init(width, height);
     BatchRenderer2D::BindShader(m_BatchShader.get());
@@ -350,8 +351,9 @@ void EditorLayer::ImGuiRender()
             {
                 if (ImGui::TreeNodeEx("Sprite Renderer Component", ImGuiTreeNodeFlags_DefaultOpen))
                 {
-                    auto& c      = m_SelectedEntity.entity.GetComponent<SpriteRendererComponent>();
-                    auto& sprite = c.GetSprite();
+                    auto& c       = m_SelectedEntity.entity.GetComponent<SpriteRendererComponent>();
+                    auto& sprite  = c.GetSprite();
+                    auto  texture = sprite.GetTexture();
 
                     // Texture prewview image
                     ImGui::Columns(2);
@@ -361,8 +363,7 @@ void EditorLayer::ImGuiRender()
 
                     ImGui::BeginGroup();
                     if (sprite)
-                        ImGui::Image((void*)(intptr)sprite.GetTexture()->GetGlId(), { 100.0f, 100.0f }, { 0, 1 },
-                                     { 1, 0 });
+                        ImGui::Image((void*)(intptr)texture->GetGlId(), { 100.0f, 100.0f }, { 0, 1 }, { 1, 0 });
                     else
                         ImGui::Text("No bound texture.");
 
@@ -391,6 +392,28 @@ void EditorLayer::ImGuiRender()
                     DrawVec2Control("Texture position: ", pos, m_ColumnWidth);
                     DrawVec2Control("Texture size: ", size, m_ColumnWidth);
                     tex_coords = { pos.x, pos.y, size.x, size.y };
+
+                    // Texture filter mode
+                    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                    ImGui::Columns(2);
+                    ImGui::SetColumnWidth(0, m_ColumnWidth);
+                    ImGui::Text("Texture filter mode: ");
+                    ImGui::NextColumn();
+                    static int  item_current_idx = 0; // Here we store our selection data as an index.
+                    const char* preview_item     = nullptr;
+                    const auto& props            = texture->GetProperties();
+                    switch (props.filterMode)
+                    {
+                        case TextureFilterMode::Linear: preview_item = "Linear"; break;
+                        case TextureFilterMode::Nearest: preview_item = "Nearest"; break;
+                    }
+                    if (ImGui::BeginCombo("##texture_filter_mode", preview_item))
+                    {
+                        ImGui::Selectable("Nearest", props.filterMode == TextureFilterMode::Nearest);
+                        ImGui::Selectable("Linear", props.filterMode == TextureFilterMode::Linear);
+                        ImGui::EndCombo();
+                    }
+                    ImGui::Columns(1);
 
                     ImGui::Dummy(ImVec2(0.0f, 10.0f));
                     auto sprite_size = sprite.GetSize();

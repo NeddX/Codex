@@ -1,5 +1,4 @@
 #shader_type vertex
-#version 330 core
 
 layout (location = 0) in vec4 a_Colour;
 layout (location = 1) in vec3 a_Pos;
@@ -33,9 +32,6 @@ void main()
 }
 
 #shader_type fragment
-#version 330 core
-
-#define CX_MAX_SLOT_COUNT 16
 
 #if __VERSION__ >= 450
 layout (location = 0) out vec4 FragColour;

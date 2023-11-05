@@ -24,13 +24,14 @@ namespace codex {
         }
 
     public:
-        inline u32              GetGlId() const noexcept { return m_RawTexture->GetGlId(); }
-        inline u32              GetSlot() const { return m_RawTexture->GetSlot(); }
-        inline i32              GetWidth() const { return m_RawTexture->GetWidth(); }
-        inline i32              GetHeight() const { return m_RawTexture->GetHeight(); }
-        inline std::string_view GetFilePath() const { return m_RawTexture->GetFilePath(); }
-        inline void             Bind(u32 slot = 0) { m_RawTexture->Bind(slot); }
-        inline void             Unbind() const { m_RawTexture->Unbind(); }
+        inline u32                      GetGlId() const noexcept { return m_RawTexture->GetGlId(); }
+        inline u32                      GetSlot() const { return m_RawTexture->GetSlot(); }
+        inline i32                      GetWidth() const { return m_RawTexture->GetWidth(); }
+        inline i32                      GetHeight() const { return m_RawTexture->GetHeight(); }
+        inline std::string_view         GetFilePath() const { return m_RawTexture->GetFilePath(); }
+        inline void                     Bind(u32 slot = 0) { m_RawTexture->Bind(slot); }
+        inline void                     Unbind() const { m_RawTexture->Unbind(); }
+        inline const TextureProperties& GetProperties() const noexcept { return m_RawTexture->GetProperties(); }
 
     public:
         friend void to_json(nlohmann::ordered_json& j, const Texture2D& texture)

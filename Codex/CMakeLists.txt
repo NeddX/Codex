@@ -22,6 +22,9 @@ endif()
 
 target_compile_definitions(CodexEngine PRIVATE CX_BUILD_LIB)
 
+# Default to OpenGL 4.5
+set(CX_OPENGL_VERSION_450 1)
+
 # Define macros that describe the current platform.
 if(DEFINED CX_PLATFORM_LINUX)
     target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_LINUX)
@@ -34,8 +37,6 @@ elseif(DEFINED CX_PLATFORM_OSX)
     target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_OSX)
     target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_UNIX)
 	set(CX_OPENGL_VERSION_330 1)
-	target_compile_definitions(CodexEngine PUBLIC CX_OPENGL_VERSION_330)
-	message(" :: OpenGL Version is set to 330")
 elseif(DEFINED CX_PLATFORM_WINDOWS)
     target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_WINDOWS)
     target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_WINDOWS)
@@ -67,10 +68,22 @@ else()
     target_compile_definitions(CodexEngine-static PUBLIC CX_WORD_SIZE_32)
 endif()
 
+if (CX_OPENGL_VERSION_450)
+	target_compile_definitions(CodexEngine PUBLIC CX_OPENGL_VERSION_450)
+	target_compile_definitions(CodexEngine-static PUBLIC CX_OPENGL_VERSION_450)
+	set(CX_OPENGL_VERSION "4.5")
+elseif(CX_OPENGL_VERSION_330)
+	target_compile_definitions(CodexEngine PUBLIC CX_OPENGL_VERSION_330)
+	target_compile_definitions(CodexEngine-static PUBLIC CX_OPENGL_VERSION_330)
+	set(CX_OPENGL_VERSION "3.3")
+endif()
+
 # Print the platform information
 message(":: Platform OS: ${CMAKE_SYSTEM_NAME}")
 message(":: Platform Compiler: ${CMAKE_CXX_COMPILER_ID}")
 message(":: CPU word size: ${CMAKE_SIZEOF_VOID_P} bytes")
+message(":: OpenGL version: ${CX_OPENGL_VERSION}")
+message("")
 
 if(DEFINED CX_COMPILER_CLANG OR DEFINED CX_COMPILER_GCC)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer")
@@ -149,12 +162,11 @@ target_link_libraries(CodexEngine-static ${JSON_LIBRARIES})
 
 # glad
 if (NOT DEFINED CX_OPENGL_VERSION_330)
-set(GLAD_INCLUDE_DIRS vendor/glad)
-set(GLAD_SOURCE_FILES vendor/glad/glad.cpp)
+	set(GLAD_INCLUDE_DIRS vendor/glad-gl450)
+	set(GLAD_SOURCE_FILES vendor/glad-gl450/glad.cpp)
 else()
-set(GLAD_INCLUDE_DIRS vendor/glad-gl330)
-set(GLAD_SOURCE_FILES vendor/glad-gl330/glad.cpp)
-message(" :: Linking GLAD for OpenGL 330")
+	set(GLAD_INCLUDE_DIRS vendor/glad-gl330)
+	set(GLAD_SOURCE_FILES vendor/glad-gl330/glad.cpp)
 endif()
 
 target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIRS})
