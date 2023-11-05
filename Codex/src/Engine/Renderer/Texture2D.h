@@ -32,11 +32,20 @@ namespace codex {
         inline void                     Bind(u32 slot = 0) { m_RawTexture->Bind(slot); }
         inline void                     Unbind() const { m_RawTexture->Unbind(); }
         inline const TextureProperties& GetProperties() const noexcept { return m_RawTexture->GetProperties(); }
+        inline void New(const std::string_view filePath, const TextureProperties textureProperties = {})
+        {
+            m_RawTexture.reset(new mgl::Texture(filePath, textureProperties));
+        }
 
     public:
         friend void to_json(nlohmann::ordered_json& j, const Texture2D& texture)
         {
-            j = { { "m_Id", texture.m_Id }, { "m_FilePath", texture.GetFilePath() } };
+            const auto& props = texture.m_RawTexture->GetProperties();
+            j                 = { { "m_Id", texture.m_Id },
+                                  { "m_FilePath", texture.GetFilePath() },
+                                  { "filterMode", props.filterMode },
+                                  { "wrapMode", props.wrapMode },
+                                  { "format", props.format } };
         }
     };
 } // namespace codex

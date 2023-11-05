@@ -33,7 +33,7 @@ namespace codex {
         // Viewports are very buggy when docking as of now.
         // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-        f32 font_size = 16.0f;
+        f32 font_size = 14.0f;
         io.Fonts->AddFontFromFileTTF("Fonts/roboto/Roboto-Bold.ttf", font_size);
         io.FontDefault = io.Fonts->AddFontFromFileTTF("Fonts/roboto/Roboto-Regular.ttf", font_size);
 

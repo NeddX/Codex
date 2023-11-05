@@ -20,6 +20,9 @@ void EditorLayer::OnAttach()
     props.width       = 1280;
     props.height      = 720;
     m_Framebuffer     = std::make_unique<mgl::FrameBuffer>(props);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 }
 
 void EditorLayer::OnDetach()
@@ -394,26 +397,45 @@ void EditorLayer::ImGuiRender()
                     tex_coords = { pos.x, pos.y, size.x, size.y };
 
                     // Texture filter mode
-                    ImGui::Dummy(ImVec2(0.0f, 10.0f));
-                    ImGui::Columns(2);
-                    ImGui::SetColumnWidth(0, m_ColumnWidth);
-                    ImGui::Text("Texture filter mode: ");
-                    ImGui::NextColumn();
-                    static int  item_current_idx = 0; // Here we store our selection data as an index.
-                    const char* preview_item     = nullptr;
-                    const auto& props            = texture->GetProperties();
-                    switch (props.filterMode)
+                    if (texture)
                     {
-                        case TextureFilterMode::Linear: preview_item = "Linear"; break;
-                        case TextureFilterMode::Nearest: preview_item = "Nearest"; break;
+                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                        ImGui::Columns(2);
+                        ImGui::SetColumnWidth(0, m_ColumnWidth);
+                        ImGui::Text("Texture filter mode: ");
+                        ImGui::NextColumn();
+                        static int  item_current_idx = 0; // Here we store our selection data as an index.
+                        const char* preview_item     = nullptr;
+                        const auto& props            = texture->GetProperties();
+                        switch (props.filterMode)
+                        {
+                            case TextureFilterMode::Linear: preview_item = "Linear"; break;
+                            case TextureFilterMode::Nearest: preview_item = "Nearest"; break;
+                        }
+                        if (ImGui::BeginCombo("##texture_filter_mode", preview_item))
+                        {
+                            if (ImGui::Selectable("Nearest", props.filterMode == TextureFilterMode::Nearest))
+                            {
+                                if (props.filterMode != TextureFilterMode::Nearest)
+                                {
+                                    auto new_props       = props;
+                                    new_props.filterMode = TextureFilterMode::Nearest;
+                                    texture->New(texture->GetFilePath(), new_props);
+                                }
+                            }
+                            if (ImGui::Selectable("Linear", props.filterMode == TextureFilterMode::Linear))
+                            {
+                                if (props.filterMode != TextureFilterMode::Linear)
+                                {
+                                    auto new_props       = props;
+                                    new_props.filterMode = TextureFilterMode::Linear;
+                                    texture->New(texture->GetFilePath(), new_props);
+                                }
+                            }
+                            ImGui::EndCombo();
+                        }
+                        ImGui::Columns(1);
                     }
-                    if (ImGui::BeginCombo("##texture_filter_mode", preview_item))
-                    {
-                        ImGui::Selectable("Nearest", props.filterMode == TextureFilterMode::Nearest);
-                        ImGui::Selectable("Linear", props.filterMode == TextureFilterMode::Linear);
-                        ImGui::EndCombo();
-                    }
-                    ImGui::Columns(1);
 
                     ImGui::Dummy(ImVec2(0.0f, 10.0f));
                     auto sprite_size = sprite.GetSize();

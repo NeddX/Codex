@@ -61,13 +61,18 @@ namespace codex {
         }
         friend void from_json(const nlohmann::ordered_json& j, Sprite& sprite)
         {
-            std::string path;
+            std::string       path;
+            TextureProperties props;
             j.at("m_Texture").at("m_FilePath").get_to(path);
+            j.at("m_Texture").at("filterMode").get_to(props.filterMode);
+            j.at("m_Texture").at("wrapMode").get_to(props.wrapMode);
+            j.at("m_Texture").at("format").get_to(props.format);
+
             j.at("m_TextureCoords").get_to(sprite.m_TextureCoords);
             j.at("m_SpriteSize").get_to(sprite.m_SpriteSize);
             j.at("m_Colour").get_to(sprite.m_Colour);
             j.at("m_ZIndex").get_to(sprite.m_ZIndex);
-            sprite.m_Texture = Resources::Load<Texture2D>(path.c_str());
+            sprite.m_Texture = Resources::Load<Texture2D>(path, props);
         }
     }; // namespace codex
 } // namespace codex
