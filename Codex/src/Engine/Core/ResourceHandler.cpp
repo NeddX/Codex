@@ -64,7 +64,7 @@ namespace codex {
         if (fs.is_open())
         {
             usize          id           = util::Crypto::DJB2Hash(filePath);
-            ResRef<Shader> texture      = std::make_shared<Shader>(filePath);
+            ResRef<Shader> texture      = std::make_shared<Shader>(filePath, version);
             m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
             fs.close();
             fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath, id);

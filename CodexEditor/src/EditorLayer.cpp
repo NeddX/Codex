@@ -5,10 +5,14 @@
 
 void EditorLayer::OnAttach()
 {
-    auto width    = Application::GetWindow().GetWidth();
-    auto height   = Application::GetWindow().GetHeight();
-    m_Scene       = std::make_unique<Scene>();
-    m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
+    auto width  = Application::GetWindow().GetWidth();
+    auto height = Application::GetWindow().GetHeight();
+    m_Scene     = std::make_unique<Scene>();
+#ifdef CX_OPENGL_VERSION_330
+    m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl", "330 core");
+#else
+    m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl", "330 core");
+#endif
     m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
     m_Camera = std::make_unique<Camera>(width, height);
 

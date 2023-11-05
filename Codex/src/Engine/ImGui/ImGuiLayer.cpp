@@ -54,7 +54,7 @@ namespace codex {
         ImGui_ImplOpenGL3_Init("#version 330 core");
 #else
         fmt::println("ImGui initialized with OpenGL 450 core");
-        ImGui_ImplOpenGL3_Init("#version 450 core");
+        ImGui_ImplOpenGL3_Init("#version 330 core");
 #endif
     }
 
