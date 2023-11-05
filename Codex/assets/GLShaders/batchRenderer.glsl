@@ -4,18 +4,18 @@ layout (location = 0) in vec4 a_Colour;
 layout (location = 1) in vec3 a_Pos;
 layout (location = 2) in vec2 a_TexCoord;
 layout (location = 3) in vec2 a_TexDim;
-layout (location = 4) in uint a_TexId;
+layout (location = 4) in int a_TexId;
 layout (location = 5) in int a_EntityId;
 
 #if __VERSION__ >= 450
 layout (location = 0) out vec4 o_Colour;
 layout (location = 1) out vec2 o_TexCoord;
-layout (location = 2) flat out uint o_TexId;
+layout (location = 2) flat out int o_TexId;
 layout (location = 3) flat out int o_EntityId;
 #else
 out vec4 o_Colour;
 out vec2 o_TexCoord;
-flat out uint o_TexId;
+flat out int o_TexId;
 flat out int o_EntityId;
 #endif
 
@@ -39,7 +39,7 @@ layout (location = 1) out int EntityId;
 
 layout (location = 0) in vec4 o_Colour;
 layout (location = 1) in vec2 o_TexCoord;
-layout (location = 2) in flat uint o_TexId;
+layout (location = 2) in flat int o_TexId;
 layout (location = 3) in flat int o_EntityId;
 #else
 out vec4 FragColour;
@@ -47,7 +47,7 @@ out int EntityId;
 
 in vec4 o_Colour;
 in vec2 o_TexCoord;
-flat in uint o_TexId;
+flat in int o_TexId;
 flat in int o_EntityId;
 #endif
 
@@ -56,8 +56,8 @@ uniform sampler2D u_Textures[CX_MAX_SLOT_COUNT];
 void main()
 {
 	EntityId = o_EntityId;
-	uint tex_id = o_TexId - uint(1);
-	if (o_TexId > uint(0))
+	int tex_id = o_TexId - 1;
+	if (o_TexId > 0)
 	{
 		switch (tex_id) {
 			case 0:

@@ -29,7 +29,7 @@ namespace codex {
         m_Layout->Push<f32>(3); // a_Position
         m_Layout->Push<f32>(2); // a_TexCoord
         m_Layout->Push<f32>(2); // a_TexDim
-        m_Layout->Push<u32>(1); // a_TexId
+        m_Layout->Push<i32>(1); // a_TexId
         m_Layout->Push<i32>(1); // a_EntityId
 
         m_Vao->AddBuffer(m_Vbo.get(), m_Layout.get());

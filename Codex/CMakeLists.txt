@@ -23,7 +23,8 @@ endif()
 target_compile_definitions(CodexEngine PRIVATE CX_BUILD_LIB)
 
 # Default to OpenGL 4.5
-set(CX_OPENGL_VERSION_450 1)
+#set(CX_OPENGL_VERSION_450 1)
+set(CX_OPENGL_VERSION_330 1)
 
 # Define macros that describe the current platform.
 if(DEFINED CX_PLATFORM_LINUX)
@@ -161,13 +162,8 @@ target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${JSON_LIBRARIES})
 
 # glad
-if (NOT DEFINED CX_OPENGL_VERSION_330)
-	set(GLAD_INCLUDE_DIRS vendor/glad-gl450)
-	set(GLAD_SOURCE_FILES vendor/glad-gl450/glad.cpp)
-else()
-	set(GLAD_INCLUDE_DIRS vendor/glad-gl330)
-	set(GLAD_SOURCE_FILES vendor/glad-gl330/glad.cpp)
-endif()
+set(GLAD_INCLUDE_DIRS vendor/glad)
+set(GLAD_SOURCE_FILES vendor/glad/glad.cpp)
 
 target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIRS})
 target_sources(CodexEngine PRIVATE ${GLAD_SOURCE_FILES})

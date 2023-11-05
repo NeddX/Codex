@@ -19,7 +19,7 @@ namespace codex {
         Vector3f vertex;
         Vector2f texCoord;
         Vector2f texSize;
-        u32      texId;
+        i32      texId;
         i32      entityId;
     };
 

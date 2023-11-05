@@ -11,7 +11,7 @@ void EditorLayer::OnAttach()
 #ifdef CX_OPENGL_VERSION_330
     m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl", "330 core");
 #else
-    m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl", "330 core");
+    m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl", "450 core");
 #endif
     m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
     m_Camera = std::make_unique<Camera>(width, height);
