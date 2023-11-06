@@ -31,7 +31,7 @@ namespace codex {
         std::unique_ptr<mgl::Shader> m_RawShader;
 
     public:
-        Shader(const std::string_view filePath, const std::string_view version = "450 core")
+        Shader(const std::string_view filePath, const std::string_view version = "330 core")
         {
             m_RawShader = std::make_unique<mgl::Shader>(filePath, version);
         }

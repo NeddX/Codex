@@ -5,14 +5,10 @@
 
 void EditorLayer::OnAttach()
 {
-    auto width  = Application::GetWindow().GetWidth();
-    auto height = Application::GetWindow().GetHeight();
-    m_Scene     = std::make_unique<Scene>();
-#ifdef CX_OPENGL_VERSION_330
-    m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl", "330 core");
-#else
-    m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl", "450 core");
-#endif
+    auto width    = Application::GetWindow().GetWidth();
+    auto height   = Application::GetWindow().GetHeight();
+    m_Scene       = std::make_unique<Scene>();
+    m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
     m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
     m_Camera = std::make_unique<Camera>(width, height);
 
@@ -44,8 +40,6 @@ void EditorLayer::Update(const f32 deltaTime)
     m_Framebuffer->Bind();
     Renderer::SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
     Renderer::Clear();
-
-    m_Framebuffer->SetAttachment(1, -1);
 
     BatchRenderer2D::Begin();
     m_Scene->Update(deltaTime);

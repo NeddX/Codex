@@ -22,10 +22,6 @@ endif()
 
 target_compile_definitions(CodexEngine PRIVATE CX_BUILD_LIB)
 
-# Default to OpenGL 4.5
-#set(CX_OPENGL_VERSION_450 1)
-set(CX_OPENGL_VERSION_330 1)
-
 # Define macros that describe the current platform.
 if(DEFINED CX_PLATFORM_LINUX)
     target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_LINUX)
@@ -37,7 +33,6 @@ elseif(DEFINED CX_PLATFORM_OSX)
     target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_UNIX)
     target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_OSX)
     target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_UNIX)
-	set(CX_OPENGL_VERSION_330 1)
 elseif(DEFINED CX_PLATFORM_WINDOWS)
     target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_WINDOWS)
     target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_WINDOWS)
@@ -69,21 +64,10 @@ else()
     target_compile_definitions(CodexEngine-static PUBLIC CX_WORD_SIZE_32)
 endif()
 
-if (DEFINED CX_OPENGL_VERSION_450)
-	target_compile_definitions(CodexEngine PUBLIC CX_OPENGL_VERSION_450)
-	target_compile_definitions(CodexEngine-static PUBLIC CX_OPENGL_VERSION_450)
-	set(CX_OPENGL_VERSION "4.5")
-elseif(DEFINED CX_OPENGL_VERSION_330)
-	target_compile_definitions(CodexEngine PUBLIC CX_OPENGL_VERSION_330)
-	target_compile_definitions(CodexEngine-static PUBLIC CX_OPENGL_VERSION_330)
-	set(CX_OPENGL_VERSION "3.3")
-endif()
-
 # Print the platform information
 message(":: Platform OS: ${CMAKE_SYSTEM_NAME}")
 message(":: Platform Compiler: ${CMAKE_CXX_COMPILER_ID}")
 message(":: CPU word size: ${CMAKE_SIZEOF_VOID_P} bytes")
-message(":: OpenGL version: ${CX_OPENGL_VERSION}")
 message("")
 
 if(DEFINED CX_COMPILER_CLANG OR DEFINED CX_COMPILER_GCC)
