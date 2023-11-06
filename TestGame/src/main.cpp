@@ -22,6 +22,7 @@ public:
         auto height   = Application::GetWindow().GetHeight();
         m_Scene       = std::make_unique<Scene>();
         m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
+        m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
         m_Camera      = std::make_unique<Camera>(width, height);
 
         Renderer::Init(width, height);
@@ -41,8 +42,8 @@ public:
         props.attachments.push_back(id);
         props.width   = Application::GetWindow().GetWidth();
         props.height  = Application::GetWindow().GetHeight();
-        m_Framebuffer = std::make_unique<mgl::FrameBuffer>(props);
-        m_Framebuffer->Unbind();
+        //m_Framebuffer = std::make_unique<mgl::FrameBuffer>(props);
+        //m_Framebuffer->Unbind();
 
         m_Entity = m_Scene->CreateEntity();
         Sprite sp(Resources::Load<Texture2D>("Sprites/machine.png"));
@@ -59,7 +60,7 @@ public:
         m_BatchShader->SetUniformMat4f("u_View", m_Camera->GetViewMatrix());
         m_BatchShader->SetUniformMat4f("u_Proj", m_Camera->GetProjectionMatrix());
 
-        m_Framebuffer->Bind();
+        //m_Framebuffer->Bind();
         Renderer::SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
         Renderer::Clear();
         BatchRenderer2D::Begin();
@@ -74,7 +75,7 @@ public:
                 fmt::println("Selected entity at {} is {}", pos, m_Framebuffer->ReadPixel(1, pos.x, pos.y));
             }
         }
-        m_Framebuffer->Unbind();
+        //m_Framebuffer->Unbind();
     }
 };
 

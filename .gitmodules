@@ -15,3 +15,7 @@
 [submodule "CodexEditor/vendor/ImGuizmo"]
 	path = CodexEditor/vendor/ImGuizmo
 	url = https://github.com/CedricGuillemet/ImGuizmo
+[submodule "Codex/vendor/json"]
+	path = Codex/vendor/json
+	url = https://github.com/nlohmann/json
+	branch = master

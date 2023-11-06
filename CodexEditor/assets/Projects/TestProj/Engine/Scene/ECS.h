@@ -30,8 +30,7 @@ namespace codex {
 
     public:
         inline i32 GetId() const { return (i32)(m_Handle); }
-        inline bool IsValid() const noexcept { return m_Scene->m_Registry.valid(m_Handle); }
-        operator bool() const { return m_Handle != entt::entity{ entt::null } && IsValid(); }
+        operator bool() const { return m_Handle != entt::entity{ entt::null }; }
         bool operator==(const Entity& other) const { return other.m_Handle == m_Handle; }
 
     public:

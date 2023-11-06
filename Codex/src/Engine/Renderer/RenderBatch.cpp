@@ -153,7 +153,7 @@ namespace codex {
         for (i32 i = 0; i < m_CurrentTexIndex; ++i)
             m_TextureList[i]->Bind(i);
 
-        glDrawElements(GL_TRIANGLES, 6 * m_QuadCount, GL_UNSIGNED_INT, nullptr);
+        GL_Call(glDrawElements(GL_TRIANGLES, 6 * m_QuadCount, GL_UNSIGNED_INT, nullptr));
 
         m_Shader->Unbind();
         m_Vao->Unbind();

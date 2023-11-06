@@ -39,7 +39,7 @@ uniform sampler2D u_Textures[CX_MAX_SLOT_COUNT];
 
 void main()
 {
-	//EntityId = o_EntityId;
+	EntityId = o_EntityId;
 	int tex_id = o_TexId - 1;
 	if (o_TexId > 0)
 	{

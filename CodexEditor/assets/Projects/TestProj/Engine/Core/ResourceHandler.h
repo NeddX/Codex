@@ -39,7 +39,7 @@ namespace codex {
 
     private:
         static ResRef<Texture2D> Load_Texture2D(const std::string_view filePath, const TextureProperties props = {});
-        static ResRef<Shader> Load_Shader(const std::string_view filePath, const std::string_view version = "330 core");
+        static ResRef<Shader> Load_Shader(const std::string_view filePath, const std::string_view version = "450 core");
 
     public:
         template <typename T, typename... TArgs>

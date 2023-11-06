@@ -21,8 +21,8 @@ void EditorLayer::OnAttach()
     props.height      = 720;
     m_Framebuffer     = std::make_unique<mgl::FrameBuffer>(props);
 
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+    //glEnable(GL_DEPTH_TEST);
+    //glDepthFunc(GL_LESS);
 }
 
 void EditorLayer::OnDetach()
@@ -60,8 +60,9 @@ void EditorLayer::Update(const f32 deltaTime)
         Vector2f pos   = { mouse_x, viewport_size.y - mouse_y };
         pos *= scale;
         pos    = glm::round(pos);
-        i32 id = -1;
-        if (id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y); id != -1)
+        i32 id = id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y);
+        auto e = Entity((entt::entity)id, m_Scene.get());
+        if (e)
         {
             if (m_SelectedEntity.entity)
             {
@@ -72,13 +73,12 @@ void EditorLayer::Update(const f32 deltaTime)
                 }
             }
 
-            auto e                  = Entity((entt::entity)id, m_Scene.get());
             m_SelectedEntity.entity = e;
             if (e.HasComponent<SpriteRendererComponent>())
             {
-                auto& s                        = e.GetComponent<SpriteRendererComponent>().GetSprite();
+                auto& s = e.GetComponent<SpriteRendererComponent>().GetSprite();
                 m_SelectedEntity.overlayColour = s.GetColour();
-                s.GetColour()                  = m_SelectColour;
+                s.GetColour() = m_SelectColour;
             }
         }
     }
@@ -376,7 +376,7 @@ void EditorLayer::ImGuiRender()
                         {
                             std::filesystem::path relative_path =
                                 std::filesystem::relative(file, std::filesystem::current_path());
-                            auto res = Resources::Load<Texture2D>(relative_path.c_str());
+                            auto res = Resources::Load<Texture2D>(relative_path.string());
                             sprite.SetTexture(res);
                             m_SelectedEntity.overlayColour = sprite.GetColour();
                             sprite.GetColour()             = m_SelectColour;

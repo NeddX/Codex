@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Assets\Scripts\TestScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Assets\Scripts\TestScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{5C6A98DC-B5E5-3C7D-9FD2-E40FA525662C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{E0B6B51C-9FB5-36D0-AA3E-24A420BD1A6B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

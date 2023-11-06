@@ -36,8 +36,7 @@ namespace codex {
             DebugDraw::Init();
             Resources::Init();
 
-            m_ImGuiLayer = new ImGuiLayer();
-            PushOverlay(m_ImGuiLayer);
+            m_ImGuiLayer = new ImGuiLayer(); PushOverlay(m_ImGuiLayer);
         }
         catch (const CodexException& ex)
         {
