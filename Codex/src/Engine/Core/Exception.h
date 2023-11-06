@@ -3,12 +3,13 @@
 
 #include <sdafx.h>
 
-#define CX_THROW(ex_type, msg) throw ex_type(msg, __FILE__, CX_PRETTY_FUNCTION, __LINE__)
-#define CX_THROW_DEF(ex_type) CX_THROW(ex_type, "")
-#define CX_EXCEPTION_PRINT(ex)                                          \
-    do                                                                  \
-    {                                                                   \
-        fmt::println("An exception was caught: {}: {}\n\t{}", ex.TypeNameDemangle(typeid(ex).name()), ex.what(), ex.backtrace()); \
+#define CX_THROW(ex_type, msg, ...) throw ex_type(fmt::format(msg, __VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+#define CX_THROW_DEF(ex_type)       throw ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+#define CX_EXCEPTION_PRINT(ex)                                                                                         \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        fmt::println("An exception was caught: {}: {}\n\t{}", ex.TypeNameDemangle(typeid(ex).name()), ex.what(),       \
+                     ex.backtrace());                                                                                  \
     } while (0)
 
 namespace codex {
@@ -17,10 +18,10 @@ namespace codex {
     {
     protected:
         const std::string m_Message;
-        const char* m_File = nullptr;
-        const char* m_Function = nullptr;
-        const char* m_ClassName = nullptr;
-        const u32 m_Line = 0;
+        const char*       m_File      = nullptr;
+        const char*       m_Function  = nullptr;
+        const char*       m_ClassName = nullptr;
+        const u32         m_Line      = 0;
 
     public:
         CodexException() noexcept = default;
@@ -35,7 +36,7 @@ namespace codex {
         {
 #if CX_PLATFORM_UNIX
             int                                    status = 0;
-            std::unique_ptr<char, void (*)(void*)> res{abi::__cxa_demangle(name, NULL, NULL, &status), std::free};
+            std::unique_ptr<char, void (*)(void*)> res{ abi::__cxa_demangle(name, NULL, NULL, &status), std::free };
             return (status == 0) ? res.get() : name;
 #else
             return name;

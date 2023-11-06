@@ -47,9 +47,8 @@ namespace codex {
         }
         else
         {
-            CX_THROW(
-                ResourceNotFoundException,
-                fmt::format("Couldn't open file '{}' for reading. Failed to load texture asset.", filePath).c_str());
+            CX_THROW(ResourceNotFoundException, "Couldn't open file '{}' for reading. Failed to load texture asset.",
+                     filePath);
             return nullptr;
         }
     }
@@ -72,9 +71,8 @@ namespace codex {
         }
         else
         {
-            CX_THROW(
-                ResourceNotFoundException,
-                fmt::format("Couldn't open file '{}' for reading. Failed to load shader asset.", filePath).c_str());
+            CX_THROW(ResourceNotFoundException, "Couldn't open file '{}' for reading. Failed to load shader asset.",
+                     filePath);
             return nullptr;
         }
     }

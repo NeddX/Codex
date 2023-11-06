@@ -4,7 +4,7 @@
 #include <sdafx.h>
 
 #include "../Core/Geomtryd.h"
-#include "NativeBehaviour.h"
+#include "../NativeBehaviour/NativeBehaviour.h"
 #include "Sprite.h"
 
 namespace codex {

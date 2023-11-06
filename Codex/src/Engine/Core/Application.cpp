@@ -23,8 +23,8 @@ namespace codex {
             }
             else
             {
-                CX_THROW(InvalidPathException,
-                         fmt::format("The path supplied '{}' as the current working directory is invalid.", args.cwd));
+                CX_THROW(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
+                         args.cwd);
             }
 
             m_Instance = this;

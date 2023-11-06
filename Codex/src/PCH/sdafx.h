@@ -46,6 +46,7 @@
 // Platform specific
 #ifdef CX_PLATFORM_UNIX
 #include <cxxabi.h>
+#include <dlfcn.h>
 #include <unistd.h>
 
 #ifdef CX_PLATFORM_OSX
