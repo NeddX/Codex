@@ -1,13 +1,12 @@
 #ifndef CODEX_SCENE_NATIVE_BEHAVIOUR_H
 #define CODEX_SCENE_NATIVE_BEHAVIOUR_H
 
-#include <sdafx.h>
-
-#include "../Scene/ECS.h"
+#include "../Core/Exception.h"
 
 namespace codex {
     // Forward declarations.
     class Scene;
+	class Entity;
 
     class DynamicLibraryException : public CodexException
     {

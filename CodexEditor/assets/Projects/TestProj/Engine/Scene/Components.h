@@ -1,8 +1,6 @@
 #ifndef CODEX_SCENE_COMPONENTS_H
 #define CODEX_SCENE_COMPONENTS_H
 
-#include <sdafx.h>
-
 #include "../Core/Geomtryd.h"
 #include "../NativeBehaviour/NativeBehaviour.h"
 #include "Sprite.h"

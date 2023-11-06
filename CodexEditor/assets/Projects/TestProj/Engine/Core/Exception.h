@@ -1,8 +1,6 @@
 #ifndef CODEX_CORE_EXCEPTION_H
 #define CODEX_CORE_EXCEPTION_H
 
-#include <sdafx.h>
-
 #define CX_THROW(ex_type, msg, ...) throw ex_type(fmt::format(msg, __VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
 #define CX_THROW_DEF(ex_type)       throw ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
 #define CX_EXCEPTION_PRINT(ex)                                                                                         \
