@@ -9,6 +9,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 set(HEADER_FILES "Assets/Scripts/TestScript.h" "Assets/Scripts/TestScript.cpp")
 add_library(NBMan SHARED ${HEADER_FILES} ${SOURCE_FILES})
 
+set_property(TARGET NBMan PROPERTY CXX_STANDARD 20)
+
 # ==================================================== #
 #   Export macros that describe the current platform   #
 # ==================================================== #
@@ -82,9 +84,22 @@ add_custom_command(
     TARGET NBMan
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-		$<TARGET_FILE_DIR:NBMan>
+        $<TARGET_FILE_DIR:NBMan>
         "${CMAKE_SOURCE_DIR}/lib/"
 )
+
+# Expose Codex's dependencies.
+target_include_directories(NBMan PUBLIC Engine/vendor/SDL/include)
+target_include_directories(NBMan PUBLIC Engine/vendor/MGL/include)
+target_include_directories(NBMan PUBLIC Engine/vendor/json/include)
+target_include_directories(NBMan PUBLIC Engine/vendor/imgui)
+target_include_directories(NBMan PUBLIC Engine/vendor/glm)
+target_include_directories(NBMan PUBLIC Engine/vendor/fmt/include)
+target_include_directories(NBMan PUBLIC Engine/vendor/entt)
+target_include_directories(NBMan PUBLIC Engine/vendor/glad)
+target_include_directories(NBMan PUBLIC Engine/PCH)
+
+target_precompile_headers(NBMan PRIVATE Engine/PCH/sdafx.h)
 
 # Expose the engine API
 target_include_directories(NBMan PUBLIC Engine/)

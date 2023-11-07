@@ -87,14 +87,17 @@
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <Optimization>Disabled</Optimization>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Debug/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/Debug/cmake_pch.pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
@@ -103,10 +106,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR=\"Debug\";NBMan_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -141,12 +144,15 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <Optimization>MaxSpeed</Optimization>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Release/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/Release/cmake_pch.pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
@@ -157,10 +163,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR=\"Release\";NBMan_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -195,12 +201,15 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <Optimization>MinSpace</Optimization>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/MinSizeRel/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/MinSizeRel/cmake_pch.pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
@@ -211,10 +220,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR=\"MinSizeRel\";NBMan_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -249,13 +258,16 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <Optimization>MaxSpeed</Optimization>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/RelWithDebInfo/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/RelWithDebInfo/cmake_pch.pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
@@ -264,10 +276,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR=\"RelWithDebInfo\";NBMan_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -358,8 +370,43 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\NBMan.dir\cmake_pch.cxx">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Debug/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/Debug/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Release/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/Release/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/MinSizeRel/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/MinSizeRel/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/RelWithDebInfo/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/RelWithDebInfo/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
     <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Assets\Scripts\TestScript.h" />
-    <ClCompile Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Assets\Scripts\TestScript.cpp" />
+    <ClCompile Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Assets\Scripts\TestScript.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\NBMan.dir\Debug\cmake_pch.hxx" />
+    <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\NBMan.dir\Release\cmake_pch.hxx" />
+    <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\NBMan.dir\MinSizeRel\cmake_pch.hxx" />
+    <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\NBMan.dir\RelWithDebInfo\cmake_pch.hxx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\ZERO_CHECK.vcxproj">

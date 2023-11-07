@@ -1,0 +1,4 @@
+[submodule "MARFX/vendor/SDL"]
+	path = MARFX/vendor/SDL
+	url = https://github.com/libsdl-org/SDL.git
+	branch = release-2.26.x
