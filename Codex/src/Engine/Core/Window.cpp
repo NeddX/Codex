@@ -40,7 +40,7 @@ namespace codex {
         // Initialize SDL and OpenGL
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
-            CX_THROW_DEF(SDLException);
+            cx_throwd(SDLException);
             // SDLThrowError(__LINE__, "ERROR: FAILED TO INITIALIZE SDL!");
             return;
         }
@@ -59,7 +59,7 @@ namespace codex {
             // m_SdlWindow = SDL_CreateWindowFrom(m_NativeWindow, m_Flags | SDL_WINDOW_OPENGL);
             fmt::println("Creating an SDL Window from a native window. Native window address {}",
                          (void*)m_NativeWindow);
-            CX_THROW(SDLException, "Native windows are not supported.");
+            cx_throw(SDLException, "Native windows are not supported.");
         }
         else
             m_SdlWindow =
@@ -67,7 +67,7 @@ namespace codex {
 
         if (!m_SdlWindow)
         {
-            CX_THROW(SDLException, "Failed to create an SDL window.");
+            cx_throw(SDLException, "Failed to create an SDL window.");
             // SDLThrowError(__LINE__, "ERROR: FAILED TO CREATE SDL WINDOW!");
         }
         SDLCheckError(__LINE__);
@@ -76,7 +76,7 @@ namespace codex {
         m_GlContext = SDL_GL_CreateContext(m_SdlWindow); // fails here
         if (!m_GlContext)
         {
-            CX_THROW(SDLException, "Failed to create an OpenGL context from the SDL window.");
+            cx_throw(SDLException, "Failed to create an OpenGL context from the SDL window.");
             // SDLThrowError(__LINE__, "ERROR: FAILED TO CREATE AN OPENGL CONTEXT FROM SDL WINDOW!");
         }
         SDLCheckError(__LINE__);
@@ -95,7 +95,7 @@ namespace codex {
         }
         else
         {
-            CX_THROW_DEF(GLADException);
+            cx_throwd(GLADException);
         }
 
         // MISC

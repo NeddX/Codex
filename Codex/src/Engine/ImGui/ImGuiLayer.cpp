@@ -24,7 +24,7 @@ namespace codex {
 
         IMGUI_CHECKVERSION();
         if (!ImGui::CreateContext())
-            CX_THROW(CodexException, "Failed to create ImGui context.");
+            cx_throw(CodexException, "Failed to create ImGui context.");
         ImGuiIO& io    = ImGui::GetIO();
         io.DisplaySize = ImVec2((f32)window.GetWidth(), (f32)window.GetHeight()); // Set to your SDL2 window size
         (void)io;

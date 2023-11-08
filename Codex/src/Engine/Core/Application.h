@@ -88,8 +88,8 @@ namespace codex {
             }
             else
             {
-                CX_THROW(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
-                         newCwd);
+                cx_throw(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
+                          newCwd);
             }
         }
 

@@ -6,9 +6,9 @@
 
 #if defined(CX_COMPILER_MSVC)
 #ifdef CX_BUILD_LIB
-#define CODEX_API __declspec(dllexport)
+#define CODEX_EXPORT __declspec(dllexport)
 #else
-#define CODEX_API __declspec(dllimport)
+#define CODEX_EXPORT __declspec(dllimport)
 #endif
 #elif defined(__clang__) || defined(__GNUC__)
 #define CODEX_EXPORT __attribute__((visibility("default")))
@@ -42,6 +42,9 @@ namespace codex {
     using f32     = float;
     using f64     = double;
     using f128    = long double;
+
+    template <typename Derived, typename Base>
+    concept DerivedFrom = std::is_base_of<Base, Derived>::value;
 
     template <typename T>
     inline constexpr T BitFlag(const T b)

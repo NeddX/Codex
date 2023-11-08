@@ -3,8 +3,10 @@
 
 #include <sdafx.h>
 
-#define CX_THROW(ex_type, msg, ...) throw ex_type(fmt::format(msg, __VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
-#define CX_THROW_DEF(ex_type)       throw ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+#define cx_throw(ex_type, msg, ...)                                                                                    \
+    throw ex_type(fmt::format(msg __VA_OPT__(, ) __VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+#define cx_throwd(ex_type) throw ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+
 #define CX_EXCEPTION_PRINT(ex)                                                                                         \
     do                                                                                                                 \
     {                                                                                                                  \

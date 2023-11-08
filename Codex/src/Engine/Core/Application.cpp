@@ -23,7 +23,7 @@ namespace codex {
             }
             else
             {
-                CX_THROW(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
+                cx_throw(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
                          args.cwd);
             }
 
@@ -36,7 +36,8 @@ namespace codex {
             DebugDraw::Init();
             Resources::Init();
 
-            m_ImGuiLayer = new ImGuiLayer(); PushOverlay(m_ImGuiLayer);
+            m_ImGuiLayer = new ImGuiLayer();
+            PushOverlay(m_ImGuiLayer);
         }
         catch (const CodexException& ex)
         {

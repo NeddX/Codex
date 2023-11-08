@@ -5,6 +5,7 @@
 #include "../src/Engine/Core/Application.h"
 #include "../src/Engine/Core/Camera.h"
 #include "../src/Engine/Core/CommonDef.h"
+#include "../src/Engine/Core/DynamicLibrary.h"
 #include "../src/Engine/Core/Exception.h"
 #include "../src/Engine/Core/Geomtryd.h"
 #include "../src/Engine/Core/Input.h"

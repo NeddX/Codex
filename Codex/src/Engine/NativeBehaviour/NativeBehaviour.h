@@ -9,27 +9,6 @@ namespace codex {
     // Forward declarations.
     class Scene;
 
-    class DynamicLibraryException : public CodexException
-    {
-        using CodexException::CodexException;
-
-    public:
-        inline const char* default_message() const noexcept override { return "Failed to load dynamic library."; }
-    };
-
-#ifdef CX_PLATFORM_WINDOWS
-    using DLib = HINSTANCE;
-#elif defined(CX_PLATFORM_UNIX)
-    using DLib = void*;
-
-    DLib LoadLibrary(const char* filePath)
-    {
-        DLib handle = dlopen(filePath, RTLD_LAZY);
-        if (!handle)
-            CX_THROW(DynamicLibraryException, "Failed to load '{}'.", filePath);
-    }
-#endif
-
     class NativeBehaviour
     {
         friend class Scene;

@@ -22,7 +22,7 @@ namespace codex {
             }
             catch (const std::exception&)
             {
-                CX_THROW_DEF(ShaderNotFoundException);
+                cx_throwd(ShaderNotFoundException);
             }
 
             m_Instance->m_Vao = std::make_unique<mgl::VertexArray>();

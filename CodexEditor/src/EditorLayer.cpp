@@ -21,8 +21,13 @@ void EditorLayer::OnAttach()
     props.height      = 720;
     m_Framebuffer     = std::make_unique<mgl::FrameBuffer>(props);
 
-    //glEnable(GL_DEPTH_TEST);
-    //glDepthFunc(GL_LESS);
+    // glEnable(GL_DEPTH_TEST);
+    // glDepthFunc(GL_LESS);
+
+    DLib* lib = new DLib();
+    lib->Load("./libNBMan.so");
+    lib->Invoke<void(const char*)>("CPrint", "Suck mah cock negga");
+    delete lib;
 }
 
 void EditorLayer::OnDetach()
@@ -59,9 +64,9 @@ void EditorLayer::Update(const f32 deltaTime)
                            m_Framebuffer->GetProperties().height / viewport_size.y };
         Vector2f pos   = { mouse_x, viewport_size.y - mouse_y };
         pos *= scale;
-        pos    = glm::round(pos);
-        i32 id = id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y);
-        auto e = Entity((entt::entity)id, m_Scene.get());
+        pos     = glm::round(pos);
+        i32  id = id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y);
+        auto e       = Entity((entt::entity)id, m_Scene.get());
         if (e)
         {
             if (m_SelectedEntity.entity)
@@ -76,9 +81,9 @@ void EditorLayer::Update(const f32 deltaTime)
             m_SelectedEntity.entity = e;
             if (e.HasComponent<SpriteRendererComponent>())
             {
-                auto& s = e.GetComponent<SpriteRendererComponent>().GetSprite();
+                auto& s                        = e.GetComponent<SpriteRendererComponent>().GetSprite();
                 m_SelectedEntity.overlayColour = s.GetColour();
-                s.GetColour() = m_SelectColour;
+                s.GetColour()                  = m_SelectColour;
             }
         }
     }
