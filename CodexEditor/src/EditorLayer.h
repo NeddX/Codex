@@ -31,6 +31,9 @@ private:
     Vector4f                          m_SelectColour = { 0.5f, 1.0f, 0.5f, 1.0f };
     bool                              m_GizmoActive  = false;
     GizmoMode                         m_GizmoMode    = GizmoMode::Translation;
+    std::filesystem::path m_ProjectPath;
+    NativeBehaviour* m_Script = nullptr;
+    std::unique_ptr<DLib> m_ScriptModule = nullptr;
 
 public:
     void OnAttach() override;

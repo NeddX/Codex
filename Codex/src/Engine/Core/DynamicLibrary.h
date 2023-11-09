@@ -53,7 +53,12 @@ namespace codex {
 #if defined(CX_PLATFORM_UNIX)
             Fn* instance = (Fn*)dlsym(m_Handle, func);
             if (!instance)
-                cx_throw(DynamicLibraryInvokeException, "Failed to invoke '{}'", func);
+                cx_throw(DynamicLibraryInvokeException, "Failed to invoke '{}' in '{}'", func, m_FilePath);
+            return instance(std::forward<TArgs>(args)...);
+#elif defined(CX_PLATFORM_WINDOWS)
+            Fn* instance = (Fn*)GetProcAddress(m_Handle, func);
+            if (!instance)
+                cx_throw(DynamicLibraryInvokeException, "Failed to invoke '{}' in '{}'", func, m_FilePath);
             return instance(std::forward<TArgs>(args)...);
 #endif
         }

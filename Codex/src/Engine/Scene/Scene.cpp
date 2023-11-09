@@ -103,9 +103,10 @@ namespace codex {
             auto& behaviour_component = entity.GetComponent<NativeBehaviourComponent>();
             if (!behaviour_component.instance)
             {
-                behaviour_component.instance          = behaviour_component.Instantiate();
-                behaviour_component.instance->m_Owner = entity;
-                behaviour_component.instance->Init();
+                //behaviour_component.instance          = behaviour_component.Instantiate();
+                //behaviour_component.instance->m_Owner = entity;
+                //behaviour_component.instance->Init();
+                continue;
             }
             behaviour_component.instance->Update(deltaTime);
         }

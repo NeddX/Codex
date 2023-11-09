@@ -7,6 +7,10 @@ namespace codex {
         m_Handle = dlopen(m_FilePath.c_str(), RTLD_LAZY);
         if (!m_Handle)
             cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
+#else defined(CX_PLATFORM_WINDOWS)
+        m_Handle = LoadLibraryA(m_FilePath.c_str());
+        if (!m_Handle)
+            cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
 #endif
     }
 
@@ -17,7 +21,7 @@ namespace codex {
             m_Handle   = other.m_Handle;
             m_FilePath = other.m_FilePath;
 
-            other.m_Handle   = (DLibInstance)0;
+            other.m_Handle   = (DLibInstance)nullptr;
             other.m_FilePath = "";
         }
     }
@@ -29,7 +33,7 @@ namespace codex {
             m_Handle   = other.m_Handle;
             m_FilePath = other.m_FilePath;
 
-            other.m_Handle   = (DLibInstance)0;
+            other.m_Handle   = (DLibInstance)nullptr;
             other.m_FilePath = "";
         }
         return *this;
@@ -39,9 +43,11 @@ namespace codex {
     {
 #if defined(CX_PLATFORM_UNIX)
         dlclose(m_Handle);
-        m_Handle   = (DLibInstance)0;
-        m_FilePath = "";
+#elif defined(CX_PLATFORM_WINDOWS)
+        FreeLibrary(m_Handle);
 #endif
+        m_Handle   = (DLibInstance)nullptr;
+        m_FilePath = "";
     }
 
     void DLib::Load(const std::string_view filePath)
@@ -49,6 +55,11 @@ namespace codex {
 #if defined(CX_PLATFORM_UNIX)
         m_FilePath = filePath;
         m_Handle   = dlopen(m_FilePath.c_str(), RTLD_LAZY);
+        if (!m_Handle)
+            cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
+#else defined(CX_PLATFORM_WINDOWS)
+        m_FilePath = filePath;
+        m_Handle = LoadLibraryA(m_FilePath.c_str());
         if (!m_Handle)
             cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
 #endif

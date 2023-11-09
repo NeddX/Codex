@@ -23,11 +23,6 @@ void EditorLayer::OnAttach()
 
     // glEnable(GL_DEPTH_TEST);
     // glDepthFunc(GL_LESS);
-
-    DLib* lib = new DLib();
-    lib->Load("./libNBMan.so");
-    lib->Invoke<void(const char*)>("CPrint", "Suck mah cock negga");
-    delete lib;
 }
 
 void EditorLayer::OnDetach()
@@ -122,9 +117,40 @@ void EditorLayer::ImGuiRender()
                             m_SelectedEntity.overlayColour;
                         m_SelectedEntity.entity = Entity::None();
                     }
+                    m_ProjectPath = std::filesystem::path(std::string{ file });
+                    m_ProjectPath = m_ProjectPath.parent_path();
                     m_Scene.reset(new Scene());
-                    Serializer::DeserializeScene(file, *m_Scene);
+                    Serializer::DeserializeScene(file, *m_Scene);    
+                    m_ScriptModule = std::make_unique<DLib>(fmt::format("{}/lib/NBMan.dll", m_ProjectPath.string()));
+                    if (m_ScriptModule)
+                        fmt::println("Script module loaded.");
+                    else
+                        fmt::println("Failed to load script module.");
                 }
+            }
+            if (ImGui::MenuItem("Reload Script Module"))
+            {
+                auto entities = m_Scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
+                for (auto& e : entities)
+                {
+                    auto& c = e.GetComponent<NativeBehaviourComponent>();
+                    c.destroy(&c);
+                }
+                m_ScriptModule.reset(new DLib(fmt::format("{}/lib/NBMan.dll", m_ProjectPath.string())));
+                if (m_ScriptModule)
+                    fmt::println("Script module reloaded.");
+                else
+                    fmt::println("Failed to reload script module.");
+            }
+            if (ImGui::MenuItem("Unload Script Module"))
+            {
+                auto entities = m_Scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
+                for (auto& e : entities)
+                {
+                    auto& c = e.GetComponent<NativeBehaviourComponent>();
+                    c.destroy(&c);
+                }
+                m_ScriptModule.reset(nullptr);
             }
             if (ImGui::MenuItem("Save", "Ctrl+S"))
             {
@@ -337,6 +363,11 @@ void EditorLayer::ImGuiRender()
                     m_SelectedEntity.entity.AddComponent<SpriteRendererComponent>(Sprite::Empty());
                     ImGui::CloseCurrentPopup();
                 }
+                else if (ImGui::Button("C++ Script Component"))
+                {
+                    m_SelectedEntity.entity.AddComponent<NativeBehaviourComponent>();
+                    ImGui::CloseCurrentPopup();
+                }
                 ImGui::EndPopup();
             }
 
@@ -348,6 +379,60 @@ void EditorLayer::ImGuiRender()
                     DrawVec3Control("Position: ", c.position, m_ColumnWidth);
                     DrawVec3Control("Rotation: ", c.rotation, m_ColumnWidth);
                     DrawVec3Control("Scale: ", c.scale, m_ColumnWidth, 0.01f);
+
+                    ImGui::TreePop();
+                }
+            }
+
+            if (m_SelectedEntity.entity.HasComponent<NativeBehaviourComponent>())
+            {
+                if (ImGui::TreeNodeEx("C++ Script Component", ImGuiTreeNodeFlags_DefaultOpen))
+                {
+                    auto& c = m_SelectedEntity.entity.GetComponent<NativeBehaviourComponent>();
+                        
+                    ImGui::Columns(2);
+                    ImGui::SetColumnWidth(0, m_ColumnWidth);
+                    ImGui::Text("Attached Class: ");
+                    ImGui::NextColumn();
+
+                    ImGui::BeginGroup();
+                    static NativeBehaviour* script = nullptr;
+                    static bool invalid_script = false;
+                    static std::string script_class;
+                    ImGui::InputText("##input", &script_class);
+                    if (ImGui::IsKeyPressed(ImGuiKey_Enter)) // Check for Enter key press
+                    { 
+                        invalid_script = true;
+                        bool valid = m_ScriptModule->Invoke<bool(const char*)>("Reflect_DoesBehaviourExist", script_class.c_str());
+                        if (valid)
+                        {
+                            if (c.instance)
+                                c.destroy(&c);
+                            // TODO: This should happen OnScenePlay().
+                            invalid_script = false;
+                            script = m_ScriptModule->Invoke<NativeBehaviour * (const char*)>("Reflect_CreateBehaviour", script_class.c_str());
+                            c.instance = script;
+                            c.instance->Init();
+                            if (!c.destroy)
+                            {
+                                c.destroy = [](NativeBehaviourComponent* zis)
+                                {
+                                    delete zis->instance;
+                                    zis->instance = nullptr;
+                                };
+                            }
+                        }
+                    }
+                    if (!script)
+                    {
+                        if (!invalid_script)
+                            ImGui::Text("No bound class.");
+                        else
+                            ImGui::Text("No such class.");
+                    }
+                    else
+                        ImGui::Text("NBMan.dll : %s", script_class.c_str());
+                    ImGui::EndGroup();
 
                     ImGui::TreePop();
                 }

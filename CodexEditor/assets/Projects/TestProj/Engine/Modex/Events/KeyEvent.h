@@ -1,0 +1,54 @@
+#ifndef CODEX_EVENTS_KEY_EVENT_H
+#define CODEX_EVENTS_KEY_EVENT_H
+
+#include <sdafx.h>
+
+#include "../Core/Input.h"
+#include "Event.h"
+
+namespace codex {
+    class KeyEvent : public Event
+    {
+    protected:
+        Key m_Key;
+
+    protected:
+        KeyEvent(const Key key) : m_Key(key){};
+
+    public:
+        inline Key GetKey() const noexcept { return m_Key; }
+
+        EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
+    };
+
+    class KeyDownEvent : public KeyEvent
+    {
+    private:
+        bool m_IsRepeat;
+
+    public:
+        KeyDownEvent(const Key key, const bool isRepeat) : KeyEvent(key), m_IsRepeat(isRepeat) {}
+
+    public:
+        bool        IsRepeat() const noexcept { return m_IsRepeat; }
+        std::string ToString() const noexcept
+        {
+            return fmt::format("KeyDownEvent: Key({}), IsRepeat({})", m_Key, m_IsRepeat);
+        }
+
+        EVENT_CLASS_TYPE(KeyDown);
+    };
+
+    class KeyUpEvent : public KeyEvent
+    {
+    public:
+        KeyUpEvent(const Key key) : KeyEvent(key) {}
+
+    public:
+        std::string ToString() const noexcept { return fmt::format("KeyUpEvent: Key({})", m_Key); }
+
+        EVENT_CLASS_TYPE(KeyUp);
+    };
+} // namespace codex
+
+#endif // CODEX_EVENTS_KEY_EVENT_H
