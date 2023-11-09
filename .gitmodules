@@ -1,0 +1,14 @@
+[submodule "Codex/vendor/json"]
+	path = Codex/vendor/json
+	url = https://github.com/nlohmann/json
+	branch = master
+[submodule "Codex/vendor/fmt"]
+	path = Codex/vendor/fmt
+	url = https://github.com/fmtlib/fmt
+[submodule "Codex/vendor/imgui"]
+	path = Codex/vendor/imgui
+	url = https://github.com/ocornut/imgui
+	branch = docking
+[submodule "CodexEditor/vendor/ImGuizmo"]
+	path = CodexEditor/vendor/ImGuizmo
+	url = https://github.com/CedricGuillemet/ImGuizmo
