@@ -399,7 +399,13 @@ void EditorLayer::ImGuiRender()
                     static NativeBehaviour* script = nullptr;
                     static bool invalid_script = false;
                     static std::string script_class;
-                    ImGui::InputText("##input", &script_class);
+                    if (ImGui::InputText("##input", &script_class))
+                    {
+                        if (c.instance)
+                            c.destroy(&c);
+                        script = nullptr;
+                        invalid_script = true;
+                    }
                     if (ImGui::IsKeyPressed(ImGuiKey_Enter)) // Check for Enter key press
                     { 
                         invalid_script = true;
@@ -410,7 +416,7 @@ void EditorLayer::ImGuiRender()
                                 c.destroy(&c);
                             // TODO: This should happen OnScenePlay().
                             invalid_script = false;
-                            script = m_ScriptModule->Invoke<NativeBehaviour * (const char*)>("Reflect_CreateBehaviour", script_class.c_str());
+                            script = m_ScriptModule->Invoke<NativeBehaviour * (const char*, const Entity)>("Reflect_CreateBehaviour", script_class.c_str(), m_SelectedEntity.entity);
                             c.instance = script;
                             c.instance->Init();
                             if (!c.destroy)
@@ -431,8 +437,11 @@ void EditorLayer::ImGuiRender()
                             ImGui::Text("No such class.");
                     }
                     else
+                    {
                         ImGui::Text("NBMan.dll : %s", script_class.c_str());
+                    }
                     ImGui::EndGroup();
+                    ImGui::Columns(1);
 
                     ImGui::TreePop();
                 }

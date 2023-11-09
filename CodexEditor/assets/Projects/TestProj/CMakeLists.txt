@@ -9,7 +9,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 set(HEADER_FILES "Assets/Scripts/TestScript.h" "Assets/Scripts/TestScript.cpp")
 add_library(NBMan SHARED ${HEADER_FILES} ${SOURCE_FILES})
 
+if(DEFINED CX_PLATFORM_WINDOWS)
+endif()
+
 set_property(TARGET NBMan PROPERTY CXX_STANDARD 20)
+set_target_properties(NBMan PROPERTIES OUTPUT_NAME "NBMan")
+set_target_properties(NBMan PROPERTIES SUFFIX ".dll")
 
 # ==================================================== #
 #   Export macros that describe the current platform   #
@@ -53,6 +58,11 @@ elseif(DEFINED CX_PLATFORM_OSX)
     target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNIX)
 elseif(DEFINED CX_PLATFORM_WINDOWS)
     target_compile_definitions(NBMan PUBLIC CX_PLATFORM_WINDOWS)
+	target_link_libraries(NBMan PRIVATE 
+		${CMAKE_CURRENT_SOURCE_DIR}/lib/CodexEngine.lib
+		${CMAKE_CURRENT_SOURCE_DIR}/lib/MGL.lib
+		${CMAKE_CURRENT_SOURCE_DIR}/lib/fmtd.lib
+	)
 else()
     target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNKNOWN)
 endif()

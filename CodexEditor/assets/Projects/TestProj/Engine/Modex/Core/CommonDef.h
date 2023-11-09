@@ -6,6 +6,7 @@
 
 #if defined(CX_COMPILER_MSVC)
 #define CODEX_EXPORT __declspec(dllexport)
+#define CODEX_IMPORT __declspec(dllimport)
 #elif defined(__clang__) || defined(__GNUC__)
 #define CODEX_EXPORT __attribute__((visibility("default")))
 #endif

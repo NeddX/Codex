@@ -34,7 +34,7 @@ namespace codex {
     {
         friend class Scene;
 
-    private:
+    protected:
         Entity m_Owner;
 
     public:
@@ -66,7 +66,7 @@ namespace codex {
         // FIXME: Mark these methods protected!
         // protected:
     public:
-        virtual void Init() = 0;
+        virtual void Init() {};
         virtual void Update(const f32 deltaTime) {}
         virtual void Destroy() {}
     };
