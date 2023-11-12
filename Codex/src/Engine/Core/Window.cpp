@@ -38,9 +38,9 @@ namespace codex {
         m_Tp2          = m_Tp1;
 
         // Initialize SDL and OpenGL
-        if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER | SDL_INIT_EVENTS) < 0)
         {
-            cx_throwd(SDLException);
+            cx_throw(SDLException, "Failed to initialize SDL.\n\tSDL Error: {}", SDL_GetError());
             // SDLThrowError(__LINE__, "ERROR: FAILED TO INITIALIZE SDL!");
             return;
         }
@@ -67,7 +67,7 @@ namespace codex {
 
         if (!m_SdlWindow)
         {
-            cx_throw(SDLException, "Failed to create an SDL window.");
+            cx_throw(SDLException, "Failed to create an SDL window.\n\t SDL Error: {}", SDL_GetError());
             // SDLThrowError(__LINE__, "ERROR: FAILED TO CREATE SDL WINDOW!");
         }
         SDLCheckError(__LINE__);
@@ -76,7 +76,7 @@ namespace codex {
         m_GlContext = SDL_GL_CreateContext(m_SdlWindow); // fails here
         if (!m_GlContext)
         {
-            cx_throw(SDLException, "Failed to create an OpenGL context from the SDL window.");
+            cx_throw(SDLException, "Failed to create an OpenGL context from the SDL window.\n\tSDL Error: {}", SDL_GetError());
             // SDLThrowError(__LINE__, "ERROR: FAILED TO CREATE AN OPENGL CONTEXT FROM SDL WINDOW!");
         }
         SDLCheckError(__LINE__);
