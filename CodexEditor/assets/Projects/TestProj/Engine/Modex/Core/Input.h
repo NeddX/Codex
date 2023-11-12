@@ -277,7 +277,7 @@ namespace codex {
         EndCall          = SDLK_ENDCALL,
     };
 
-    CODEX_IMPORT const char* KeyToString(const Key key) noexcept;
+    const char* KeyToString(const Key key) noexcept;
 
     enum class Mouse : u8
     {

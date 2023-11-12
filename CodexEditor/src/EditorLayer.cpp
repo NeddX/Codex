@@ -120,7 +120,7 @@ void EditorLayer::ImGuiRender()
                     m_ProjectPath = std::filesystem::path(std::string{ file });
                     m_ProjectPath = m_ProjectPath.parent_path();
                     m_Scene.reset(new Scene());
-                    Serializer::DeserializeScene(file, *m_Scene);    
+                    Serializer::DeserializeScene(file, *m_Scene);
                     m_ScriptModule = std::make_unique<DLib>(fmt::format("{}/lib/NBMan.dll", m_ProjectPath.string()));
                     if (m_ScriptModule)
                         fmt::println("Script module loaded.");
@@ -389,36 +389,46 @@ void EditorLayer::ImGuiRender()
                 if (ImGui::TreeNodeEx("C++ Script Component", ImGuiTreeNodeFlags_DefaultOpen))
                 {
                     auto& c = m_SelectedEntity.entity.GetComponent<NativeBehaviourComponent>();
-                        
+
                     ImGui::Columns(2);
                     ImGui::SetColumnWidth(0, m_ColumnWidth);
                     ImGui::Text("Attached Class: ");
                     ImGui::NextColumn();
 
                     ImGui::BeginGroup();
-                    static NativeBehaviour* script = nullptr;
-                    static bool invalid_script = false;
-                    static std::string script_class;
+                    static NativeBehaviour* script         = nullptr;
+                    static bool             invalid_script = false;
+                    static std::string      script_class;
+                    static std::string      data;
                     if (ImGui::InputText("##input", &script_class))
                     {
                         if (c.instance)
                             c.destroy(&c);
-                        script = nullptr;
+                        script         = nullptr;
                         invalid_script = true;
                     }
                     if (ImGui::IsKeyPressed(ImGuiKey_Enter)) // Check for Enter key press
-                    { 
+                    {
                         invalid_script = true;
-                        bool valid = m_ScriptModule->Invoke<bool(const char*)>("Reflect_DoesBehaviourExist", script_class.c_str());
+                        bool valid     = m_ScriptModule->Invoke<bool(const char*)>("Reflect_DoesBehaviourExist",
+                                                                               script_class.c_str());
                         if (valid)
                         {
                             if (c.instance)
                                 c.destroy(&c);
                             // TODO: This should happen OnScenePlay().
                             invalid_script = false;
-                            script = m_ScriptModule->Invoke<NativeBehaviour * (const char*, const Entity)>("Reflect_CreateBehaviour", script_class.c_str(), m_SelectedEntity.entity);
+                            script         = m_ScriptModule->Invoke<NativeBehaviour*(const char*, const Entity)>(
+                                "Reflect_CreateBehaviour", script_class.c_str(), m_SelectedEntity.entity);
                             c.instance = script;
                             c.instance->Init();
+
+                            nlohmann::ordered_json j;
+                            m_ScriptModule->Invoke<bool(const char*, nlohmann::ordered_json*, const NativeBehaviour*)>(
+                                "Reflect_SerializeBehaviour", script_class.c_str(), &j, script);
+                            std::stringstream ss;
+                            ss << std::setw(4) << j;
+                            data = ss.str();
                             if (!c.destroy)
                             {
                                 c.destroy = [](NativeBehaviourComponent* zis)
@@ -441,6 +451,14 @@ void EditorLayer::ImGuiRender()
                         ImGui::Text("NBMan.dll : %s", script_class.c_str());
                     }
                     ImGui::EndGroup();
+                    ImGui::Columns(1);
+
+                    ImGui::Columns(2);
+                    ImGui::SetColumnWidth(0, m_ColumnWidth);
+                    ImGui::Text("Serialized data: ");
+                    ImGui::NextColumn();
+
+                    ImGui::InputTextMultiline("##src", &data, ImVec2(0, 300));
                     ImGui::Columns(1);
 
                     ImGui::TreePop();
