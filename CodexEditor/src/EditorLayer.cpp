@@ -121,7 +121,7 @@ void EditorLayer::ImGuiRender()
                     m_ProjectPath = m_ProjectPath.parent_path();
                     m_Scene.reset(new Scene());
                     Serializer::DeserializeScene(file, *m_Scene);
-                    m_ScriptModule = std::make_unique<DLib>(fmt::format("{}/lib/NBMan.dll", m_ProjectPath.string()));
+                    m_ScriptModule = std::make_unique<DLib>(fmt::format("{}/lib/libNBMan.dll", m_ProjectPath.string()));
                     if (m_ScriptModule)
                         fmt::println("Script module loaded.");
                     else
@@ -134,9 +134,9 @@ void EditorLayer::ImGuiRender()
                 for (auto& e : entities)
                 {
                     auto& c = e.GetComponent<NativeBehaviourComponent>();
-                    c.destroy(&c);
+                    // c.destroy(&c);
                 }
-                m_ScriptModule.reset(new DLib(fmt::format("{}/lib/NBMan.dll", m_ProjectPath.string())));
+                m_ScriptModule.reset(new DLib(fmt::format("{}/lib/libNBMan.dll", m_ProjectPath.string())));
                 if (m_ScriptModule)
                     fmt::println("Script module reloaded.");
                 else
@@ -148,7 +148,7 @@ void EditorLayer::ImGuiRender()
                 for (auto& e : entities)
                 {
                     auto& c = e.GetComponent<NativeBehaviourComponent>();
-                    c.destroy(&c);
+                    // c.destroy(&c);
                 }
                 m_ScriptModule.reset(nullptr);
             }
@@ -266,6 +266,7 @@ void EditorLayer::ImGuiRender()
         ImGui::End();
     }
 
+    // Render info
     {
         ImGui::Begin("Render Info");
         ImGui::Text("Renderer information");
@@ -350,6 +351,7 @@ void EditorLayer::ImGuiRender()
         ImGui::End();
     }
 
+    // Properties panel
     {
         ImGui::Begin("Entity properties");
         if (m_SelectedEntity.entity)
@@ -392,7 +394,7 @@ void EditorLayer::ImGuiRender()
 
                     ImGui::Columns(2);
                     ImGui::SetColumnWidth(0, m_ColumnWidth);
-                    ImGui::Text("Attached Class: ");
+                    ImGui::Text("Attach class: ");
                     ImGui::NextColumn();
 
                     ImGui::BeginGroup();
@@ -402,8 +404,6 @@ void EditorLayer::ImGuiRender()
                     static std::string      data;
                     if (ImGui::InputText("##input", &script_class))
                     {
-                        if (c.instance)
-                            c.destroy(&c);
                         script         = nullptr;
                         invalid_script = true;
                     }
@@ -414,21 +414,105 @@ void EditorLayer::ImGuiRender()
                                                                                script_class.c_str());
                         if (valid)
                         {
-                            if (c.instance)
-                                c.destroy(&c);
                             // TODO: This should happen OnScenePlay().
                             invalid_script = false;
                             script         = m_ScriptModule->Invoke<NativeBehaviour*(const char*, const Entity)>(
                                 "Reflect_CreateBehaviour", script_class.c_str(), m_SelectedEntity.entity);
-                            c.instance = script;
-                            c.instance->Init();
+                            c.Attach(script);
+                        }
+                    }
+                    if (!script)
+                    {
+                        if (!invalid_script)
+                            ImGui::Text("No bound class.");
+                        else
+                            ImGui::Text("No such class.");
+                    }
+                    else
+                    {
+                        ImGui::Text("libNBMan.dll : %s", script_class.c_str());
+                    }
+                    ImGui::EndGroup();
+                    ImGui::Columns(1);
 
-                            nlohmann::ordered_json j;
-                            m_ScriptModule->Invoke<bool(const char*, nlohmann::ordered_json*, const NativeBehaviour*)>(
-                                "Reflect_SerializeBehaviour", script_class.c_str(), &j, script);
-                            std::stringstream ss;
-                            ss << std::setw(4) << j;
-                            data = ss.str();
+                    // Display serialized fields
+                    for (auto& [k, v] : c.behaviours)
+                    {
+                        const auto& j = v->GetSerializedData();
+                        if (j.empty())
+                            v->Serialize();
+
+                        const auto& klass = j.begin();
+                        if (ImGui::TreeNodeEx(klass.key().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+                        {
+                            for (const auto& field : klass.value()["Fields"].items())
+                            {
+                                fmt::println("\n{}", field.value().dump());
+                                const std::string& field_name  = field.key();
+                                const std::string& field_type  = field.value()["Type"];
+                                std::string        field_value = field.value()["Value"].get<std::string>();
+
+                                ImGui::Columns(2);
+                                ImGui::SetColumnWidth(0, m_ColumnWidth);
+                                ImGui::Text(field_name.c_str());
+                                ImGui::NextColumn();
+
+                                static std::string data = field_value;
+                                ImGui::InputText("##input", &data);
+
+                                ImGui::Columns(1);
+                            }
+                            for (const auto& field_obj : klass.value()["Fields"])
+                            {
+                                /*
+                                fmt::println("{}"field_obj.dump();
+                                const auto& field = field_obj.begin();
+
+                                ImGui::Columns(2);
+                                ImGui::SetColumnWidth(0, m_ColumnWidth);
+                                ImGui::Text(field.key().c_str());
+                                ImGui::NextColumn();
+
+                                static std::string field_data = field.value().dump();
+                                ImGui::InputText("##input", &field_data);
+
+                                ImGui::Columns(1);
+                                */
+                            }
+                            ImGui::TreePop();
+                        }
+                    }
+                    /*
+                    ImGui::Columns(2);
+                    ImGui::SetColumnWidth(0, m_ColumnWidth);
+                    ImGui::Text("Attached Class: ");
+                    ImGui::NextColumn();
+
+                    ImGui::BeginGroup();
+                    static NativeBehaviour* script         = nullptr;
+                    static bool             invalid_script = false;
+                    static std::string      script_class;
+                    static std::string      data;
+                    if (ImGui::InputText("##input", &script_class))
+                    {
+                        script         = nullptr;
+                        invalid_script = true;
+                    }
+                    if (ImGui::IsKeyPressed(ImGuiKey_Enter)) // Check for Enter key press
+                    {
+                        invalid_script = true;
+                        bool valid     = m_ScriptModule->Invoke<bool(const char*)>("Reflect_DoesBehaviourExist",
+                                                                               script_class.c_str());
+                        if (valid)
+                        {
+                            // TODO: This should happen OnScenePlay().
+                            invalid_script = false;
+                            script         = m_ScriptModule->Invoke<NativeBehaviour*(const char*, const Entity)>(
+                                "Reflect_CreateBehaviour", script_class.c_str(), m_SelectedEntity.entity);
+                            // c.Attach(script);
+                            // c.instance = script;
+                            // c.instance->Init();
+
                             if (!c.destroy)
                             {
                                 c.destroy = [](NativeBehaviourComponent* zis)
@@ -448,7 +532,7 @@ void EditorLayer::ImGuiRender()
                     }
                     else
                     {
-                        ImGui::Text("NBMan.dll : %s", script_class.c_str());
+                        ImGui::Text("libNBMan.dll : %s", script_class.c_str());
                     }
                     ImGui::EndGroup();
                     ImGui::Columns(1);
@@ -460,6 +544,7 @@ void EditorLayer::ImGuiRender()
 
                     ImGui::InputTextMultiline("##src", &data, ImVec2(0, 300));
                     ImGui::Columns(1);
+                    */
 
                     ImGui::TreePop();
                 }

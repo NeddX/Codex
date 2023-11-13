@@ -23,7 +23,7 @@ namespace codex {
         using CodexException::CodexException;
 
     public:
-        inline const char* default_message() const noexcept override { return "The path supplied is invalid."; }
+        constexpr const char* default_message() const noexcept override { return "The path supplied is invalid."; }
     };
 
     struct ApplicationCLIArgs

@@ -117,26 +117,66 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
+    class ScriptException : public CodexException
+    {
+        using CodexException::CodexException;
+
+    public:
+        constexpr const char* default_message() const noexcept override { return "An unknown behaviour exception."; }
+    };
+
     struct NativeBehaviourComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
 
     public:
-        NativeBehaviour* instance = nullptr;
-        NativeBehaviour* (*Instantiate)();
-        void (*destroy)(NativeBehaviourComponent*);
+        std::unordered_map<std::string_view, NativeBehaviour*> behaviours;
 
     public:
-        template <typename T>
-        void Bind()
+        void Attach(NativeBehaviour* bh)
         {
-            Instantiate = []() { return (NativeBehaviour*)new T(); };
-            destroy     = [](NativeBehaviourComponent* zis)
+            bh->Serialize();
+            const std::string_view name = bh->m_SerializedData.begin().key();
+            if (!behaviours.contains(name))
+                behaviours[name] = bh;
+        }
+        NativeBehaviour* Detach(const std::string_view className)
+        {
+            auto it = behaviours.find(className);
+            if (it != behaviours.end())
             {
-                delete zis->instance;
-                zis->instance = nullptr;
-            };
+                auto* ptr = it->second;
+                behaviours.erase(it, behaviours.end());
+                return ptr;
+            }
+            else
+            {
+                cx_throw(ScriptException, "Tried to detach a behaviour ({}) that is not attach on first place.",
+                         className);
+                return nullptr;
+            }
+        }
+        void InstantiateBehaviour(const std::string_view className)
+        {
+            if (behaviours.contains(className))
+                behaviours.at(className)->Init();
+            else
+                cx_throw(ScriptException, "Tried to instantiate a non-existent behaviour class {}.", className);
+        }
+        void Dispose(const std::string_view className)
+        {
+            auto it = behaviours.find(className);
+            if (it != behaviours.end())
+            {
+                delete it->second;
+                behaviours.erase(it, behaviours.end());
+            }
+            else
+            {
+                cx_throw(ScriptException, "Tried to dispose a behaviour ({}) that is not attach on first place.",
+                         className);
+            }
         }
 
     public:

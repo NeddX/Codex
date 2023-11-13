@@ -13,6 +13,8 @@ if(DEFINED CX_PLATFORM_WINDOWS)
 endif()
 
 set_property(TARGET NBMan PROPERTY CXX_STANDARD 20)
+set(CMAKE_SHARED_LIBRARY_PREFIX "lib")
+set(CMAKE_STATIC_LIBRARY_PREFIX "lib")
 set_target_properties(NBMan PROPERTIES OUTPUT_NAME "NBMan")
 set_target_properties(NBMan PROPERTIES SUFFIX ".dll")
 

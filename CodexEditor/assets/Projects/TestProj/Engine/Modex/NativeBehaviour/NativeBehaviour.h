@@ -1,3 +1,4 @@
+
 #ifndef CODEX_SCENE_NATIVE_BEHAVIOUR_H
 #define CODEX_SCENE_NATIVE_BEHAVIOUR_H
 
@@ -8,34 +9,19 @@
 namespace codex {
     // Forward declarations.
     class Scene;
-
-    class DynamicLibraryException : public CodexException
-    {
-        using CodexException::CodexException;
-
-    public:
-        inline const char* default_message() const noexcept override { return "Failed to load dynamic library."; }
-    };
-
-#ifdef CX_PLATFORM_WINDOWS
-    using DLib = HINSTANCE;
-#elif defined(CX_PLATFORM_UNIX)
-    using DLib = void*;
-
-    DLib LoadLibrary(const char* filePath)
-    {
-        DLib handle = dlopen(filePath, RTLD_LAZY);
-        if (!handle)
-            cx_throw(DynamicLibraryException, "Failed to load '{}'.", filePath);
-    }
-#endif
+    class NativeBehaviourComponent;
 
     class NativeBehaviour
     {
         friend class Scene;
+        friend class NativeBehaviourComponent;
 
     protected:
-        Entity m_Owner;
+        Entity                 m_Owner;
+        nlohmann::ordered_json m_SerializedData;
+
+    public:
+        constexpr const nlohmann::ordered_json& GetSerializedData() const noexcept { return m_SerializedData; }
 
     public:
         template <typename T, typename... TArgs>
@@ -66,9 +52,10 @@ namespace codex {
         // FIXME: Mark these methods protected!
         // protected:
     public:
-        virtual void Init() {};
+        virtual void Init(){};
         virtual void Update(const f32 deltaTime) {}
         virtual void Destroy() {}
+        virtual void Serialize() = 0;
     };
 } // namespace codex
 

@@ -14,7 +14,7 @@ namespace codex {
         using CodexException::CodexException;
 
     public:
-        inline const char* default_message() const noexcept override { return "Bad resource."; }
+        constexpr const char* default_message() const noexcept override { return "Bad resource."; }
     };
 
     class ResourceNotFoundException : public ResourceException
@@ -22,7 +22,7 @@ namespace codex {
         using ResourceException::ResourceException;
 
     public:
-        inline const char* default_message() const noexcept override { return "Failed to load resource."; }
+        constexpr const char* default_message() const noexcept override { return "Failed to load resource."; }
     };
 
     class Resources

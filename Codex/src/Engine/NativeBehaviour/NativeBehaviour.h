@@ -8,13 +8,19 @@
 namespace codex {
     // Forward declarations.
     class Scene;
+    class NativeBehaviourComponent;
 
     class NativeBehaviour
     {
         friend class Scene;
+        friend class NativeBehaviourComponent;
 
     protected:
-        Entity m_Owner;
+        Entity                 m_Owner;
+        nlohmann::ordered_json m_SerializedData;
+
+    public:
+        constexpr const nlohmann::ordered_json& GetSerializedData() const noexcept { return m_SerializedData; }
 
     public:
         template <typename T, typename... TArgs>
@@ -45,9 +51,10 @@ namespace codex {
         // FIXME: Mark these methods protected!
         // protected:
     public:
-        virtual void Init() {};
+        virtual void Init(){};
         virtual void Update(const f32 deltaTime) {}
         virtual void Destroy() {}
+        virtual void Serialize() = 0;
     };
 } // namespace codex
 

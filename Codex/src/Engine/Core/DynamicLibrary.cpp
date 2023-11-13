@@ -7,7 +7,7 @@ namespace codex {
         m_Handle = dlopen(m_FilePath.c_str(), RTLD_LAZY);
         if (!m_Handle)
             cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
-#else defined(CX_PLATFORM_WINDOWS)
+#elif defined(CX_PLATFORM_WINDOWS)
         m_Handle = LoadLibraryA(m_FilePath.c_str());
         if (!m_Handle)
             cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
@@ -21,7 +21,7 @@ namespace codex {
             m_Handle   = other.m_Handle;
             m_FilePath = other.m_FilePath;
 
-            other.m_Handle   = (DLibInstance)nullptr;
+            other.m_Handle   = (DLibInstance) nullptr;
             other.m_FilePath = "";
         }
     }
@@ -33,7 +33,7 @@ namespace codex {
             m_Handle   = other.m_Handle;
             m_FilePath = other.m_FilePath;
 
-            other.m_Handle   = (DLibInstance)nullptr;
+            other.m_Handle   = (DLibInstance) nullptr;
             other.m_FilePath = "";
         }
         return *this;
@@ -46,7 +46,7 @@ namespace codex {
 #elif defined(CX_PLATFORM_WINDOWS)
         FreeLibrary(m_Handle);
 #endif
-        m_Handle   = (DLibInstance)nullptr;
+        m_Handle   = (DLibInstance) nullptr;
         m_FilePath = "";
     }
 
@@ -57,9 +57,9 @@ namespace codex {
         m_Handle   = dlopen(m_FilePath.c_str(), RTLD_LAZY);
         if (!m_Handle)
             cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
-#else defined(CX_PLATFORM_WINDOWS)
+#elif defined(CX_PLATFORM_WINDOWS)
         m_FilePath = filePath;
-        m_Handle = LoadLibraryA(m_FilePath.c_str());
+        m_Handle   = LoadLibraryA(m_FilePath.c_str());
         if (!m_Handle)
             cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
 #endif

@@ -18,7 +18,7 @@ namespace codex {
         using CodexException::CodexException;
 
     public:
-        inline const char* default_message() const noexcept override { return "SDL failed to initialize."; }
+        constexpr const char* default_message() const noexcept override { return "SDL failed to initialize."; }
     };
 
     class GLADException : public CodexException
@@ -26,7 +26,7 @@ namespace codex {
         using CodexException::CodexException;
 
     public:
-        inline const char* default_message() const noexcept override { return "GLAD failed to initialize."; }
+        constexpr const char* default_message() const noexcept override { return "GLAD failed to initialize."; }
     };
 
     struct WindowProperties

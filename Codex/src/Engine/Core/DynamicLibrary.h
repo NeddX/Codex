@@ -17,7 +17,7 @@ namespace codex {
         using CodexException::CodexException;
 
     public:
-        inline const char* default_message() const noexcept override { return "Failed to load dynamic library."; }
+        constexpr const char* default_message() const noexcept override { return "Failed to load dynamic library."; }
     };
 
     class DynamicLibraryInvokeException : public CodexException
@@ -25,7 +25,7 @@ namespace codex {
         using CodexException::CodexException;
 
     public:
-        inline const char* default_message() const noexcept override { return "Failed to invoke function."; }
+        constexpr const char* default_message() const noexcept override { return "Failed to invoke function."; }
     };
 
     class DLib

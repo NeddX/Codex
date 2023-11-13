@@ -101,6 +101,7 @@ namespace codex {
         {
             // TODO: This should happen OnScenePlay.
             auto& behaviour_component = entity.GetComponent<NativeBehaviourComponent>();
+            /*
             if (!behaviour_component.instance)
             {
                 //behaviour_component.instance          = behaviour_component.Instantiate();
@@ -109,6 +110,11 @@ namespace codex {
                 continue;
             }
             behaviour_component.instance->Update(deltaTime);
+            */
+            for (const auto& e : behaviour_component.behaviours)
+            {
+                e.second->Update(deltaTime);
+            }
         }
 
         /*

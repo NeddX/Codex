@@ -12,7 +12,7 @@ namespace codex {
         using CodexException::CodexException;
 
     public:
-        inline const char* default_message() const noexcept override { return "Bad shader."; }
+        constexpr const char* default_message() const noexcept override { return "Bad shader."; }
     };
 
     class ShaderNotFoundException : public ShaderException
@@ -20,7 +20,7 @@ namespace codex {
         using ShaderException::ShaderException;
 
     public:
-        inline const char* default_message() const noexcept override { return "Shader was not found."; }
+        constexpr const char* default_message() const noexcept override { return "Shader was not found."; }
     };
 
     class Shader : public IResource
