@@ -42,6 +42,9 @@ namespace codex {
     using f32     = float;
     using f64     = double;
     using f128    = long double;
+    using object  = void*;
+
+    constexpr object nullobj = nullptr;
 
     template <typename Derived, typename Base>
     concept DerivedFrom = std::is_base_of<Base, Derived>::value;

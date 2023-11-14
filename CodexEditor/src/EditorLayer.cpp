@@ -448,14 +448,31 @@ void EditorLayer::ImGuiRender()
                             for (const auto& field : klass.value()["Fields"].items())
                             {
                                 fmt::println("\n{}", field.value().dump());
-                                const std::string& field_name  = field.key();
-                                const std::string& field_type  = field.value()["Type"];
-                                std::string        field_value = field.value()["Value"].get<std::string>();
+                                const std::string& field_name = field.key();
+                                const FieldType    field_type = field.value().at("Type");
 
                                 ImGui::Columns(2);
                                 ImGui::SetColumnWidth(0, m_ColumnWidth);
                                 ImGui::Text(field_name.c_str());
                                 ImGui::NextColumn();
+
+                                switch (field_type)
+                                {
+                                    case FieldType::I32: {
+                                        break;
+                                    }
+                                    case FieldType::U32: {
+                                        break;
+                                    }
+                                    case FieldType::CString: {
+                                        break;
+                                    }
+                                    case FieldType::StdString: {
+                                        ImGui::InputText("##input", v->GetField(field_name));
+                                        break;
+                                    }
+                                    default: cx_throw(CodexException, "WHAT THE FUCK"); break;
+                                }
 
                                 static std::string data = field_value;
                                 ImGui::InputText("##input", &data);

@@ -1,4 +1,3 @@
-
 #ifndef CODEX_SCENE_NATIVE_BEHAVIOUR_H
 #define CODEX_SCENE_NATIVE_BEHAVIOUR_H
 
@@ -10,6 +9,32 @@ namespace codex {
     // Forward declarations.
     class Scene;
     class NativeBehaviourComponent;
+
+    enum class FieldType : u8
+    {
+        U8,
+        I8,
+        U16,
+        I16,
+        U32,
+        I32,
+        U64,
+        I64,
+        USize,
+        Boolean,
+        F32,
+        F64,
+        F128,
+        Vector2f,
+        Vector2,
+        Vector3f,
+        Vector3,
+        Vector4f,
+        Vector4,
+        ObjectRef,
+        CString,
+        StdString
+    };
 
     class NativeBehaviour
     {
@@ -52,10 +77,11 @@ namespace codex {
         // FIXME: Mark these methods protected!
         // protected:
     public:
-        virtual void Init(){};
-        virtual void Update(const f32 deltaTime) {}
-        virtual void Destroy() {}
-        virtual void Serialize() = 0;
+        virtual void   Init(){};
+        virtual void   Update(const f32 deltaTime) {}
+        virtual void   Destroy() {}
+        virtual void   Serialize(){};
+        virtual object GetField(const std::string_view name) { return nullobj; }
     };
 } // namespace codex
 

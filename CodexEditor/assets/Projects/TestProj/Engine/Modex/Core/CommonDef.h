@@ -39,6 +39,9 @@ namespace codex {
     using f32     = float;
     using f64     = double;
     using f128    = long double;
+    using object  = void*;
+
+    constexpr object nullobj = nullptr;
 
     template <typename T>
     inline constexpr T BitFlag(const T b)

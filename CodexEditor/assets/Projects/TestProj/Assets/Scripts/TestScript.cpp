@@ -59,3 +59,7 @@ NativeBehaviour* Reflect_CreateBehaviour(const char* className, const Entity own
     else
         return nullptr;
 }
+
+object Reflect_GetField(const char* name, NativeBehaviour* bh)
+{
+}
