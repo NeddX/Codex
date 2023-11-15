@@ -23,6 +23,11 @@ void EditorLayer::OnAttach()
 
     // glEnable(GL_DEPTH_TEST);
     // glDepthFunc(GL_LESS);
+
+    std::ifstream fs("./TestScript.h");
+    std::string   src((std::istreambuf_iterator<char>(fs)), (std::istreambuf_iterator<char>()));
+    TokenList     list = Lexer::Lex(src);
+    Lexer::Print(list);
 }
 
 void EditorLayer::OnDetach()
@@ -147,8 +152,12 @@ void EditorLayer::ImGuiRender()
                 auto entities = m_Scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
                 for (auto& e : entities)
                 {
-                    auto& c = e.GetComponent<NativeBehaviourComponent>();
-                    // c.destroy(&c);
+                    auto&                         c = e.GetComponent<NativeBehaviourComponent>();
+                    std::vector<std::string_view> scripts;
+                    for (const auto& [k, v] : c.behaviours)
+                        scripts.push_back(k);
+                    for (const auto& e : scripts)
+                        c.Detach(e);
                 }
                 m_ScriptModule.reset(nullptr);
             }
@@ -447,7 +456,7 @@ void EditorLayer::ImGuiRender()
                         {
                             for (const auto& field : klass.value()["Fields"].items())
                             {
-                                fmt::println("\n{}", field.value().dump());
+                                // fmt::println("\n{}", field.value().dump());
                                 const std::string& field_name = field.key();
                                 const FieldType    field_type = field.value().at("Type");
 
@@ -456,27 +465,41 @@ void EditorLayer::ImGuiRender()
                                 ImGui::Text(field_name.c_str());
                                 ImGui::NextColumn();
 
+                                object field_ptr = v->GetField(field_name);
                                 switch (field_type)
                                 {
-                                    case FieldType::I32: {
+                                    case FieldType::I32:
+                                    case FieldType::U32: {
+                                        ImGui::DragInt("##drag_int", (i32*)field_ptr);
                                         break;
                                     }
-                                    case FieldType::U32: {
+                                    case FieldType::F32:
+                                    case FieldType::F64:
+                                    case FieldType::F128: {
+                                        ImGui::DragFloat("##dragger", (f32*)field_ptr);
                                         break;
                                     }
                                     case FieldType::CString: {
                                         break;
                                     }
                                     case FieldType::StdString: {
-                                        ImGui::InputText("##input", v->GetField(field_name));
+                                        ImGui::InputText("##input", (std::string*)field_ptr);
+                                        break;
+                                    }
+                                    case FieldType::Boolean: {
+                                        ImGui::Checkbox("##checkbox", (bool*)field_ptr);
+                                        break;
+                                    }
+                                    case FieldType::Vector2f: {
+                                        DrawVec2Control("##t", *(Vector2f*)field_ptr, m_ColumnWidth);
+                                        break;
+                                    }
+                                    case FieldType::Vector3f: {
+                                        DrawVec3Control("##t", *(Vector3f*)field_ptr, m_ColumnWidth);
                                         break;
                                     }
                                     default: cx_throw(CodexException, "WHAT THE FUCK"); break;
                                 }
-
-                                static std::string data = field_value;
-                                ImGui::InputText("##input", &data);
-
                                 ImGui::Columns(1);
                             }
                             for (const auto& field_obj : klass.value()["Fields"])
@@ -499,70 +522,6 @@ void EditorLayer::ImGuiRender()
                             ImGui::TreePop();
                         }
                     }
-                    /*
-                    ImGui::Columns(2);
-                    ImGui::SetColumnWidth(0, m_ColumnWidth);
-                    ImGui::Text("Attached Class: ");
-                    ImGui::NextColumn();
-
-                    ImGui::BeginGroup();
-                    static NativeBehaviour* script         = nullptr;
-                    static bool             invalid_script = false;
-                    static std::string      script_class;
-                    static std::string      data;
-                    if (ImGui::InputText("##input", &script_class))
-                    {
-                        script         = nullptr;
-                        invalid_script = true;
-                    }
-                    if (ImGui::IsKeyPressed(ImGuiKey_Enter)) // Check for Enter key press
-                    {
-                        invalid_script = true;
-                        bool valid     = m_ScriptModule->Invoke<bool(const char*)>("Reflect_DoesBehaviourExist",
-                                                                               script_class.c_str());
-                        if (valid)
-                        {
-                            // TODO: This should happen OnScenePlay().
-                            invalid_script = false;
-                            script         = m_ScriptModule->Invoke<NativeBehaviour*(const char*, const Entity)>(
-                                "Reflect_CreateBehaviour", script_class.c_str(), m_SelectedEntity.entity);
-                            // c.Attach(script);
-                            // c.instance = script;
-                            // c.instance->Init();
-
-                            if (!c.destroy)
-                            {
-                                c.destroy = [](NativeBehaviourComponent* zis)
-                                {
-                                    delete zis->instance;
-                                    zis->instance = nullptr;
-                                };
-                            }
-                        }
-                    }
-                    if (!script)
-                    {
-                        if (!invalid_script)
-                            ImGui::Text("No bound class.");
-                        else
-                            ImGui::Text("No such class.");
-                    }
-                    else
-                    {
-                        ImGui::Text("libNBMan.dll : %s", script_class.c_str());
-                    }
-                    ImGui::EndGroup();
-                    ImGui::Columns(1);
-
-                    ImGui::Columns(2);
-                    ImGui::SetColumnWidth(0, m_ColumnWidth);
-                    ImGui::Text("Serialized data: ");
-                    ImGui::NextColumn();
-
-                    ImGui::InputTextMultiline("##src", &data, ImVec2(0, 300));
-                    ImGui::Columns(1);
-                    */
-
                     ImGui::TreePop();
                 }
             }
@@ -751,10 +710,13 @@ void EditorLayer::DrawVec3Control(const char* label, Vector3f& values, const f32
 
     ImGui::PushID(label);
 
-    ImGui::Columns(2);
-    ImGui::SetColumnWidth(0, columnWidth);
-    ImGui::Text(label);
-    ImGui::NextColumn();
+    if (label[0] != '#' && label[1] != '#')
+    {
+        ImGui::Columns(2);
+        ImGui::SetColumnWidth(0, columnWidth);
+        ImGui::Text(label);
+        ImGui::NextColumn();
+    }
 
     ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
@@ -805,7 +767,8 @@ void EditorLayer::DrawVec3Control(const char* label, Vector3f& values, const f32
 
     ImGui::PopStyleVar();
 
-    ImGui::Columns(1);
+    if (label[0] != '#' && label[1] != '#')
+        ImGui::Columns(1);
 
     ImGui::PopID();
 }
@@ -818,10 +781,13 @@ void EditorLayer::DrawVec2Control(const char* label, Vector2f& values, const f32
 
     ImGui::PushID(label);
 
-    ImGui::Columns(2);
-    ImGui::SetColumnWidth(0, columnWidth);
-    ImGui::Text(label);
-    ImGui::NextColumn();
+    if (label[0] != '#' && label[1] != '#')
+    {
+        ImGui::Columns(2);
+        ImGui::SetColumnWidth(0, columnWidth);
+        ImGui::Text(label);
+        ImGui::NextColumn();
+    }
 
     ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
@@ -858,7 +824,8 @@ void EditorLayer::DrawVec2Control(const char* label, Vector2f& values, const f32
 
     ImGui::PopStyleVar();
 
-    ImGui::Columns(1);
+    if (label[0] != '#' && label[1] != '#')
+        ImGui::Columns(1);
 
     ImGui::PopID();
 }

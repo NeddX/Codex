@@ -77,10 +77,11 @@ namespace codex {
         // FIXME: Mark these methods protected!
         // protected:
     public:
-        virtual void Init(){};
-        virtual void Update(const f32 deltaTime) {}
-        virtual void Destroy() {}
-        virtual void Serialize() = 0;
+        virtual void   Init(){};
+        virtual void   Update(const f32 deltaTime) {}
+        virtual void   Destroy() {}
+        virtual void   Serialize() = 0;
+        virtual object GetField(const std::string_view name) { return nullobj; }
     };
 } // namespace codex
 

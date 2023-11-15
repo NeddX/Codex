@@ -26,6 +26,9 @@
 #include "../src/Engine/Scene/ECS.h"
 #include "../src/Engine/Scene/Scene.h"
 
+// Reflection
+#include "../src/Engine/Reflection/Lexer.h"
+
 // Renderer
 #include "../src/Engine/Renderer/BatchRenderer2D.h"
 #include "../src/Engine/Renderer/RenderBatch.h"

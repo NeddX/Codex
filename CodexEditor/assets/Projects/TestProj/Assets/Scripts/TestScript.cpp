@@ -7,36 +7,41 @@ void MienScripten::Init()
 
 void MienScripten::Update(const f32 deltaTime)
 {
-    static float count     = 0;
-    static auto& transform = GetComponent<TransformComponent>();
-    transform.position.y += std::sin(count) * 100.0f * deltaTime;
-    count += 0.1f;
+    if (m_Move)
+    {
+        static float count     = 0;
+        static auto& transform = GetComponent<TransformComponent>();
+        Vector3f     temp      = (transform.position + std::sin(count)) * m_Axies * m_Multiplier * deltaTime;
+        transform.position += temp;
+        count += 0.1f;
+    }
 }
 
 void MienScripten::Serialize()
 {
-    m_SerializedData["MienScripten"]["Id"]                             = 0;
-    m_SerializedData["MienScripten"]["Fields"]["m_MyInteger"]["Type"]  = "i32";
-    m_SerializedData["MienScripten"]["Fields"]["m_MyInteger"]["Value"] = m_MyInteger;
+    m_SerializedData["MienScripten"]["Id"]                              = 0;
+    m_SerializedData["MienScripten"]["Fields"]["m_Multiplier"]["Type"]  = FieldType::F32;
+    m_SerializedData["MienScripten"]["Fields"]["m_Multiplier"]["Value"] = m_Multiplier;
+    m_SerializedData["MienScripten"]["Fields"]["m_Move"]["Type"]        = FieldType::Boolean;
+    m_SerializedData["MienScripten"]["Fields"]["m_Move"]["Value"]       = m_Move;
+    m_SerializedData["MienScripten"]["Fields"]["m_Axies"]["Type"]       = FieldType::Vector3f;
+    m_SerializedData["MienScripten"]["Fields"]["m_Axies"]["Value"]      = m_Axies;
 }
 
-void MienScripten2::Update(const f32 deltaTime)
+object MienScripten::GetField(const std::string_view name)
 {
-    static float count     = 0;
-    static auto& transform = GetComponent<TransformComponent>();
-    transform.rotation.z += std::sin(count) * 100.0f * deltaTime;
-    count += 0.1f;
-}
-
-void MienScripten2::Serialize()
-{
+    if (std::strncmp(name.data(), "m_Multiplier", name.size()) == 0)
+        return &m_Multiplier;
+    else if (std::strncmp(name.data(), "m_Move", name.size()) == 0)
+        return &m_Move;
+    else if (std::strncmp(name.data(), "m_Axies", name.size()) == 0)
+        return &m_Axies;
+    return nullobj;
 }
 
 bool Reflect_DoesBehaviourExist(const char* className)
 {
     if (std::strcmp(className, "MienScripten") == 0)
-        return true;
-    else if (std::strcmp(className, "MienScripten2") == 0)
         return true;
     return false;
 }
@@ -50,16 +55,6 @@ NativeBehaviour* Reflect_CreateBehaviour(const char* className, const Entity own
         inst->m_Owner = owner;
         return inst;
     }
-    else if (std::strcmp(className, "MienScripten2") == 0)
-    {
-        auto* inst    = new MienScripten2();
-        inst->m_Owner = owner;
-        return inst;
-    }
     else
         return nullptr;
-}
-
-object Reflect_GetField(const char* name, NativeBehaviour* bh)
-{
 }
