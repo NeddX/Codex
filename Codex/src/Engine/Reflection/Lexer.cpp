@@ -1,224 +1,131 @@
 #include "Lexer.h"
 
+#define TK_IS_NOT_COMMENT_AND_STR(x)                                                                                   \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (m_CurrentToken.type != TokenType::Comment && m_CurrentToken.type != TokenType::BlockComment &&             \
+            m_CurrentToken.type != TokenType::StringLiteral)                                                           \
+            x                                                                                                          \
+    } while (0);
+#define TK_IS_NOT_COMMENT(x)                                                                                           \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (m_CurrentToken.type != TokenType::Comment && m_CurrentToken.type != TokenType::BlockComment)               \
+            x                                                                                                          \
+    } while (0);
+#define TK_IS_COMMENT_OR_STR(x)                                                                                        \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (m_CurrentToken.type == TokenType::Comment || m_CurrentToken.type == TokenType::BlockComment ||             \
+            m_CurrentToken.type == TokenType::StringLiteral)                                                           \
+            x                                                                                                          \
+    } while (0);
+#define TK_IS_COMMENT(x)                                                                                               \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (m_CurrentToken.type == TokenType::Comment || m_CurrentToken.type == TokenType::BlockComment)               \
+            x                                                                                                          \
+    } while (0);
+#define TK_IS_BLOCK(x)                                                                                                 \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (m_CurrentToken.type == TokenType::Comment)                                                                 \
+            x                                                                                                          \
+    } while (0);
+#define TK_EMPTY(x)                                                                                                    \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (m_CurrentToken.type == TokenType::Whitespace)                                                              \
+            x                                                                                                          \
+    } while (0);
+#define TK_ADD(char) m_CurrentToken.text.append(1, char)
+
 namespace codex {
+    TokenList                           Lexer::m_Tokens{};
+    Token                               Lexer::m_CurrentToken{};
+    usize                               Lexer::m_Line                 = 0;
+    usize                               Lexer::m_Cur                  = 0;
+    usize                               Lexer::m_Index                = 0;
+    std::unordered_map<char, TokenType> Lexer::m_SingleCharTokenMatch = {
+        { '~', TokenType::Tilda },       { '!', TokenType::ExclamationMark }, { '@', TokenType::Dog },
+        { '#', TokenType::Pound },       { '$', TokenType::DollarSign },      { '%', TokenType::PercentSign },
+        { '^', TokenType::Caret },       { '&', TokenType::Ampersand },       { '*', TokenType::Asterisk },
+        { '(', TokenType::OpenParen },   { ')', TokenType::CloseParen },      { '-', TokenType::Minus },
+        { '+', TokenType::Plus },        { '_', TokenType::Underscore },      { '=', TokenType::Equal },
+        { '[', TokenType::OpenSquare },  { ']', TokenType::CloseSquare },     { '{', TokenType::OpenCurly },
+        { '}', TokenType::CloseCurly },  { '\\', TokenType::BackwardSlash },  { '/', TokenType::ForwardSlash },
+        { ';', TokenType::Semicolon },   { ':', TokenType::Colon },           { '\'', TokenType::SingleQuote },
+        { '"', TokenType::DoubleQuote }, { ',', TokenType::Comma },           { '.', TokenType::Dot },
+        { '<', TokenType::OpenAngle },   { '>', TokenType::CloseAngle },
+    };
+
+    bool Lexer::SingleMatch(const char c) noexcept
+    {
+        const auto it = m_SingleCharTokenMatch.find(c);
+        if (it != m_SingleCharTokenMatch.end())
+        {
+            TK_IS_COMMENT_OR_STR(return false;)
+            if (m_CurrentToken.type == TokenType::Identifier && c == '_')
+                return false;
+            EndToken();
+            m_CurrentToken = Token(it->second, m_Line, m_Cur);
+            TK_ADD(c);
+            EndToken();
+            return true;
+        }
+        return false;
+    }
+
     TokenList Lexer::Lex(const std::string_view src)
     {
-        TokenList tokens;
-        usize     len  = src.size();
-        usize     line = 0;
-        usize     cur  = 0;
-        Token     current_token;
+        m_Tokens.clear();
+        m_CurrentToken = Token();
+        m_Line         = 0;
+        m_Cur          = 0;
+        m_Index        = 0;
+
+        usize  len  = src.size();
+        usize& line = m_Line;
+        usize& cur  = m_Cur;
 
         for (usize i = 0; i < len; ++i)
         {
             const char c = src[i];
             switch (c)
             {
-                case '\n':
-                    if (current_token.type != TokenType::BlockComment && current_token.type != TokenType::StringLiteral)
-                    {
-                        tokens.push_back(current_token);
-                        current_token = Token();
-                    }
-                    ++line;
-                    cur = 0;
-                    break;
                 case ' ':
-                    if (current_token.type != TokenType::Comment && current_token.type != TokenType::BlockComment &&
-                        current_token.type != TokenType::StringLiteral && current_token.type != TokenType::PPDirective)
+                    if (m_CurrentToken.type != TokenType::Comment && m_CurrentToken.type != TokenType::BlockComment &&
+                        m_CurrentToken.type != TokenType::StringLiteral)
                     {
-                        tokens.push_back(current_token);
-                        current_token = Token();
-                    }
-                    else
-                        current_token.text.append(1, c);
-                    break;
-                case '*':
-                    if (current_token.type == TokenType::BlockComment && src[i + 1] == '/')
-                    {
-                        if (src[i + 1] == '/')
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                    }
-                    else if (current_token.type == TokenType::Whitespace || current_token.type == TokenType::Identifier)
-                    {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::Asterisk;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                        current_token.text.append(1, c);
-                        tokens.push_back(current_token);
-                        current_token = Token();
-                    }
-                    else
-                        current_token.text.append(1, c);
-                    break;
-                case '/':
-                    if (src[i + 1] == '/' && current_token.type == TokenType::Whitespace ||
-                        current_token.type == TokenType::Identifier)
-                    {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::Comment;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                    }
-                    else if (current_token.type == TokenType::Whitespace || current_token.type == TokenType::Identifier)
-                    {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::ForwardSlash;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                    }
-                    current_token.text.append(1, c);
-                    break;
-                case '+':
-                    if (current_token.type == TokenType::Whitespace || current_token.type == TokenType::Identifier)
-                    {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::Plus;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                    }
-                case '-':
-                    if (current_token.type == TokenType::Whitespace || current_token.type == TokenType::Identifier)
-                    {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::Minus;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                    }
-                    current_token.text.append(1, c);
-                    break;
-                case ':':
-                    if (current_token.type == TokenType::Whitespace || current_token.type == TokenType::Identifier)
-                    {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::Colon;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                    }
-                case ';':
-                    if (current_token.type == TokenType::Whitespace || current_token.type == TokenType::Identifier)
-                    {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::Semicolon;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                    }
-                    current_token.text.append(1, c);
-                    break;
-                case '#':
-                    if (current_token.type == TokenType::Whitespace || current_token.type == TokenType::Identifier)
-                    {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::PPDirective;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                    }
-                    current_token.text.append(1, c);
-                    break;
-                case '{':
-                    if (current_token.type == TokenType::Whitespace || current_token.type == TokenType::Identifier)
-                    {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::OpenCurlyBrace;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                        current_token.text.append(1, c);
-                        tokens.push_back(current_token);
-                        current_token = Token();
+                        EndToken();
                         break;
                     }
-                case '}':
-                    if (current_token.type == TokenType::Whitespace || current_token.type == TokenType::Identifier)
-                    {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::CloseCurlyBrace;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                        current_token.text.append(1, c);
-                        tokens.push_back(current_token);
-                        current_token = Token();
-                        break;
-                    }
-                    current_token.text.append(1, c);
+                    m_CurrentToken.text.append(1, c);
                     break;
-                case '(':
-                    if (current_token.type == TokenType::Whitespace || current_token.type == TokenType::Identifier)
+                case '\n':
+                    if (m_CurrentToken.type != TokenType::BlockComment &&
+                        m_CurrentToken.type != TokenType::StringLiteral)
                     {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::OpenParen;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                        current_token.text.append(1, c);
-                        tokens.push_back(current_token);
-                        current_token = Token();
+                        EndToken();
+                        ++line;
+                        cur = 0;
                         break;
                     }
-                case ')':
-                    if (current_token.type == TokenType::Whitespace || current_token.type == TokenType::Identifier)
-                    {
-                        if (current_token.type == TokenType::Identifier)
-                        {
-                            tokens.push_back(current_token);
-                            current_token = Token();
-                        }
-                        current_token.type = TokenType::CloseParen;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                        current_token.text.append(1, c);
-                        tokens.push_back(current_token);
-                        current_token = Token();
-                        break;
-                    }
-                    current_token.text.append(1, c);
+                    m_CurrentToken.text.append(1, c);
                     break;
+
+                case '"':
+                    TK_IS_NOT_COMMENT({
+                        TK_EMPTY({
+                            m_CurrentToken = Token(TokenType::StringLiteral, line, cur);
+                            TK_ADD(c);
+                            break;
+                        })
+                        if (m_CurrentToken.type == TokenType::StringLiteral)
+                            EndToken();
+                    })
+                    break;
+
                 case '0':
                 case '1':
                 case '2':
@@ -229,34 +136,39 @@ namespace codex {
                 case '7':
                 case '8':
                 case '9':
-                    if (current_token.type == TokenType::Whitespace)
-                    {
-                        current_token.type = TokenType::NumberLiteral;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                    }
-                    current_token.text.append(1, c);
+                    if (m_CurrentToken.type == TokenType::Whitespace)
+                        m_CurrentToken = Token(TokenType::NumbericLiteral, line, cur);
+                    m_CurrentToken.text.append(1, c);
                     break;
                 default:
-                    if (current_token.type == TokenType::Whitespace)
-                    {
-                        current_token.type = TokenType::Identifier;
-                        current_token.line = line;
-                        current_token.cur  = cur;
-                    }
-                    current_token.text.append(1, c);
+                    if (SingleMatch(c))
+                        break;
+
+                    if (m_CurrentToken.type == TokenType::Whitespace)
+                        m_CurrentToken = Token(TokenType::Identifier, line, cur);
+                    TK_ADD(c);
                     break;
             }
             ++cur;
         }
-        return tokens;
+        return m_Tokens;
     }
 
-    void Lexer::Print(const TokenList& tokens)
+    void Lexer::Print(const TokenList& m_Tokens)
     {
-        for (const auto& t : tokens)
+        for (const auto& t : m_Tokens)
         {
             fmt::println("{{ type: {}, line: {}, cur: {}, text: \"{}\" }}", t.ToString(), t.line, t.cur, t.text);
         }
+    }
+
+    void Lexer::EndToken()
+    {
+        if (m_CurrentToken.type != TokenType::Whitespace)
+        {
+            m_Tokens.push_back(m_CurrentToken);
+        }
+        if (m_CurrentToken.type != TokenType::Comment || m_CurrentToken.type != TokenType::BlockComment) {}
+        m_CurrentToken = Token();
     }
 } // namespace codex
