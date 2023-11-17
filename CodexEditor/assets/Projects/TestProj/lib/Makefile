@@ -168,6 +168,54 @@ cmake_pch.hxx.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/cmake_pch.hxx.s
 .PHONY : cmake_pch.hxx.s
 
+obj/reflector_TestScript.o: obj/reflector_TestScript.cpp.o
+.PHONY : obj/reflector_TestScript.o
+
+# target to build an object file
+obj/reflector_TestScript.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_TestScript.cpp.o
+.PHONY : obj/reflector_TestScript.cpp.o
+
+obj/reflector_TestScript.i: obj/reflector_TestScript.cpp.i
+.PHONY : obj/reflector_TestScript.i
+
+# target to preprocess a source file
+obj/reflector_TestScript.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_TestScript.cpp.i
+.PHONY : obj/reflector_TestScript.cpp.i
+
+obj/reflector_TestScript.s: obj/reflector_TestScript.cpp.s
+.PHONY : obj/reflector_TestScript.s
+
+# target to generate assembly for a file
+obj/reflector_TestScript.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_TestScript.cpp.s
+.PHONY : obj/reflector_TestScript.cpp.s
+
+obj/reflector_base.o: obj/reflector_base.cpp.o
+.PHONY : obj/reflector_base.o
+
+# target to build an object file
+obj/reflector_base.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_base.cpp.o
+.PHONY : obj/reflector_base.cpp.o
+
+obj/reflector_base.i: obj/reflector_base.cpp.i
+.PHONY : obj/reflector_base.i
+
+# target to preprocess a source file
+obj/reflector_base.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_base.cpp.i
+.PHONY : obj/reflector_base.cpp.i
+
+obj/reflector_base.s: obj/reflector_base.cpp.s
+.PHONY : obj/reflector_base.s
+
+# target to generate assembly for a file
+obj/reflector_base.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_base.cpp.s
+.PHONY : obj/reflector_base.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -183,6 +231,12 @@ help:
 	@echo "... cmake_pch.hxx.gch"
 	@echo "... cmake_pch.hxx.i"
 	@echo "... cmake_pch.hxx.s"
+	@echo "... obj/reflector_TestScript.o"
+	@echo "... obj/reflector_TestScript.i"
+	@echo "... obj/reflector_TestScript.s"
+	@echo "... obj/reflector_base.o"
+	@echo "... obj/reflector_base.i"
+	@echo "... obj/reflector_base.s"
 .PHONY : help
 
 
