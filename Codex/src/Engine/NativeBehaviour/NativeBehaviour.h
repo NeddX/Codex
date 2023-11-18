@@ -47,6 +47,7 @@ namespace codex {
 
     public:
         constexpr const nlohmann::ordered_json& GetSerializedData() const noexcept { return m_SerializedData; }
+        inline void                             SetOwner(const Entity entity) noexcept { m_Owner = entity; }
 
     public:
         template <typename T, typename... TArgs>

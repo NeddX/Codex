@@ -3,9 +3,28 @@
 
 #include <sdafx.h>
 
-#define cx_throw(ex_type, ...)                                                                                    \
-    throw ex_type(fmt::format(__VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
-#define cx_throwd(ex_type) throw ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+#define cx_throw(ex_type, ...) throw ex_type(fmt::format(__VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+#define cx_throwd(ex_type)     throw ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+#define CX_CUSTOM_EXCEPTION(name, default_msg)                                                                         \
+    class name : public CodexException                                                                                 \
+    {                                                                                                                  \
+        using CodexException::CodexException;                                                                          \
+                                                                                                                       \
+    public:                                                                                                            \
+        const char* default_message() const noexcept override                                                          \
+        {                                                                                                              \
+            return default_msg;                                                                                        \
+        }                                                                                                              \
+    };
+#define CX_CONSTRUCTOR(default_msg)                                                                                    \
+    using CodexException::CodexException;                                                                              \
+                                                                                                                       \
+public:                                                                                                                \
+    const char* default_message() const noexcept override \                                                            \
+    {                                                                                                                  \
+        \ return default_msg;                                                                                          \
+        \                                                                                                              \
+    }
 
 #define CX_EXCEPTION_PRINT(ex)                                                                                         \
     do                                                                                                                 \
@@ -31,7 +50,7 @@ namespace codex {
         CodexException(const std::string_view message, const char* file, const char* function, const u32 line) noexcept;
 
     public:
-        inline virtual const char* default_message() const noexcept { return "Unknown engine message."; }
+        virtual const char* default_message() const noexcept { return "Unknown engine message."; }
 
     public:
         static inline std::string TypeNameDemangle(const char* name)
@@ -48,6 +67,55 @@ namespace codex {
     public:
         const char* what() const noexcept override;
         std::string backtrace() const noexcept;
+    };
+
+    // Generic Exceptions
+    class FileNotFoundException : public CodexException
+    {
+        using CodexException::CodexException;
+
+    public:
+        const char* default_message() const noexcept override { return "File was not found."; }
+    };
+
+    class NullReferenceException : public CodexException
+    {
+        using CodexException::CodexException;
+
+    public:
+        const char* default_message() const noexcept override { return "Object reference not instantiated."; }
+    };
+
+    class IndexOutOfBoundsException : public CodexException
+    {
+        using CodexException::CodexException;
+
+    public:
+        const char* default_message() const noexcept override { return "Index was out of bounds."; }
+    };
+
+    class NotFoundException : public CodexException
+    {
+        using CodexException::CodexException;
+
+    public:
+        const char* default_message() const noexcept override { return "Item was not found."; }
+    };
+
+    class ValidationException : public CodexException
+    {
+        using CodexException::CodexException;
+
+    public:
+        const char* default_message() const noexcept override { return "Provided input was invalid."; }
+    };
+
+    class ArgumentException : public CodexException
+    {
+        using CodexException::CodexException;
+
+    public:
+        const char* default_message() const noexcept override { return "Provided argument was invalid."; }
     };
 } // namespace codex
 

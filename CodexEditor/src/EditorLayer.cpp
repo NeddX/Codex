@@ -419,14 +419,15 @@ void EditorLayer::ImGuiRender()
                     if (ImGui::IsKeyPressed(ImGuiKey_Enter)) // Check for Enter key press
                     {
                         invalid_script = true;
-                        bool valid     = m_ScriptModule->Invoke<bool(const char*)>("Reflect_DoesBehaviourExist",
-                                                                               script_class.c_str());
+                        bool valid =
+                            m_ScriptModule->Invoke<bool(const char*)>("Rf_DoesInstanceExist", script_class.c_str());
                         if (valid)
                         {
                             // TODO: This should happen OnScenePlay().
                             invalid_script = false;
-                            script         = m_ScriptModule->Invoke<NativeBehaviour*(const char*, const Entity)>(
-                                "Reflect_CreateBehaviour", script_class.c_str(), m_SelectedEntity.entity);
+                            script         = m_ScriptModule->Invoke<NativeBehaviour*(const char*)>("Rf_CreateInstance",
+                                                                                           script_class.c_str());
+                            script->SetOwner(m_SelectedEntity.entity);
                             c.Attach(script);
                         }
                     }
