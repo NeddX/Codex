@@ -31,9 +31,9 @@ private:
     Vector4f                          m_SelectColour = { 0.5f, 1.0f, 0.5f, 1.0f };
     bool                              m_GizmoActive  = false;
     GizmoMode                         m_GizmoMode    = GizmoMode::Translation;
-    std::filesystem::path m_ProjectPath;
-    NativeBehaviour* m_Script = nullptr;
-    std::unique_ptr<DLib> m_ScriptModule = nullptr;
+    std::filesystem::path             m_ProjectPath;
+    NativeBehaviour*                  m_Script       = nullptr;
+    std::unique_ptr<DLib>             m_ScriptModule = nullptr;
 
 public:
     void OnAttach() override;
@@ -44,10 +44,4 @@ public:
 public:
     void OnEvent(Event& e) override;
     bool OnKeyDown_Event(KeyDownEvent& e);
-
-public:
-    static void DrawVec3Control(const char* label, Vector3f& values, const f32 columnWidth = 100.0f,
-                                const f32 speed = 1.0f, const f32 resetValue = 0.0f);
-    static void DrawVec2Control(const char* label, Vector2f& values, const f32 columnWidth = 100.0,
-                                const f32 speed = 1.0f, const f32 resetValue = 0.0);
 };

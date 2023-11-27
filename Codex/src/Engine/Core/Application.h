@@ -15,16 +15,10 @@
 int main(int argc, char** argv);
 
 namespace codex {
-    // Forward declerations.
+    // Forward declarations.
     class WindowResizeEvent;
 
-    class InvalidPathException : public CodexException
-    {
-        using CodexException::CodexException;
-
-    public:
-        constexpr const char* default_message() const noexcept override { return "The path supplied is invalid."; }
-    };
+    CX_CUSTOM_EXCEPTION(InvalidPathException, "The path supplied is invalid.");
 
     struct ApplicationCLIArgs
     {
@@ -54,12 +48,12 @@ namespace codex {
         friend Application* CreateApplication(const ApplicationCLIArgs args);
 
     protected:
-        ApplicationProperties                 m_Properties;
+        ApplicationProperties                 m_Properties{};
         Window::Box                           m_Window    = nullptr;
         bool                                  m_Running   = true;
         bool                                  m_Minimized = false;
-        LayerStack                            m_LayerStack;
-        std::chrono::system_clock::time_point m_Tp1, m_Tp2;
+        LayerStack                            m_LayerStack{};
+        std::chrono::system_clock::time_point m_Tp1{}, m_Tp2{};
         f32                                   m_DeltaTime  = 0.0f;
         ImGuiLayer*                           m_ImGuiLayer = nullptr;
         Input*                                m_Input      = nullptr;
@@ -69,7 +63,13 @@ namespace codex {
 
     public:
         Application(const ApplicationProperties& props);
+        Application(const Application& other) = delete;
+        Application(Application&& other)      = delete;
         virtual ~Application();
+
+    public:
+        Application& operator=(const Application& other) = delete;
+        Application& operator=(Application&& other)      = delete;
 
     public:
         inline static Window&          GetWindow() noexcept { return *m_Instance->m_Window; }
@@ -89,7 +89,7 @@ namespace codex {
             else
             {
                 cx_throw(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
-                          newCwd);
+                         newCwd);
             }
         }
 

@@ -17,12 +17,12 @@ if [ -z "$1" ]; then
     build_conf="Debug"
 elif [[ "$1" == "clean" ]]; then
     if [ -d "builds/$build_dir" ]; then
-        cmake --build -B "builds/$build_dir" --target clean
+        cmake --build -B "builds/$build_dir" --target clean --parallel
     fi
 elif [[ "$1" == "vs2022" ]]; then
 	mkdir -p "builds/vs2022"
 	cmake ./ -G "Visual Studio 17" -B "builds/vs2022"
-	cmake --build "builds/vs2022"
+	cmake --build "builds/vs2022" --parallel
 	exit
 else
     build_conf="$1"
@@ -51,7 +51,7 @@ fi
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="$build_conf" -B "builds/$build_dir"
 
 echo "Building..."
-cmake --build "builds/$build_dir"
+cmake --build "builds/$build_dir" --parallel
 cp "builds/$build_dir/compile_commands.json" ./
 
 if [ ! -d "./bin" ]; then

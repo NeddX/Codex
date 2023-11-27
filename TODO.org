@@ -1,0 +1,9 @@
+#+title: TODO List
+#+author: Neddiendrohu
+
+* Codex
+
+* Codex Editor
+** Refinement
+Refine the project structure:
+- []: Separate Editor components into different files. Create a folder for UI code and folder for backend code.

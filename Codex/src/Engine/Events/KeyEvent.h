@@ -31,7 +31,7 @@ namespace codex {
 
     public:
         bool        IsRepeat() const noexcept { return m_IsRepeat; }
-        std::string ToString() const noexcept
+        std::string ToString() const noexcept override
         {
             return fmt::format("KeyDownEvent: Key({}), IsRepeat({})", m_Key, m_IsRepeat);
         }
@@ -45,7 +45,7 @@ namespace codex {
         KeyUpEvent(const Key key) : KeyEvent(key) {}
 
     public:
-        std::string ToString() const noexcept { return fmt::format("KeyUpEvent: Key({})", m_Key); }
+        std::string ToString() const noexcept override { return fmt::format("KeyUpEvent: Key({})", m_Key); }
 
         EVENT_CLASS_TYPE(KeyUp);
     };
