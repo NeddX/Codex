@@ -11,9 +11,12 @@ namespace codex::editor {
     private:
         f32&                      m_ColumnWidth;
         SelectedEntityDescriptor& m_SelectedEntity;
+        DLib*                     m_ScriptModule;
+        Vector4f&                 m_SelectColour;
 
     public:
-        PropertiesView(f32& columnWidth, SelectedEntityDescriptor& selectedEntity);
+        PropertiesView(f32& columnWidth, SelectedEntityDescriptor& selectedEntity, DLib* scriptModule,
+                       Vector4f& selectColour);
 
     public:
         void OnImGuiRender();

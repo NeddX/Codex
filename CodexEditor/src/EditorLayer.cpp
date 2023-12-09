@@ -21,6 +21,8 @@ void EditorLayer::OnAttach()
     props.height      = 720;
     m_Framebuffer     = std::make_unique<mgl::FrameBuffer>(props);
 
+    m_SceneEditorView = std::make_unique<editor::SceneEditorView>();
+
     // glEnable(GL_DEPTH_TEST);
     // glDepthFunc(GL_LESS);
 
@@ -38,6 +40,7 @@ void EditorLayer::OnDetach()
 
 void EditorLayer::Update(const f32 deltaTime)
 {
+    /*
     m_BatchShader->Bind();
     m_BatchShader->SetUniformMat4f("u_View", m_Camera->GetViewMatrix());
     m_BatchShader->SetUniformMat4f("u_Proj", m_Camera->GetProjectionMatrix());
@@ -88,6 +91,8 @@ void EditorLayer::Update(const f32 deltaTime)
         }
     }
     m_Framebuffer->Unbind();
+    */
+    m_SceneEditorView->Update(deltaTime);
 }
 
 void EditorLayer::ImGuiRender()
@@ -104,6 +109,8 @@ void EditorLayer::ImGuiRender()
 
     ImGui::ShowDemoWindow(&show_demo_window);
 
+    m_SceneEditorView->ImGuiRender();
+    /*
     // File menu
     {
         ImGui::BeginMainMenuBar();
@@ -359,6 +366,7 @@ void EditorLayer::ImGuiRender()
         }
         ImGui::End();
     }
+    */
 
     {
         ImGui::Begin("Debug info dump");
@@ -393,8 +401,6 @@ void EditorLayer::ImGuiRender()
         }
         ImGui::End();
     }
-    ImGui::End();
-}
 }
 
 void EditorLayer::OnEvent(Event& e)
@@ -413,132 +419,4 @@ bool EditorLayer::OnKeyDown_Event(KeyDownEvent& e)
         default: break;
     }
     return false;
-}
-
-void EditorLayer::DrawVec3Control(const char* label, Vector3f& values, const f32 columnWidth, const f32 speed,
-                                  const f32 resetValue)
-{
-    ImGuiIO& io        = ImGui::GetIO();
-    auto     bold_font = io.Fonts->Fonts[0];
-
-    ImGui::PushID(label);
-
-    if (label[0] != '#' && label[1] != '#')
-    {
-        ImGui::Columns(2);
-        ImGui::SetColumnWidth(0, columnWidth);
-        ImGui::Text(label);
-        ImGui::NextColumn();
-    }
-
-    ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
-
-    float  lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
-    ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
-
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-    ImGui::PushFont(bold_font);
-    if (ImGui::Button("X", buttonSize))
-        values.x = resetValue;
-    ImGui::PopFont();
-    ImGui::PopStyleColor(3);
-
-    ImGui::SameLine();
-    ImGui::DragFloat("##X", &values.x, speed, 0.0f, 0.0f, "%.2f");
-    ImGui::PopItemWidth();
-    ImGui::SameLine();
-
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-    ImGui::PushFont(bold_font);
-    if (ImGui::Button("Y", buttonSize))
-        values.y = resetValue;
-    ImGui::PopFont();
-    ImGui::PopStyleColor(3);
-
-    ImGui::SameLine();
-    ImGui::DragFloat("##Y", &values.y, speed, 0.0f, 0.0f, "%.2f");
-    ImGui::PopItemWidth();
-    ImGui::SameLine();
-
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-    ImGui::PushFont(bold_font);
-    if (ImGui::Button("Z", buttonSize))
-        values.z = resetValue;
-    ImGui::PopFont();
-    ImGui::PopStyleColor(3);
-
-    ImGui::SameLine();
-    ImGui::DragFloat("##Z", &values.z, speed, 0.0f, 0.0f, "%.2f");
-    ImGui::PopItemWidth();
-
-    ImGui::PopStyleVar();
-
-    if (label[0] != '#' && label[1] != '#')
-        ImGui::Columns(1);
-
-    ImGui::PopID();
-}
-
-void EditorLayer::DrawVec2Control(const char* label, Vector2f& values, const f32 columnWidth, const f32 speed,
-                                  const f32 resetValue)
-{
-    ImGuiIO& io        = ImGui::GetIO();
-    auto     bold_font = io.Fonts->Fonts[0];
-
-    ImGui::PushID(label);
-
-    if (label[0] != '#' && label[1] != '#')
-    {
-        ImGui::Columns(2);
-        ImGui::SetColumnWidth(0, columnWidth);
-        ImGui::Text(label);
-        ImGui::NextColumn();
-    }
-
-    ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
-
-    f32    lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
-    ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
-
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-    ImGui::PushFont(bold_font);
-    if (ImGui::Button("X", buttonSize))
-        values.x = resetValue;
-    ImGui::PopFont();
-    ImGui::PopStyleColor(3);
-
-    ImGui::SameLine();
-    ImGui::DragFloat("##X", &values.x, speed, 0.0f, 0.0f, "%.2f");
-    ImGui::PopItemWidth();
-    ImGui::SameLine();
-
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-    ImGui::PushFont(bold_font);
-    if (ImGui::Button("Y", buttonSize))
-        values.y = resetValue;
-    ImGui::PopFont();
-    ImGui::PopStyleColor(3);
-
-    ImGui::SameLine();
-    ImGui::DragFloat("##Y", &values.y, speed, 0.0f, 0.0f, "%.2f");
-    ImGui::PopItemWidth();
-
-    ImGui::PopStyleVar();
-
-    if (label[0] != '#' && label[1] != '#')
-        ImGui::Columns(1);
-
-    ImGui::PopID();
 }

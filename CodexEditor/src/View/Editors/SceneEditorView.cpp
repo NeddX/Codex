@@ -15,6 +15,8 @@ namespace codex::editor {
 
         // Panels
         m_SceneHierarchyView = std::make_unique<SceneHierarchyView>(*m_Scene, m_SelectedEntity, m_SelectColour);
+        m_PropertiesView =
+            std::make_unique<PropertiesView>(m_ColumnWidth, m_SelectedEntity, m_ScriptModule.get(), m_SelectColour);
 
         Renderer::Init(width, height);
         BatchRenderer2D::BindShader(m_BatchShader.get());

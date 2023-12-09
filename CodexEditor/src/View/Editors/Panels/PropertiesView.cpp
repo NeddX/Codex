@@ -2,9 +2,13 @@
 
 #include "../SceneEditorView.h"
 
+#include <tinyfiledialogs.h>
+
 namespace codex::editor {
-    PropertiesView::PropertiesView(f32& columnWidth, SelectedEntityDescriptor& selectedEntity)
-        : m_ColumnWidth(columnWidth), m_SelectedEntity(selectedEntity)
+    PropertiesView::PropertiesView(f32& columnWidth, SelectedEntityDescriptor& selectedEntity, DLib* scriptModule,
+                                   Vector4f& selectColour)
+        : m_ColumnWidth(columnWidth), m_SelectedEntity(selectedEntity), m_ScriptModule(scriptModule),
+          m_SelectColour(selectColour)
     {
     }
     void PropertiesView::OnImGuiRender()
@@ -139,11 +143,11 @@ namespace codex::editor {
                                         break;
                                     }
                                     case FieldType::Vector2f: {
-                                        DrawVec2Control("##t", *(Vector2f*)field_ptr, m_ColumnWidth);
+                                        SceneEditorView::DrawVec2Control("##t", *(Vector2f*)field_ptr, m_ColumnWidth);
                                         break;
                                     }
                                     case FieldType::Vector3f: {
-                                        DrawVec3Control("##t", *(Vector3f*)field_ptr, m_ColumnWidth);
+                                        SceneEditorView::DrawVec3Control("##t", *(Vector3f*)field_ptr, m_ColumnWidth);
                                         break;
                                     }
                                     default: cx_throw(CodexException, "WHAT THE FUCK"); break;
@@ -216,8 +220,8 @@ namespace codex::editor {
                     auto&    tex_coords = sprite.GetTextureCoords();
                     Vector2f pos        = { tex_coords.x, tex_coords.y };
                     Vector2f size       = { tex_coords.w, tex_coords.h };
-                    DrawVec2Control("Texture position: ", pos, m_ColumnWidth);
-                    DrawVec2Control("Texture size: ", size, m_ColumnWidth);
+                    SceneEditorView::DrawVec2Control("Texture position: ", pos, m_ColumnWidth);
+                    SceneEditorView::DrawVec2Control("Texture size: ", size, m_ColumnWidth);
                     tex_coords = { pos.x, pos.y, size.x, size.y };
 
                     // Texture filter mode
@@ -263,7 +267,7 @@ namespace codex::editor {
 
                     ImGui::Dummy(ImVec2(0.0f, 10.0f));
                     auto sprite_size = sprite.GetSize();
-                    DrawVec2Control("Sprite size: ", sprite_size, m_ColumnWidth);
+                    SceneEditorView::DrawVec2Control("Sprite size: ", sprite_size, m_ColumnWidth);
                     sprite.SetSize(sprite_size);
 
                     // Texture colour picker
@@ -294,4 +298,6 @@ namespace codex::editor {
                 }
             }
         }
+        ImGui::End();
     }
+} // namespace codex::editor

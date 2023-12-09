@@ -3,6 +3,8 @@
 #include <Codex.h>
 #include <ImGuizmo.h>
 
+#include "View/Editors/SceneEditorView.h"
+
 using namespace codex;
 
 struct SelectedEntityDescriptor
@@ -31,9 +33,11 @@ private:
     Vector4f                          m_SelectColour = { 0.5f, 1.0f, 0.5f, 1.0f };
     bool                              m_GizmoActive  = false;
     GizmoMode                         m_GizmoMode    = GizmoMode::Translation;
-    std::filesystem::path             m_ProjectPath;
+    std::filesystem::path             m_ProjectPath{};
     NativeBehaviour*                  m_Script       = nullptr;
     std::unique_ptr<DLib>             m_ScriptModule = nullptr;
+
+    std::unique_ptr<editor::SceneEditorView> m_SceneEditorView = nullptr;
 
 public:
     void OnAttach() override;

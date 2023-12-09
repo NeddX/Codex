@@ -9,7 +9,7 @@ class CodexEditor : public codex::Application
 public:
     CodexEditor(const codex::ApplicationProperties& properties) : codex::Application(properties)
     {
-        PushLayer(new EditorLayer());
+        PushLayer(new codex::editor::SceneEditorView());
     }
 
     ~CodexEditor() override {}

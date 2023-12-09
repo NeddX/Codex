@@ -3,10 +3,14 @@
 
 #include <sdafx.h>
 
+#include "../Core/Exception.h"
+
 namespace codex {
     // Forward declaration.
     class RFFieldInfo;
     class RFMethodInfo;
+
+    CX_CUSTOM_EXCEPTION(ReflectorBadSyntaxException, "Bad syntax")
 
     class RFAttributeInfo
     {
