@@ -36,3 +36,7 @@ AllowShortEnumsOnASingleLine: false
 AlignConsecutiveDeclarations: true
 AlwaysBreakTemplateDeclarations: true
 Cpp11BracedListStyle: false
+
+ReflowComments: true
+PenaltyBreakComment: 0
+PenaltyBreakOpenParenthesis: 1

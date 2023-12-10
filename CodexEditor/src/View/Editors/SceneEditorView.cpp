@@ -14,6 +14,21 @@ namespace codex::editor {
         m_Camera = std::make_unique<Camera>(width, height);
 
         // Panels
+        // FIXME: When changing scene, panels hold the reference to the outdated scenes thus resulting in a segfault.
+        // Possible solution would be to either hold reference to the unique_ptr (weird, ugly and undesirable) or
+        // hold a referene to a raw pointer and manage the scene using a raw pointer, this is okay but i feel like we
+        // can do better which why i am thinking about creating a custom memory management system. We will start by
+        // having the following three smart pointer classes which are almost identical to their STL encounterparts:
+        // Box<T>    :: Owns the underlyin objects and uses RAII to manage it. Since it holds exclusive ownership, you
+        // cannot copy, only move it. Shared<T> :: Possibility of having multiple owners for the underlying object. Uses
+        // a reference counter system to manage the object and disposes it when the reference counter hits 0. This is
+        // also thread-safe. Ref<T>    :: Holds a possibly null reference to Box<T> or Shared<T>.
+        //
+        // In the future I might implement a ghetto garbage collector.
+        // Managed<T> :: The underlying object is managed by the garbage collector, the object cannot be copied unless
+        // the .Clone() method is used. Managed<int> obj1 = GC::New<int>(); Managed<int> obj2 = obj1;         // Both
+        // obj1 and obj2 refer to the same underlying object. Managed<int> obj3 = obj1.Clone(); // obj3 holds a
+        // reference to a newly made copy.
         m_SceneHierarchyView = std::make_unique<SceneHierarchyView>(*m_Scene, m_SelectedEntity, m_SelectColour);
         m_PropertiesView =
             std::make_unique<PropertiesView>(m_ColumnWidth, m_SelectedEntity, m_ScriptModule.get(), m_SelectColour);
