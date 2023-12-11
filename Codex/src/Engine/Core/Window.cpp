@@ -1,6 +1,5 @@
-#include "Window.h"
-#include "../Events/ApplicationEvent.h"
 #include "../Events/KeyEvent.h"
+#include "../Events/ApplicationEvent.h"
 #include "../Events/MouseEvent.h"
 #include "../Renderer/DebugDraw.h"
 #include "../Renderer/TexturePicking.h"
@@ -47,6 +46,9 @@ namespace codex {
         SDLCheckError(__LINE__);
 
         // Tell SDL to use OpenGL 3.3.0 Core
+#ifdef CX_PLATFORM_OSX
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG); // Always required on Mac
+#endif
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);

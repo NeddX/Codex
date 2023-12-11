@@ -71,6 +71,7 @@ namespace codex::editor {
         m_Scene->Update(deltaTime);
         BatchRenderer2D::End();
 
+        /*
         auto [mx, my] = ImGui::GetMousePos();
         mx -= m_ViewportBounds[0].x;
         my -= m_ViewportBounds[0].y;
@@ -108,6 +109,7 @@ namespace codex::editor {
                 }
             }
         }
+        */
         m_Framebuffer->Unbind();
     }
 

@@ -25,9 +25,8 @@ namespace codex {
         IMGUI_CHECKVERSION();
         if (!ImGui::CreateContext())
             cx_throw(CodexException, "Failed to create ImGui context.");
-        ImGuiIO& io    = ImGui::GetIO();
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.DisplaySize = ImVec2((f32)window.GetWidth(), (f32)window.GetHeight()); // Set to your SDL2 window size
-        (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         // Viewports are very buggy when docking as of now.
@@ -86,6 +85,7 @@ namespace codex {
         glViewport(0, 0, (i32)io.DisplaySize.x, (i32)io.DisplaySize.y);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+        /*
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
             auto* window     = Application::GetWindow().GetNativeWindow();
@@ -94,6 +94,7 @@ namespace codex {
             ImGui::RenderPlatformWindowsDefault();
             SDL_GL_MakeCurrent(window, gl_context);
         }
+        */
     }
 
     void ImGuiLayer::SetDarkThemeColours()
