@@ -10,7 +10,8 @@ namespace codex {
     class ImGuiLayer : public Layer
     {
     private:
-        bool m_Blocking = true;
+        bool          m_Blocking       = true;
+        ImGuiContext* m_CurrentContext = nullptr;
 
     public:
         ImGuiLayer();
@@ -18,6 +19,7 @@ namespace codex {
 
     public:
         inline void BlockEvents(const bool block) noexcept { m_Blocking = true; }
+        inline ImGuiContext* GetImGuiContext() const noexcept { return m_CurrentContext; }
 
     public:
         void OnAttach() override;

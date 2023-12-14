@@ -30,7 +30,9 @@ namespace codex {
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         // Viewports are very buggy when docking as of now.
-        // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        //
+        m_CurrentContext = ImGui::GetCurrentContext();
 
         f32 font_size = 14.0f;
         io.Fonts->AddFontFromFileTTF("Fonts/roboto/Roboto-Bold.ttf", font_size);
@@ -48,7 +50,7 @@ namespace codex {
         SetDarkThemeColours();
 
         ImGui_ImplSDL2_InitForOpenGL(native_window, gl_context);
-        ImGui_ImplOpenGL3_Init("#version 330 core");
+        ImGui_ImplOpenGL3_Init();
     }
 
     void ImGuiLayer::OnDetach()
@@ -70,6 +72,7 @@ namespace codex {
 
     void ImGuiLayer::Begin()
     {
+        ImGui::SetCurrentContext(m_CurrentContext);
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
@@ -77,6 +80,8 @@ namespace codex {
 
     void ImGuiLayer::End()
     {
+        ImGui::SetCurrentContext(m_CurrentContext);
+
         auto& io       = ImGui::GetIO();
         auto& app      = Application::Get();
         io.DisplaySize = ImVec2((f32)app.GetWindow().GetWidth(), (f32)app.GetWindow().GetHeight());
@@ -85,7 +90,6 @@ namespace codex {
         glViewport(0, 0, (i32)io.DisplaySize.x, (i32)io.DisplaySize.y);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        /*
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
             auto* window     = Application::GetWindow().GetNativeWindow();
@@ -94,7 +98,6 @@ namespace codex {
             ImGui::RenderPlatformWindowsDefault();
             SDL_GL_MakeCurrent(window, gl_context);
         }
-        */
     }
 
     void ImGuiLayer::SetDarkThemeColours()
