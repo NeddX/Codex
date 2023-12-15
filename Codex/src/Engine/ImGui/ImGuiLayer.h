@@ -18,7 +18,7 @@ namespace codex {
         ~ImGuiLayer();
 
     public:
-        inline void BlockEvents(const bool block) noexcept { m_Blocking = true; }
+        inline void          BlockEvents(const bool block) noexcept { m_Blocking = true; }
         inline ImGuiContext* GetImGuiContext() const noexcept { return m_CurrentContext; }
 
     public:

@@ -25,12 +25,13 @@ namespace codex {
         IMGUI_CHECKVERSION();
         if (!ImGui::CreateContext())
             cx_throw(CodexException, "Failed to create ImGui context.");
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        ImGuiIO& io = ImGui::GetIO();
+        (void)io;
         io.DisplaySize = ImVec2((f32)window.GetWidth(), (f32)window.GetHeight()); // Set to your SDL2 window size
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         // Viewports are very buggy when docking as of now.
-        //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
         //
         m_CurrentContext = ImGui::GetCurrentContext();
 
@@ -72,7 +73,6 @@ namespace codex {
 
     void ImGuiLayer::Begin()
     {
-        ImGui::SetCurrentContext(m_CurrentContext);
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
@@ -80,8 +80,6 @@ namespace codex {
 
     void ImGuiLayer::End()
     {
-        ImGui::SetCurrentContext(m_CurrentContext);
-
         auto& io       = ImGui::GetIO();
         auto& app      = Application::Get();
         io.DisplaySize = ImVec2((f32)app.GetWindow().GetWidth(), (f32)app.GetWindow().GetHeight());
