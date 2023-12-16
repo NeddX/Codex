@@ -21,6 +21,9 @@
 // Math
 #include "../src/Engine/Math/Math.h"
 
+// Memory
+#include "../src/Engine/Memory/Memory.h"
+
 // Scene
 #include "../src/Engine/Scene/Components.h"
 #include "../src/Engine/Scene/ECS.h"

@@ -49,6 +49,12 @@ namespace codex::editor {
         std::string   src((std::istreambuf_iterator<char>(fs)), (std::istreambuf_iterator<char>()));
         TokenList     list = Lexer::Lex(src);
         Lexer::Print(list);
+
+        // Wow, i successfully pulled that off? look at me ma!
+        auto a   = Box<int>::New(10);
+        auto ref = a.AsRef();
+        if (ref)
+            std::cout << *ref << std::endl;
     }
 
     void SceneEditorView::OnDetach()
