@@ -16,14 +16,17 @@
 #include <functional>
 #include <iostream>
 #include <memory>
-#include <mutex>
 #include <numeric>
 #include <regex>
 #include <sstream>
-#include <thread>
 #include <type_traits>
 #include <typeinfo>
 #include <utility>
+
+// Concurrency
+#include <atomic>
+#include <mutex>
+#include <thread>
 
 // Legacy
 #include <cstdint>

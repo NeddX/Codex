@@ -60,7 +60,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/nedd/dev/Codex/CodexEditor/assets/Projects/TestProj
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/nedd/dev/Codex/CodexEditor/assets/Projects/TestProj/build-linux
+CMAKE_BINARY_DIR = /home/nedd/dev/Codex/CodexEditor/assets/Projects/TestProj/builds
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nedd/dev/Codex/CodexEditor/assets/Projects/TestProj/build-linux/CMakeFiles /home/nedd/dev/Codex/CodexEditor/assets/Projects/TestProj/build-linux//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nedd/dev/Codex/CodexEditor/assets/Projects/TestProj/builds/CMakeFiles /home/nedd/dev/Codex/CodexEditor/assets/Projects/TestProj/builds//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nedd/dev/Codex/CodexEditor/assets/Projects/TestProj/build-linux/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nedd/dev/Codex/CodexEditor/assets/Projects/TestProj/builds/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -168,54 +168,6 @@ cmake_pch.hxx.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/cmake_pch.hxx.s
 .PHONY : cmake_pch.hxx.s
 
-obj/reflector_TestScript.o: obj/reflector_TestScript.cpp.o
-.PHONY : obj/reflector_TestScript.o
-
-# target to build an object file
-obj/reflector_TestScript.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_TestScript.cpp.o
-.PHONY : obj/reflector_TestScript.cpp.o
-
-obj/reflector_TestScript.i: obj/reflector_TestScript.cpp.i
-.PHONY : obj/reflector_TestScript.i
-
-# target to preprocess a source file
-obj/reflector_TestScript.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_TestScript.cpp.i
-.PHONY : obj/reflector_TestScript.cpp.i
-
-obj/reflector_TestScript.s: obj/reflector_TestScript.cpp.s
-.PHONY : obj/reflector_TestScript.s
-
-# target to generate assembly for a file
-obj/reflector_TestScript.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_TestScript.cpp.s
-.PHONY : obj/reflector_TestScript.cpp.s
-
-obj/reflector_base.o: obj/reflector_base.cpp.o
-.PHONY : obj/reflector_base.o
-
-# target to build an object file
-obj/reflector_base.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_base.cpp.o
-.PHONY : obj/reflector_base.cpp.o
-
-obj/reflector_base.i: obj/reflector_base.cpp.i
-.PHONY : obj/reflector_base.i
-
-# target to preprocess a source file
-obj/reflector_base.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_base.cpp.i
-.PHONY : obj/reflector_base.cpp.i
-
-obj/reflector_base.s: obj/reflector_base.cpp.s
-.PHONY : obj/reflector_base.s
-
-# target to generate assembly for a file
-obj/reflector_base.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NBMan.dir/build.make CMakeFiles/NBMan.dir/obj/reflector_base.cpp.s
-.PHONY : obj/reflector_base.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -231,12 +183,6 @@ help:
 	@echo "... cmake_pch.hxx.gch"
 	@echo "... cmake_pch.hxx.i"
 	@echo "... cmake_pch.hxx.s"
-	@echo "... obj/reflector_TestScript.o"
-	@echo "... obj/reflector_TestScript.i"
-	@echo "... obj/reflector_TestScript.s"
-	@echo "... obj/reflector_base.o"
-	@echo "... obj/reflector_base.i"
-	@echo "... obj/reflector_base.s"
 .PHONY : help
 
 

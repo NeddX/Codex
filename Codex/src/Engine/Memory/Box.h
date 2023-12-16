@@ -18,7 +18,7 @@ namespace codex {
 
     private:
         BaseType*                            m_Ptr = nullptr;
-        std::unordered_map<uintptr, Ref<T>*> m_Refs;
+        std::unordered_map<uintptr, Ref<T>*> m_WeakRefs;
 
     public:
         Box() = default;
@@ -45,27 +45,27 @@ namespace codex {
                     delete m_Ptr;
                 m_Ptr = nullptr;
 
-                for (auto& [k, v] : m_Refs)
+                for (auto& [k, v] : m_WeakRefs)
                     v->m_Ptr = nullptr;
 
-                m_Refs.clear();
+                m_WeakRefs.clear();
             }
         }
         inline void AppendRef(Ref<T>& ref)
         {
-            auto it = m_Refs.find((uintptr)&ref);
-            if (it == m_Refs.end())
+            auto it = m_WeakRefs.find((uintptr)&ref);
+            if (it == m_WeakRefs.end())
             {
-                m_Refs[(uintptr)&ref] = &ref;
-                ref.m_Ptr             = m_Ptr;
+                m_WeakRefs[(uintptr)&ref] = &ref;
+                ref.m_Ptr                 = m_Ptr;
             }
         }
         inline void DetachRef(Ref<T>& ref)
         {
-            auto it = m_Refs.find((uintptr)&ref);
-            if (it == m_Refs.end())
+            auto it = m_WeakRefs.find((uintptr)&ref);
+            if (it == m_WeakRefs.end())
             {
-                m_Refs.erase(it);
+                m_WeakRefs.erase(it);
                 ref.m_Ptr = nullptr;
             }
         }

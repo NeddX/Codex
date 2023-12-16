@@ -24,15 +24,14 @@ namespace codex {
         std::variant<Box<T>*, Shared<T>*> m_Owner{};
 
     public:
-        Ref(Box<T>& ptr) noexcept
-        {
-            m_Owner = decltype(m_Owner)(&ptr);
-            ptr.AppendRef(*this);
-        }
+        Ref(Box<T>& ptr) noexcept : m_Owner(decltype(m_Owner)(&ptr)) { ptr.AppendRef(*this); }
+        Ref(Shared<T>& ptr) noexcept : m_Owner(decltype(m_Owner)(&ptr)) { ptr.AppendRef(*this); }
         ~Ref()
         {
             if (m_Owner.index() == 0)
                 std::template get<Box<T>*>(m_Owner)->DetachRef(*this);
+            else if (m_Owner.index() == 1)
+                std::template get<Shared<T>*>(m_Owner)->DetachRef(*this);
             // m_Owner = std::monostate();
         }
 

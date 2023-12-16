@@ -51,10 +51,15 @@ namespace codex::editor {
         Lexer::Print(list);
 
         // Wow, i successfully pulled that off? look at me ma!
-        auto a   = Box<int>::New(10);
-        auto ref = a.AsRef();
-        if (ref)
-            std::cout << *ref << std::endl;
+        auto a    = Box<int>::New(69);
+        auto refa = a.AsRef();
+        if (refa)
+            std::cout << *refa << std::endl;
+
+        auto b    = Shared<int>::New(420);
+        auto refb = b.AsRef();
+        if (refb)
+            std::cout << *refb << std::endl;
     }
 
     void SceneEditorView::OnDetach()
