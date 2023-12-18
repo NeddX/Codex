@@ -17,69 +17,68 @@ namespace codex {
         using BaseType = typename std::remove_extent<T>::type;
 
     private:
-        BaseType* m_Ptr = nullptr;
+        BaseType*           m_Ptr      = nullptr;
+        std::atomic<usize>* m_RefCount = nullptr;
 
     private:
-        inline static std::unordered_map<uintptr, std::atomic<usize>> m_Refs{};
-        inline static std::unordered_map<uintptr, Ref<T>*>            m_WeakRefs;
+        inline static std::unordered_map<uintptr, std::vector<Ref<T>*>> m_WeakRefs{};
+        inline static std::mutex                                        m_WeakRefsGuard{};
 
     public:
         Shared() = default;
-        Shared(BaseType*&& rawPtr) noexcept : m_Ptr(rawPtr)
-        {
-            ++m_Refs[(uintptr)m_Ptr];
-            rawPtr = nullptr;
-        }
+        Shared(BaseType*&& rawPtr) noexcept : m_Ptr(rawPtr), m_RefCount(new std::atomic<usize>()) { rawPtr = nullptr; }
         Shared(const Shared<T>& other) noexcept = delete;
         Shared(Shared<T>&& other) noexcept
         {
             if (this == &other)
                 return;
 
-            m_Ptr       = other.m_Ptr;
-            other.m_Ptr = nullptr;
+            m_Ptr            = other.m_Ptr;
+            m_RefCount       = other.m_RefCount;
+            other.m_Ptr      = nullptr;
+            other.m_RefCount = nullptr;
         }
-        ~Shared() { Drop(); }
+        ~Shared() { Drop(true); }
 
     private:
-        inline void Drop()
+        inline void Drop(const bool destructing = false)
         {
             if (m_Ptr)
             {
-                if (--m_Refs[(uintptr)m_Ptr] == 0)
+                if (--(*m_RefCount) == 0)
                 {
                     if (std::is_array_v<T>)
                         delete[] m_Ptr;
                     else
                         delete m_Ptr;
 
-                    m_Refs.erase((uintptr)m_Ptr);
+                    delete m_RefCount;
 
-                    for (auto& [k, v] : m_WeakRefs)
-                        v->m_Ptr = nullptr;
+                    LockGuard lock(m_WeakRefsGuard);
+                    for (auto& e : m_WeakRefs[(uintptr)this])
+                        e->m_Ptr = nullptr;
 
-                    m_WeakRefs.clear();
+                    if (destructing)
+                        m_WeakRefs.erase((uintptr)this);
+                    else
+                        m_WeakRefs[(uintptr)this].clear();
                 }
-                m_Ptr = nullptr;
+                m_Ptr      = nullptr;
+                m_RefCount = nullptr;
             }
         }
         inline void AppendRef(Ref<T>& ref)
         {
-            auto it = m_WeakRefs.find((uintptr)&ref);
-            if (it == m_WeakRefs.end())
-            {
-                m_WeakRefs[(uintptr)&ref] = &ref;
-                ref.m_Ptr                 = m_Ptr;
-            }
+            LockGuard lock(m_WeakRefsGuard);
+            m_WeakRefs[(uintptr)this].push_back(&ref);
+            ref.m_Ptr = m_Ptr;
         }
         inline void DetachRef(Ref<T>& ref)
         {
-            auto it = m_WeakRefs.find((uintptr)&ref);
-            if (it == m_WeakRefs.end())
-            {
-                m_WeakRefs.erase(it);
-                ref.m_Ptr = nullptr;
-            }
+            LockGuard lock(m_WeakRefsGuard);
+            auto&     vec = m_WeakRefs[(uintptr)this];
+            vec.erase(std::remove(vec.begin(), vec.end(), &ref), vec.end());
+            ref.m_Ptr = nullptr;
         }
 
     public:
@@ -121,8 +120,7 @@ namespace codex {
         template <typename... TArgs>
         static inline Shared<T> New(TArgs&&... args)
         {
-            Shared<T> shared{ new T(std::forward<TArgs>(args)...) };
-            return std::move(shared);
+            return std::move(Shared<T>{ new T(std::forward<TArgs>(args)...) });
         }
     };
 } // namespace codex

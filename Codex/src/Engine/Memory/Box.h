@@ -17,8 +17,11 @@ namespace codex {
         using BaseType = typename std::remove_extent<T>::type;
 
     private:
-        BaseType*                            m_Ptr = nullptr;
-        std::unordered_map<uintptr, Ref<T>*> m_WeakRefs;
+        inline static std::unordered_map<uintptr, std::vector<Ref<T>*>> m_WeakRefs{};
+        inline static std::mutex                                        m_WeakRefsGuard{};
+
+    private:
+        BaseType* m_Ptr = nullptr;
 
     public:
         Box() = default;
@@ -32,10 +35,10 @@ namespace codex {
             m_Ptr       = other.m_Ptr;
             other.m_Ptr = nullptr;
         }
-        ~Box() { Drop(); }
+        ~Box() { Drop(true); }
 
     private:
-        inline void Drop()
+        inline void Drop(const bool destructing = false)
         {
             if (m_Ptr)
             {
@@ -45,29 +48,28 @@ namespace codex {
                     delete m_Ptr;
                 m_Ptr = nullptr;
 
-                for (auto& [k, v] : m_WeakRefs)
-                    v->m_Ptr = nullptr;
+                LockGuard lock(m_WeakRefsGuard);
+                for (auto& e : m_WeakRefs[(uintptr)this])
+                    e->m_Ptr = nullptr;
 
-                m_WeakRefs.clear();
+                if (destructing)
+                    m_WeakRefs.erase((uintptr)this);
+                else
+                    m_WeakRefs[(uintptr)this].clear();
             }
         }
         inline void AppendRef(Ref<T>& ref)
         {
-            auto it = m_WeakRefs.find((uintptr)&ref);
-            if (it == m_WeakRefs.end())
-            {
-                m_WeakRefs[(uintptr)&ref] = &ref;
-                ref.m_Ptr                 = m_Ptr;
-            }
+            LockGuard lock(m_WeakRefsGuard);
+            m_WeakRefs[(uintptr)this].push_back(&ref);
+            ref.m_Ptr = m_Ptr;
         }
         inline void DetachRef(Ref<T>& ref)
         {
-            auto it = m_WeakRefs.find((uintptr)&ref);
-            if (it == m_WeakRefs.end())
-            {
-                m_WeakRefs.erase(it);
-                ref.m_Ptr = nullptr;
-            }
+            LockGuard lock(m_WeakRefsGuard);
+            auto&     vec = m_WeakRefs[(uintptr)this];
+            vec.erase(std::remove(vec.begin(), vec.end(), &ref), vec.end());
+            ref.m_Ptr = nullptr;
         }
 
     public:
@@ -109,8 +111,7 @@ namespace codex {
         template <typename... TArgs>
         static inline Box<T> New(TArgs&&... args)
         {
-            Box<T> box{ new T(std::forward<TArgs>(args)...) };
-            return std::move(box);
+            return std::move(Box<T>{ new T(std::forward<TArgs>(args)...) });
         }
     };
 } // namespace codex
