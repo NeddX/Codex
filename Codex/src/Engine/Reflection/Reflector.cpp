@@ -8,12 +8,7 @@ namespace codex {
     {
         std::vector<RFTypeInfo> classes;
         std::ifstream           fs(path);
-        if (fs.is_open())
-        {
-            std::string contents((std::istreambuf_iterator<char>(fs)), (std::istreambuf_iterator<char>()));
-            TokenList   tokens = Lexer::Lex(contents);
-            for (const auto& t : tokens) {}
-        }
+        if (fs.is_open()) {}
         else
             cx_throw(FileNotFoundException, "Couldn't open file {} for reading.", path.string());
         return classes;
