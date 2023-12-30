@@ -62,16 +62,23 @@ namespace codex {
     class Reflector
     {
     public:
-        static std::vector<RFTypeInfo> GetClasses(const std::filesystem::path file);
     };
 
     template <typename T>
     RFTypeInfo RFTypeOf() noexcept
     {
         using base_type = std::remove_const_t<T>;
+
+        std::string qualifiers;
+
+        if constexpr (std::is_const<T>::value)
+            qualifiers = "const";
+
         if constexpr (std::is_same_v<T, unsigned char>)
-            return RFTypeInfo(RFTypeInfo::Fundamental, "unsigned char", (std::is_const<T>) ? "const" : "");
+            return RFTypeInfo(RFTypeInfo::Fundamental, "unsigned char", qualifiers);
         else if constexpr (std::is_same_v<T, signed char>)
-    } // namespace codex
+            return RFTypeInfo(RFTypeInfo::Fundamental, "signed char", qualifiers);
+    }
+} // namespace codex
 
 #endif // CODEX_REFLECTION_REFLECTOR_H
