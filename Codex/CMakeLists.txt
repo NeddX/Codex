@@ -108,6 +108,12 @@ else()
         COMMAND ${CMAKE_COMMAND} -E copy
             $<TARGET_FILE:SDL2main>
             $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:SDL2main>
+        COMMAND ${CMAKE_COMMAND} -E copy
+            $<TARGET_FILE:fmt>
+            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:fmt>
+        COMMAND ${CMAKE_COMMAND} -E copy
+            $<TARGET_FILE:MGL>
+            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:MGL>
     )
 
     add_custom_command(
@@ -119,6 +125,12 @@ else()
         COMMAND ${CMAKE_COMMAND} -E copy
             $<TARGET_FILE:SDL2main>
             $<TARGET_FILE_DIR:CodexEngine-static>/$<TARGET_FILE_NAME:SDL2main>
+        COMMAND ${CMAKE_COMMAND} -E copy
+            $<TARGET_FILE:fmt>
+            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:fmt>
+        COMMAND ${CMAKE_COMMAND} -E copy
+            $<TARGET_FILE:MGL>
+            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:MGL>
     )
 
 endif()
