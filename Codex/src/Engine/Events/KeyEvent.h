@@ -7,7 +7,7 @@
 #include "Event.h"
 
 namespace codex {
-    class KeyEvent : public Event
+    class CODEX_API KeyEvent : public Event
     {
     protected:
         Key m_Key;
@@ -21,7 +21,7 @@ namespace codex {
         EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
     };
 
-    class KeyDownEvent : public KeyEvent
+    class CODEX_API KeyDownEvent : public KeyEvent
     {
     private:
         bool m_IsRepeat;
@@ -39,7 +39,7 @@ namespace codex {
         EVENT_CLASS_TYPE(KeyDown);
     };
 
-    class KeyUpEvent : public KeyEvent
+    class CODEX_API KeyUpEvent : public KeyEvent
     {
     public:
         KeyUpEvent(const Key key) : KeyEvent(key) {}

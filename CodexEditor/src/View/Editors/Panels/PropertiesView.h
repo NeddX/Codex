@@ -4,19 +4,15 @@
 
 namespace codex::editor {
     // Forward declarations.
-    struct SelectedEntityDescriptor;
+    struct SceneEditorDescriptor;
 
     class PropertiesView
     {
     private:
-        f32&                      m_ColumnWidth;
-        SelectedEntityDescriptor& m_SelectedEntity;
-        DLib*                     m_ScriptModule;
-        Vector4f&                 m_SelectColour;
+        Ref<SceneEditorDescriptor> m_EditorDesc{};
 
     public:
-        PropertiesView(f32& columnWidth, SelectedEntityDescriptor& selectedEntity, DLib* scriptModule,
-                       Vector4f& selectColour);
+        explicit PropertiesView(const Ref<SceneEditorDescriptor>& editorDesc);
 
     public:
         void OnImGuiRender();

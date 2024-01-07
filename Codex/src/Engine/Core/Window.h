@@ -29,7 +29,7 @@ namespace codex {
         constexpr const char* default_message() const noexcept override { return "GLAD failed to initialize."; }
     };
 
-    struct WindowProperties
+    struct CODEX_API WindowProperties
     {
         const char* title      = "Codex - Window";
         i32         width      = 1280;
@@ -42,7 +42,7 @@ namespace codex {
         bool        borderless = false;
     };
 
-    class Window
+    class CODEX_API Window
     {
         using Box                   = std::unique_ptr<Window, std::function<void(Window*)>>;
         using EventCallbackDelegate = std::function<void(Event&)>;

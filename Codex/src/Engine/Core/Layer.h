@@ -6,7 +6,7 @@
 #include "../Events/Event.h"
 
 namespace codex {
-    class Layer
+    class CODEX_API Layer
     {
     protected:
         std::string m_DebugName;

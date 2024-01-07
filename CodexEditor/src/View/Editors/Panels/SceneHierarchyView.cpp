@@ -5,21 +5,21 @@
 #include "../SceneEditorView.h"
 
 namespace codex::editor {
-    SceneHierarchyView::SceneHierarchyView(Scene& scene, SelectedEntityDescriptor& selectedEntity,
-                                           Vector4f& selectColour)
-        : m_Scene(scene), m_SelectedEntity(selectedEntity), m_SelectColour(selectColour)
+    SceneHierarchyView::SceneHierarchyView(const Ref<SceneEditorDescriptor>& editorDesc) : m_EditorDesc(editorDesc)
     {
     }
 
     void SceneHierarchyView::OnImGuiRender()
     {
         {
+            auto d = m_EditorDesc.Lock();
+
             ImGui::Begin("Scene hierarchy");
             if (ImGui::Button("New entity"))
                 ImGui::OpenPopup("new_entity_popup");
             if (ImGui::BeginPopup("new_entity_popup", ImGuiWindowFlags_MenuBar))
             {
-                std::string name = fmt::format("Entity {}", m_Scene.GetEntityCount() + 1);
+                std::string name = fmt::format("Entity {}", d->scene->GetEntityCount() + 1);
                 ImGui::Text("Entity Name: ");
                 ImGui::InputText("##entity_name", &name);
                 ImGui::SameLine();
@@ -27,42 +27,42 @@ namespace codex::editor {
                 {
                     // Close the popup
                     ImGui::CloseCurrentPopup();
-                    if (m_SelectedEntity.entity)
+                    if (d->selectedEntity.entity)
                     {
-                        if (m_SelectedEntity.entity.HasComponent<SpriteRendererComponent>())
-                            m_SelectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
-                                m_SelectedEntity.overlayColour;
+                        if (d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
+                            d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
+                                d->selectedEntity.overlayColour;
                     }
-                    m_SelectedEntity.entity = m_Scene.CreateEntity(name);
+                    d->selectedEntity.entity = d->scene->CreateEntity(name);
                 }
                 ImGui::EndPopup();
             }
 
             ImGui::Text("Entities:");
-            auto entities = m_Scene.GetAllEntitiesWithComponent<TagComponent>();
+            auto entities = d->scene->GetAllEntitiesWithComponent<TagComponent>();
             for (auto& e : entities)
             {
                 auto& tag_component = e.GetComponent<TagComponent>();
-                if (ImGui::Selectable(tag_component.tag.c_str(), m_SelectedEntity.entity == e))
+                if (ImGui::Selectable(tag_component.tag.c_str(), m_EditorDesc.Lock()->selectedEntity.entity == e))
                 {
-                    if (m_SelectedEntity.entity)
+                    if (d->selectedEntity.entity)
                     {
-                        if (m_SelectedEntity.entity.HasComponent<SpriteRendererComponent>())
+                        if (d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
                         {
-                            auto& s       = m_SelectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
-                            s.GetColour() = m_SelectedEntity.overlayColour;
+                            auto& s       = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
+                            s.GetColour() = d->selectedEntity.overlayColour;
                         }
                     }
 
-                    m_SelectedEntity.entity = e;
+                    d->selectedEntity.entity = e;
 
-                    if (m_SelectedEntity.entity)
+                    if (d->selectedEntity.entity)
                     {
-                        if (m_SelectedEntity.entity.HasComponent<SpriteRendererComponent>())
+                        if (d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
                         {
-                            auto& s = m_SelectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
-                            m_SelectedEntity.overlayColour = s.GetColour();
-                            s.GetColour()                  = m_SelectColour;
+                            auto& s = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
+                            d->selectedEntity.overlayColour = s.GetColour();
+                            s.GetColour()                  = d->selectColour;
                         }
                     }
 

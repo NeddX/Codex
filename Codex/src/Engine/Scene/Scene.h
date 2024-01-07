@@ -13,7 +13,7 @@ namespace codex {
     class Entity;
     class Serializer;
 
-    class Scene
+    class CODEX_API Scene
     {
         friend class Serializer;
         friend class Window;

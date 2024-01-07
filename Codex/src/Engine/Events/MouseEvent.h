@@ -7,7 +7,7 @@
 #include "Event.h"
 
 namespace codex {
-    class MouseMoveEvent : public Event
+    class CODEX_API MouseMoveEvent : public Event
     {
     private:
         i32 m_MousePosX;
@@ -30,7 +30,7 @@ namespace codex {
         EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
     };
 
-    class MouseButtonEvent : public Event
+    class CODEX_API MouseButtonEvent : public Event
     {
     protected:
         Mouse m_Button;
@@ -51,7 +51,7 @@ namespace codex {
         EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput | EventCategoryMouseButton)
     };
 
-    class MouseScrollEvent : public MouseButtonEvent
+    class CODEX_API MouseScrollEvent : public MouseButtonEvent
     {
     private:
         i32 m_OffsetX;
@@ -77,7 +77,7 @@ namespace codex {
         EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
     };
 
-    class MouseDownEvent : public MouseButtonEvent
+    class CODEX_API MouseDownEvent : public MouseButtonEvent
     {
     public:
         MouseDownEvent(const Mouse button, const i32 mouseX, const i32 mouseY)
@@ -94,7 +94,7 @@ namespace codex {
         EVENT_CLASS_TYPE(MouseDown)
     };
 
-    class MouseUpEvent : public MouseButtonEvent
+    class CODEX_API MouseUpEvent : public MouseButtonEvent
     {
     public:
         MouseUpEvent(const Mouse button, const i32 mouseX, const i32 mouseY) : MouseButtonEvent(button, mouseX, mouseY)

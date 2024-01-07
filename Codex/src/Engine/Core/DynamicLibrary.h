@@ -28,7 +28,7 @@ namespace codex {
         constexpr const char* default_message() const noexcept override { return "Failed to invoke function."; }
     };
 
-    class DLib
+    class CODEX_API DLib
     {
     private:
         DLibInstance m_Handle = (DLibInstance)0;

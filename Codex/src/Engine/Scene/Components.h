@@ -13,7 +13,7 @@ namespace codex {
     class Entity;
     class Serializer;
 
-    struct IComponent
+    struct CODEX_API IComponent
     {
         friend class Serializer;
         friend class Entity;
@@ -29,7 +29,7 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
-    struct TagComponent : public IComponent
+    struct CODEX_API TagComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
@@ -45,7 +45,7 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
-    struct TransformComponent : public IComponent
+    struct CODEX_API TransformComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
@@ -75,7 +75,7 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
-    struct SpriteRendererComponent : public IComponent
+    struct CODEX_API SpriteRendererComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
@@ -94,7 +94,7 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
-    struct GridRendererComponent : public IComponent
+    struct CODEX_API GridRendererComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
@@ -117,7 +117,7 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
-    class ScriptException : public CodexException
+    class CODEX_API ScriptException : public CodexException
     {
         using CodexException::CodexException;
 
@@ -183,7 +183,7 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
-    struct TilemapComponent : public IComponent
+    struct CODEX_API TilemapComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;

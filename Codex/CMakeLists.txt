@@ -2,17 +2,44 @@
 file(GLOB_RECURSE ENGINE_SOURCES "src/Engine/*.cpp")
 file(GLOB_RECURSE ENGINE_HEADERS "src/Engine/*.h")
 
+# Export all symbols on Windows.
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 add_library(CodexEngine SHARED ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 add_library(CodexEngine-static STATIC ${ENGINE_HEADERS} ${ENGINE_SOURCES})
+install(TARGETS CodexEngine DESTINATION bin)
+install(TARGETS CodexEngine-static DESTINATION bin)
 
-# Set the C++ Standard to 17 for this target.
+# Set the C++ Standard to 20 for this target.
 set_property(TARGET CodexEngine PROPERTY CXX_STANDARD 20)
 set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 20)
 
+# Tell the guy to export the symbols.
+# This is only relevant for Windows really.
+target_compile_definitions(CodexEngine PRIVATE CX_BUILD_SHARED)
+target_compile_definitions(CodexEngine-static PUBLIC CX_BUILD_STATIC)
+
 # For exporting the symbols on windows.
 if(DEFINED CX_PLATFORM_WINDOWS)
-    set_target_properties(CodexEngine-static PROPERTIES OUTPUT_NAME "CodexEngine")
-    set_target_properties(CodexEngine-static PROPERTIES COMPILE_PDB_NAME "CodexEngine-static")
+    # This retarded fix didn't work with Ninja as the build generator on Windows.
+    #set_target_properties(CodexEngine-static PROPERTIES OUTPUT_NAME "CodexEngine-static")
+    #set_target_properties(CodexEngine-static PROPERTIES COMPILE_PDB_NAME "CodexEngine-static")
+    
+    # This one does work and it's even worse. 
+    # It's is so retarded but whatever, I'm not even going to try because I want to write
+    # code, not build generation bs.
+    # If you have a better solution then please make a pull request :)
+    #add_custom_command(
+    #    TARGET CodexEngine-static
+    #    POST_BUILD
+
+        # Copy CodexEngine-static.lib to CodexEngine.lib because
+    #    COMMAND ${CMAKE_COMMAND} -E copy
+    #        $<TARGET_FILE:CodexEngine-static>
+    #        $<TARGET_FILE_DIR:CodexEngine>/CodexEngine.lib
+    #    COMMAND ${CMAKE_COMMAND} -E remove
+    #        $<TARGET_FILE:CodexEngine-static>
+    #)
 endif()
 
 # Position independent code for shared libraries.
@@ -88,7 +115,7 @@ if (ANDROID)
     target_include_directories(CodexEngine-static PRIVATE ${SDL2_INCLUDE_DIRS})
     target_link_libraries(CodexEngine-static ${SDL2_LIBRARIES})
 else()
-    add_subdirectory(vendor/SDL ${PROJECT_BINARY_DIR}/SDL)
+    add_subdirectory(vendor/SDL ${PROJECT_BINARY_DIR}/SDL EXCLUDE_FROM_ALL)
     set(SDL2_INCLUDE_DIRS vendor/SDL/include)
     set(SDL2_LIBRARIES SDL2 SDL2main)
 
@@ -99,44 +126,12 @@ else()
     target_include_directories(CodexEngine-static PRIVATE ${SDL2_INCLUDE_DIRS})
     target_link_libraries(CodexEngine-static ${SDL2_LIBRARIES})
 
-    add_custom_command(
-        TARGET CodexEngine
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-            $<TARGET_FILE:SDL2>
-            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:SDL2>
-        COMMAND ${CMAKE_COMMAND} -E copy
-            $<TARGET_FILE:SDL2main>
-            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:SDL2main>
-        COMMAND ${CMAKE_COMMAND} -E copy
-            $<TARGET_FILE:fmt>
-            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:fmt>
-        COMMAND ${CMAKE_COMMAND} -E copy
-            $<TARGET_FILE:MGL>
-            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:MGL>
-    )
-
-    add_custom_command(
-        TARGET CodexEngine-static
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-            $<TARGET_FILE:SDL2>
-            $<TARGET_FILE_DIR:CodexEngine-static>/$<TARGET_FILE_NAME:SDL2>
-        COMMAND ${CMAKE_COMMAND} -E copy
-            $<TARGET_FILE:SDL2main>
-            $<TARGET_FILE_DIR:CodexEngine-static>/$<TARGET_FILE_NAME:SDL2main>
-        COMMAND ${CMAKE_COMMAND} -E copy
-            $<TARGET_FILE:fmt>
-            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:fmt>
-        COMMAND ${CMAKE_COMMAND} -E copy
-            $<TARGET_FILE:MGL>
-            $<TARGET_FILE_DIR:CodexEngine>/$<TARGET_FILE_NAME:MGL>
-    )
-
+    install(TARGETS SDL2 DESTINATION bin)
+    install(TARGETS SDL2main DESTINATION bin)
 endif()
 
 # fmt
-add_subdirectory(vendor/fmt ${PROJECT_BINARY_DIR}/fmt)
+add_subdirectory(vendor/fmt ${PROJECT_BINARY_DIR}/fmt EXCLUDE_FROM_ALL)
 set(FMT_INCLUDE_DIRS vendor/fmt/include)
 set(FMT_LIBRARIES fmt)
 
@@ -146,8 +141,10 @@ target_link_libraries(CodexEngine ${FMT_LIBRARIES})
 target_include_directories(CodexEngine-static PRIVATE ${FMT_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${FMT_LIBRARIES})
 
+#install(TARGETS fmt DESTINATION bin)
+
 # nlohmann json
-add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json)
+add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json EXCLUDE_FROM_ALL)
 set(JSON_INCLUDE_DIRS vendor/json/include)
 set(JSON_LIBRARIES nlohmann_json)
 
@@ -157,15 +154,20 @@ target_link_libraries(CodexEngine ${JSON_LIBRARIES})
 target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${JSON_LIBRARIES})
 
+install(TARGETS nlohmann_json DESTINATION bin)
+
 # glad
+add_subdirectory(vendor/glad ${PROJECT_BINARY_DIR}/glad EXCLUDE_FROM_ALL)
 set(GLAD_INCLUDE_DIRS vendor/glad)
-set(GLAD_SOURCE_FILES vendor/glad/glad.cpp)
+set(GLAD_LIBRARIES glad)
 
 target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIRS})
-target_sources(CodexEngine PRIVATE ${GLAD_SOURCE_FILES})
+target_link_libraries(CodexEngine ${GLAD_LIBRARIES})
 
 target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIRS})
-target_sources(CodexEngine-static PUBLIC ${GLAD_SOURCE_FILES})
+target_link_libraries(CodexEngine-static ${GLAD_LIBRARIES})
+
+install(TARGETS glad DESTINATION bin)
 
 # ImGui
 set(IMGUI_INCLUDE_DIRS vendor/imgui vendor/imgui/backends vendor/imgui/examples vendor/imgui/misc)
@@ -191,7 +193,7 @@ target_include_directories(CodexEngine PUBLIC ${IMGUI_INCLUDE_DIRS})
 target_include_directories(CodexEngine-static PUBLIC ${IMGUI_INCLUDE_DIRS})
 
 # glm
-add_subdirectory(vendor/glm ${PROJECT_BINARY_DIR}/glm)
+add_subdirectory(vendor/glm ${PROJECT_BINARY_DIR}/glm EXCLUDE_FROM_ALL)
 set(GLM_INCLUDE_DIRS vendor/glm/glm)
 set(GLM_LIBRARIES glm)
 
@@ -201,8 +203,10 @@ target_link_libraries(CodexEngine ${GLM_LIBRARIES})
 target_include_directories(CodexEngine-static PUBLIC ${GLM_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${GLM_LIBRARIES})
 
+install(TARGETS glm DESTINATION bin)
+
 # mgl
-add_subdirectory(vendor/MGL/MGL ${PROJECT_BINARY_DIR}/MGL)
+add_subdirectory(vendor/MGL/MGL ${PROJECT_BINARY_DIR}/MGL EXCLUDE_FROM_ALL)
 set(MGL_INCLUDE_DIRS vendor/MGL/include)
 set(MGL_LIBRARIES MGL)
 
@@ -211,6 +215,8 @@ target_link_libraries(CodexEngine ${MGL_LIBRARIES})
 
 target_include_directories(CodexEngine-static PUBLIC ${MGL_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${MGL_LIBRARIES})
+
+install(TARGETS MGL DESTINATION bin)
 
 # Net Native
 #set(NETNT_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/NetNT/src)
@@ -253,6 +259,9 @@ target_compile_definitions(CodexEngine-static PRIVATE
 #       MISC      #
 # =============== #
 
+# Assets folder
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
+
 # Define standalone mode for the static library since the static version is going to be used for shipping
 #target_compile_definitions(CodexEngine-static PRIVATE CX_MODE_STANDALONE 1)
 
@@ -276,4 +285,3 @@ if (CX_COMPILER_MSVC)
 else()
     #target_compile_options(CodexEngine PRIVATE -Wall -Wextra -Wno-error=extra -Werror)
 endif()
-

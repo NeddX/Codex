@@ -35,16 +35,10 @@ namespace codex {
         ~BatchRenderer2D()                                           = default;
 
     public:
-        static inline Shader* GetShader() noexcept { return m_Shader; }
-        static inline usize   GeBatchCount() noexcept { return m_Batches.size(); }
-        static inline usize   GetQuadCount() noexcept
-        {
-            usize quad_count = 0;
-            for (const auto b : m_Batches)
-                quad_count += b->GetCount();
-            return quad_count;
-        };
-        static inline std::vector<RenderBatch*>& GetBatches() noexcept { return m_Batches; }
+        static Shader*                    GetShader() noexcept;
+        static usize                      GeBatchCount() noexcept;
+        static usize                      GetQuadCount() noexcept;
+        static std::vector<RenderBatch*>& GetBatches() noexcept;
 
     public:
         static void Init();

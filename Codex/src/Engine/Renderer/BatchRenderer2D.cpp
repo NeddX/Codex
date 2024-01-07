@@ -7,6 +7,29 @@ namespace codex {
     Shader*                   BatchRenderer2D::m_Shader               = nullptr;
     std::vector<RenderBatch*> BatchRenderer2D::m_Batches;
 
+    Shader* BatchRenderer2D::GetShader() noexcept
+    {
+        return m_Shader;
+    }
+
+    usize BatchRenderer2D::GeBatchCount() noexcept
+    {
+        return m_Batches.size();
+    }
+
+    usize BatchRenderer2D::GetQuadCount() noexcept
+    {
+        usize quad_count = 0;
+        for (const auto b : m_Batches)
+            quad_count += b->GetCount();
+        return quad_count;
+    }
+
+    std::vector<RenderBatch*>& BatchRenderer2D::GetBatches() noexcept
+    {
+        return m_Batches;
+    }
+
     void BatchRenderer2D::Init()
     {
         m_Batches.reserve(m_Capacity);

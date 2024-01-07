@@ -23,7 +23,7 @@ namespace codex {
         i32      entityId;
     };
 
-    class RenderBatch
+    class CODEX_API RenderBatch
     {
     private:
         i32                                      m_QuadCount           = 0;

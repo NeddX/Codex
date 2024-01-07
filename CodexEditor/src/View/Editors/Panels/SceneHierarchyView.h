@@ -4,17 +4,15 @@
 
 namespace codex::editor {
     // Forward declarations.
-    struct SelectedEntityDescriptor;
+    struct SceneEditorDescriptor;
 
     class SceneHierarchyView
     {
     private:
-        Scene&                    m_Scene;
-        SelectedEntityDescriptor& m_SelectedEntity;
-        Vector4f&                 m_SelectColour;
+        Ref<SceneEditorDescriptor> m_EditorDesc{};
 
     public:
-        SceneHierarchyView(Scene& scene, SelectedEntityDescriptor& selectedEntity, Vector4f& m_SelectColour);
+        explicit SceneHierarchyView(const Ref<SceneEditorDescriptor>& editorDesc);
 
         void OnImGuiRender();
     };

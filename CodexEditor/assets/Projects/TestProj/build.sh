@@ -8,7 +8,13 @@ if [ -z "$CODEX_DEV" ]; then
     exit -1
 fi
 
-dependencies_binaries=("libCodexEngine-static.a" "libMGL.a" "libfmtd.a")
+#dependencies=("libCodexEngine-static.a" "libMGL.a" "libfmtd.a")
+dependencies=()
+
+# Get all the static libraries.
+while IFS= read -r -d '' f; do
+    dependencies+=("$f")
+done < <(find "$CODEX_BUILD_DIR/Codex" -type f \( -name "*.a" -o -name "*.lib" \) -print0)
 
 if [ ! -d "lib" ]; then
     mkdir lib
@@ -22,7 +28,7 @@ fi
 
 echo ""
 echo ":: Copying neccessary dependencies..."
-for f in "${dependencies_binaries[@]}"; do
+for f in "${dependencies[@]}"; do
     fp="$CODEX_BUILD_DIR/Codex/$f"
     cp "$fp" ./
     echo ":: Copied $fp"

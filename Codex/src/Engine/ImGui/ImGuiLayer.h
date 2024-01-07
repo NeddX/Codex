@@ -7,7 +7,7 @@
 #include "../Events/Event.h"
 
 namespace codex {
-    class ImGuiLayer : public Layer
+    class CODEX_API ImGuiLayer : public Layer
     {
     private:
         bool          m_Blocking       = true;

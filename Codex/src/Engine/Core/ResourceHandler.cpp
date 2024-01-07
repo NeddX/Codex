@@ -76,4 +76,23 @@ namespace codex {
             return nullptr;
         }
     }
+
+    bool Resources::HasResource(const usize id)
+    {
+        auto it = m_Instance->m_Resources.find(id);
+        if (it != m_Instance->m_Resources.end())
+            return true;
+        return false;
+    }
+
+    bool Resources::HasResource(const std::string_view filePath)
+    {
+        usize id = util::Crypto::DJB2Hash(filePath);
+        return HasResource(id);
+    }
+
+    std::unordered_map<usize, ResRef<IResource>>& Resources::GetAllResources()
+    {
+        return m_Instance->m_Resources;
+    }
 } // namespace codex

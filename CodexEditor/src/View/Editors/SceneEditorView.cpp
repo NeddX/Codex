@@ -3,15 +3,15 @@
 #include <tinyfiledialogs.h>
 
 namespace codex::editor {
-
     void SceneEditorView::OnAttach()
     {
         auto width    = Application::GetWindow().GetWidth();
         auto height   = Application::GetWindow().GetHeight();
-        m_Scene       = std::make_unique<Scene>();
         m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
         m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
-        m_Camera = std::make_unique<Camera>(width, height);
+        m_Camera = Box<Camera>::New(width, height);
+
+        m_Descriptor = Shared<SceneEditorDescriptor>::From(new SceneEditorDescriptor{ .scene = Box<Scene>::New() });
 
         // Panels
         // FIXME: When changing scene, panels hold the reference to the outdated scenes thus resulting in a segfault.
@@ -29,9 +29,8 @@ namespace codex::editor {
         // the .Clone() method is used. Managed<int> obj1 = GC::New<int>(); Managed<int> obj2 = obj1;         // Both
         // obj1 and obj2 refer to the same underlying object. Managed<int> obj3 = obj1.Clone(); // obj3 holds a
         // reference to a newly made copy.
-        m_SceneHierarchyView = std::make_unique<SceneHierarchyView>(*m_Scene, m_SelectedEntity, m_SelectColour);
-        m_PropertiesView =
-            std::make_unique<PropertiesView>(m_ColumnWidth, m_SelectedEntity, m_ScriptModule.get(), m_SelectColour);
+        m_SceneHierarchyView = Box<SceneHierarchyView>::New(m_Descriptor.AsRef());
+        m_PropertiesView     = Box<PropertiesView>::New(m_Descriptor.AsRef());
 
         Renderer::Init(width, height);
         BatchRenderer2D::BindShader(m_BatchShader.get());
@@ -40,7 +39,7 @@ namespace codex::editor {
         props.attachments = { mgl::TextureFormat::RGBA8, mgl::TextureFormat::RedInt32 };
         props.width       = 1280;
         props.height      = 720;
-        m_Framebuffer     = std::make_unique<mgl::FrameBuffer>(props);
+        m_Framebuffer     = Box<mgl::FrameBuffer>::New(props);
 
         // glEnable(GL_DEPTH_TEST);
         // glDepthFunc(GL_LESS);
@@ -49,17 +48,6 @@ namespace codex::editor {
         std::string   src((std::istreambuf_iterator<char>(fs)), (std::istreambuf_iterator<char>()));
         TokenList     list = Lexer::Lex(src);
         Lexer::Print(list);
-
-        // Wow, i successfully pulled that off? look at me ma!
-        auto a    = Box<int>::New(69);
-        auto refa = a.AsRef();
-        if (refa)
-            std::cout << *refa << std::endl;
-
-        auto b    = Shared<int>::New(420);
-        auto refb = b.AsRef();
-        if (refb)
-            std::cout << *refb << std::endl;
     }
 
     void SceneEditorView::OnDetach()
@@ -79,7 +67,7 @@ namespace codex::editor {
         Renderer::Clear();
 
         BatchRenderer2D::Begin();
-        m_Scene->Update(deltaTime);
+        m_Descriptor->scene->Update(deltaTime);
         BatchRenderer2D::End();
 
         /*
@@ -99,23 +87,23 @@ namespace codex::editor {
             pos *= scale;
             pos     = glm::round(pos);
             i32  id = id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y);
-            auto e       = Entity((entt::entity)id, m_Scene.get());
+            auto e       = Entity((entt::entity)id, d->scene.get());
             if (e)
             {
-                if (m_SelectedEntity.entity)
+                if (d->selectedEntity.entity)
                 {
-                    if (m_SelectedEntity.entity.HasComponent<SpriteRendererComponent>())
+                    if (d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
                     {
-                        m_SelectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
-                            m_SelectedEntity.overlayColour;
+                        d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
+                            d->selectedEntity.overlayColour;
                     }
                 }
 
-                m_SelectedEntity.entity = e;
+                d->selectedEntity.entity = e;
                 if (e.HasComponent<SpriteRendererComponent>())
                 {
                     auto& s                        = e.GetComponent<SpriteRendererComponent>().GetSprite();
-                    m_SelectedEntity.overlayColour = s.GetColour();
+                    d->selectedEntity.overlayColour = s.GetColour();
                     s.GetColour()                  = m_SelectColour;
                 }
             }
@@ -126,6 +114,7 @@ namespace codex::editor {
 
     void SceneEditorView::ImGuiRender()
     {
+        auto& d  = m_Descriptor;
         auto& io = ImGui::GetIO();
 
         // ImGuizmo
@@ -146,45 +135,41 @@ namespace codex::editor {
                 // Add File menu items here
                 if (ImGui::MenuItem("Open", "Ctrl+O"))
                 {
-                    const char* filters[] = { "*.cxproj" };
+                    const char* filters[] { "*.cxproj" };
                     const char* file      = tinyfd_openFileDialog("Load a Project.", nullptr, 1, filters, nullptr, 0);
                     if (file)
                     {
-                        if (m_SelectedEntity.entity && m_SelectedEntity.entity.HasComponent<SpriteRendererComponent>())
+                        if (d->selectedEntity.entity &&
+                            d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
                         {
-                            m_SelectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
-                                m_SelectedEntity.overlayColour;
-                            m_SelectedEntity.entity = Entity::None();
+                            d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
+                                d->selectedEntity.overlayColour;
+                            d->selectedEntity.entity = Entity::None();
                         }
                         m_ProjectPath = std::filesystem::path(std::string{ file });
                         m_ProjectPath = m_ProjectPath.parent_path();
-                        m_Scene.reset(new Scene());
-                        Serializer::DeserializeScene(file, *m_Scene);
-                        m_ScriptModule =
-                            std::make_unique<DLib>(fmt::format("{}/lib/libNBMan.dll", m_ProjectPath.string()));
-                        if (m_ScriptModule)
-                            fmt::println("Script module loaded.");
-                        else
-                            fmt::println("Failed to load script module.");
+                        UnloadScriptModule();
+                        d->scene.Reset(new Scene());
+                        Serializer::DeserializeScene(file, *d->scene);
                     }
                 }
                 if (ImGui::MenuItem("Reload Script Module"))
                 {
-                    auto entities = m_Scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
+                    auto entities = d->scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
                     for (auto& e : entities)
                     {
                         auto& c = e.GetComponent<NativeBehaviourComponent>();
                         // c.destroy(&c);
                     }
-                    m_ScriptModule.reset(new DLib(fmt::format("{}/lib/libNBMan.dll", m_ProjectPath.string())));
-                    if (m_ScriptModule)
+                    d->scriptModule.Reset(new DLib(fmt::format("{}/lib/libNBMan.dll", m_ProjectPath.string())));
+                    if (d->scriptModule)
                         fmt::println("Script module reloaded.");
                     else
                         fmt::println("Failed to reload script module.");
                 }
                 if (ImGui::MenuItem("Unload Script Module"))
                 {
-                    auto entities = m_Scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
+                    auto entities = d->scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
                     for (auto& e : entities)
                     {
                         auto&                         c = e.GetComponent<NativeBehaviourComponent>();
@@ -194,7 +179,7 @@ namespace codex::editor {
                         for (const auto& e : scripts)
                             c.Detach(e);
                     }
-                    m_ScriptModule.reset(nullptr);
+                    d->scriptModule.Reset(nullptr);
                 }
                 if (ImGui::MenuItem("Save", "Ctrl+S"))
                 {
@@ -202,31 +187,32 @@ namespace codex::editor {
                     static const char* save_dir = nullptr;
                     if (!save_dir)
                     {
-                        auto&       c = m_SelectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
+                        auto&       c = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
                         const char* filter_patterns[] = { "*.cxproj" };
                         save_dir = tinyfd_saveFileDialog("Save Project", "default.cxproj", 1, filter_patterns, NULL);
                         if (save_dir)
                         {
-                            if (m_SelectedEntity.entity &&
-                                m_SelectedEntity.entity.HasComponent<SpriteRendererComponent>())
+                            if (d->selectedEntity.entity &&
+                                d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
                             {
-                                m_SelectedEntity.entity.GetComponent<SpriteRendererComponent>()
+                                d->selectedEntity.entity.GetComponent<SpriteRendererComponent>()
                                     .GetSprite()
-                                    .GetColour()        = m_SelectedEntity.overlayColour;
-                                m_SelectedEntity.entity = Entity::None();
+                                    .GetColour()         = d->selectedEntity.overlayColour;
+                                d->selectedEntity.entity = Entity::None();
                             }
-                            Serializer::SerializeScene(save_dir, *m_Scene);
+                            Serializer::SerializeScene(save_dir, *d->scene);
                         }
                     }
                     else
                     {
-                        if (m_SelectedEntity.entity && m_SelectedEntity.entity.HasComponent<SpriteRendererComponent>())
+                        if (d->selectedEntity.entity &&
+                            d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
                         {
-                            m_SelectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
-                                m_SelectedEntity.overlayColour;
-                            m_SelectedEntity.entity = Entity::None();
+                            d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
+                                d->selectedEntity.overlayColour;
+                            d->selectedEntity.entity = Entity::None();
                         }
-                        Serializer::SerializeScene(save_dir, *m_Scene);
+                        Serializer::SerializeScene(save_dir, *d->scene);
                     }
                 }
                 if (ImGui::MenuItem("Exit", "Alt+F4"))
@@ -281,7 +267,7 @@ namespace codex::editor {
 
             // Guizmo
             {
-                if (m_SelectedEntity.entity)
+                if (d->selectedEntity.entity)
                 {
                     ImGuizmo::SetOrthographic(true);
                     ImGuizmo::SetDrawlist();
@@ -293,7 +279,7 @@ namespace codex::editor {
                     auto proj_mat = m_Camera->GetProjectionMatrix();
                     auto view_mat = m_Camera->GetViewMatrix();
 
-                    auto& c     = m_SelectedEntity.entity.GetComponent<TransformComponent>();
+                    auto& c     = d->selectedEntity.entity.GetComponent<TransformComponent>();
                     auto  trans = c.GetTransform();
 
                     ImGuizmo::Manipulate(glm::value_ptr(view_mat), glm::value_ptr(proj_mat),
@@ -341,12 +327,32 @@ namespace codex::editor {
     {
         switch (e.GetKey())
         {
-            case Key::Num1: m_GizmoMode = GizmoMode::Translation; return true;
-            case Key::Num2: m_GizmoMode = GizmoMode::Rotation; return true;
-            case Key::Num3: m_GizmoMode = GizmoMode::Scale; return true;
+            using enum codex::Key;
+            using enum codex::editor::GizmoMode;
+
+            case Num1: m_GizmoMode = Translation; return true;
+            case Num2: m_GizmoMode = Rotation; return true;
+            case Num3: m_GizmoMode = Scale; return true;
             default: break;
         }
         return false;
+    }
+
+    void SceneEditorView::LoadScriptModule()
+    {
+        auto d          = m_Descriptor;
+        d->scriptModule = Box<DLib>::New(fmt::format("{}/lib/libNBMan.dll", m_ProjectPath.string()));
+        if (d->scriptModule)
+            fmt::println("Script module loaded.");
+        else
+            fmt::println("Failed to load script module.");
+    }
+
+    void SceneEditorView::UnloadScriptModule()
+    {
+        auto d = m_Descriptor;
+        if (d->scriptModule)
+            d->scriptModule.Reset();
     }
 
     void SceneEditorView::DrawVec3Control(const char* label, Vector3f& values, const f32 columnWidth, const f32 speed,

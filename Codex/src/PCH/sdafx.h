@@ -22,6 +22,7 @@
 #include <type_traits>
 #include <typeinfo>
 #include <utility>
+#include <variant>
 
 // Concurrency
 #include <atomic>

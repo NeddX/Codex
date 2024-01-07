@@ -263,7 +263,7 @@ public:
 
   template <typename Initiation, typename... InitArgs>
 #if defined(__APPLE_CC__) && (__clang_major__ == 13)
-  __attribute__((noinline))
+  __attribute__((NOINLINE))
 #endif // defined(__APPLE_CC__) && (__clang_major__ == 13)
   static handler_type* do_init(
       detail::awaitable_frame_base<Executor>* frame, Initiation& initiation,

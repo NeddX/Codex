@@ -6,13 +6,17 @@
 #include <mutex>
 
 #if defined(CX_COMPILER_MSVC)
-#ifdef CX_BUILD_LIB
-#define CODEX_EXPORT __declspec(dllexport)
+#define NOINLINE __declspec(noinline)
+#ifdef CX_BUILD_SHARED
+#define CODEX_API __declspec(dllexport)
+#elif defined(CX_BUILD_STATIC)
+#define CODEX_API
 #else
-#define CODEX_EXPORT __declspec(dllimport)
+#define CODEX_API __declspec(dllimport)
 #endif
 #elif defined(__clang__) || defined(__GNUC__)
-#define CODEX_EXPORT __attribute__((visibility("default")))
+#define NOINLINE  __attribute__((NOINLINE))
+#define CODEX_API __attribute__((visibility("default")))
 #endif
 
 #ifdef CX_COMPILER_GNUC
@@ -45,6 +49,7 @@ namespace codex {
     using f128        = long double;
     using object      = void*;
     using LockGuard   = std::lock_guard<std::mutex>;
+    using ScopeGuard  = std::scoped_lock<std::mutex>;
     using UniqueGuard = std::unique_lock<std::mutex>;
 
     constexpr object nullobj = nullptr;
@@ -69,6 +74,8 @@ namespace codex {
     {
         return [self, delegate](auto&&... args) { return (self->*delegate)(std::forward<decltype(args)>(args)...); };
     }
+
+    struct InvalidState {};
 } // namespace codex
 
 #ifdef CX_CONFIG_DEBUG

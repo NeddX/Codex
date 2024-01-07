@@ -7,10 +7,10 @@ void EditorLayer::OnAttach()
 {
     auto width    = Application::GetWindow().GetWidth();
     auto height   = Application::GetWindow().GetHeight();
-    m_Scene       = std::make_unique<Scene>();
+    m_Scene       = Box<Scene>::New();
     m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
     m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
-    m_Camera = std::make_unique<Camera>(width, height);
+    m_Camera = Box<Camera>::New(width, height);
 
     Renderer::Init(width, height);
     BatchRenderer2D::BindShader(m_BatchShader.get());
@@ -19,9 +19,9 @@ void EditorLayer::OnAttach()
     props.attachments = { mgl::TextureFormat::RGBA8, mgl::TextureFormat::RedInt32 };
     props.width       = 1280;
     props.height      = 720;
-    m_Framebuffer     = std::make_unique<mgl::FrameBuffer>(props);
+    m_Framebuffer     = Box<mgl::FrameBuffer>::New(props);
 
-    m_SceneEditorView = std::make_unique<editor::SceneEditorView>();
+    m_SceneEditorView = Box<editor::SceneEditorView>::New();
 
     // glEnable(GL_DEPTH_TEST);
     // glDepthFunc(GL_LESS);

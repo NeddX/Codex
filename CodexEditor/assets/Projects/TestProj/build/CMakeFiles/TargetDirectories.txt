@@ -1,0 +1,3 @@
+D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir
+D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/ALL_BUILD.dir
+D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/ZERO_CHECK.dir

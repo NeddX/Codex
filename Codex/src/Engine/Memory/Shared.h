@@ -20,14 +20,17 @@ namespace codex {
         BaseType*           m_Ptr      = nullptr;
         std::atomic<usize>* m_RefCount = nullptr;
 
-    private:
-        inline static std::unordered_map<uintptr, std::vector<Ref<T>*>> m_WeakRefs{};
-        inline static std::mutex                                        m_WeakRefsGuard{};
-
     public:
         Shared() = default;
-        Shared(BaseType*&& rawPtr) noexcept : m_Ptr(rawPtr), m_RefCount(new std::atomic<usize>()) { rawPtr = nullptr; }
-        Shared(const Shared<T>& other) noexcept = delete;
+        Shared(BaseType*&& rawPtr) : m_Ptr(rawPtr), m_RefCount(new std::atomic<usize>(1)) { rawPtr = nullptr; }
+        Shared(const Shared<T>& other) noexcept
+        {
+            m_Ptr      = other.m_Ptr;
+            m_RefCount = other.m_RefCount;
+
+            if (m_RefCount)
+                ++(*m_RefCount);
+        };
         Shared(Shared<T>&& other) noexcept
         {
             if (this == &other)
@@ -53,32 +56,10 @@ namespace codex {
                         delete m_Ptr;
 
                     delete m_RefCount;
-
-                    LockGuard lock(m_WeakRefsGuard);
-                    for (auto& e : m_WeakRefs[(uintptr)this])
-                        e->m_Ptr = nullptr;
-
-                    if (destructing)
-                        m_WeakRefs.erase((uintptr)this);
-                    else
-                        m_WeakRefs[(uintptr)this].clear();
                 }
                 m_Ptr      = nullptr;
                 m_RefCount = nullptr;
             }
-        }
-        inline void AppendRef(Ref<T>& ref)
-        {
-            LockGuard lock(m_WeakRefsGuard);
-            m_WeakRefs[(uintptr)this].push_back(&ref);
-            ref.m_Ptr = m_Ptr;
-        }
-        inline void DetachRef(Ref<T>& ref)
-        {
-            LockGuard lock(m_WeakRefsGuard);
-            auto&     vec = m_WeakRefs[(uintptr)this];
-            vec.erase(std::remove(vec.begin(), vec.end(), &ref), vec.end());
-            ref.m_Ptr = nullptr;
         }
 
     public:
@@ -88,31 +69,61 @@ namespace codex {
         inline const Ref<T> AsRef() const noexcept { return *this; }
 
     public:
-        constexpr operator bool() const noexcept { return m_Ptr; }
-        inline BaseType*       operator->() noexcept { return m_Ptr; }
-        inline const BaseType* operator->() const noexcept { return m_Ptr; }
-        inline BaseType&       operator*() noexcept { return *m_Ptr; }
-        inline const BaseType& operator*() const noexcept { return *m_Ptr; }
-        inline Shared<T>&      operator=(const Shared<T>& other) noexcept = delete;
-        inline Shared<T>&      operator=(Shared<T>&& other) noexcept
+        constexpr                 operator bool() const noexcept { return m_Ptr; }
+        constexpr BaseType*       operator->() noexcept { return m_Ptr; }
+        constexpr const BaseType* operator->() const noexcept { return m_Ptr; }
+        constexpr BaseType&       operator*() noexcept { return *m_Ptr; }
+        constexpr const BaseType& operator*() const noexcept { return *m_Ptr; }
+        inline Shared<T>&         operator=(const Shared<T>& other) noexcept
+        {
+            if (this == &other)
+                return;
+
+            Drop();
+
+            m_Ptr      = other.m_Ptr;
+            m_RefCount = other.m_RefCount;
+
+            if (m_RefCount)
+                ++m_RefCount;
+        }
+        inline Shared<T>& operator=(Shared<T>&& other) noexcept
         {
             if (this == &other)
                 return *this;
 
-            if (m_Ptr)
-                Drop();
+            Drop();
 
-            m_Ptr       = other.m_Ptr;
-            other.m_Ptr = nullptr;
+            m_Ptr            = other.m_Ptr;
+            m_RefCount       = other.m_RefCount;
+            other.m_Ptr      = nullptr;
+            other.m_RefCount = nullptr;
             return *this;
         }
         inline Shared<T>& operator=(const T*&& ptr) noexcept
         {
-            if (m_Ptr)
-                Drop();
+            if (m_Ptr == ptr)
+                return *this;
 
-            m_Ptr = ptr;
-            ptr   = nullptr;
+            Drop();
+
+            m_RefCount = new std::atomic<usize>(1);
+            m_Ptr      = ptr;
+            ptr        = nullptr;
+            return *this;
+        }
+
+    public:
+        inline Shared<T>& Reset(BaseType*&& ptr = nullptr)
+        {
+            if (ptr == m_Ptr)
+                return;
+
+            Drop();
+
+            m_RefCount = new std::atomic<usize>(1);
+            m_Ptr      = ptr;
+            ptr        = nullptr;
             return *this;
         }
 
@@ -121,6 +132,11 @@ namespace codex {
         static inline Shared<T> New(TArgs&&... args)
         {
             return std::move(Shared<T>{ new T(std::forward<TArgs>(args)...) });
+        }
+        static inline Shared<T> From(BaseType*&& rawPtr)
+        {
+            Shared<T> obj = std::move(rawPtr);
+            return std::move(obj);
         }
     };
 } // namespace codex

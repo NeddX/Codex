@@ -25,7 +25,7 @@ namespace codex {
         constexpr const char* default_message() const noexcept override { return "Failed to load resource."; }
     };
 
-    class Resources
+    class CODEX_API Resources
     {
     private:
         static Resources* m_Instance;
@@ -56,7 +56,7 @@ namespace codex {
 
     public:
         template <typename T>
-        inline static ResRef<T> GetResource(const usize id)
+        static ResRef<T> GetResource(const usize id)
         {
             auto it = m_Instance->m_Resources.find(id);
             if (it != m_Instance->m_Resources.end())
@@ -66,26 +66,13 @@ namespace codex {
                     fmt::format("Hash Id {} was not present in the resource pool.", id).c_str());
         }
         template <typename T>
-        inline static ResRef<T> GetResource(const std::string_view filePath)
+        static ResRef<T> GetResource(const std::string_view filePath)
         {
             return GetResource<T>(util::Crypto::DJB2Hash(filePath));
         }
-        inline static bool HasResource(const usize id)
-        {
-            auto it = m_Instance->m_Resources.find(id);
-            if (it != m_Instance->m_Resources.end())
-                return true;
-            return false;
-        }
-        inline static bool HasResource(const std::string_view filePath)
-        {
-            usize id = util::Crypto::DJB2Hash(filePath);
-            return HasResource(id);
-        }
-        inline static std::unordered_map<usize, ResRef<IResource>>& GetAllResources()
-        {
-            return m_Instance->m_Resources;
-        }
+        static bool                                          HasResource(const usize id);
+        static bool                                          HasResource(const std::string_view filePath);
+        static std::unordered_map<usize, ResRef<IResource>>& GetAllResources();
     };
 } // namespace codex
 

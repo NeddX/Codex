@@ -5,16 +5,16 @@
 #include <tinyfiledialogs.h>
 
 namespace codex::editor {
-    PropertiesView::PropertiesView(f32& columnWidth, SelectedEntityDescriptor& selectedEntity, DLib* scriptModule,
-                                   Vector4f& selectColour)
-        : m_ColumnWidth(columnWidth), m_SelectedEntity(selectedEntity), m_ScriptModule(scriptModule),
-          m_SelectColour(selectColour)
+    PropertiesView::PropertiesView(const Ref<SceneEditorDescriptor>& editorDesc)
+        : m_EditorDesc(editorDesc)
     {
     }
     void PropertiesView::OnImGuiRender()
     {
+        auto d = m_EditorDesc.Lock();
+
         ImGui::Begin("Entity properties");
-        if (m_SelectedEntity.entity)
+        if (d->selectedEntity.entity)
         {
             if (ImGui::Button("Add component"))
                 ImGui::OpenPopup("component_popup");
@@ -22,38 +22,38 @@ namespace codex::editor {
             {
                 if (ImGui::Button("Sprite Renderer Component"))
                 {
-                    m_SelectedEntity.entity.AddComponent<SpriteRendererComponent>(Sprite::Empty());
+                    d->selectedEntity.entity.AddComponent<SpriteRendererComponent>(Sprite::Empty());
                     ImGui::CloseCurrentPopup();
                 }
                 else if (ImGui::Button("C++ Script Component"))
                 {
-                    m_SelectedEntity.entity.AddComponent<NativeBehaviourComponent>();
+                    d->selectedEntity.entity.AddComponent<NativeBehaviourComponent>();
                     ImGui::CloseCurrentPopup();
                 }
                 ImGui::EndPopup();
             }
 
-            if (m_SelectedEntity.entity.HasComponent<TransformComponent>())
+            if (d->selectedEntity.entity.HasComponent<TransformComponent>())
             {
                 if (ImGui::TreeNodeEx("Transform Component", ImGuiTreeNodeFlags_DefaultOpen))
                 {
-                    auto& c = m_SelectedEntity.entity.GetComponent<TransformComponent>();
-                    SceneEditorView::DrawVec3Control("Position: ", c.position, m_ColumnWidth);
-                    SceneEditorView::DrawVec3Control("Rotation: ", c.rotation, m_ColumnWidth);
-                    SceneEditorView::DrawVec3Control("Scale: ", c.scale, m_ColumnWidth, 0.01f);
+                    auto& c = d->selectedEntity.entity.GetComponent<TransformComponent>();
+                    SceneEditorView::DrawVec3Control("Position: ", c.position, d->columnWidth);
+                    SceneEditorView::DrawVec3Control("Rotation: ", c.rotation, d->columnWidth);
+                    SceneEditorView::DrawVec3Control("Scale: ", c.scale, d->columnWidth, 0.01f);
 
                     ImGui::TreePop();
                 }
             }
 
-            if (m_SelectedEntity.entity.HasComponent<NativeBehaviourComponent>())
+            if (d->selectedEntity.entity.HasComponent<NativeBehaviourComponent>())
             {
                 if (ImGui::TreeNodeEx("C++ Script Component", ImGuiTreeNodeFlags_DefaultOpen))
                 {
-                    auto& c = m_SelectedEntity.entity.GetComponent<NativeBehaviourComponent>();
+                    auto& c = d->selectedEntity.entity.GetComponent<NativeBehaviourComponent>();
 
                     ImGui::Columns(2);
-                    ImGui::SetColumnWidth(0, m_ColumnWidth);
+                    ImGui::SetColumnWidth(0, d->columnWidth);
                     ImGui::Text("Attach class: ");
                     ImGui::NextColumn();
 
@@ -71,14 +71,14 @@ namespace codex::editor {
                     {
                         invalid_script = true;
                         bool valid =
-                            m_ScriptModule->Invoke<bool(const char*)>("Rf_DoesInstanceExist", script_class.c_str());
+                            d->scriptModule->Invoke<bool(const char*)>("Rf_DoesInstanceExist", script_class.c_str());
                         if (valid)
                         {
                             // TODO: This should happen OnScenePlay().
                             invalid_script = false;
-                            script         = m_ScriptModule->Invoke<NativeBehaviour*(const char*)>("Rf_CreateInstance",
+                            script         = d->scriptModule->Invoke<NativeBehaviour*(const char*)>("Rf_CreateInstance",
                                                                                            script_class.c_str());
-                            script->SetOwner(m_SelectedEntity.entity);
+                            script->SetOwner(d->selectedEntity.entity);
                             c.Attach(script);
                         }
                     }
@@ -97,7 +97,7 @@ namespace codex::editor {
                     ImGui::Columns(1);
 
                     // Display serialized fields
-                    for (auto& [k, v] : c.behaviours)
+                    for (const auto& [k, v] : c.behaviours)
                     {
                         const auto& j = v->GetSerializedData();
                         if (j.empty())
@@ -113,7 +113,7 @@ namespace codex::editor {
                                 const FieldType    field_type = field.value().at("Type");
 
                                 ImGui::Columns(2);
-                                ImGui::SetColumnWidth(0, m_ColumnWidth);
+                                ImGui::SetColumnWidth(0, d->columnWidth);
                                 ImGui::Text(field_name.c_str());
                                 ImGui::NextColumn();
 
@@ -143,11 +143,11 @@ namespace codex::editor {
                                         break;
                                     }
                                     case FieldType::Vector2f: {
-                                        SceneEditorView::DrawVec2Control("##t", *(Vector2f*)field_ptr, m_ColumnWidth);
+                                        SceneEditorView::DrawVec2Control("##t", *(Vector2f*)field_ptr, d->columnWidth);
                                         break;
                                     }
                                     case FieldType::Vector3f: {
-                                        SceneEditorView::DrawVec3Control("##t", *(Vector3f*)field_ptr, m_ColumnWidth);
+                                        SceneEditorView::DrawVec3Control("##t", *(Vector3f*)field_ptr, d->columnWidth);
                                         break;
                                     }
                                     default: cx_throw(CodexException, "WHAT THE FUCK"); break;
@@ -161,7 +161,7 @@ namespace codex::editor {
                                 const auto& field = field_obj.begin();
 
                                 ImGui::Columns(2);
-                                ImGui::SetColumnWidth(0, m_ColumnWidth);
+                                ImGui::SetColumnWidth(0, d->columnWidth);
                                 ImGui::Text(field.key().c_str());
                                 ImGui::NextColumn();
 
@@ -178,17 +178,17 @@ namespace codex::editor {
                 }
             }
 
-            if (m_SelectedEntity.entity.HasComponent<SpriteRendererComponent>())
+            if (d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
             {
                 if (ImGui::TreeNodeEx("Sprite Renderer Component", ImGuiTreeNodeFlags_DefaultOpen))
                 {
-                    auto& c       = m_SelectedEntity.entity.GetComponent<SpriteRendererComponent>();
+                    auto& c       = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>();
                     auto& sprite  = c.GetSprite();
                     auto  texture = sprite.GetTexture();
 
                     // Texture prewview image
                     ImGui::Columns(2);
-                    ImGui::SetColumnWidth(0, m_ColumnWidth);
+                    ImGui::SetColumnWidth(0, d->columnWidth);
                     ImGui::Text("Texture: ");
                     ImGui::NextColumn();
 
@@ -208,8 +208,8 @@ namespace codex::editor {
                                 std::filesystem::relative(file, std::filesystem::current_path());
                             auto res = Resources::Load<Texture2D>(relative_path.string());
                             sprite.SetTexture(res);
-                            m_SelectedEntity.overlayColour = sprite.GetColour();
-                            sprite.GetColour()             = m_SelectColour;
+                            d->selectedEntity.overlayColour = sprite.GetColour();
+                            sprite.GetColour()             = d->selectColour;
                         }
                     }
                     ImGui::EndGroup();
@@ -220,8 +220,8 @@ namespace codex::editor {
                     auto&    tex_coords = sprite.GetTextureCoords();
                     Vector2f pos        = { tex_coords.x, tex_coords.y };
                     Vector2f size       = { tex_coords.w, tex_coords.h };
-                    SceneEditorView::DrawVec2Control("Texture position: ", pos, m_ColumnWidth);
-                    SceneEditorView::DrawVec2Control("Texture size: ", size, m_ColumnWidth);
+                    SceneEditorView::DrawVec2Control("Texture position: ", pos, d->columnWidth);
+                    SceneEditorView::DrawVec2Control("Texture size: ", size, d->columnWidth);
                     tex_coords = { pos.x, pos.y, size.x, size.y };
 
                     // Texture filter mode
@@ -229,7 +229,7 @@ namespace codex::editor {
                     {
                         ImGui::Dummy(ImVec2(0.0f, 10.0f));
                         ImGui::Columns(2);
-                        ImGui::SetColumnWidth(0, m_ColumnWidth);
+                        ImGui::SetColumnWidth(0, d->columnWidth);
                         ImGui::Text("Texture filter mode: ");
                         ImGui::NextColumn();
                         static int  item_current_idx = 0; // Here we store our selection data as an index.
@@ -267,17 +267,17 @@ namespace codex::editor {
 
                     ImGui::Dummy(ImVec2(0.0f, 10.0f));
                     auto sprite_size = sprite.GetSize();
-                    SceneEditorView::DrawVec2Control("Sprite size: ", sprite_size, m_ColumnWidth);
+                    SceneEditorView::DrawVec2Control("Sprite size: ", sprite_size, d->columnWidth);
                     sprite.SetSize(sprite_size);
 
                     // Texture colour picker
                     ImGui::Dummy(ImVec2(0.0f, 10.0f));
                     ImGui::Columns(2);
-                    ImGui::SetColumnWidth(0, m_ColumnWidth);
+                    ImGui::SetColumnWidth(0, d->columnWidth);
                     ImGui::Text("Sprite overlay: ");
                     ImGui::NextColumn();
 
-                    auto&               colour = m_SelectedEntity.overlayColour;
+                    auto&               colour = d->selectedEntity.overlayColour;
                     ImGuiColorEditFlags flags  = 0;
                     flags |= ImGuiColorEditFlags_AlphaBar;
                     flags |= ImGuiColorEditFlags_DisplayRGB; // Override display mode
@@ -288,7 +288,7 @@ namespace codex::editor {
 
                     ImGui::Dummy(ImVec2(0.0f, 10.0f));
                     ImGui::Columns(2);
-                    ImGui::SetColumnWidth(0, m_ColumnWidth);
+                    ImGui::SetColumnWidth(0, d->columnWidth);
                     ImGui::Text("Z Index: ");
                     ImGui::NextColumn();
                     ImGui::DragInt("##drag_int", &sprite.GetZIndex());

@@ -20,7 +20,7 @@ namespace codex {
 
     CX_CUSTOM_EXCEPTION(InvalidPathException, "The path supplied is invalid.");
 
-    struct ApplicationCLIArgs
+    struct CODEX_API ApplicationCLIArgs
     {
     public:
         int    count = 0;
@@ -34,7 +34,7 @@ namespace codex {
         }
     };
 
-    struct ApplicationProperties
+    struct CODEX_API ApplicationProperties
     {
         std::string        name = "Codex Application";
         std::string        cwd;
@@ -42,7 +42,7 @@ namespace codex {
         WindowProperties   windowProperties;
     };
 
-    class Application
+    class CODEX_API Application
     {
         friend int ::main(int argc, char** argv);
         friend Application* CreateApplication(const ApplicationCLIArgs args);
@@ -72,26 +72,13 @@ namespace codex {
         Application& operator=(Application&& other)      = delete;
 
     public:
-        inline static Window&          GetWindow() noexcept { return *m_Instance->m_Window; }
-        inline static Application&     Get() noexcept { return *m_Instance; }
-        inline static u32              GetFps() noexcept { return (u32)(1.0f / m_Instance->m_DeltaTime); }
-        inline static f32              GetDelta() noexcept { return m_Instance->m_DeltaTime; }
-        inline static ImGuiLayer*      GetImGuiLayer() noexcept { return m_Instance->m_ImGuiLayer; }
-        inline static std::string_view GetCurrentWorkingDirectory() noexcept { return m_Instance->m_Properties.cwd; };
-        inline static void             SetCurrentWorkingDirectory(const std::string_view newCwd)
-        {
-            std::filesystem::path fs_new_cwd = newCwd;
-            if (std::filesystem::exists(fs_new_cwd) && std::filesystem::is_directory(fs_new_cwd))
-            {
-                std::filesystem::current_path(fs_new_cwd);
-                m_Instance->m_Properties.cwd = newCwd;
-            }
-            else
-            {
-                cx_throw(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
-                         newCwd);
-            }
-        }
+        static Window&          GetWindow() noexcept;
+        static Application&     Get() noexcept;
+        static u32              GetFps() noexcept;
+        static f32              GetDelta() noexcept;
+        static ImGuiLayer*      GetImGuiLayer() noexcept;
+        static std::string_view GetCurrentWorkingDirectory() noexcept;
+        static void             SetCurrentWorkingDirectory(const std::string_view newCwd);
 
     public:
         bool OnWindowResize_Event(const WindowResizeEvent& event);

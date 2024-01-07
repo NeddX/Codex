@@ -22,4 +22,20 @@ namespace codex {
         m_Height           = 0;
         fmt::println("Renderer subsystem disposed.");
     }
+
+    void Renderer::Clear()
+    {
+        m_InternalRenderer->Clear();
+    }
+
+    void Renderer ::SetClearColour(const f32 r, const f32 g, const f32 b, const f32 a)
+    {
+        m_InternalRenderer->SetClearColour(r, g, b, a);
+    }
+
+    void Renderer::Render(const mgl::VertexArray* vertexArray, const mgl::IndexBuffer* indexBuffer,
+                          const mgl::Shader* shader)
+    {
+        m_InternalRenderer->Render(vertexArray, indexBuffer, shader);
+    }
 } // namespace codex

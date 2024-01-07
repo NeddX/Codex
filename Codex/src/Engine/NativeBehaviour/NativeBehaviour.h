@@ -36,7 +36,7 @@ namespace codex {
         StdString
     };
 
-    class NativeBehaviour
+    class CODEX_API NativeBehaviour
     {
         friend class Scene;
         friend class NativeBehaviourComponent;

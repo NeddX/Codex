@@ -8,8 +8,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 # The target
 file(GLOB_RECURSE HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Assets/*.h")
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Assets/*.cpp")
-file(GLOB_RECURSE CODGEN_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/obj/*.h")
-file(GLOB_RECURSE CODGEN_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/obj/*.cpp")
+file(GLOB_RECURSE CODGEN_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/int/*.h")
+file(GLOB_RECURSE CODGEN_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/int/*.cpp")
 add_library(NBMan SHARED ${HEADER_FILES} ${SOURCE_FILES} ${CODGEN_HEADERS} ${CODGEN_SOURCES})
 
 if(DEFINED CX_PLATFORM_WINDOWS)
@@ -118,6 +118,9 @@ target_include_directories(NBMan PUBLIC Engine/vendor/fmt/include)
 target_include_directories(NBMan PUBLIC Engine/vendor/entt)
 target_include_directories(NBMan PUBLIC Engine/vendor/glad)
 target_include_directories(NBMan PUBLIC Engine/PCH)
+
+# Reflector
+target_include_directories(NBMan PRIVATE int/)
 
 target_precompile_headers(NBMan PRIVATE Engine/PCH/sdafx.h)
 

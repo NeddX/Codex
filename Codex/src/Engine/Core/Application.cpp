@@ -33,6 +33,7 @@ namespace codex {
             m_Window->SetEventCallback(BindEventDelegate(this, &Application::OnEvent));
 
             m_Input = Input::Get();
+
             DebugDraw::Init();
             Resources::Init();
 
@@ -52,6 +53,51 @@ namespace codex {
         Resources::Destroy();
         Input::Destroy();
         m_Instance = nullptr;
+    }
+
+    Window& Application::GetWindow() noexcept
+    {
+        return *m_Instance->m_Window;
+    }
+
+    Application& Application::Get() noexcept
+    {
+        return *m_Instance;
+    }
+
+    u32 Application::GetFps() noexcept
+    {
+        return (u32)(1.0f / m_Instance->m_DeltaTime);
+    }
+
+    f32 Application::GetDelta() noexcept
+    {
+        return m_Instance->m_DeltaTime;
+    }
+
+    ImGuiLayer* Application::GetImGuiLayer() noexcept
+    {
+        return m_Instance->m_ImGuiLayer;
+    }
+
+    std::string_view Application::GetCurrentWorkingDirectory() noexcept
+    {
+        return m_Instance->m_Properties.cwd;
+    }
+
+    void Application::SetCurrentWorkingDirectory(const std::string_view newCwd)
+    {
+        std::filesystem::path fs_new_cwd = newCwd;
+        if (std::filesystem::exists(fs_new_cwd) && std::filesystem::is_directory(fs_new_cwd))
+        {
+            std::filesystem::current_path(fs_new_cwd);
+            m_Instance->m_Properties.cwd = newCwd;
+        }
+        else
+        {
+            cx_throw(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
+                     newCwd);
+        }
     }
 
     bool Application::OnWindowResize_Event(const WindowResizeEvent& event)

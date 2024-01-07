@@ -61,7 +61,7 @@ namespace codex {
         EventCategoryMouseButton = BitFlag(4)
     };
 
-    class Event
+    class CODEX_API Event
     {
     public:
         bool handled = false;
@@ -79,7 +79,7 @@ namespace codex {
         inline bool IsInCategory(const EventCategory category) { return GetCategory() & category; }
     };
 
-    class EventDispatcher
+    class CODEX_API EventDispatcher
     {
     private:
         Event& m_Event;

@@ -6,7 +6,7 @@
 #include "Geomtryd.h"
 
 namespace codex {
-    class Camera
+    class CODEX_API Camera
     {
     private:
         i32      m_Width;

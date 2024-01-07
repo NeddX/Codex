@@ -6,7 +6,7 @@
 #include "Event.h"
 
 namespace codex {
-    class WindowResizeEvent : public Event
+    class CODEX_API WindowResizeEvent : public Event
     {
     private:
         i32 m_Width;
@@ -27,7 +27,7 @@ namespace codex {
         EVENT_CLASS_CATEGORY(EventCategoryApplication)
     };
 
-    class WindowCloseEvent : public Event
+    class CODEX_API WindowCloseEvent : public Event
     {
     public:
         WindowCloseEvent() = default;

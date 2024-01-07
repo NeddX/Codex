@@ -1,0 +1,49 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "windows-base",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/builds/${presetName}",
+            "installDir": "${sourceDir}/builds/install/${presetName}",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe"
+            },
+            "condition": {
+              "type": "equals",
+              "lhs": "${hostSystemName}",
+              "rhs": "Windows"
+            }
+        },
+        {
+            "name": "windows-x86_64-debug",
+            "displayName": "x86_64 Debug",
+            "inherits": "windows-base",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "windows-x86_64-release",
+            "displayName": "x86_64 Release",
+            "inherits": "windows-x86_64-debug",
+            "cacheVariables": {
+              "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "windows-x86_64-shippig",
+            "displayName": "x86_64 Shipping",
+            "inherits": "windows-x86_64-debug",
+            "cacheVariables": {
+              "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ]
+}

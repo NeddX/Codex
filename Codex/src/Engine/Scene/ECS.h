@@ -10,7 +10,7 @@ namespace codex {
     class Serializer;
     class SpriteRendererComponent;
 
-    class Entity
+    class CODEX_API Entity
     {
         friend class Serializer;
         friend class Scene;
@@ -19,6 +19,7 @@ namespace codex {
     private:
         entt::entity m_Handle{ entt::null };
         Scene*       m_Scene = nullptr;
+
 
     public:
         Entity() = default;

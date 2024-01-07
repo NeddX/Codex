@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{30DE2164-F990-3221-BF38-7048C975F2BC}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>NBMan</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NBMan.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libNBMan</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NBMan.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libNBMan</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">NBMan.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">libNBMan</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">NBMan.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">libNBMan</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Debug/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/Debug/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR="Debug";NBMan_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR=\"Debug\";NBMan_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.27.2\bin\cmake.exe -E copy_directory D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/Debug D:/dev/Codex/CodexEditor/assets/Projects/TestProj/lib/
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\CodexEngine.lib;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\MGL.lib;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\fmtd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/Debug/NBMan.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/Debug/libNBMan.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Release/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/Release/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR="Release";NBMan_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR=\"Release\";NBMan_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.27.2\bin\cmake.exe -E copy_directory D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/Release D:/dev/Codex/CodexEditor/assets/Projects/TestProj/lib/
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\CodexEngine.lib;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\MGL.lib;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\fmtd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/Release/NBMan.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/Release/libNBMan.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/MinSizeRel/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/MinSizeRel/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR="MinSizeRel";NBMan_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR=\"MinSizeRel\";NBMan_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.27.2\bin\cmake.exe -E copy_directory D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/MinSizeRel D:/dev/Codex/CodexEditor/assets/Projects/TestProj/lib/
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\CodexEngine.lib;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\MGL.lib;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\fmtd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/MinSizeRel/NBMan.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/MinSizeRel/libNBMan.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/RelWithDebInfo/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/RelWithDebInfo/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR="RelWithDebInfo";NBMan_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CX_PLATFORM_WINDOWS;CX_COMPILER_MSVC;CX_WORD_SIZE_64;CMAKE_INTDIR=\"RelWithDebInfo\";NBMan_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\SDL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\MGL\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\json\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\imgui;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glm;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\fmt\include;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\entt;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\vendor\glad;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine\PCH;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.27.2\bin\cmake.exe -E copy_directory D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/RelWithDebInfo D:/dev/Codex/CodexEditor/assets/Projects/TestProj/lib/
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\CodexEngine.lib;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\MGL.lib;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\lib\fmtd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/RelWithDebInfo/NBMan.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/RelWithDebInfo/libNBMan.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/dev/Codex/CodexEditor/assets/Projects/TestProj/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.27.2\bin\cmake.exe -SD:/dev/Codex/CodexEditor/assets/Projects/TestProj -BD:/dev/Codex/CodexEditor/assets/Projects/TestProj/build --check-stamp-file D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCXXInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeGenericSystem.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeInitializeConfigs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeLanguageInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeRCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-Initialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\WindowsPaths.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeCCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeCXXCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeRCCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/dev/Codex/CodexEditor/assets/Projects/TestProj/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.27.2\bin\cmake.exe -SD:/dev/Codex/CodexEditor/assets/Projects/TestProj -BD:/dev/Codex/CodexEditor/assets/Projects/TestProj/build --check-stamp-file D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCXXInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeGenericSystem.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeInitializeConfigs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeLanguageInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeRCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-Initialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\WindowsPaths.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeCCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeCXXCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeRCCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/dev/Codex/CodexEditor/assets/Projects/TestProj/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.27.2\bin\cmake.exe -SD:/dev/Codex/CodexEditor/assets/Projects/TestProj -BD:/dev/Codex/CodexEditor/assets/Projects/TestProj/build --check-stamp-file D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCXXInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeGenericSystem.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeInitializeConfigs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeLanguageInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeRCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-Initialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\WindowsPaths.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeCCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeCXXCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeRCCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/dev/Codex/CodexEditor/assets/Projects/TestProj/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\Nedd\scoop\apps\cmake\3.27.2\bin\cmake.exe -SD:/dev/Codex/CodexEditor/assets/Projects/TestProj -BD:/dev/Codex/CodexEditor/assets/Projects/TestProj/build --check-stamp-file D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCXXInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeGenericSystem.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeInitializeConfigs.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeLanguageInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeRCInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Compiler\MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-Initialize.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows-MSVC.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\Windows.cmake;C:\Users\Nedd\scoop\apps\cmake\3.27.2\share\cmake-3.27\Modules\Platform\WindowsPaths.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeCCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeCXXCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeRCCompiler.cmake;D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\3.27.2\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\NBMan.dir\cmake_pch.cxx">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Debug/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/Debug/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Release/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/Release/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/MinSizeRel/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/MinSizeRel/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/RelWithDebInfo/cmake_pch.hxx</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/NBMan.dir/RelWithDebInfo/cmake_pch.pch</PrecompiledHeaderOutputFile>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Assets\Scripts\TestScript.h" />
+    <ClCompile Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\Assets\Scripts\TestScript.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\int\Reflector.h" />
+    <ClCompile Include="..\int\Rf_Base.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClCompile Include="..\int\Rf_TestScript.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Debug/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/Release/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/MinSizeRel/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</ScanSourceforModuleDependencies>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/dev/Codex/CodexEditor/assets/Projects/TestProj/build/CMakeFiles/NBMan.dir/RelWithDebInfo/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ScanSourceforModuleDependencies Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</ScanSourceforModuleDependencies>
+    </ClCompile>
+    <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\NBMan.dir\Debug\cmake_pch.hxx" />
+    <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\NBMan.dir\Release\cmake_pch.hxx" />
+    <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\NBMan.dir\MinSizeRel\cmake_pch.hxx" />
+    <ClInclude Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\CMakeFiles\NBMan.dir\RelWithDebInfo\cmake_pch.hxx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\dev\Codex\CodexEditor\assets\Projects\TestProj\build\ZERO_CHECK.vcxproj">
+      <Project>{D0810F14-E130-35DC-9991-8DE8C8D4EDCF}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

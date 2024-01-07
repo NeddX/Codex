@@ -4,21 +4,11 @@
 #include <sdafx.h>
 
 namespace codex {
-    // Forward decleratons.
-    template <typename T>
-    class Ref;
-
     template <typename T>
     class Box
     {
-        friend class Ref<T>;
-
     private:
         using BaseType = typename std::remove_extent<T>::type;
-
-    private:
-        inline static std::unordered_map<uintptr, std::vector<Ref<T>*>> m_WeakRefs{};
-        inline static std::mutex                                        m_WeakRefsGuard{};
 
     private:
         BaseType* m_Ptr = nullptr;
@@ -47,60 +37,48 @@ namespace codex {
                 else
                     delete m_Ptr;
                 m_Ptr = nullptr;
-
-                LockGuard lock(m_WeakRefsGuard);
-                for (auto& e : m_WeakRefs[(uintptr)this])
-                    e->m_Ptr = nullptr;
-
-                if (destructing)
-                    m_WeakRefs.erase((uintptr)this);
-                else
-                    m_WeakRefs[(uintptr)this].clear();
             }
         }
-        inline void AppendRef(Ref<T>& ref)
-        {
-            LockGuard lock(m_WeakRefsGuard);
-            m_WeakRefs[(uintptr)this].push_back(&ref);
-            ref.m_Ptr = m_Ptr;
-        }
-        inline void DetachRef(Ref<T>& ref)
-        {
-            LockGuard lock(m_WeakRefsGuard);
-            auto&     vec = m_WeakRefs[(uintptr)this];
-            vec.erase(std::remove(vec.begin(), vec.end(), &ref), vec.end());
-            ref.m_Ptr = nullptr;
-        }
 
     public:
-        constexpr T*        Get() noexcept { return m_Ptr; }
-        constexpr const T*  Get() const noexcept { return m_Ptr; }
-        inline Ref<T>       AsRef() noexcept { return *this; }
-        inline const Ref<T> AsRef() const noexcept { return *this; }
+        constexpr T*       Get() noexcept { return m_Ptr; }
+        constexpr const T* Get() const noexcept { return m_Ptr; }
 
     public:
-        constexpr operator bool() const noexcept { return m_Ptr; }
-        inline BaseType*       operator->() noexcept { return m_Ptr; }
-        inline const BaseType* operator->() const noexcept { return m_Ptr; }
-        inline BaseType&       operator*() noexcept { return *m_Ptr; }
-        inline const BaseType& operator*() const noexcept { return *m_Ptr; }
-        inline Box<T>&         operator=(const Box<T>& other) noexcept = delete;
-        inline Box<T>&         operator=(Box<T>&& other) noexcept
+        explicit constexpr        operator bool() const noexcept { return m_Ptr; }
+        constexpr BaseType*       operator->() noexcept { return m_Ptr; }
+        constexpr const BaseType* operator->() const noexcept { return m_Ptr; }
+        constexpr BaseType&       operator*() noexcept { return *m_Ptr; }
+        constexpr const BaseType& operator*() const noexcept { return *m_Ptr; }
+        inline Box<T>&            operator=(const Box<T>& other) noexcept = delete;
+        inline Box<T>&            operator=(Box<T>&& other) noexcept
         {
             if (this == &other)
                 return *this;
 
-            if (m_Ptr)
-                Drop();
+            Drop();
 
             m_Ptr       = other.m_Ptr;
             other.m_Ptr = nullptr;
             return *this;
         }
-        inline Box<T>& operator=(const T*&& ptr) noexcept
+        inline Box<T>& operator=(T*&& ptr) noexcept
         {
-            if (m_Ptr)
+            if (ptr != m_Ptr)
                 Drop();
+
+            m_Ptr = ptr;
+            ptr   = nullptr;
+            return *this;
+        }
+
+    public:
+        inline Box<T>& Reset(BaseType*&& ptr = nullptr)
+        {
+            if (ptr == m_Ptr)
+                return *this;
+
+            Drop();
 
             m_Ptr = ptr;
             ptr   = nullptr;
@@ -111,7 +89,12 @@ namespace codex {
         template <typename... TArgs>
         static inline Box<T> New(TArgs&&... args)
         {
-            return std::move(Box<T>{ new T(std::forward<TArgs>(args)...) });
+            return std::move(Box<T>(new T{ std::forward<TArgs>(args)... }));
+        }
+        static inline Box<T> From(BaseType*&& rawPtr) noexcept
+        {
+            Box<T> obj = std::move(rawPtr);
+            return std::move(obj);
         }
     };
 } // namespace codex
