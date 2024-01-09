@@ -245,11 +245,12 @@ elseif(DEFINED CX_PLATFORM_UNIX)
         CodexEngine 
         CodexEngine-static
         DESTINATION lib)
-    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION share)
 
-    # /usr/share/appname for unmodifiable data.
-    # /usr/lib/appname for unmodifiable and machine dependent data.
-    # /var/lib/appname for modifiable data.
+    # /etc/appname for global configuration files.
+    # /usr/local/share/appname for unmodifiable data.
+    # /usr/local/lib/appname for unmodifiable and machine dependent data.
+    # /var/local/lib/appname for modifiable data.
 endif()
 
 # =============== #
