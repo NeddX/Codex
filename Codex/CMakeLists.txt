@@ -7,8 +7,6 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_library(CodexEngine SHARED ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 add_library(CodexEngine-static STATIC ${ENGINE_HEADERS} ${ENGINE_SOURCES})
-install(TARGETS CodexEngine DESTINATION bin)
-install(TARGETS CodexEngine-static DESTINATION bin)
 
 # Set the C++ Standard to 20 for this target.
 set_property(TARGET CodexEngine PROPERTY CXX_STANDARD 20)
@@ -18,29 +16,6 @@ set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 20)
 # This is only relevant for Windows really.
 target_compile_definitions(CodexEngine PRIVATE CX_BUILD_SHARED)
 target_compile_definitions(CodexEngine-static PUBLIC CX_BUILD_STATIC)
-
-# For exporting the symbols on windows.
-if(DEFINED CX_PLATFORM_WINDOWS)
-    # This retarded fix didn't work with Ninja as the build generator on Windows.
-    #set_target_properties(CodexEngine-static PROPERTIES OUTPUT_NAME "CodexEngine-static")
-    #set_target_properties(CodexEngine-static PROPERTIES COMPILE_PDB_NAME "CodexEngine-static")
-    
-    # This one does work and it's even worse. 
-    # It's is so retarded but whatever, I'm not even going to try because I want to write
-    # code, not build generation bs.
-    # If you have a better solution then please make a pull request :)
-    #add_custom_command(
-    #    TARGET CodexEngine-static
-    #    POST_BUILD
-
-        # Copy CodexEngine-static.lib to CodexEngine.lib because
-    #    COMMAND ${CMAKE_COMMAND} -E copy
-    #        $<TARGET_FILE:CodexEngine-static>
-    #        $<TARGET_FILE_DIR:CodexEngine>/CodexEngine.lib
-    #    COMMAND ${CMAKE_COMMAND} -E remove
-    #        $<TARGET_FILE:CodexEngine-static>
-    #)
-endif()
 
 # Position independent code for shared libraries.
 if (DEFINED CX_PLATFORM_UNIX)
@@ -125,9 +100,6 @@ else()
 
     target_include_directories(CodexEngine-static PRIVATE ${SDL2_INCLUDE_DIRS})
     target_link_libraries(CodexEngine-static ${SDL2_LIBRARIES})
-
-    install(TARGETS SDL2 DESTINATION bin)
-    install(TARGETS SDL2main DESTINATION bin)
 endif()
 
 # fmt
@@ -154,8 +126,6 @@ target_link_libraries(CodexEngine ${JSON_LIBRARIES})
 target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${JSON_LIBRARIES})
 
-install(TARGETS nlohmann_json DESTINATION bin)
-
 # glad
 add_subdirectory(vendor/glad ${PROJECT_BINARY_DIR}/glad EXCLUDE_FROM_ALL)
 set(GLAD_INCLUDE_DIRS vendor/glad)
@@ -166,8 +136,6 @@ target_link_libraries(CodexEngine ${GLAD_LIBRARIES})
 
 target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${GLAD_LIBRARIES})
-
-install(TARGETS glad DESTINATION bin)
 
 # ImGui
 set(IMGUI_INCLUDE_DIRS vendor/imgui vendor/imgui/backends vendor/imgui/examples vendor/imgui/misc)
@@ -203,8 +171,6 @@ target_link_libraries(CodexEngine ${GLM_LIBRARIES})
 target_include_directories(CodexEngine-static PUBLIC ${GLM_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${GLM_LIBRARIES})
 
-install(TARGETS glm DESTINATION bin)
-
 # mgl
 add_subdirectory(vendor/MGL/MGL ${PROJECT_BINARY_DIR}/MGL EXCLUDE_FROM_ALL)
 set(MGL_INCLUDE_DIRS vendor/MGL/include)
@@ -216,8 +182,6 @@ target_link_libraries(CodexEngine ${MGL_LIBRARIES})
 target_include_directories(CodexEngine-static PUBLIC ${MGL_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${MGL_LIBRARIES})
 
-install(TARGETS MGL DESTINATION bin)
-
 # Net Native
 #set(NETNT_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/NetNT/src)
 #target_include_directories(CodexEngine PUBLIC ${NETNT_INCLUDE_DIRS})
@@ -225,16 +189,13 @@ install(TARGETS MGL DESTINATION bin)
 #target_include_directories(CodexEngine-static PUBLIC ${NETNT_INCLUDE_DIRS})
 #target_link_libraries(CodexEngine-static NetNT)
 
-# Link OpenGL and GLUT (IF UNIX LIKE)
+# Link OpenGL (IF UNIX LIKE)
 find_package(OpenGL REQUIRED)
-if (UNIX)
-    find_package(GLUT REQUIRED)
-endif()
-target_include_directories(CodexEngine PUBLIC ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
-target_link_libraries(CodexEngine ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+target_include_directories(CodexEngine PUBLIC ${OPENGL_INCLUDE_DIRS})
+target_link_libraries(CodexEngine ${OPENGL_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
-target_link_libraries(CodexEngine-static ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+target_include_directories(CodexEngine-static PUBLIC ${OPENGL_INCLUDE_DIRS})
+target_link_libraries(CodexEngine-static ${OPENGL_LIBRARIES})
 
 # entt
 set(ENTT_INCLUDE_DIRS vendor/entt)
@@ -255,12 +216,45 @@ target_compile_definitions(CodexEngine-static PRIVATE
     $<$<CONFIG:Shipping>:CX_CONFIG_SHIPPING>
 )
 
+# ======================= #
+#       INSTALLATION      #
+# ======================= #
+if (DEFINED CX_PLATFORM_WINDOWS)
+    install(TARGETS 
+        SDL2 
+        SDL2main 
+        glm 
+        glad 
+        nlohmann_json 
+        MGL 
+        CodexEngine 
+        CodexEngine-static
+        DESTINATION bin)
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
+
+    # Program Files (or same location as the binary) for unmodifiable file data.
+    # App Data for modifidable file data.
+elseif(DEFINED CX_PLATFORM_UNIX)
+    install(TARGETS 
+        SDL2 
+        SDL2main 
+        glm 
+        glad 
+        nlohmann_json 
+        MGL 
+        CodexEngine 
+        CodexEngine-static
+        DESTINATION lib)
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
+
+    # /usr/share/appname for unmodifiable data.
+    # /usr/lib/appname for unmodifiable and machine dependent data.
+    # /var/lib/appname for modifiable data.
+endif()
+
 # =============== #
 #       MISC      #
 # =============== #
-
-# Assets folder
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
 
 # Define standalone mode for the static library since the static version is going to be used for shipping
 #target_compile_definitions(CodexEngine-static PRIVATE CX_MODE_STANDALONE 1)
