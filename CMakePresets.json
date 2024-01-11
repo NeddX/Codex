@@ -12,9 +12,9 @@
                 "CMAKE_CXX_COMPILER": "cl.exe"
             },
             "condition": {
-              "type": "equals",
-              "lhs": "${hostSystemName}",
-              "rhs": "Windows"
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
             }
         },
         {
@@ -50,15 +50,16 @@
             "displayName": "x86_64 Release",
             "inherits": "windows-x86_64-debug",
             "cacheVariables": {
-              "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
             "name": "windows-x86_64-shippig",
+            "installDir": "C:/Program Files/CodexEditor",
             "displayName": "x86_64 Shipping",
             "inherits": "windows-x86_64-debug",
             "cacheVariables": {
-              "CMAKE_BUILD_TYPE": "Shipping"
+                "CMAKE_BUILD_TYPE": "Shipping"
             }
         },
         {
@@ -78,7 +79,7 @@
             "displayName": "x86_64 Release",
             "inherits": "linux-x86_64-debug",
             "cacheVariables": {
-              "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
@@ -86,7 +87,7 @@
             "displayName": "x86_64 Shipping",
             "inherits": "linux-x86_64-debug",
             "cacheVariables": {
-              "CMAKE_BUILD_TYPE": "Shipping"
+                "CMAKE_BUILD_TYPE": "Shipping"
             }
         }
     ]

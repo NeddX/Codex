@@ -245,12 +245,19 @@ elseif(DEFINED CX_PLATFORM_UNIX)
         CodexEngine 
         CodexEngine-static
         DESTINATION lib)
-    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION share)
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION share/"${CMAKE_PROJECT_NAME}")
+
+    set(CEDITOR_DATA_PATH "${CMAKE_INSTALL_PREFIX}/share/${CMAKE_PROJECT_NAME}")
+    set(CEDITOR_VARIABLE_DATA_PATH "${CMAKE_INSTALL_PREFIX}/share/${CMAKE_PROJECT_NAME}")
+    message(":: CodexEditor Data Path: ${CEDITOR_DATA_PATH}")
+    message(":: CodexEditor Variable Data Path: ${CEDITOR_VARIABLE_DATA_PATH}")
+    #target_compile_definitions(CodexEditor PUBLIC CXD_DATA_PATH "${CEDITOR_DATA_PATH}")
+    #target_compile_definitions(CodexEditor PUBLIC CXD_VARIABLE_DATA_PATH "${CEDITOR_VARIALBE_DATA_PATH}")
 
     # /etc/appname for global configuration files.
     # /usr/local/share/appname for unmodifiable data.
-    # /usr/local/lib/appname for unmodifiable and machine dependent data.
-    # /var/local/lib/appname for modifiable data.
+    # /usr/local/(lib, bin)/appname for unmodifiable and machine dependent data.
+    # /var/local/(lib, bin)/appname for modifiable data.
 endif()
 
 # =============== #
