@@ -6,7 +6,7 @@
 #include "../Core/Input.h"
 #include "Event.h"
 
-namespace codex {
+namespace codex::events {
     class CODEX_API KeyEvent : public Event
     {
     protected:
@@ -49,6 +49,6 @@ namespace codex {
 
         EVENT_CLASS_TYPE(KeyUp);
     };
-} // namespace codex
+} // namespace codex::events
 
 #endif // CODEX_EVENTS_KEY_EVENT_H

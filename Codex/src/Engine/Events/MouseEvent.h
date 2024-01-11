@@ -6,7 +6,7 @@
 #include "../Core/Input.h"
 #include "Event.h"
 
-namespace codex {
+namespace codex::events {
     class CODEX_API MouseMoveEvent : public Event
     {
     private:
@@ -109,6 +109,6 @@ namespace codex {
 
         EVENT_CLASS_TYPE(MouseUp)
     };
-} // namespace codex
+} // namespace codex::events
 
 #endif // CODEX_EVENTS_MOUSE_EVENT_H

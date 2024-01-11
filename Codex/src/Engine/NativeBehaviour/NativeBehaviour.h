@@ -7,8 +7,8 @@
 
 namespace codex {
     // Forward declarations.
-    class Scene;
-    class NativeBehaviourComponent;
+    class codex::Scene;
+    class codex::NativeBehaviourComponent;
 
     enum class FieldType : u8
     {

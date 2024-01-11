@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-namespace codex {
+namespace codex::mem {
     // Forward decleratons.
     template <typename T>
     class Ref;
@@ -69,7 +69,7 @@ namespace codex {
         inline const Ref<T> AsRef() const noexcept { return *this; }
 
     public:
-        constexpr                 operator bool() const noexcept { return m_Ptr; }
+        constexpr operator bool() const noexcept { return m_Ptr; }
         constexpr BaseType*       operator->() noexcept { return m_Ptr; }
         constexpr const BaseType* operator->() const noexcept { return m_Ptr; }
         constexpr BaseType&       operator*() noexcept { return *m_Ptr; }
@@ -139,6 +139,6 @@ namespace codex {
             return std::move(obj);
         }
     };
-} // namespace codex
+} // namespace codex::mem
 
 #endif // CODEX_MEMORY_BOX_H

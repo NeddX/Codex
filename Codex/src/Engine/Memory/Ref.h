@@ -5,7 +5,7 @@
 
 #include "../Core/Exception.h"
 
-namespace codex {
+namespace codex::mem {
     // Forward declarations.
     template <typename T>
     class Shared;

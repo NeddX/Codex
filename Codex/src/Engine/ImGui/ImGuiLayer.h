@@ -6,7 +6,7 @@
 #include "../Core/Layer.h"
 #include "../Events/Event.h"
 
-namespace codex {
+namespace codex::imgui {
     class CODEX_API ImGuiLayer : public Layer
     {
     private:
@@ -24,7 +24,7 @@ namespace codex {
     public:
         void OnAttach() override;
         void OnDetach() override;
-        void OnEvent(Event& event) override;
+        void OnEvent(events::Event& event) override;
 
     public:
         void Begin();
@@ -32,6 +32,6 @@ namespace codex {
         void SetDarkThemeColours();
         u32  GetActiveWidgetID() const;
     };
-} // namespace codex
+} // namespace codex::imgui
 
 #endif // CODEX_IMGUI_LAYER_H

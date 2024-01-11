@@ -6,7 +6,6 @@
             "hidden": true,
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/builds/${presetName}",
-            "installDir": "${sourceDir}/builds/install/${presetName}",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl.exe",
                 "CMAKE_CXX_COMPILER": "cl.exe"
@@ -22,7 +21,6 @@
             "hidden": true,
             "generator": "Unix Makefiles",
             "binaryDir": "${sourceDir}/builds/${presetName}",
-            "installDir": "${sourceDir}/builds/install/${presetName}",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++"
@@ -55,7 +53,6 @@
         },
         {
             "name": "windows-x86_64-shippig",
-            "installDir": "C:/Program Files/CodexEditor",
             "displayName": "x86_64 Shipping",
             "inherits": "windows-x86_64-debug",
             "cacheVariables": {

@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-namespace codex {
+namespace codex::renderer {
     i32            Renderer::m_Width            = 0;
     i32            Renderer::m_Height           = 0;
     mgl::Renderer* Renderer::m_InternalRenderer = nullptr;
@@ -38,4 +38,4 @@ namespace codex {
     {
         m_InternalRenderer->Render(vertexArray, indexBuffer, shader);
     }
-} // namespace codex
+} // namespace codex::renderer

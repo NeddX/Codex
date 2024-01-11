@@ -6,7 +6,7 @@
 #include <imgui_internal.h>
 #include <misc/cpp/imgui_stdlib.cpp>
 
-namespace codex {
+namespace codex::imgui {
     ImGuiLayer::ImGuiLayer()
     {
     }
@@ -106,4 +106,4 @@ namespace codex {
     {
         return GImGui->ActiveId;
     }
-} // namespace codex
+} // namespace codex::imgui

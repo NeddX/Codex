@@ -51,6 +51,8 @@
 #ifdef CX_PLATFORM_UNIX
 #include <cxxabi.h>
 #include <dlfcn.h>
+#include <pwd.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #ifdef CX_PLATFORM_OSX
@@ -69,6 +71,7 @@
 #define NOMINMAX
 #endif
 #define WIN32_LEAN_AND_MEAN
+#include <ShlObj.h>
 #include <windows.h>
 #ifdef CreateWindow
 #undef CreateWindow

@@ -3,5 +3,5 @@
 #include "../Core/Exception.h"
 #include "Lexer.h"
 
-namespace codex {
-} // namespace codex
+namespace codex::reflect {
+} // namespace codex::reflect

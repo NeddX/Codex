@@ -5,7 +5,7 @@
 
 #include "../Core/Exception.h"
 
-namespace codex {
+namespace codex::reflect {
     // Forward declaration.
     class RFFieldInfo;
     class RFMethodInfo;
@@ -79,6 +79,6 @@ namespace codex {
         else if constexpr (std::is_same_v<T, signed char>)
             return RFTypeInfo(RFTypeInfo::Fundamental, "signed char", qualifiers);
     }
-} // namespace codex
+} // namespace codex::reflect
 
 #endif // CODEX_REFLECTION_REFLECTOR_H

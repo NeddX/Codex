@@ -5,7 +5,7 @@
 
 #include "Event.h"
 
-namespace codex {
+namespace codex::events {
     class CODEX_API WindowResizeEvent : public Event
     {
     private:
@@ -35,6 +35,6 @@ namespace codex {
         EVENT_CLASS_TYPE(WindowClose)
         EVENT_CLASS_CATEGORY(EventCategoryApplication)
     };
-} // namespace codex
+} // namespace codex::events
 
 #endif // CODEX_EVENTS_APPLICATION_EVENT_H

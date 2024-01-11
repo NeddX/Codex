@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-namespace codex {
+namespace codex::reflect {
     enum class TokenType : u8
     {
         Whitespace,
@@ -95,6 +95,6 @@ namespace codex {
         static bool SingleMatch(const char c) noexcept;
         static void EndToken();
     };
-} // namespace codex
+} // namespace codex::reflect
 
 #endif // CODEX_REFLECTION_LEXER_H

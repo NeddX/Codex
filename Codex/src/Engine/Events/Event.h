@@ -23,7 +23,7 @@
         return category;                                                                                               \
     }
 
-namespace codex {
+namespace codex::events {
     enum class EventType : u8
     {
         None = 0,
@@ -99,11 +99,11 @@ namespace codex {
             return false;
         }
     };
-} // namespace codex
+} // namespace codex::events
 
 namespace fmt {
     template <>
-    struct formatter<codex::Event>
+    struct formatter<codex::events::Event>
     {
         template <typename ParseContext>
         constexpr auto parse(ParseContext& ctx)
@@ -112,7 +112,7 @@ namespace fmt {
         }
 
         template <typename FormatContext>
-        auto format(const codex::Event& event, FormatContext& ctx)
+        auto format(const codex::events::Event& event, FormatContext& ctx)
         {
             static const char* type_str_arr[] = { "None",
 

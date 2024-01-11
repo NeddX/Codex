@@ -5,7 +5,7 @@
 
 #include "Lexer.h"
 
-namespace codex {
+namespace codex::reflect {
     enum class FundamentalTypes : u8
     {
         I8,
@@ -38,6 +38,6 @@ namespace codex {
         TokenList::iterator                   m_TokenEnd;
         std::unordered_map<std::string, Type> m_Types;
     };
-} // namespace codex
+} // namespace codex::reflect
 
 #endif // CODEX_REFLECTION_ANALYZER_H

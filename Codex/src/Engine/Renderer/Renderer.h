@@ -8,7 +8,7 @@
 #include "BatchRenderer2D.h"
 #include "Shader.h"
 
-namespace codex {
+namespace codex::renderer {
     // TODO: This is bad... fix it please.
     class Renderer
     {

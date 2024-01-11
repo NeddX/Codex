@@ -4,7 +4,7 @@
 #include "../Core/Window.h"
 #include "../Scene/Scene.h"
 
-namespace codex {
+namespace codex::renderer {
     DebugDraw*                                             DebugDraw::m_Instance = nullptr;
     std::vector<Line2D>                                    DebugDraw::m_Lines;
     std::array<f32, LINE2D_MAX_LINES * LINE2D_VERTEX_SIZE> DebugDraw::m_Verticies;

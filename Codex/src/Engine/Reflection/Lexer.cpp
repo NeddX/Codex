@@ -40,7 +40,7 @@
     } while (0);
 #define TK_ADD(char) m_CurrentToken.text.append(1, char)
 
-namespace codex {
+namespace codex::reflect {
     TokenList                           Lexer::m_Tokens{};
     Token                               Lexer::m_CurrentToken{};
     usize                               Lexer::m_Line                 = 0;
@@ -171,4 +171,4 @@ namespace codex {
         if (m_CurrentToken.type != TokenType::Comment || m_CurrentToken.type != TokenType::BlockComment) {}
         m_CurrentToken = Token();
     }
-} // namespace codex
+} // namespace codex::reflect

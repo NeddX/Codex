@@ -6,7 +6,7 @@
 #include "../Core/Exception.h"
 #include "../Core/IResource.h"
 
-namespace codex {
+namespace codex::renderer {
     class ShaderException : public CodexException
     {
         using CodexException::CodexException;
@@ -68,6 +68,6 @@ namespace codex {
             return m_RawShader->CompileShader(compileDefinitions);
         }
     };
-} // namespace codex
+} // namespace codex::renderer
 
 #endif // CODEX_RENDERER_SHADER_H
