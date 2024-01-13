@@ -5,6 +5,7 @@
 #include "ECS.h"
 
 namespace codex {
+    using namespace codex::graphics;
 
     TagComponent::TagComponent()
     {

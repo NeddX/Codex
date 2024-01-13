@@ -45,7 +45,7 @@ namespace codex {
     class CODEX_API Window
     {
         using Box                   = std::unique_ptr<Window, std::function<void(Window*)>>;
-        using EventCallbackDelegate = std::function<void(Event&)>;
+        using EventCallbackDelegate = std::function<void(events::Event&)>;
 
         friend class Application;
 
@@ -57,7 +57,7 @@ namespace codex {
         u32                                   m_Fps, m_FrameCount, m_FrameCap;
         std::chrono::system_clock::time_point m_Tp1, m_Tp2;
         const void*                           m_NativeWindow;
-        std::unique_ptr<Renderer>             m_Renderer;
+        std::unique_ptr<graphics::Renderer>   m_Renderer;
         SDL_Window*                           m_SdlWindow;
         SDL_GLContext                         m_GlContext;
         SDL_Event                             m_SdlEvent;

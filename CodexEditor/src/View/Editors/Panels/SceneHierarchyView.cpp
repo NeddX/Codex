@@ -5,6 +5,12 @@
 #include "../SceneEditorView.h"
 
 namespace codex::editor {
+    using namespace codex::events;
+    using namespace codex::imgui;
+    using namespace codex::mem;
+    using namespace codex::graphics;
+    using namespace codex::reflect;
+
     SceneHierarchyView::SceneHierarchyView(const Ref<SceneEditorDescriptor>& editorDesc) : m_EditorDesc(editorDesc)
     {
     }
@@ -49,7 +55,7 @@ namespace codex::editor {
                     {
                         if (d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
                         {
-                            auto& s       = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
+                            auto& s = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
                             s.GetColour() = d->selectedEntity.overlayColour;
                         }
                     }
@@ -62,7 +68,7 @@ namespace codex::editor {
                         {
                             auto& s = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
                             d->selectedEntity.overlayColour = s.GetColour();
-                            s.GetColour()                  = d->selectColour;
+                            s.GetColour()                   = d->selectColour;
                         }
                     }
 
@@ -76,8 +82,8 @@ namespace codex::editor {
                             ImGui::SameLine();
                             ImGui::InputText("##entity_name", &t.tag);
                             ImGui::SameLine();
-                            if (ImGui::IsKeyPressed(ImGuiKey_Enter) ||
-                                ImGui::Button("Enter")) // Check for Enter key press
+                            if (ImGui::IsKeyPressed(ImGuiKey_Enter) || ImGui::Button("Enter")) // Check for Enter key
+                                                                                               // press
                                 ImGui::CloseCurrentPopup();
                             ImGui::EndPopup();
                         }

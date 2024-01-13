@@ -16,7 +16,9 @@ int main(int argc, char** argv);
 
 namespace codex {
     // Forward declarations.
-    class WindowResizeEvent;
+    namespace events {
+        class WindowResizeEvent;
+    } // namespace events
 
     CX_CUSTOM_EXCEPTION(InvalidPathException, "The path supplied is invalid.");
 
@@ -55,7 +57,7 @@ namespace codex {
         LayerStack                            m_LayerStack{};
         std::chrono::system_clock::time_point m_Tp1{}, m_Tp2{};
         f32                                   m_DeltaTime  = 0.0f;
-        ImGuiLayer*                           m_ImGuiLayer = nullptr;
+        imgui::ImGuiLayer*                    m_ImGuiLayer = nullptr;
         Input*                                m_Input      = nullptr;
 
     private:
@@ -72,21 +74,21 @@ namespace codex {
         Application& operator=(Application&& other)      = delete;
 
     public:
-        static Window&          GetWindow() noexcept;
-        static Application&     Get() noexcept;
-        static u32              GetFps() noexcept;
-        static f32              GetDelta() noexcept;
-        static ImGuiLayer*      GetImGuiLayer() noexcept;
-        static std::string_view GetCurrentWorkingDirectory() noexcept;
-        static void             SetCurrentWorkingDirectory(const std::string_view newCwd);
+        static Window&            GetWindow() noexcept;
+        static Application&       Get() noexcept;
+        static u32                GetFps() noexcept;
+        static f32                GetDelta() noexcept;
+        static imgui::ImGuiLayer* GetImGuiLayer() noexcept;
+        static std::string_view   GetCurrentWorkingDirectory() noexcept;
+        static void               SetCurrentWorkingDirectory(const std::string_view newCwd);
 
     public:
-        bool OnWindowResize_Event(const WindowResizeEvent& event);
+        bool OnWindowResize_Event(const events::WindowResizeEvent& event);
 
     public:
         void Run();
         void Stop();
-        void OnEvent(Event& e);
+        void OnEvent(events::Event& e);
         void PushLayer(Layer* layer);
         void PushOverlay(Layer* overlay);
     };

@@ -6,13 +6,16 @@
 #include "Geomtryd.h"
 
 namespace codex {
+
     // Forward decelrations.
-    class KeyDownEvent;
-    class KeyUpEvent;
-    class MouseDownEvent;
-    class MouseUpEvent;
-    class MouseMoveEvent;
-    class MouseScrollEvent;
+    namespace events {
+        class KeyDownEvent;
+        class KeyUpEvent;
+        class MouseDownEvent;
+        class MouseUpEvent;
+        class MouseMoveEvent;
+        class MouseScrollEvent;
+    } // namespace events
 
     enum class Key
     {
@@ -330,12 +333,12 @@ namespace codex {
         }
 
     public:
-        bool OnKeyDown_Event(const KeyDownEvent event);
-        bool OnKeyUp_Event(const KeyUpEvent event);
-        bool OnMouseDown_Event(const MouseDownEvent event);
-        bool OnMouseUp_Event(const MouseUpEvent event);
-        bool OnMouseMove_Event(const MouseMoveEvent event);
-        bool OnMouseScroll_Event(const MouseScrollEvent event);
+        bool OnKeyDown_Event(const events::KeyDownEvent event);
+        bool OnKeyUp_Event(const events::KeyUpEvent event);
+        bool OnMouseDown_Event(const events::MouseDownEvent event);
+        bool OnMouseUp_Event(const events::MouseUpEvent event);
+        bool OnMouseMove_Event(const events::MouseMoveEvent event);
+        bool OnMouseScroll_Event(const events::MouseScrollEvent event);
     };
 } // namespace codex
 

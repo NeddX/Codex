@@ -45,6 +45,8 @@ namespace codex {
         template <typename T, typename... TArgs>
         static ResRef<T> Load(const std::string_view filePath, TArgs&&... args)
         {
+            using namespace codex::graphics;
+
             if constexpr (std::is_same_v<T, Texture2D>)
                 return Load_Texture2D(filePath, std::forward<TArgs>(args)...);
             else if constexpr (std::is_same_v<T, Shader>)

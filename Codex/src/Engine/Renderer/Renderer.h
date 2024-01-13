@@ -8,7 +8,7 @@
 #include "BatchRenderer2D.h"
 #include "Shader.h"
 
-namespace codex::renderer {
+namespace codex::graphics {
     // TODO: This is bad... fix it please.
     class Renderer
     {
@@ -30,6 +30,6 @@ namespace codex::renderer {
         static void Render(const mgl::VertexArray* vertexArray, const mgl::IndexBuffer* indexBuffer,
                            const mgl::Shader* shader);
     };
-} // namespace codex
+} // namespace codex::graphics
 
 #endif // CODEX_RENDERER_H

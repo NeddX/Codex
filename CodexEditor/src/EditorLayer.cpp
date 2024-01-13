@@ -3,6 +3,12 @@
 #include <ImGuizmo.h>
 #include <tinyfiledialogs.h>
 
+using namespace codex::events;
+using namespace codex::imgui;
+using namespace codex::mem;
+using namespace codex::graphics;
+using namespace codex::reflect;
+
 void EditorLayer::OnAttach()
 {
     auto width    = Application::GetWindow().GetWidth();
@@ -385,11 +391,11 @@ void EditorLayer::ImGuiRender()
                         {
                             if (ImGui::TreeNode(fmt::format("Vertex {}", j).c_str()))
                             {
-                                ImGui::Text(fmt::format("Vertex pos: {}", (q + j)->vertex).c_str());
-                                ImGui::Text(fmt::format("Colour: {}", (q + j)->colour).c_str());
-                                ImGui::Text(fmt::format("Tex Coord: {}", (q + j)->texCoord).c_str());
-                                ImGui::Text(fmt::format("Tex Size: {}", (q + j)->texSize).c_str());
-                                ImGui::Text(fmt::format("Entity ID: {}", (q + j)->entityId).c_str());
+                                ImGui::Text("%s", fmt::format("Vertex pos: {}", (q + j)->vertex).c_str());
+                                ImGui::Text("%s", fmt::format("Colour: {}", (q + j)->colour).c_str());
+                                ImGui::Text("%s", fmt::format("Tex Coord: {}", (q + j)->texCoord).c_str());
+                                ImGui::Text("%s", fmt::format("Tex Size: {}", (q + j)->texSize).c_str());
+                                ImGui::Text("%s", fmt::format("Entity ID: {}", (q + j)->entityId).c_str());
                                 ImGui::TreePop();
                             }
                         }

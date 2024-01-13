@@ -38,13 +38,17 @@ namespace codex {
         static void Destroy();
 
     private:
-        static ResRef<Texture2D> Load_Texture2D(const std::string_view filePath, const TextureProperties props = {});
-        static ResRef<Shader> Load_Shader(const std::string_view filePath, const std::string_view version = "330 core");
+        static ResRef<graphics::Texture2D> Load_Texture2D(const std::string_view            filePath,
+                                                          const graphics::TextureProperties props = {});
+        static ResRef<graphics::Shader>    Load_Shader(const std::string_view filePath,
+                                                       const std::string_view version = "330 core");
 
     public:
         template <typename T, typename... TArgs>
         static ResRef<T> Load(const std::string_view filePath, TArgs&&... args)
         {
+            using namespace codex::graphics;
+
             if constexpr (std::is_same_v<T, Texture2D>)
                 return Load_Texture2D(filePath, std::forward<TArgs>(args)...);
             else if constexpr (std::is_same_v<T, Shader>)

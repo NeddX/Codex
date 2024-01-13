@@ -3,6 +3,8 @@
 #include "../Events/MouseEvent.h"
 
 namespace codex {
+    using namespace codex::events;
+
     const char* KeyToString(const Key key) noexcept
     {
         static const std::unordered_map<Key, const char*> key_str_map = {

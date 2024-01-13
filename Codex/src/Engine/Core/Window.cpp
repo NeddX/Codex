@@ -1,8 +1,7 @@
-#include "../Events/KeyEvent.h"
 #include "../Events/ApplicationEvent.h"
+#include "../Events/KeyEvent.h"
 #include "../Events/MouseEvent.h"
 #include "../Renderer/DebugDraw.h"
-#include "../Renderer/TexturePicking.h"
 #include "Application.h"
 #include "Input.h"
 
@@ -10,6 +9,10 @@
 #include <imgui_impl_sdl2.h>
 
 namespace codex {
+    using namespace codex::events;
+    using namespace codex::imgui;
+    using namespace codex::graphics;
+
     Window::Window()
     {
     }
@@ -65,8 +68,8 @@ namespace codex {
             cx_throw(SDLException, "Native windows are not supported.");
         }
         else
-            m_SdlWindow =
-                SDL_CreateWindow(m_Title.c_str(), m_PosX, m_PosY, m_Width, m_Height, m_Flags | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+            m_SdlWindow = SDL_CreateWindow(m_Title.c_str(), m_PosX, m_PosY, m_Width, m_Height,
+                                           m_Flags | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
 
         if (!m_SdlWindow)
         {

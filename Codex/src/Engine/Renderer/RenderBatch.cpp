@@ -1,6 +1,6 @@
 #include "RenderBatch.h"
 
-namespace codex::renderer {
+namespace codex::graphics {
     RenderBatch::RenderBatch(const i32 maxQuadCount, Shader* shader) : m_MaxQuadCount(maxQuadCount), m_Shader(shader)
     {
         // TODO: Update MGL
@@ -163,4 +163,4 @@ namespace codex::renderer {
         for (i32 i = 0; i < m_CurrentTexIndex; ++i)
             m_TextureList[i]->Unbind();
     }
-} // namespace codex
+} // namespace codex::graphics

@@ -23,20 +23,20 @@ enum class GizmoMode
 class EditorLayer : public Layer
 {
 private:
-    Box<Scene>                   m_Scene       = nullptr;
-    ResRef<Shader>               m_BatchShader = nullptr;
-    Box<Camera>                  m_Camera      = nullptr;
-    f32                          m_ColumnWidth = 120.0f;
-    Box<mgl::FrameBuffer>        m_Framebuffer = nullptr;
-    Vector2f                     m_ViewportBounds[2];
-    SelectedEntityDescriptor     m_SelectedEntity;
-    Vector4f                     m_SelectColour = { 0.5f, 1.0f, 0.5f, 1.0f };
-    bool                         m_GizmoActive  = false;
-    GizmoMode                    m_GizmoMode    = GizmoMode::Translation;
-    std::filesystem::path        m_ProjectPath{};
-    NativeBehaviour*             m_Script          = nullptr;
-    Box<DLib>                    m_ScriptModule    = nullptr;
-    Box<editor::SceneEditorView> m_SceneEditorView = nullptr;
+    mem::Box<Scene>                   m_Scene       = nullptr;
+    ResRef<graphics::Shader>          m_BatchShader = nullptr;
+    mem::Box<Camera>                  m_Camera      = nullptr;
+    f32                               m_ColumnWidth = 120.0f;
+    mem::Box<mgl::FrameBuffer>        m_Framebuffer = nullptr;
+    Vector2f                          m_ViewportBounds[2];
+    SelectedEntityDescriptor          m_SelectedEntity;
+    Vector4f                          m_SelectColour = { 0.5f, 1.0f, 0.5f, 1.0f };
+    bool                              m_GizmoActive  = false;
+    GizmoMode                         m_GizmoMode    = GizmoMode::Translation;
+    std::filesystem::path             m_ProjectPath{};
+    NativeBehaviour*                  m_Script          = nullptr;
+    mem::Box<DLib>                    m_ScriptModule    = nullptr;
+    mem::Box<editor::SceneEditorView> m_SceneEditorView = nullptr;
 
 public:
     void OnAttach() override;
@@ -45,6 +45,6 @@ public:
     void ImGuiRender() override;
 
 public:
-    void OnEvent(Event& e) override;
-    bool OnKeyDown_Event(KeyDownEvent& e);
+    void OnEvent(events::Event& e) override;
+    bool OnKeyDown_Event(events::KeyDownEvent& e);
 };

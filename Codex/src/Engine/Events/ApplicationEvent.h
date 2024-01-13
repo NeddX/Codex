@@ -18,7 +18,7 @@ namespace codex::events {
     public:
         inline i32         GetWidth() const noexcept { return m_Width; }
         inline i32         GetHeight() const noexcept { return m_Height; }
-        inline std::string ToString() const noexcept
+        inline std::string ToString() const noexcept override
         {
             return fmt::format("WindowResizeEvent: Width({}), Height({})", m_Width, m_Height);
         }

@@ -189,7 +189,7 @@ namespace codex {
         friend class Entity;
 
     private:
-        ResRef<Texture2D>                                     m_Texture;
+        ResRef<graphics::Texture2D>                           m_Texture;
         std::map<i32, std::unordered_map<Vector2f, Vector2f>> m_Tiles;
         Vector2f                                              m_GridSize;
         Vector2f                                              m_TileSize;
@@ -197,14 +197,14 @@ namespace codex {
         GridRendererComponent*                                m_GridRenderer;
 
     public:
-        TilemapComponent(ResRef<Texture2D> texture, const Vector2f gridSize, const Vector2f tileSize);
+        TilemapComponent(ResRef<graphics::Texture2D> texture, const Vector2f gridSize, const Vector2f tileSize);
 
     protected:
         void Start() override;
 
     public:
         inline const std::map<i32, std::unordered_map<Vector2f, Vector2f>>& GetAllTiles() const { return m_Tiles; }
-        inline ResRef<Texture2D>                                            GetTexture() const { return m_Texture; }
+        inline ResRef<graphics::Texture2D>                                  GetTexture() const { return m_Texture; }
         inline Vector2f                                                     GetGridSize() const { return m_GridSize; }
         inline Vector2f                                                     GetTileSize() const { return m_TileSize; }
         inline i32                                                          GetLayer() const { return m_Layer; }
@@ -215,7 +215,7 @@ namespace codex {
                 total_size += e.second.size();
             return total_size;
         }
-        inline void SetTexture(ResRef<Texture2D> newTexuture) { m_Texture = newTexuture; }
+        inline void SetTexture(ResRef<graphics::Texture2D> newTexuture) { m_Texture = newTexuture; }
         inline void SetGridSize(const Vector2f newGridSize)
         {
             m_GridSize = newGridSize;

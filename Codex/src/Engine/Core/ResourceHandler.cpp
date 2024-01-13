@@ -3,6 +3,8 @@
 #include "../Renderer/Texture2D.h"
 
 namespace codex {
+    using namespace codex::graphics;
+
     Resources* Resources::m_Instance = nullptr;
 
     void Resources::Init()

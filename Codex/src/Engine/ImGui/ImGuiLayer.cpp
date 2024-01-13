@@ -7,6 +7,8 @@
 #include <misc/cpp/imgui_stdlib.cpp>
 
 namespace codex::imgui {
+    using namespace codex::events;
+
     ImGuiLayer::ImGuiLayer()
     {
     }

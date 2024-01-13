@@ -6,7 +6,7 @@
 #include "Line2D.h"
 #include "Shader.h"
 
-namespace codex::renderer {
+namespace codex::graphics {
     constexpr auto LINE2D_MAX_LINES              = 5000;
     constexpr auto LINE2D_INDEX_COUNT            = 6; // How many indices does a single vertex buffer have
     constexpr auto LINE2D_VERTEX_COMPONENT_COUNT = 7; // How many components does a vertex have?
@@ -65,6 +65,6 @@ namespace codex::renderer {
             return index_buffer_data;
         }
     };
-} // namespace codex::renderer
+} // namespace codex::graphics
 
 #endif // CODEX_RENDERER_DEBUG_DRAW_H

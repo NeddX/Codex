@@ -3,6 +3,12 @@
 #include <tinyfiledialogs.h>
 
 namespace codex::editor {
+    using namespace codex::events;
+    using namespace codex::imgui;
+    using namespace codex::mem;
+    using namespace codex::graphics;
+    using namespace codex::reflect;
+
     void SceneEditorView::OnAttach()
     {
         auto width    = Application::GetWindow().GetWidth();
@@ -135,8 +141,8 @@ namespace codex::editor {
                 // Add File menu items here
                 if (ImGui::MenuItem("Open", "Ctrl+O"))
                 {
-                    const char* filters[] { "*.cxproj" };
-                    const char* file      = tinyfd_openFileDialog("Load a Project.", nullptr, 1, filters, nullptr, 0);
+                    const char* filters[]{ "*.cxproj" };
+                    const char* file = tinyfd_openFileDialog("Load a Project.", nullptr, 1, filters, nullptr, 0);
                     if (file)
                     {
                         if (d->selectedEntity.entity &&
@@ -367,7 +373,7 @@ namespace codex::editor {
         {
             ImGui::Columns(2);
             ImGui::SetColumnWidth(0, columnWidth);
-            ImGui::Text(label);
+            ImGui::Text("%s", label);
             ImGui::NextColumn();
         }
 
@@ -438,7 +444,7 @@ namespace codex::editor {
         {
             ImGui::Columns(2);
             ImGui::SetColumnWidth(0, columnWidth);
-            ImGui::Text(label);
+            ImGui::Text("%s", label);
             ImGui::NextColumn();
         }
 

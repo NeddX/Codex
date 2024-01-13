@@ -9,10 +9,10 @@ namespace codex::editor {
     class PropertiesView
     {
     private:
-        Ref<SceneEditorDescriptor> m_EditorDesc{};
+        mem::Ref<SceneEditorDescriptor> m_EditorDesc{};
 
     public:
-        explicit PropertiesView(const Ref<SceneEditorDescriptor>& editorDesc);
+        explicit PropertiesView(const mem::Ref<SceneEditorDescriptor>& editorDesc);
 
     public:
         void OnImGuiRender();

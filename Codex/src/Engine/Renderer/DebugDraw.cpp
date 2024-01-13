@@ -4,7 +4,7 @@
 #include "../Core/Window.h"
 #include "../Scene/Scene.h"
 
-namespace codex::renderer {
+namespace codex::graphics {
     DebugDraw*                                             DebugDraw::m_Instance = nullptr;
     std::vector<Line2D>                                    DebugDraw::m_Lines;
     std::array<f32, LINE2D_MAX_LINES * LINE2D_VERTEX_SIZE> DebugDraw::m_Verticies;
@@ -30,9 +30,9 @@ namespace codex::renderer {
 
             m_Instance->m_Vbo = std::make_unique<mgl::VertexBuffer>();
             m_Instance->m_Vbo->Bind();
-            m_Instance->m_Vbo->SetBuffer<f32>(
-                nullptr, LINE2D_VERTEX_SIZE * sizeof(f32) * LINE2D_MAX_LINES,
-                mgl::BufferUsage::DYNAMIC_DRAW); // you basically allocate space and then upload the data
+            m_Instance->m_Vbo->SetBuffer<f32>(nullptr, LINE2D_VERTEX_SIZE * sizeof(f32) * LINE2D_MAX_LINES,
+                                              mgl::BufferUsage::DYNAMIC_DRAW); // you basically allocate space and then
+                                                                               // upload the data
 
             /*
             m_Ebo = std::make_unique<mgl::IndexBuffer>();
@@ -197,4 +197,4 @@ namespace codex::renderer {
             m_Lines.emplace_back(poi32_one, poi32_two, colour, lifeTime);
         }
     }
-} // namespace codex
+} // namespace codex::graphics

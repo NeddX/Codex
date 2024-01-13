@@ -10,22 +10,23 @@ namespace codex {
     class Sprite
     {
     private:
-        ResRef<Texture2D> m_Texture = nullptr;
-        Rectf             m_TextureCoords{};
-        Vector2f          m_SpriteSize{};
-        Vector4f          m_Colour{};
-        i32               m_ZIndex = 0;
+        ResRef<graphics::Texture2D> m_Texture = nullptr;
+        Rectf                       m_TextureCoords{};
+        Vector2f                    m_SpriteSize{};
+        Vector4f                    m_Colour{};
+        i32                         m_ZIndex = 0;
 
     public:
         Sprite() = default;
-        Sprite(ResRef<Texture2D> texture, const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f }, const i32 zIndex = 0)
+        Sprite(ResRef<graphics::Texture2D> texture, const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
+               const i32 zIndex = 0)
             : m_Texture(texture), m_Colour(colour), m_ZIndex(zIndex)
         {
             m_TextureCoords = { 0.0f, 0.0f, (f32)texture->GetWidth(), (f32)texture->GetHeight() };
             m_SpriteSize    = { m_TextureCoords.w, m_TextureCoords.h };
         }
-        Sprite(ResRef<Texture2D> texture, const Rectf textureCoords, const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f },
-               const i32 zIndex = 0)
+        Sprite(ResRef<graphics::Texture2D> texture, const Rectf textureCoords,
+               const Vector4f colour = { 1.0f, 1.0f, 1.0f, 1.0f }, const i32 zIndex = 0)
             : m_Texture(texture), m_TextureCoords(textureCoords), m_Colour(colour), m_ZIndex(zIndex)
         {
             m_SpriteSize = { (f32)m_Texture->GetWidth(), (f32)m_Texture->GetHeight() };
@@ -35,13 +36,13 @@ namespace codex {
         static inline Sprite Empty() noexcept { return Sprite(); }
 
     public:
-        inline ResRef<Texture2D> GetTexture() const noexcept { return m_Texture; }
-        inline Rectf&            GetTextureCoords() noexcept { return m_TextureCoords; }
-        inline Vector4f&         GetColour() noexcept { return m_Colour; }
-        inline i32&              GetZIndex() noexcept { return m_ZIndex; }
-        inline Vector2f          GetSize() const noexcept { return m_SpriteSize; }
-        inline void              SetSize(const Vector2f newSize) noexcept { m_SpriteSize = newSize; }
-        inline void              SetTexture(ResRef<Texture2D> texture) noexcept
+        inline ResRef<graphics::Texture2D> GetTexture() const noexcept { return m_Texture; }
+        inline Rectf&                      GetTextureCoords() noexcept { return m_TextureCoords; }
+        inline Vector4f&                   GetColour() noexcept { return m_Colour; }
+        inline i32&                        GetZIndex() noexcept { return m_ZIndex; }
+        inline Vector2f                    GetSize() const noexcept { return m_SpriteSize; }
+        inline void                        SetSize(const Vector2f newSize) noexcept { m_SpriteSize = newSize; }
+        inline void                        SetTexture(ResRef<graphics::Texture2D> texture) noexcept
         {
             m_Texture       = texture;
             m_TextureCoords = { 0.0f, 0.0f, (f32)m_Texture->GetWidth(), (f32)m_Texture->GetHeight() };
@@ -61,6 +62,8 @@ namespace codex {
         }
         friend void from_json(const nlohmann::ordered_json& j, Sprite& sprite)
         {
+            using namespace codex::graphics;
+
             std::string       path;
             TextureProperties props;
             j.at("m_Texture").at("m_FilePath").get_to(path);

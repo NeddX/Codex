@@ -3,7 +3,7 @@
 
 #include "../Core/Geomtryd.h"
 
-namespace codex::renderer {
+namespace codex::graphics {
     class Line2D
     {
     private:
@@ -27,6 +27,6 @@ namespace codex::renderer {
     public:
         i32 BeginFrame() { return --m_LifeTime; }
     };
-} // namespace codex::renderer
+} // namespace codex::graphics
 
 #endif // CODEX_RENDERER_LINE_2D_H

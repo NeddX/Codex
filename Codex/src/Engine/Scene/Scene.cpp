@@ -4,6 +4,8 @@
 #include "ECS.h"
 
 namespace codex {
+    using namespace codex::graphics;
+
     Entity Scene::CreateEntity(const std::string_view defaultTag)
     {
         Entity entity(m_Registry.create(), this);

@@ -24,8 +24,8 @@ namespace codex::editor {
 
     struct SceneEditorDescriptor
     {
-        Box<Scene>               scene{};
-        Box<DLib>                scriptModule{};
+        mem::Box<Scene>          scene{};
+        mem::Box<DLib>           scriptModule{};
         SelectedEntityDescriptor selectedEntity{};
         f32                      columnWidth  = 120.0f;
         Vector4f                 selectColour = { 0.5f, 1.0f, 0.5f, 1.0f };
@@ -34,20 +34,20 @@ namespace codex::editor {
     class SceneEditorView : public Layer
     {
     private:
-        ResRef<Shader>                m_BatchShader = nullptr;
-        Box<Camera>                   m_Camera      = nullptr;
-        Box<mgl::FrameBuffer>         m_Framebuffer = nullptr;
-        Vector2f                      m_ViewportBounds[2]{};
-        bool                          m_GizmoActive = false;
-        GizmoMode                     m_GizmoMode   = GizmoMode::Translation;
-        std::filesystem::path         m_ProjectPath{};
-        NativeBehaviour*              m_Script     = nullptr;
-        Shared<SceneEditorDescriptor> m_Descriptor = nullptr;
+        ResRef<graphics::Shader>           m_BatchShader = nullptr;
+        mem::Box<Camera>                   m_Camera      = nullptr;
+        mem::Box<mgl::FrameBuffer>         m_Framebuffer = nullptr;
+        Vector2f                           m_ViewportBounds[2]{};
+        bool                               m_GizmoActive = false;
+        GizmoMode                          m_GizmoMode   = GizmoMode::Translation;
+        std::filesystem::path              m_ProjectPath{};
+        NativeBehaviour*                   m_Script     = nullptr;
+        mem::Shared<SceneEditorDescriptor> m_Descriptor = nullptr;
 
     private:
         // Panels
-        Box<SceneHierarchyView> m_SceneHierarchyView = nullptr;
-        Box<PropertiesView>     m_PropertiesView     = nullptr;
+        mem::Box<SceneHierarchyView> m_SceneHierarchyView = nullptr;
+        mem::Box<PropertiesView>     m_PropertiesView     = nullptr;
 
     public:
         SceneEditorView() = default;
@@ -59,8 +59,8 @@ namespace codex::editor {
         void ImGuiRender() override;
 
     public:
-        void OnEvent(Event& e) override;
-        bool OnKeyDown_Event(KeyDownEvent& e);
+        void OnEvent(events::Event& e) override;
+        bool OnKeyDown_Event(events::KeyDownEvent& e);
 
     public:
         void LoadScriptModule();

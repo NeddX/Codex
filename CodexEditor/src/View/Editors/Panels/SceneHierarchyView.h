@@ -9,10 +9,10 @@ namespace codex::editor {
     class SceneHierarchyView
     {
     private:
-        Ref<SceneEditorDescriptor> m_EditorDesc{};
+        mem::Ref<SceneEditorDescriptor> m_EditorDesc{};
 
     public:
-        explicit SceneHierarchyView(const Ref<SceneEditorDescriptor>& editorDesc);
+        explicit SceneHierarchyView(const mem::Ref<SceneEditorDescriptor>& editorDesc);
 
         void OnImGuiRender();
     };

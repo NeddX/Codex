@@ -10,6 +10,10 @@
 #include <sdafx.h>
 
 namespace codex {
+    using namespace codex::events;
+    using namespace codex::imgui;
+    using namespace codex::graphics;
+
     Application* Application::m_Instance = nullptr;
 
     Application::Application(const ApplicationProperties& args) : m_Properties(args)

@@ -5,8 +5,13 @@
 #include <tinyfiledialogs.h>
 
 namespace codex::editor {
-    PropertiesView::PropertiesView(const Ref<SceneEditorDescriptor>& editorDesc)
-        : m_EditorDesc(editorDesc)
+    using namespace codex::events;
+    using namespace codex::imgui;
+    using namespace codex::mem;
+    using namespace codex::graphics;
+    using namespace codex::reflect;
+
+    PropertiesView::PropertiesView(const Ref<SceneEditorDescriptor>& editorDesc) : m_EditorDesc(editorDesc)
     {
     }
     void PropertiesView::OnImGuiRender()
@@ -77,7 +82,7 @@ namespace codex::editor {
                             // TODO: This should happen OnScenePlay().
                             invalid_script = false;
                             script         = d->scriptModule->Invoke<NativeBehaviour*(const char*)>("Rf_CreateInstance",
-                                                                                           script_class.c_str());
+                                                                                            script_class.c_str());
                             script->SetOwner(d->selectedEntity.entity);
                             c.Attach(script);
                         }
@@ -114,7 +119,7 @@ namespace codex::editor {
 
                                 ImGui::Columns(2);
                                 ImGui::SetColumnWidth(0, d->columnWidth);
-                                ImGui::Text(field_name.c_str());
+                                ImGui::Text("%s", field_name.c_str());
                                 ImGui::NextColumn();
 
                                 object field_ptr = v->GetField(field_name);
@@ -209,7 +214,7 @@ namespace codex::editor {
                             auto res = Resources::Load<Texture2D>(relative_path.string());
                             sprite.SetTexture(res);
                             d->selectedEntity.overlayColour = sprite.GetColour();
-                            sprite.GetColour()             = d->selectColour;
+                            sprite.GetColour()              = d->selectColour;
                         }
                     }
                     ImGui::EndGroup();
