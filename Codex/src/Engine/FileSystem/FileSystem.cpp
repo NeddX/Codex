@@ -29,7 +29,7 @@ namespace codex::fs {
         }
 #elif defined(CX_PLATFORM_OSX)
 #elif defined(CX_PLATFORM_WINDOWS)
-        static char home_dir* = std::getenv("USERPROFILE");
+        static char* home_dir = std::getenv("USERPROFILE");
 
         switch (folder)
         {
@@ -38,7 +38,7 @@ namespace codex::fs {
             case ApplicationData: return { std::getenv("APPDATA") };
             case Desktop: return stdfs::relative({ home_dir }, { "/Desktop" });
             case Fonts: return { "C:/Windows/Fonts" };
-            case Temporary: return { std::genenv("temp") };
+            case Temporary: return { std::getenv("temp") };
             case User: return { home_dir };
             default: return {};
         }

@@ -34,6 +34,7 @@
         {
             "name": "windows-x86_64-debug",
             "displayName": "x86_64 Debug",
+            "installDir": "C:/Program Files/Carbine/Codex Editor (${presetName})",
             "inherits": "windows-base",
             "architecture": {
                 "value": "x64",
@@ -46,6 +47,7 @@
         {
             "name": "windows-x86_64-release",
             "displayName": "x86_64 Release",
+            "installDir": "C:/Program Files/Carbine/Codex Editor (${presetName})",
             "inherits": "windows-x86_64-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
@@ -54,6 +56,7 @@
         {
             "name": "windows-x86_64-shippig",
             "displayName": "x86_64 Shipping",
+            "installDir": "C:/Program Files/Carbine/Codex Editor",
             "inherits": "windows-x86_64-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Shipping"

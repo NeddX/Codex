@@ -26,7 +26,7 @@ set(IMGUIZMO_SOURCE_FILES vendor/ImGuizmo/ImGuizmo.cpp)
 
 # Dependencies
 message(":: CODEX_CMAKE_SOURCE_DIR: ${CODEX_CMAKE_SOURCE_DIR}")
-install(TARGETS CodexEngine CodexEngine-static CodexEditor DESTINATION bin)
+install(TARGETS CodexEditor DESTINATION bin)
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
 
 message(":: Install destiantion: ${CMAKE_INSTALL_PREFIX}")

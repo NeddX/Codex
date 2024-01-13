@@ -2,7 +2,7 @@
 file(GLOB_RECURSE ENGINE_SOURCES "src/Engine/*.cpp")
 file(GLOB_RECURSE ENGINE_HEADERS "src/Engine/*.h")
 
-# Export all symbols on Windows.
+# Export all symbols on Windows (NOTE TO SELF: Do not uncomment).
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_library(CodexEngine SHARED ${ENGINE_HEADERS} ${ENGINE_SOURCES})
@@ -218,7 +218,7 @@ target_compile_definitions(
           $<$<CONFIG:Release>:CX_CONFIG_RELEASE>
           $<$<CONFIG:Shipping>:CX_CONFIG_SHIPPING>)
 
-# ======================= # INSTALLATION      # ======================= #
+# ======================= # INSTALLATION # ======================= #
 if(DEFINED CX_PLATFORM_WINDOWS)
   install(
     TARGETS SDL2
@@ -226,10 +226,12 @@ if(DEFINED CX_PLATFORM_WINDOWS)
             glm
             glad
             nlohmann_json
-            MGL
             CodexEngine
-            CodexEngine-static
     DESTINATION bin)
+  install(
+    TARGETS CodexEngine-static
+            MGL
+    DESTINATION "bin/Object Libraries")
   install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
 
   # Program Files (or same location as the binary) for unmodifiable file data.
