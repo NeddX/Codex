@@ -72,7 +72,7 @@ namespace codex {
         template <typename T>
         static ResRef<T> GetResource(const std::filesystem::path filePath)
         {
-            return GetResource<T>(util::Crypto::DJB2Hash(filePath.c_str()));
+            return GetResource<T>(util::Crypto::DJB2Hash(filePath.string()));
         }
         static bool                                          HasResource(const usize id);
         static bool                                          HasResource(const std::filesystem::path filePath);

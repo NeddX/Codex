@@ -42,7 +42,7 @@ namespace codex::fs {
 
             case ApplicationFiles: return { std::getenv("ProgramFiles") };
             case ApplicationData: return { std::getenv("APPDATA") };
-            case UserApplicationData: return { std::genenv("LOCALAPPDATA") };
+            case UserApplicationData: return { std::getenv("LOCALAPPDATA") };
             case Desktop: return fs::path(home_dir) / "/Desktop";
             case Fonts: return { "C:/Windows/Fonts" };
             case Temporary: return { std::getenv("temp") };

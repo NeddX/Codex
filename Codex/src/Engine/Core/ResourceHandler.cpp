@@ -32,25 +32,27 @@ namespace codex {
 
     ResRef<Texture2D> Resources::Load_Texture2D(const std::filesystem::path filePath, const TextureProperties props)
     {
-        if (HasResource(filePath))
+        // I could use .c_str() but on MSVC c_str() is of value_type type which itself is wchar_t.
+        // To put it short, It is for compatability reasons.
+        if (HasResource(filePath.string()))
             return GetResource<Texture2D>(filePath);
 
         // TODO: Use std::filesystem::path instead of string_view.
-        std::ifstream fs(std::string{ filePath });
+        std::ifstream fs(filePath.string());
         if (fs.is_open())
         {
-            usize id = util::Crypto::DJB2Hash(filePath.c_str());
+            usize id = util::Crypto::DJB2Hash(filePath.string());
 
-            ResRef<Texture2D> texture   = std::make_shared<Texture2D>(filePath.c_str(), props);
+            ResRef<Texture2D> texture   = std::make_shared<Texture2D>(filePath.string(), props);
             m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
             fs.close();
-            fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath.c_str(), id);
+            fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath.string(), id);
             return texture;
         }
         else
         {
             cx_throw(ResourceNotFoundException, "Couldn't open file '{}' for reading. Failed to load texture asset.",
-                     filePath.c_str());
+                     filePath.string());
             return nullptr;
         }
     }
@@ -61,20 +63,20 @@ namespace codex {
             return GetResource<Shader>(filePath);
 
         // TODO: Use std::filesystem::path instead of string_view.
-        std::ifstream fs(std::string{ filePath });
+        std::ifstream fs(filePath.string());
         if (fs.is_open())
         {
-            usize          id           = util::Crypto::DJB2Hash(filePath.c_str());
-            ResRef<Shader> texture      = std::make_shared<Shader>(filePath.c_str(), version);
+            usize          id           = util::Crypto::DJB2Hash(filePath.string());
+            ResRef<Shader> texture      = std::make_shared<Shader>(filePath.string(), version);
             m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
             fs.close();
-            fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath.c_str(), id);
+            fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath.string(), id);
             return texture;
         }
         else
         {
             cx_throw(ResourceNotFoundException, "Couldn't open file '{}' for reading. Failed to load shader asset.",
-                     filePath.c_str());
+                     filePath.string());
             return nullptr;
         }
     }
@@ -89,7 +91,7 @@ namespace codex {
 
     bool Resources::HasResource(const std::filesystem::path filePath)
     {
-        usize id = util::Crypto::DJB2Hash(filePath.c_str());
+        usize id = util::Crypto::DJB2Hash(filePath.string());
         return HasResource(id);
     }
 

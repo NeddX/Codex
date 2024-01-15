@@ -15,7 +15,7 @@ namespace codex::fs {
         User
     };
 
-    std::filesystem::path GetSpecialFolder(const SpecialFolder folder) noexcept;
+    CODEX_API std::filesystem::path GetSpecialFolder(const SpecialFolder folder) noexcept;
 } // namespace codex::fs
 
 #endif // CODEX_FILE_SYSTEM_H

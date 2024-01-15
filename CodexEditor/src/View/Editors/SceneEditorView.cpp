@@ -38,11 +38,15 @@ namespace codex::editor {
             }
         }
 
-        fmt::println("[Info] :: AppDataPath: '{}' VarAppDataPath: '{}'", m_ApplicationDataPath.c_str(),
-                     m_VariableApplicationDataPath.c_str());
+        fmt::println("[Info] :: AppDataPath: '{}' VarAppDataPath: '{}'", m_ApplicationDataPath.string(),
+                     m_VariableApplicationDataPath.string());
 
         // ImGui setup
-        static fs::path ini_file_path = m_VariableApplicationDataPath / "imgui.ini";
+        static std::string ini_file_path = (m_VariableApplicationDataPath / "imgui.ini").string();
+        static std::string font_file_path = (m_ApplicationDataPath / "Fonts/roboto/Roboto-Regular.ttf").string();
+        
+        // Crash on MSVC! GImGui is initialized before the ImGui call thus
+        // CodexEditor thinks there's no active ImGui context.
         auto&           io            = ImGui::GetIO();
 
         if (!fs::exists(ini_file_path))
@@ -60,9 +64,8 @@ namespace codex::editor {
 
         f32 font_size  = 14.0f;
         io.IniFilename = ini_file_path.c_str();
-        io.Fonts->AddFontFromFileTTF((m_ApplicationDataPath / "Fonts/roboto/Roboto-Bold.ttf").c_str(), font_size);
         io.FontDefault =
-            io.Fonts->AddFontFromFileTTF((m_ApplicationDataPath / "Fonts/roboto/Roboto-Bold.ttf").c_str(), font_size);
+            io.Fonts->AddFontFromFileTTF(font_file_path.c_str(), font_size);
 
         auto width    = Application::GetWindow().GetWidth();
         auto height   = Application::GetWindow().GetHeight();
