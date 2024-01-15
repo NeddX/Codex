@@ -13,15 +13,11 @@ namespace codex::editor {
 
     void SceneEditorView::OnAttach()
     {
-#if defined(CX_BUILD_TYPE_DEBUG) || defined(CX_BUILD_TYPE_DEBUG)
 #ifdef CX_PLATFORM_LINUX
         fmt::println("CEINST: {}", CE_INSTALL_DIR);
         m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("share/Codex");
 #elif defined(CX_PLATFORM_WINDOWS)
         m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("bin");
-#endif
-#elif defined(CX_BUILD_TYPE_SHIPPING)
-        m_ApplicationDataPath = fs::path(GetSpecialFolder(SpecialFolder::ApplicationFiles)) / fs::path("Codex/");
 #endif
         m_VariableApplicationDataPath =
             fs::path(GetSpecialFolder(SpecialFolder::UserApplicationData)) / fs::path("Codex/");

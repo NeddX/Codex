@@ -10,25 +10,26 @@
 #include <sdafx.h>
 
 namespace codex {
+    namespace fs = std::filesystem;
     using namespace codex::events;
     using namespace codex::imgui;
     using namespace codex::graphics;
 
     Application* Application::m_Instance = nullptr;
 
-    Application::Application(const ApplicationProperties& args) : m_Properties(args)
+    Application::Application(ApplicationProperties args) : m_Properties(std::move(args))
     {
         try
         {
-            std::filesystem::path new_cwd = args.cwd;
-            if (std::filesystem::exists(new_cwd) && std::filesystem::is_directory(new_cwd))
+            fs::path new_cwd = m_Properties.cwd;
+            if (fs::exists(new_cwd) && fs::is_directory(new_cwd))
             {
-                std::filesystem::current_path(new_cwd);
+                fs::current_path(new_cwd);
             }
             else
             {
                 cx_throw(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
-                         args.cwd);
+                         m_Properties.cwd);
             }
 
             m_Instance = this;
@@ -148,6 +149,7 @@ namespace codex {
                 m_Window->SwapBuffers();
 
                 // FIXME: Fix the mouse dragging thing for now...
+                // What?????
                 Input::EndFrame();
             }
             catch (const CodexException& ex)

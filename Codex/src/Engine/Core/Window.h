@@ -80,7 +80,7 @@ namespace codex {
         inline void SetEventCallback(const EventCallbackDelegate& callback) noexcept { m_EventCallback = callback; }
 
     public:
-        void Init(const WindowProperties windowInfo = WindowProperties(), const void* nativeWindow = nullptr);
+        void Init(const WindowProperties& windowInfo = WindowProperties(), const void* nativeWindow = nullptr);
         void Update(const f32 delta_time);
         void SwapBuffers();
         void ProcessEvents();

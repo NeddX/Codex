@@ -24,7 +24,7 @@ namespace codex {
         SDL_Quit();
     }
 
-    void Window::Init(const WindowProperties windowInfo, const void* nativeWindow)
+    void Window::Init(const WindowProperties& windowInfo, const void* nativeWindow)
     {
         m_NativeWindow = nativeWindow;
         m_Title        = windowInfo.title;

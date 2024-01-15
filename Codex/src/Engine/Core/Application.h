@@ -47,7 +47,7 @@ namespace codex {
     class CODEX_API Application
     {
         friend int ::main(int argc, char** argv);
-        friend Application* CreateApplication(const ApplicationCLIArgs args);
+        friend Application* CreateApplication(ApplicationCLIArgs args);
 
     protected:
         ApplicationProperties                 m_Properties{};
@@ -64,14 +64,9 @@ namespace codex {
         static Application* m_Instance;
 
     public:
-        Application(const ApplicationProperties& props);
+        Application(ApplicationProperties props);
         Application(const Application& other) = delete;
-        Application(Application&& other)      = delete;
         virtual ~Application();
-
-    public:
-        Application& operator=(const Application& other) = delete;
-        Application& operator=(Application&& other)      = delete;
 
     public:
         static Window&            GetWindow() noexcept;
@@ -84,6 +79,9 @@ namespace codex {
 
     public:
         bool OnWindowResize_Event(const events::WindowResizeEvent& event);
+
+    public:
+        virtual void Init(){};
 
     public:
         void Run();

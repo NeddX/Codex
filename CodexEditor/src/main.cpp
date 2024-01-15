@@ -7,20 +7,24 @@
 class CodexEditor : public codex::Application
 {
 public:
-    CodexEditor(const codex::ApplicationProperties& properties) : codex::Application(properties)
+    using codex::Application::Application;
+
+public:
+    void Init() override
     {
         PushLayer(new codex::editor::SceneEditorView());
     }
 
+public:
     ~CodexEditor() override {}
 };
 
-codex::Application* codex::CreateApplication(const codex::ApplicationCLIArgs args)
+codex::Application* codex::CreateApplication(codex::ApplicationCLIArgs args)
 {
     return new CodexEditor(
         codex::ApplicationProperties{ .name             = "CodexEditor",
                                       .cwd              = "./",
-                                      .args             = args,
+                                      .args             = std::move(args),
                                       .windowProperties = {
                                           .width    = 1280,
                                           .height   = 720,
