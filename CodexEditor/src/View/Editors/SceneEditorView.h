@@ -29,6 +29,7 @@ namespace codex::editor {
         SelectedEntityDescriptor selectedEntity{};
         f32                      columnWidth  = 120.0f;
         Vector4f                 selectColour = { 0.5f, 1.0f, 0.5f, 1.0f };
+        std::filesystem::path    currentProjectPath{};
     };
 
     class SceneEditorView : public Layer
@@ -40,9 +41,8 @@ namespace codex::editor {
         Vector2f                           m_ViewportBounds[2]{};
         bool                               m_GizmoActive = false;
         GizmoMode                          m_GizmoMode   = GizmoMode::Translation;
-        std::filesystem::path              m_ProjectPath{};
-        NativeBehaviour*                   m_Script     = nullptr;
-        mem::Shared<SceneEditorDescriptor> m_Descriptor = nullptr;
+        NativeBehaviour*                   m_Script      = nullptr;
+        mem::Shared<SceneEditorDescriptor> m_Descriptor  = nullptr;
         std::filesystem::path              m_ApplicationDataPath{};
         std::filesystem::path              m_VariableApplicationDataPath{};
 

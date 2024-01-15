@@ -32,7 +32,7 @@
                         "m_Sprite": {
                             "m_Texture": {
                                 "m_Id": 0,
-                                "m_FilePath": "Sprites/machine.png",
+                                "m_FilePath": "Assets/Sprites/machine.png",
                                 "filterMode": 9728,
                                 "wrapMode": 33648,
                                 "format": -1
@@ -90,7 +90,7 @@
                         "m_Sprite": {
                             "m_Texture": {
                                 "m_Id": 0,
-                                "m_FilePath": "Sprites/ice_cube.jpg",
+                                "m_FilePath": "Assets/Sprites/ice_cube.jpg",
                                 "filterMode": 9728,
                                 "wrapMode": 33648,
                                 "format": -1
@@ -148,7 +148,7 @@
                         "m_Sprite": {
                             "m_Texture": {
                                 "m_Id": 0,
-                                "m_FilePath": "Sprites/machine.jpg",
+                                "m_FilePath": "Assets/Sprites/machine.jpg",
                                 "filterMode": 9728,
                                 "wrapMode": 33648,
                                 "format": -1
@@ -206,7 +206,7 @@
                         "m_Sprite": {
                             "m_Texture": {
                                 "m_Id": 0,
-                                "m_FilePath": "Sprites/dun_tileset.png",
+                                "m_FilePath": "Assets/Sprites/dun_tileset.png",
                                 "filterMode": 9728,
                                 "wrapMode": 33648,
                                 "format": -1

@@ -38,12 +38,9 @@ namespace codex::editor {
                      m_VariableApplicationDataPath.string());
 
         // ImGui setup
-        static std::string ini_file_path = (m_VariableApplicationDataPath / "imgui.ini").string();
+        auto&              io             = ImGui::GetIO();
+        static std::string ini_file_path  = (m_VariableApplicationDataPath / "imgui.ini").string();
         static std::string font_file_path = (m_ApplicationDataPath / "Fonts/roboto/Roboto-Regular.ttf").string();
-        
-        // Crash on MSVC! GImGui is initialized before the ImGui call thus
-        // CodexEditor thinks there's no active ImGui context.
-        auto&           io            = ImGui::GetIO();
 
         if (!fs::exists(ini_file_path))
         {
@@ -60,8 +57,7 @@ namespace codex::editor {
 
         f32 font_size  = 14.0f;
         io.IniFilename = ini_file_path.c_str();
-        io.FontDefault =
-            io.Fonts->AddFontFromFileTTF(font_file_path.c_str(), font_size);
+        io.FontDefault = io.Fonts->AddFontFromFileTTF(font_file_path.c_str(), font_size);
 
         auto width    = Application::GetWindow().GetWidth();
         auto height   = Application::GetWindow().GetHeight();
@@ -71,22 +67,6 @@ namespace codex::editor {
 
         m_Descriptor = Shared<SceneEditorDescriptor>::From(new SceneEditorDescriptor{ .scene = Box<Scene>::New() });
 
-        // Panels
-        // FIXME: When changing scene, panels hold the reference to the outdated scenes thus resulting in a segfault.
-        // Possible solution would be to either hold reference to the unique_ptr (weird, ugly and undesirable) or
-        // hold a referene to a raw pointer and manage the scene using a raw pointer, this is okay but i feel like we
-        // can do better which why i am thinking about creating a custom memory management system. We will start by
-        // having the following three smart pointer classes which are almost identical to their STL encounterparts:
-        // Box<T>    :: Owns the underlyin objects and uses RAII to manage it. Since it holds exclusive ownership, you
-        // cannot copy, only move it. Shared<T> :: Possibility of having multiple owners for the underlying object. Uses
-        // a reference counter system to manage the object and disposes it when the reference counter hits 0. This is
-        // also thread-safe. Ref<T>    :: Holds a possibly null reference to Box<T> or Shared<T>.
-        //
-        // In the future I might implement a ghetto garbage collector.
-        // Managed<T> :: The underlying object is managed by the garbage collector, the object cannot be copied unless
-        // the .Clone() method is used. Managed<int> obj1 = GC::New<int>(); Managed<int> obj2 = obj1;         // Both
-        // obj1 and obj2 refer to the same underlying object. Managed<int> obj3 = obj1.Clone(); // obj3 holds a
-        // reference to a newly made copy.
         m_SceneHierarchyView = Box<SceneHierarchyView>::New(m_Descriptor.AsRef());
         m_PropertiesView     = Box<PropertiesView>::New(m_Descriptor.AsRef());
 
@@ -116,6 +96,8 @@ namespace codex::editor {
 
     void SceneEditorView::Update(const f32 deltaTime)
     {
+        auto& d = m_Descriptor;
+
         m_BatchShader->Bind();
         m_BatchShader->SetUniformMat4f("u_View", m_Camera->GetViewMatrix());
         m_BatchShader->SetUniformMat4f("u_Proj", m_Camera->GetProjectionMatrix());
@@ -128,7 +110,6 @@ namespace codex::editor {
         m_Descriptor->scene->Update(deltaTime);
         BatchRenderer2D::End();
 
-        /*
         auto [mx, my] = ImGui::GetMousePos();
         mx -= m_ViewportBounds[0].x;
         my -= m_ViewportBounds[0].y;
@@ -143,9 +124,10 @@ namespace codex::editor {
                                m_Framebuffer->GetProperties().height / viewport_size.y };
             Vector2f pos   = { mouse_x, viewport_size.y - mouse_y };
             pos *= scale;
-            pos     = glm::round(pos);
-            i32  id = id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y);
-            auto e       = Entity((entt::entity)id, d->scene.get());
+            pos    = glm::round(pos);
+            i32 id = id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y);
+            fmt::println("Entity Id: {}", id);
+            auto e = Entity((entt::entity)id, d->scene.Get());
             if (e)
             {
                 if (d->selectedEntity.entity)
@@ -160,13 +142,12 @@ namespace codex::editor {
                 d->selectedEntity.entity = e;
                 if (e.HasComponent<SpriteRendererComponent>())
                 {
-                    auto& s                        = e.GetComponent<SpriteRendererComponent>().GetSprite();
+                    auto& s                         = e.GetComponent<SpriteRendererComponent>().GetSprite();
                     d->selectedEntity.overlayColour = s.GetColour();
-                    s.GetColour()                  = m_SelectColour;
+                    s.GetColour()                   = d->selectColour;
                 }
             }
         }
-        */
         m_Framebuffer->Unbind();
     }
 
@@ -204,8 +185,12 @@ namespace codex::editor {
                                 d->selectedEntity.overlayColour;
                             d->selectedEntity.entity = Entity::None();
                         }
-                        m_ProjectPath = std::filesystem::path(std::string{ file });
-                        m_ProjectPath = m_ProjectPath.parent_path();
+                        d->currentProjectPath = fs::path(std::string{ file });
+                        d->currentProjectPath = d->currentProjectPath.parent_path();
+
+                        // NOTE: I do not like this.
+                        fs::current_path(d->currentProjectPath);
+
                         UnloadScriptModule();
                         d->scene.Reset(new Scene());
                         Serializer::DeserializeScene(file, *d->scene);
@@ -219,7 +204,7 @@ namespace codex::editor {
                         auto& c = e.GetComponent<NativeBehaviourComponent>();
                         // c.destroy(&c);
                     }
-                    d->scriptModule.Reset(new DLib(fmt::format("{}/lib/libNBMan.dll", m_ProjectPath.string())));
+                    d->scriptModule.Reset(new DLib(fmt::format("{}/lib/libNBMan.dll", d->currentProjectPath.string())));
                     if (d->scriptModule)
                         fmt::println("Script module reloaded.");
                     else
@@ -398,8 +383,8 @@ namespace codex::editor {
 
     void SceneEditorView::LoadScriptModule()
     {
-        auto d          = m_Descriptor;
-        d->scriptModule = Box<DLib>::New(fmt::format("{}/lib/libNBMan.dll", m_ProjectPath.string()));
+        auto& d         = m_Descriptor;
+        d->scriptModule = Box<DLib>::New(fmt::format("{}/lib/libNBMan.dll", d->currentProjectPath.string()));
         if (d->scriptModule)
             fmt::println("Script module loaded.");
         else
@@ -408,7 +393,7 @@ namespace codex::editor {
 
     void SceneEditorView::UnloadScriptModule()
     {
-        auto d = m_Descriptor;
+        auto& d = m_Descriptor;
         if (d->scriptModule)
             d->scriptModule.Reset();
     }

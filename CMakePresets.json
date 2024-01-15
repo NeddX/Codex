@@ -54,7 +54,7 @@
             }
         },
         {
-            "name": "windows-x86_64-shippig",
+            "name": "windows-x86_64-shipping",
             "displayName": "x86_64 Shipping",
             "installDir": "C:/Program Files/Carbine/Codex Editor",
             "inherits": "windows-x86_64-debug",
@@ -85,7 +85,7 @@
             }
         },
         {
-            "name": "linux-x86_64-shippig",
+            "name": "linux-x86_64-shipping",
             "displayName": "x86_64 Shipping",
             "installDir": "/usr/local",
             "inherits": "linux-x86_64-debug",

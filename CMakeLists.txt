@@ -2,9 +2,6 @@ cmake_minimum_required(VERSION 3.16)
 
 project("Codex")
 
-# For clangd
-set(CMAKE_EXPORT_COMPILE_COMMANDS on)
-
 # ==================================================== # Export macros that
 # describe the current platform   #
 # ==================================================== #
@@ -50,6 +47,21 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 elseif(CMAKE_BUILD_TYPE STREQUAL "Shipping")
   set(CX_BUILD_TYPE_SHIPPING 1)
 endif()
+
+# Export compile_commands.json for the LSPs.
+set(CMAKE_EXPORT_COMPILE_COMMANDS on)
+
+# Create a custom build command and a dummy target for it to copy
+# compile_commands.json to the source directory for LSPs.
+add_custom_command(
+  OUTPUT ${CMAKE_SOURCE_DIR}/compile_commands.json
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/compile_commands.json
+          ${CMAKE_SOURCE_DIR}/compile_commands.json
+  DEPENDS ${CMAKE_BINARY_DIR}/compile_commands.json
+  COMMENT "Copying compile_commands.json...")
+
+add_custom_target(copy_compile_commands ALL
+                  DEPENDS ${CMAKE_SOURCE_DIR}/compile_commands.json)
 
 # Add sub projects add_subdirectory("NetNT") add_subdirectory("CodexAPI")
 add_subdirectory("Codex")
