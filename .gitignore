@@ -5,6 +5,7 @@
 .cache/
 .ignore/
 builds/
+installs/
 compile_commands.json
 build-linux/
 build-nt/

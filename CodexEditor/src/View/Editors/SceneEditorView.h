@@ -43,6 +43,8 @@ namespace codex::editor {
         std::filesystem::path              m_ProjectPath{};
         NativeBehaviour*                   m_Script     = nullptr;
         mem::Shared<SceneEditorDescriptor> m_Descriptor = nullptr;
+        std::filesystem::path              m_ApplicationDataPath{};
+        std::filesystem::path              m_VariableApplicationDataPath{};
 
     private:
         // Panels

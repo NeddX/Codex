@@ -37,10 +37,6 @@ namespace codex::imgui {
         //
         m_CurrentContext = ImGui::GetCurrentContext();
 
-        f32 font_size = 14.0f;
-        io.Fonts->AddFontFromFileTTF("Fonts/roboto/Roboto-Bold.ttf", font_size);
-        io.FontDefault = io.Fonts->AddFontFromFileTTF("Fonts/roboto/Roboto-Regular.ttf", font_size);
-
         ImGui::StyleColorsDark();
 
         ImGuiStyle& style = ImGui::GetStyle();

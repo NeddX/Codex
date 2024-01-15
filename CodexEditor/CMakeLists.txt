@@ -1,7 +1,8 @@
 file(GLOB_RECURSE CODEXEDITOR_SOURCE_FILES "src/*.cpp")
 file(GLOB_RECURSE CODEXEDITOR_HEADER_FILES "src/*.h")
 
-add_executable (CodexEditor ${CODEXEDITOR_HEADER_FILES} ${CODEXEDITOR_SOURCE_FILES})
+add_executable(CodexEditor ${CODEXEDITOR_HEADER_FILES}
+                           ${CODEXEDITOR_SOURCE_FILES})
 
 # Set the C++ Standard to 20 for this target
 set_property(TARGET CodexEditor PROPERTY CXX_STANDARD 20)
@@ -24,10 +25,17 @@ target_sources(CodexEditor PRIVATE ${TFDS_SOURCE_FILES})
 set(IMGUIZMO_INCLUDE_DIRS vendor/ImGuizmo)
 set(IMGUIZMO_SOURCE_FILES vendor/ImGuizmo/ImGuizmo.cpp)
 
+add_definitions(-DCE_INSTALL_DIR="${CMAKE_INSTALL_PREFIX}")
+
 # Dependencies
-message(":: CODEX_CMAKE_SOURCE_DIR: ${CODEX_CMAKE_SOURCE_DIR}")
-install(TARGETS CodexEditor DESTINATION bin)
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
+if(DEFINED CX_PLATFORM_WINDOWS)
+  install(TARGETS CodexEditor DESTINATION bin)
+  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
+elseif(DEFINED CX_PLATFORM_UNIX)
+  install(TARGETS CodexEditor DESTINATION bin)
+  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/"
+          DESTINATION share/${CMAKE_PROJECT_NAME})
+endif()
 
 message(":: Install destiantion: ${CMAKE_INSTALL_PREFIX}")
 

@@ -3,7 +3,9 @@
 #include <tinyfiledialogs.h>
 
 namespace codex::editor {
+    namespace fs = std::filesystem;
     using namespace codex::events;
+    using namespace codex::fs;
     using namespace codex::imgui;
     using namespace codex::mem;
     using namespace codex::graphics;
@@ -11,9 +13,60 @@ namespace codex::editor {
 
     void SceneEditorView::OnAttach()
     {
+#if defined(CX_BUILD_TYPE_DEBUG) || defined(CX_BUILD_TYPE_DEBUG)
+#ifdef CX_PLATFORM_LINUX
+        fmt::println("CEINST: {}", CE_INSTALL_DIR);
+        m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("share/Codex");
+#elif defined(CX_PLATFORM_WINDOWS)
+        m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("bin");
+#endif
+#elif defined(CX_BUILD_TYPE_SHIPPING)
+        m_ApplicationDataPath = fs::path(GetSpecialFolder(SpecialFolder::ApplicationFiles)) / fs::path("Codex/");
+#endif
+        m_VariableApplicationDataPath =
+            fs::path(GetSpecialFolder(SpecialFolder::UserApplicationData)) / fs::path("Codex/");
+
+        if (!fs::exists(m_VariableApplicationDataPath))
+        {
+            try
+            {
+                fs::create_directory(m_VariableApplicationDataPath);
+            }
+            catch (const std::exception& ex)
+            {
+                fmt::println("[Warning] :: Failed to create application data folder!");
+            }
+        }
+
+        fmt::println("[Info] :: AppDataPath: '{}' VarAppDataPath: '{}'", m_ApplicationDataPath.c_str(),
+                     m_VariableApplicationDataPath.c_str());
+
+        // ImGui setup
+        static fs::path ini_file_path = m_VariableApplicationDataPath / "imgui.ini";
+        auto&           io            = ImGui::GetIO();
+
+        if (!fs::exists(ini_file_path))
+        {
+            try
+            {
+                fs::copy_file(m_ApplicationDataPath / "imgui.ini", m_VariableApplicationDataPath / "imgui.ini");
+            }
+            catch (const std::exception& ex)
+            {
+                fmt::println("[Warning] :: Failed to create variable application data folder! Some data will be lost "
+                             "after closing the application.");
+            }
+        }
+
+        f32 font_size  = 14.0f;
+        io.IniFilename = ini_file_path.c_str();
+        io.Fonts->AddFontFromFileTTF((m_ApplicationDataPath / "Fonts/roboto/Roboto-Bold.ttf").c_str(), font_size);
+        io.FontDefault =
+            io.Fonts->AddFontFromFileTTF((m_ApplicationDataPath / "Fonts/roboto/Roboto-Bold.ttf").c_str(), font_size);
+
         auto width    = Application::GetWindow().GetWidth();
         auto height   = Application::GetWindow().GetHeight();
-        m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
+        m_BatchShader = Resources::Load<Shader>(m_ApplicationDataPath / "GLShaders/batchRenderer.glsl");
         m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
         m_Camera = Box<Camera>::New(width, height);
 

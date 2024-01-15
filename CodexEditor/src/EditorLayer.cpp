@@ -3,7 +3,9 @@
 #include <ImGuizmo.h>
 #include <tinyfiledialogs.h>
 
+namespace stdfs = std::filesystem;
 using namespace codex::events;
+using namespace codex::fs;
 using namespace codex::imgui;
 using namespace codex::mem;
 using namespace codex::graphics;
@@ -14,7 +16,7 @@ void EditorLayer::OnAttach()
     auto width    = Application::GetWindow().GetWidth();
     auto height   = Application::GetWindow().GetHeight();
     m_Scene       = Box<Scene>::New();
-    m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderer.glsl");
+    m_BatchShader = Resources::Load<Shader>("GLShaders/batchRenderera.glsl");
     m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
     m_Camera = Box<Camera>::New(width, height);
 

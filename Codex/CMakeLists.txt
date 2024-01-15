@@ -65,6 +65,17 @@ else()
   target_compile_definitions(CodexEngine-static PUBLIC CX_WORD_SIZE_32)
 endif()
 
+if(DEFINED CX_BUILD_TYPE_DEBUG)
+  target_compile_definitions(CodexEngine PUBLIC CX_BUILD_TYPE_DEBUG)
+  target_compile_definitions(CodexEngine-static PUBLIC CX_BUILD_TYPE_DEBUG)
+elseif(DEFINED CX_BUILD_TYPE_RELEASE)
+  target_compile_definitions(CodexEngine PUBLIC CX_BUILD_TYPE_RELEASE)
+  target_compile_definitions(CodexEngine-static PUBLIC CX_BUILD_TYPE_RELEASE)
+elseif(DEFINED CX_BUILD_TYPE_SHIPPING)
+  target_compile_definitions(CodexEngine PUBLIC CX_BUILD_TYPE_SHIPPING)
+  target_compile_definitions(CodexEngine-static PUBLIC CX_BUILD_TYPE_SHIPPING)
+endif()
+
 # Print the platform information
 message(":: Platform OS: ${CMAKE_SYSTEM_NAME}")
 message(":: Platform Compiler: ${CMAKE_CXX_COMPILER_ID}")
@@ -220,18 +231,9 @@ target_compile_definitions(
 
 # ======================= # INSTALLATION # ======================= #
 if(DEFINED CX_PLATFORM_WINDOWS)
-  install(
-    TARGETS SDL2
-            SDL2main
-            glm
-            glad
-            nlohmann_json
-            CodexEngine
-    DESTINATION bin)
-  install(
-    TARGETS CodexEngine-static
-            MGL
-    DESTINATION "bin/Object Libraries")
+  install(TARGETS SDL2 SDL2main glm glad nlohmann_json CodexEngine
+          DESTINATION bin)
+  install(TARGETS CodexEngine-static MGL DESTINATION "bin/Object Libraries")
   install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
 
   # Program Files (or same location as the binary) for unmodifiable file data.
@@ -248,7 +250,7 @@ elseif(DEFINED CX_PLATFORM_UNIX)
             CodexEngine-static
     DESTINATION lib)
   install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/"
-          DESTINATION share/"${CMAKE_PROJECT_NAME}")
+          DESTINATION share/${CMAKE_PROJECT_NAME})
 
   # /etc/appname for global configuration files. /usr/local/share/appname for
   # unmodifiable data. /usr/local/(lib, bin)/appname for unmodifiable and

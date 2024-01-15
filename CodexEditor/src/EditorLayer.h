@@ -37,6 +37,8 @@ private:
     NativeBehaviour*                  m_Script          = nullptr;
     mem::Box<DLib>                    m_ScriptModule    = nullptr;
     mem::Box<editor::SceneEditorView> m_SceneEditorView = nullptr;
+    std::filesystem::path             m_ApplicationDataPath{};
+    std::filesystem::path             m_VariableApplicationDataPath{};
 
 public:
     void OnAttach() override;

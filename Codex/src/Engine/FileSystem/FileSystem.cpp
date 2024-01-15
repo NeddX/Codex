@@ -3,7 +3,7 @@
 namespace codex::fs {
     std::filesystem::path GetSpecialFolder(const SpecialFolder folder) noexcept
     {
-        namespace stdfs = std::filesystem;
+        namespace fs = std::filesystem;
 
 #if defined(CX_PLATFORM_LINUX)
         static const char* home_dir = std::getenv("HOME");
@@ -20,14 +20,19 @@ namespace codex::fs {
         {
             using enum SpecialFolder;
 
-            case ApplicationData: return stdfs::relative({ home_dir }, { "/.config" });
-            case Desktop: return stdfs::relative({ home_dir }, { "/Desktop" });
+            case ApplicationFiles: return "/usr/local/share";
+            case ApplicationData: return "/var/local";
+            case UserApplicationData: return fs::path(home_dir) / ".config/";
+            case Desktop: return fs::path(home_dir) / "/Desktop";
             case Fonts: return "/usr/share/fonts";
             case Temporary: return "/tmp";
             case User: return { home_dir };
             default: return {};
         }
 #elif defined(CX_PLATFORM_OSX)
+
+        // bruh...
+
 #elif defined(CX_PLATFORM_WINDOWS)
         static char* home_dir = std::getenv("USERPROFILE");
 
@@ -35,8 +40,10 @@ namespace codex::fs {
         {
             using enum SpecialFolder;
 
+            case ApplicationFiles: return { std::getenv("ProgramFiles") };
             case ApplicationData: return { std::getenv("APPDATA") };
-            case Desktop: return stdfs::relative({ home_dir }, { "/Desktop" });
+            case UserApplicationData: return { std::genenv("LOCALAPPDATA") };
+            case Desktop: return fs::path(home_dir) / "/Desktop";
             case Fonts: return { "C:/Windows/Fonts" };
             case Temporary: return { std::getenv("temp") };
             case User: return { home_dir };

@@ -6,7 +6,9 @@
 namespace codex::fs {
     enum class SpecialFolder
     {
+        ApplicationFiles,
         ApplicationData,
+        UserApplicationData,
         Desktop,
         Fonts,
         Temporary,

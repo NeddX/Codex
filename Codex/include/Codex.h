@@ -18,6 +18,9 @@
 #include "../src/Engine/Events/KeyEvent.h"
 #include "../src/Engine/Events/MouseEvent.h"
 
+// File system
+#include "../src/Engine/FileSystem/FileSystem.h"
+
 // Math
 #include "../src/Engine/Math/Math.h"
 

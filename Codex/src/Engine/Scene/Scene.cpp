@@ -25,6 +25,8 @@ namespace codex {
     }
 
     // NOTE: Potentially non-standard!
+    // QUESTION: Why?
+    // NOTE: You're talking to yourself.
     template <typename T>
     std::vector<Entity> Scene::GetAllEntitiesWithComponent()
     {
@@ -36,6 +38,7 @@ namespace codex {
         return entities;
     }
 
+    // NOTE: Don't forget to update this when new components get added, LOL.
     template std::vector<Entity> Scene::GetAllEntitiesWithComponent<TagComponent>();
     template std::vector<Entity> Scene::GetAllEntitiesWithComponent<TransformComponent>();
     template std::vector<Entity> Scene::GetAllEntitiesWithComponent<SpriteRendererComponent>();

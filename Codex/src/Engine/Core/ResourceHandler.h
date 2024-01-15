@@ -38,14 +38,14 @@ namespace codex {
         static void Destroy();
 
     private:
-        static ResRef<graphics::Texture2D> Load_Texture2D(const std::string_view            filePath,
+        static ResRef<graphics::Texture2D> Load_Texture2D(const std::filesystem::path       filePath,
                                                           const graphics::TextureProperties props = {});
-        static ResRef<graphics::Shader>    Load_Shader(const std::string_view filePath,
-                                                       const std::string_view version = "330 core");
+        static ResRef<graphics::Shader>    Load_Shader(const std::filesystem::path filePath,
+                                                       const std::string_view      version = "330 core");
 
     public:
         template <typename T, typename... TArgs>
-        static ResRef<T> Load(const std::string_view filePath, TArgs&&... args)
+        static ResRef<T> Load(const std::filesystem::path filePath, TArgs&&... args)
         {
             using namespace codex::graphics;
 
@@ -70,12 +70,12 @@ namespace codex {
                     fmt::format("Hash Id {} was not present in the resource pool.", id).c_str());
         }
         template <typename T>
-        static ResRef<T> GetResource(const std::string_view filePath)
+        static ResRef<T> GetResource(const std::filesystem::path filePath)
         {
-            return GetResource<T>(util::Crypto::DJB2Hash(filePath));
+            return GetResource<T>(util::Crypto::DJB2Hash(filePath.c_str()));
         }
         static bool                                          HasResource(const usize id);
-        static bool                                          HasResource(const std::string_view filePath);
+        static bool                                          HasResource(const std::filesystem::path filePath);
         static std::unordered_map<usize, ResRef<IResource>>& GetAllResources();
     };
 } // namespace codex
