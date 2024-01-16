@@ -14,7 +14,6 @@ namespace codex::editor {
     void SceneEditorView::OnAttach()
     {
 #ifdef CX_PLATFORM_LINUX
-        fmt::println("CEINST: {}", CE_INSTALL_DIR);
         m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("share/Codex");
 #elif defined(CX_PLATFORM_WINDOWS)
         m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("bin");
@@ -34,8 +33,8 @@ namespace codex::editor {
             }
         }
 
-        fmt::println("[Info] :: AppDataPath: '{}' VarAppDataPath: '{}'", m_ApplicationDataPath.string(),
-                     m_VariableApplicationDataPath.string());
+        fmt::println("[Info] :: Application data path: '{}'", m_ApplicationDataPath.string());
+        fmt::println("[Info] :: Variable application data path: '{}'", m_VariableApplicationDataPath.string());
 
         // ImGui setup
         auto&              io             = ImGui::GetIO();
@@ -61,7 +60,7 @@ namespace codex::editor {
 
         auto width    = Application::GetWindow().GetWidth();
         auto height   = Application::GetWindow().GetHeight();
-        m_BatchShader = Resources::Load<Shader>(m_ApplicationDataPath / "GLShaders/batchRenderer.glsl");
+        m_BatchShader = Resources::Load<Shader>(m_ApplicationDataPath / "GL Shaders/batchRenderer.glsl");
         m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
         m_Camera = Box<Camera>::New(width, height);
 
@@ -125,8 +124,7 @@ namespace codex::editor {
             Vector2f pos   = { mouse_x, viewport_size.y - mouse_y };
             pos *= scale;
             pos    = glm::round(pos);
-            i32 id = id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y);
-            fmt::println("Entity Id: {}", id);
+            const i32 id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y);
             auto e = Entity((entt::entity)id, d->scene.Get());
             if (e)
             {
@@ -159,11 +157,10 @@ namespace codex::editor {
         // ImGuizmo
         ImGuizmo::BeginFrame();
 
-        bool show_demo_window = true;
-
         // Enable docking on the main window.
         ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
+        static bool show_demo_window = true;
         ImGui::ShowDemoWindow(&show_demo_window);
 
         // File menu
@@ -172,6 +169,12 @@ namespace codex::editor {
             if (ImGui::BeginMenu("File"))
             {
                 // Add File menu items here
+                if (ImGui::MenuItem("Create new project", "Ctrl+N"))
+                {
+                    
+
+                    // Show our beloved window :))))
+                }
                 if (ImGui::MenuItem("Open", "Ctrl+O"))
                 {
                     const char* filters[]{ "*.cxproj" };
@@ -185,7 +188,7 @@ namespace codex::editor {
                                 d->selectedEntity.overlayColour;
                             d->selectedEntity.entity = Entity::None();
                         }
-                        d->currentProjectPath = fs::path(std::string{ file });
+                        d->currentProjectPath = fs::path(file);
                         d->currentProjectPath = d->currentProjectPath.parent_path();
 
                         // NOTE: I do not like this.
