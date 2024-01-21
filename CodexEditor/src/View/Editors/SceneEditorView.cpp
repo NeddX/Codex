@@ -123,9 +123,9 @@ namespace codex::editor {
                                m_Framebuffer->GetProperties().height / viewport_size.y };
             Vector2f pos   = { mouse_x, viewport_size.y - mouse_y };
             pos *= scale;
-            pos    = glm::round(pos);
+            pos          = glm::round(pos);
             const i32 id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y);
-            auto e = Entity((entt::entity)id, d->scene.Get());
+            auto      e  = Entity((entt::entity)id, d->scene.Get());
             if (e)
             {
                 if (d->selectedEntity.entity)
@@ -171,8 +171,6 @@ namespace codex::editor {
                 // Add File menu items here
                 if (ImGui::MenuItem("Create new project", "Ctrl+N"))
                 {
-                    
-
                     // Show our beloved window :))))
                 }
                 if (ImGui::MenuItem("Open", "Ctrl+O"))
