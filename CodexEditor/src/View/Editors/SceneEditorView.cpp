@@ -171,6 +171,8 @@ namespace codex::editor {
                 // Add File menu items here
                 if (ImGui::MenuItem("Create new project", "Ctrl+N"))
                 {
+                    ImGui::OpenPopup("modean");
+
                     // Show our beloved window :))))
                 }
                 if (ImGui::MenuItem("Open", "Ctrl+O"))
@@ -344,6 +346,24 @@ namespace codex::editor {
 
             ImGui::End();
         }
+
+        // Create project
+        {
+            ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+            ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+            if (ImGui::BeginPopupModal("modean", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+            {
+                ImGui::Text("No");
+                ImGui::Separator();
+
+                if (ImGui::Button("I understand", ImVec2(120, 0)))
+                    ImGui::CloseCurrentPopup();
+                ImGui::EndPopup();
+            }
+        }
+
+        if (ImGui::Button("New"))
+            ImGui::OpenPopup("modean");
 
         // Render info
         {

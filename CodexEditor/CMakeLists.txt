@@ -37,7 +37,5 @@ elseif(DEFINED CX_PLATFORM_UNIX)
           DESTINATION share/${CMAKE_PROJECT_NAME})
 endif()
 
-message(":: Install destiantion: ${CMAKE_INSTALL_PREFIX}")
-
 target_include_directories(CodexEditor PUBLIC ${IMGUIZMO_INCLUDE_DIRS})
 target_sources(CodexEditor PRIVATE ${IMGUIZMO_SOURCE_FILES})

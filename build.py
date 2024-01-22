@@ -5,12 +5,15 @@ import re
 import sys
 import time
 import shutil
+import platform
 from enum import Enum
 import subprocess as sb
 
 class Action:
-    Nope = 0
-    Build = 1
+    Nope    = 0,
+    Build   = 1,
+    Clear   = 2,
+    Install = 3
 
 class Chrono:
     tp = None
@@ -27,17 +30,19 @@ class Chrono:
         return elapsed * 1000
 
 action = Action.Build
+auxilary_action = Action.Nope
 preset = None
 stdoutput = None
+parallel = True
 
 def log(msg):
-    print(f'[Build][Info] :: {msg}')
+    print(f'[Build] [Info] :: {msg}')
 
 def warn(msg):
-    print(f'[Build][Warning] :: {msg}')
+    print(f'[Build] [Warning] :: {msg}')
 
 def err(msg):
-    print(f'[Build][Warning] :: {msg}')
+    print(f'[Build] [Warning] :: {msg}')
 
 def panic(msg, exit_code = 1):
     err(msg)
@@ -48,7 +53,7 @@ def run(cmd, shell = True, stdout = None, stderr = None, capture_output = False,
 
 def get_cmake_presets():
     # Pythonic autism
-    res = run('cmake --list-presets', shell=True, stdout=sb.PIPE, stderr=sb.PIPE)
+    res = run('cmake --list-presets', shell=True, stdout=sb.DEVNULL)
     output = res.stdout.decode('utf-8')
     if output == "":
         return []
@@ -73,32 +78,74 @@ for i in range(0, len(args)):
         action = Action.Build
         preset = arg.split('=')[1]
     elif larg == '--no-out':
-        stdoutput = sb.PIPE
+        stdoutput = sb.DEVNULL
+    elif larg == '--no-parallel':
+        parallel = False
+    elif larg == '--clear':
+        action = Action.Clear
+    elif larg == '--install':
+        auxilary_action = Action.Install
 
 if action == Action.Build:
-    if preset != None:
-        log('User defined preset')
-        res = run(f'cmake --preset={preset}', stdout=stdoutput, stderr=stdoutput)
-        if res.returncode != 0:
-            if not preset in get_cmake_presets():
-                panic(f'Build failed because \'{preset}\' is not an actual preset.')
-
-            else:
-                panic('Build failed for unknown reason(s).')
-
-        else:
-            Chrono.begin()
-            log('CMake generation started.')
-            run(f'cmake --preset={preset}', stdout=stdoutput)
-            elapsed = Chrono.end()
-            log('CMake generation finished. Took: ' + '{:.2f}'.format(elapsed) + 'ms')
-            Chrono.begin()
-            run(f'cmake --build builds/{preset}', stdout=stdoutput)
-            elapsed = Chrono.end()
-            log(f'CMake build finished. Took: ' + '{:.2f}'.format(elapsed) + 'ms')
-
-    else:
+    if preset == None:
         presets = get_cmake_presets()
         if not presets:
             panic(f'Platform not supported.')
-            log(f'Defaulting to: {presets[0]}')
+        log(f'Defaulting to: {presets[0]}')
+        preset = presets[0]
+
+    res = run(f'cmake --preset={preset}', stdout=stdoutput, stderr=stdoutput)
+    if res.returncode != 0:
+        if not preset in get_cmake_presets():
+            panic(f'Build failed because \'{preset}\' is not an actual preset.')
+
+        else:
+            panic('Build failed for unknown reason(s).')
+
+    else:
+        Chrono.begin()
+        log('CMake generation started.')
+        res = run(f'cmake --preset={preset}', stdout=stdoutput)
+        if res.returncode != 0:
+            panic('CMake generation unexpectedly failed.')
+
+        elapsed = Chrono.end()
+        log('CMake generation finished. Took: ' + '{:.2f}ms'.format(elapsed))
+        Chrono.begin()
+        res = run(f'cmake --build builds/{preset}' + (' --parallel' if parallel else ''), stdout=stdoutput)
+        if res.returncode != 0:
+            panic('CMake build unexpectedly failed.')
+
+        elapsed = Chrono.end()
+        log(f'CMake build finished. Took: ' + '{:.2f}ms'.format(elapsed))
+
+        #  Might write a separate script for installation.
+        if auxilary_action == Action.Install:
+            log('CMake installation started.')
+            Chrono.begin()
+
+            if platform.system() in ['Linux', 'Darwin']:
+                res = run(f'sudo cmake --install builds/{preset}', stdout=stdoutput)
+            elif platform.system() == 'Windows':
+                panic("I haven't figured out how to ask for admin privileges on python for windows yet")
+
+            if res.returncode != 0:
+                panic('CMake install unexpectedly failed.')
+
+            elapsed = Chrono.end()
+            log(f'CMake installation finished. Took: ' + '{:.2f}ms'.format(elapsed))
+
+elif action == Action.Clear:
+    if preset == None:
+        presets = get_cmake_presets()
+        if not presets:
+            panic(f'Platform not supported.')
+        log(f'Defaulting to: {presets[0]}')
+        preset = presets[0]
+
+    Chrono.begin()
+    run(f'cmake --build builds/{preset} --target clean')
+    elapsed = Chrono.end()
+    log(f'CMake clean finished. Took: ' + '{:.2f}ms'.format(elapsed))
+
+log(f'Done.')

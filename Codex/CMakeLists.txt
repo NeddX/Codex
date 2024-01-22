@@ -122,8 +122,6 @@ target_link_libraries(CodexEngine ${FMT_LIBRARIES})
 target_include_directories(CodexEngine-static PRIVATE ${FMT_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${FMT_LIBRARIES})
 
-# install(TARGETS fmt DESTINATION bin)
-
 # nlohmann json
 add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json EXCLUDE_FROM_ALL)
 set(JSON_INCLUDE_DIRS vendor/json/include)
@@ -147,6 +145,13 @@ target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${GLAD_LIBRARIES})
 
 # ImGui
+
+# Define these so ImGui doesn't try and load OpenGL functions because we have
+# GLAD for that.
+target_compile_definitions(CodexEngine PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
+target_compile_definitions(CodexEngine-static
+                           PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
+
 set(IMGUI_INCLUDE_DIRS vendor/imgui vendor/imgui/backends vendor/imgui/examples
                        vendor/imgui/misc)
 file(
