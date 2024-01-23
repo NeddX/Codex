@@ -165,78 +165,90 @@ namespace codex::editor {
 
         // File menu
         {
-            ImGui::BeginMainMenuBar();
-            if (ImGui::BeginMenu("File"))
+            if (ImGui::BeginMainMenuBar())
             {
-                // Add File menu items here
-                if (ImGui::MenuItem("Create new project", "Ctrl+N"))
+                if (ImGui::BeginMenu("File"))
                 {
-                    ImGui::OpenPopup("modean");
-
-                    // Show our beloved window :))))
-                }
-                if (ImGui::MenuItem("Open", "Ctrl+O"))
-                {
-                    const char* filters[]{ "*.cxproj" };
-                    const char* file = tinyfd_openFileDialog("Load a Project.", nullptr, 1, filters, nullptr, 0);
-                    if (file)
+                    // Add File menu items here
+                    if (ImGui::MenuItem("Create new project", "Ctrl+N")) {}
+                    if (ImGui::MenuItem("Open", "Ctrl+O"))
                     {
-                        if (d->selectedEntity.entity &&
-                            d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
+                        const char* filters[]{ "*.cxproj" };
+                        const char* file = tinyfd_openFileDialog("Load a Project.", nullptr, 1, filters, nullptr, 0);
+                        if (file)
                         {
-                            d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
-                                d->selectedEntity.overlayColour;
-                            d->selectedEntity.entity = Entity::None();
+                            if (d->selectedEntity.entity &&
+                                d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
+                            {
+                                d->selectedEntity.entity.GetComponent<SpriteRendererComponent>()
+                                    .GetSprite()
+                                    .GetColour()         = d->selectedEntity.overlayColour;
+                                d->selectedEntity.entity = Entity::None();
+                            }
+                            d->currentProjectPath = fs::path(file);
+                            d->currentProjectPath = d->currentProjectPath.parent_path();
+
+                            // NOTE: I do not like this.
+                            fs::current_path(d->currentProjectPath);
+
+                            UnloadScriptModule();
+                            d->scene.Reset(new Scene());
+                            Serializer::DeserializeScene(file, *d->scene);
                         }
-                        d->currentProjectPath = fs::path(file);
-                        d->currentProjectPath = d->currentProjectPath.parent_path();
-
-                        // NOTE: I do not like this.
-                        fs::current_path(d->currentProjectPath);
-
-                        UnloadScriptModule();
-                        d->scene.Reset(new Scene());
-                        Serializer::DeserializeScene(file, *d->scene);
                     }
-                }
-                if (ImGui::MenuItem("Reload Script Module"))
-                {
-                    auto entities = d->scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
-                    for (auto& e : entities)
+                    if (ImGui::MenuItem("Reload Script Module"))
                     {
-                        auto& c = e.GetComponent<NativeBehaviourComponent>();
-                        // c.destroy(&c);
+                        auto entities = d->scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
+                        for (auto& e : entities)
+                        {
+                            auto& c = e.GetComponent<NativeBehaviourComponent>();
+                            // c.destroy(&c);
+                        }
+                        d->scriptModule.Reset(
+                            new DLib(fmt::format("{}/lib/libNBMan.dll", d->currentProjectPath.string())));
+                        if (d->scriptModule)
+                            fmt::println("Script module reloaded.");
+                        else
+                            fmt::println("Failed to reload script module.");
                     }
-                    d->scriptModule.Reset(new DLib(fmt::format("{}/lib/libNBMan.dll", d->currentProjectPath.string())));
-                    if (d->scriptModule)
-                        fmt::println("Script module reloaded.");
-                    else
-                        fmt::println("Failed to reload script module.");
-                }
-                if (ImGui::MenuItem("Unload Script Module"))
-                {
-                    auto entities = d->scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
-                    for (auto& e : entities)
+                    if (ImGui::MenuItem("Unload Script Module"))
                     {
-                        auto&                         c = e.GetComponent<NativeBehaviourComponent>();
-                        std::vector<std::string_view> scripts;
-                        for (const auto& [k, v] : c.behaviours)
-                            scripts.push_back(k);
-                        for (const auto& e : scripts)
-                            c.Detach(e);
+                        auto entities = d->scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
+                        for (auto& e : entities)
+                        {
+                            auto&                         c = e.GetComponent<NativeBehaviourComponent>();
+                            std::vector<std::string_view> scripts;
+                            for (const auto& [k, v] : c.behaviours)
+                                scripts.push_back(k);
+                            for (const auto& e : scripts)
+                                c.Detach(e);
+                        }
+                        d->scriptModule.Reset(nullptr);
                     }
-                    d->scriptModule.Reset(nullptr);
-                }
-                if (ImGui::MenuItem("Save", "Ctrl+S"))
-                {
-                    // Handle the "Save" action
-                    static const char* save_dir = nullptr;
-                    if (!save_dir)
+                    if (ImGui::MenuItem("Save", "Ctrl+S"))
                     {
-                        auto&       c = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
-                        const char* filter_patterns[] = { "*.cxproj" };
-                        save_dir = tinyfd_saveFileDialog("Save Project", "default.cxproj", 1, filter_patterns, NULL);
-                        if (save_dir)
+                        // Handle the "Save" action
+                        static const char* save_dir = nullptr;
+                        if (!save_dir)
+                        {
+                            auto& c = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
+                            const char* filter_patterns[] = { "*.cxproj" };
+                            save_dir =
+                                tinyfd_saveFileDialog("Save Project", "default.cxproj", 1, filter_patterns, NULL);
+                            if (save_dir)
+                            {
+                                if (d->selectedEntity.entity &&
+                                    d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
+                                {
+                                    d->selectedEntity.entity.GetComponent<SpriteRendererComponent>()
+                                        .GetSprite()
+                                        .GetColour()         = d->selectedEntity.overlayColour;
+                                    d->selectedEntity.entity = Entity::None();
+                                }
+                                Serializer::SerializeScene(save_dir, *d->scene);
+                            }
+                        }
+                        else
                         {
                             if (d->selectedEntity.entity &&
                                 d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
@@ -249,26 +261,15 @@ namespace codex::editor {
                             Serializer::SerializeScene(save_dir, *d->scene);
                         }
                     }
-                    else
+                    if (ImGui::MenuItem("Exit", "Alt+F4"))
                     {
-                        if (d->selectedEntity.entity &&
-                            d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
-                        {
-                            d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
-                                d->selectedEntity.overlayColour;
-                            d->selectedEntity.entity = Entity::None();
-                        }
-                        Serializer::SerializeScene(save_dir, *d->scene);
+                        Application::Get().Stop();
                     }
-                }
-                if (ImGui::MenuItem("Exit", "Alt+F4"))
-                {
-                    Application::Get().Stop();
-                }
 
-                ImGui::EndMenu();
+                    ImGui::EndMenu();
+                }
+                ImGui::EndMainMenuBar();
             }
-            ImGui::EndMainMenuBar();
         }
 
         // Debug viewport
@@ -346,24 +347,6 @@ namespace codex::editor {
 
             ImGui::End();
         }
-
-        // Create project
-        {
-            ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-            ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-            if (ImGui::BeginPopupModal("modean", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-            {
-                ImGui::Text("No");
-                ImGui::Separator();
-
-                if (ImGui::Button("I understand", ImVec2(120, 0)))
-                    ImGui::CloseCurrentPopup();
-                ImGui::EndPopup();
-            }
-        }
-
-        if (ImGui::Button("New"))
-            ImGui::OpenPopup("modean");
 
         // Render info
         {

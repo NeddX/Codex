@@ -30,7 +30,7 @@ class Chrono:
         return elapsed * 1000
 
 action = Action.Build
-auxilary_action = Action.Nope
+auxiliary_action = Action.Nope
 preset = None
 stdoutput = None
 parallel = True
@@ -52,14 +52,16 @@ def run(cmd, shell = True, stdout = None, stderr = None, capture_output = False,
     return sb.run(cmd, shell=shell, stdout=stdout, stderr=stderr, capture_output=capture_output, text=text)
 
 def get_cmake_presets():
-    # Pythonic autism
     res = run('cmake --list-presets', shell=True, stdout=sb.DEVNULL)
     output = res.stdout.decode('utf-8')
     if output == "":
         return []
+
+    # Pythonic autism
     presets = output.replace(' ', '').split('\n')
     presets = presets[2:-1]
-    presets = [(s[:s.rfind('"')])[1:] for s in presets] # lol
+    presets = [(s[:s.rfind('"')])[1:] for s in presets]
+
     return presets
 
 args = sys.argv[1:]
@@ -84,7 +86,7 @@ for i in range(0, len(args)):
     elif larg == '--clear':
         action = Action.Clear
     elif larg == '--install':
-        auxilary_action = Action.Install
+        auxiliary_action = Action.Install
 
 if action == Action.Build:
     if preset == None:
@@ -120,7 +122,7 @@ if action == Action.Build:
         log(f'CMake build finished. Took: ' + '{:.2f}ms'.format(elapsed))
 
         #  Might write a separate script for installation.
-        if auxilary_action == Action.Install:
+        if auxiliary_action == Action.Install:
             log('CMake installation started.')
             Chrono.begin()
 
