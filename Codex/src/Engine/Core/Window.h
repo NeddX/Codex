@@ -29,6 +29,23 @@ namespace codex {
         constexpr const char* default_message() const noexcept override { return "GLAD failed to initialize."; }
     };
 
+    enum class WindowFlags : u32
+    {
+        PositionCentre = SDL_WINDOWPOS_CENTERED,
+        Resizable      = SDL_WINDOW_RESIZABLE,
+        FullScreen     = SDL_WINDOW_FULLSCREEN,
+        Visible        = SDL_WINDOW_SHOWN,
+        Hidden         = SDL_WINDOW_HIDDEN,
+        Borderless     = SDL_WINDOW_BORDERLESS,
+        Minimized      = SDL_WINDOW_MINIMIZED,
+        Maximized      = SDL_WINDOW_MAXIMIZED,
+        SkipTaskbar    = SDL_WINDOW_SKIP_TASKBAR,
+        OpenGLContext  = SDL_WINDOW_OPENGL
+    };
+
+    // TODO: Move this outta here!
+    WindowFlags operator|(const WindowFlags& lhv, const WindowFlags& rhv) noexcept;
+
     struct CODEX_API WindowProperties
     {
         const char* title      = "Codex - Window";
@@ -37,7 +54,7 @@ namespace codex {
         i32         posX       = SDL_WINDOWPOS_CENTERED;
         i32         posY       = SDL_WINDOWPOS_CENTERED;
         u32         frameCap   = 300;
-        u32         flags      = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+        WindowFlags flags      = WindowFlags::Visible | WindowFlags::Resizable;
         bool        vsync      = true;
         bool        borderless = false;
     };
@@ -53,7 +70,7 @@ namespace codex {
         std::string                           m_Title;
         i32                                   m_Width, m_Height;
         i32                                   m_PosX, m_PosY;
-        u32                                   m_Flags;
+        WindowFlags                           m_Flags;
         u32                                   m_Fps, m_FrameCount, m_FrameCap;
         std::chrono::system_clock::time_point m_Tp1, m_Tp2;
         const void*                           m_NativeWindow;

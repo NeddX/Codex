@@ -13,6 +13,11 @@ namespace codex {
     using namespace codex::imgui;
     using namespace codex::graphics;
 
+    WindowFlags operator|(const WindowFlags& lhv, const WindowFlags& rhv) noexcept
+    {
+        return (WindowFlags)((u32)lhv | (u32)rhv);
+    }
+
     Window::Window()
     {
     }
@@ -69,7 +74,7 @@ namespace codex {
         }
         else
             m_SdlWindow = SDL_CreateWindow(m_Title.c_str(), m_PosX, m_PosY, m_Width, m_Height,
-                                           m_Flags | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+                                           (u32)m_Flags | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
 
         if (!m_SdlWindow)
         {

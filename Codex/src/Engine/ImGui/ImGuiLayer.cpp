@@ -33,8 +33,7 @@ namespace codex::imgui {
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         // Viewports are very buggy when docking as of now.
-        // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-        //
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
         m_CurrentContext = ImGui::GetCurrentContext();
 
         ImGui::StyleColorsDark();
@@ -42,7 +41,7 @@ namespace codex::imgui {
         ImGuiStyle& style = ImGui::GetStyle();
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
-            style.WindowRounding              = 0.0f;
+            style.WindowRounding              = 0.5f;
             style.Colors[ImGuiCol_WindowBg].w = 1.0f;
         }
 

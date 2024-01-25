@@ -10,10 +10,7 @@ public:
     using codex::Application::Application;
 
 public:
-    void Init() override
-    {
-        PushLayer(new codex::editor::SceneEditorView());
-    }
+    void Init() override { PushLayer(new codex::editor::SceneEditorView()); }
 
 public:
     ~CodexEditor() override {}
@@ -21,15 +18,15 @@ public:
 
 codex::Application* codex::CreateApplication(codex::ApplicationCLIArgs args)
 {
-    return new CodexEditor(
-        codex::ApplicationProperties{ .name             = "CodexEditor",
-                                      .cwd              = "./",
-                                      .args             = std::move(args),
-                                      .windowProperties = {
-                                          .width    = 1280,
-                                          .height   = 720,
-                                          .frameCap = 300,
-                                          .flags    = SDL_WINDOW_MAXIMIZED | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE,
-                                          .vsync    = false,
-                                      } });
+    return new CodexEditor(codex::ApplicationProperties{
+        .name             = "CodexEditor",
+        .cwd              = "./",
+        .args             = std::move(args),
+        .windowProperties = {
+            .width    = 1280,
+            .height   = 720,
+            .frameCap = 300,
+            .flags    = codex::WindowFlags::Maximized | codex::WindowFlags::Visible | codex::WindowFlags::Resizable,
+            .vsync    = false,
+        } });
 }
