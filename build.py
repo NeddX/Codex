@@ -52,9 +52,12 @@ def run(cmd, shell = True, stdout = None, stderr = None, capture_output = False,
     return sb.run(cmd, shell=shell, stdout=stdout, stderr=stderr, capture_output=capture_output, text=text)
 
 def get_cmake_presets():
-    res = run('cmake --list-presets', shell=True, stdout=sb.DEVNULL)
-    output = res.stdout.decode('utf-8')
-    if output == "":
+    res = run('cmake --list-presets', shell=True, stdout=sb.PIPE)
+    if res:
+        output = res.stdout.decode('utf-8')
+        if output == '':
+            return []
+    else:
         return []
 
     # Pythonic autism

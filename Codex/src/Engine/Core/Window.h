@@ -7,6 +7,7 @@
 #include "../Renderer/Renderer.h"
 #include "CommonDef.h"
 #include "Exception.h"
+#include "Geomtryd.h"
 
 namespace codex {
     // Forward declerations
@@ -94,7 +95,18 @@ namespace codex {
         inline void           SetTitle(const char* newTitle) noexcept { SDL_SetWindowTitle(m_SdlWindow, newTitle); }
         inline SDL_Window*    GetNativeWindow() noexcept { return m_SdlWindow; }
         inline SDL_GLContext* GetGlContext() noexcept { return &m_GlContext; }
-        inline void SetEventCallback(const EventCallbackDelegate& callback) noexcept { m_EventCallback = callback; }
+        inline void    SetEventCallback(const EventCallbackDelegate& callback) noexcept { m_EventCallback = callback; }
+        inline u32     GetFrameCount() const noexcept { return m_FrameCount; }
+        inline Vector2 GetPosition() const noexcept
+        {
+            Vector2 vec;
+            SDL_GetWindowPosition(m_SdlWindow, &vec.x, &vec.y);
+            return vec;
+        }
+        inline void SetPosition(const Vector2& newPos) noexcept
+        {
+            SDL_SetWindowPosition(m_SdlWindow, newPos.x, newPos.y);
+        }
 
     public:
         void Init(const WindowProperties& windowInfo = WindowProperties(), const void* nativeWindow = nullptr);

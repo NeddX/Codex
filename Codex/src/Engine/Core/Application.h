@@ -8,7 +8,6 @@
 #include "../Renderer/Renderer.h"
 #include "CommonDef.h"
 #include "Exception.h"
-#include "Input.h"
 #include "LayerStack.h"
 #include "Window.h"
 
@@ -16,6 +15,7 @@ int main(int argc, char** argv);
 
 namespace codex {
     // Forward declarations.
+    class Input;
     namespace events {
         class WindowResizeEvent;
     } // namespace events

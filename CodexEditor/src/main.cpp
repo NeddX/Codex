@@ -10,7 +10,7 @@ public:
     using codex::Application::Application;
 
 public:
-    void Init() override { PushLayer(new codex::editor::SceneEditorView()); }
+    void Init() override { PushLayer(new codex::editor::EditorLayer); }
 
 public:
     ~CodexEditor() override {}
@@ -26,7 +26,7 @@ codex::Application* codex::CreateApplication(codex::ApplicationCLIArgs args)
             .width    = 1280,
             .height   = 720,
             .frameCap = 300,
-            .flags    = codex::WindowFlags::Maximized | codex::WindowFlags::Visible | codex::WindowFlags::Resizable,
+            .flags    = codex::WindowFlags::Visible | codex::WindowFlags::Resizable | codex::WindowFlags::Borderless,
             .vsync    = false,
         } });
 }

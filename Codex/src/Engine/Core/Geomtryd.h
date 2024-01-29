@@ -9,6 +9,9 @@ namespace codex {
     using Vector2f = glm::vec2;
     using Vector3f = glm::vec3;
     using Vector4f = glm::vec4;
+    using Vector2  = glm::ivec2;
+    using Vector3  = glm::ivec3;
+    using Vector4  = glm::ivec4;
     using Rect     = mgl::Rect;
     using Rectf    = mgl::Rectf;
 } // namespace codex
@@ -85,6 +88,22 @@ namespace fmt {
     };
 
     template <>
+    struct formatter<codex::Vector2>
+    {
+        template <typename ParseContext>
+        constexpr auto parse(ParseContext& ctx)
+        {
+            return ctx.begin();
+        }
+
+        template <typename FormatContext>
+        auto format(const codex::Vector2& vec, FormatContext& ctx)
+        {
+            return fmt::format_to(ctx.out(), "({}, {})", vec.x, vec.y);
+        }
+    };
+
+    template <>
     struct formatter<codex::Vector3f>
     {
         template <typename ParseContext>
@@ -101,6 +120,22 @@ namespace fmt {
     };
 
     template <>
+    struct formatter<codex::Vector3>
+    {
+        template <typename ParseContext>
+        constexpr auto parse(ParseContext& ctx)
+        {
+            return ctx.begin();
+        }
+
+        template <typename FormatContext>
+        auto format(const codex::Vector3& vec, FormatContext& ctx)
+        {
+            return fmt::format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
+        }
+    };
+
+    template <>
     struct formatter<codex::Vector4f>
     {
         template <typename ParseContext>
@@ -111,6 +146,22 @@ namespace fmt {
 
         template <typename FormatContext>
         auto format(const codex::Vector4f& vec, FormatContext& ctx)
+        {
+            return fmt::format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.z, vec.w);
+        }
+    };
+
+    template <>
+    struct formatter<codex::Vector4>
+    {
+        template <typename ParseContext>
+        constexpr auto parse(ParseContext& ctx)
+        {
+            return ctx.begin();
+        }
+
+        template <typename FormatContext>
+        auto format(const codex::Vector4& vec, FormatContext& ctx)
         {
             return fmt::format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.z, vec.w);
         }
