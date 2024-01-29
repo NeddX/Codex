@@ -31,8 +31,6 @@ namespace codex::editor {
         // TODO: Replace the magic numbers.
         {
             auto& win = Application::GetWindow();
-            if (win.GetFrameCount() % 5 == 0)
-            {
                 static Vector2 diff{};
                 static bool    drag_valid = false;
                 if (Input::IsMouseDragging())
@@ -47,6 +45,19 @@ namespace codex::editor {
                 }
                 else
                     drag_valid = false;
+        }
+
+        // Window resize
+        {
+            auto& win = Application::GetWindow();
+            auto pos = Input::GetMousePos();
+            if ((pos.x >= 0 && pos.x <= 3) || (pos.x >= win.GetWidth() - 3 && pos.x <= win.GetWidth()))
+            {
+                win.SetCursor(SystemCursor::DiagonalLeftResize);
+            }
+            else
+            {
+                win.SetCursor(SystemCursor::Arrow);
             }
         }
     }

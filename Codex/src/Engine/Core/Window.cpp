@@ -24,6 +24,11 @@ namespace codex {
 
     Window::~Window()
     {
+        // Release cursors.
+        for (const auto& e : m_SdlCursors)
+            if (e)
+                SDL_FreeCursor(e);
+
         SDL_GL_DeleteContext(m_GlContext);
         SDL_DestroyWindow(m_SdlWindow);
         SDL_Quit();
@@ -275,5 +280,18 @@ namespace codex {
             return;
         glViewport(0, 0, newWidth, newHeight);
         // m_CurrentScene->OnWindowResize_Event(newWidth, newHeight);
+    }
+
+    SDL_Cursor* Window::GetSDLCursor(const SystemCursor cursor) noexcept
+    {
+        auto* cursor_ptr = m_SdlCursors[(usize)cursor];
+        if (cursor_ptr)
+            return cursor_ptr;
+        else
+        {
+            cursor_ptr = SDL_CreateSystemCursor((SDL_SystemCursor)cursor);
+            m_SdlCursors[(usize)cursor] = cursor_ptr;
+        }
+        return cursor_ptr; 
     }
 } // namespace codex

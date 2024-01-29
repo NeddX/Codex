@@ -47,7 +47,7 @@ namespace codex {
     // TODO: Move this outta here!
     WindowFlags operator|(const WindowFlags& lhv, const WindowFlags& rhv) noexcept;
 
-    struct CODEX_API WindowProperties
+    struct WindowProperties
     {
         const char* title      = "Codex - Window";
         i32         width      = 1280;
@@ -58,6 +58,23 @@ namespace codex {
         WindowFlags flags      = WindowFlags::Visible | WindowFlags::Resizable;
         bool        vsync      = true;
         bool        borderless = false;
+    };
+
+    enum class SystemCursor
+    {
+        Arrow = SDL_SYSTEM_CURSOR_ARROW,
+        IBeam = SDL_SYSTEM_CURSOR_IBEAM,
+        Wait = SDL_SYSTEM_CURSOR_WAIT,
+        Crosshair = SDL_SYSTEM_CURSOR_CROSSHAIR,
+        WaitArrow = SDL_SYSTEM_CURSOR_WAITARROW,
+        DiagonalLeftResize = SDL_SYSTEM_CURSOR_SIZENWSE,
+        DiagonalRightResize = SDL_SYSTEM_CURSOR_SIZENESW,
+        VerticalResize = SDL_SYSTEM_CURSOR_SIZENS,
+        HorizontalResize = SDL_SYSTEM_CURSOR_SIZEALL,
+        No = SDL_SYSTEM_CURSOR_NO,
+        Hand = SDL_SYSTEM_CURSOR_HAND,
+
+        Null
     };
 
     class CODEX_API Window
@@ -80,6 +97,7 @@ namespace codex {
         SDL_GLContext                         m_GlContext;
         SDL_Event                             m_SdlEvent;
         EventCallbackDelegate                 m_EventCallback;
+        std::array<SDL_Cursor*, (usize)SystemCursor::Null> m_SdlCursors{};
 
     private:
         Window();
@@ -97,6 +115,11 @@ namespace codex {
         inline SDL_GLContext* GetGlContext() noexcept { return &m_GlContext; }
         inline void    SetEventCallback(const EventCallbackDelegate& callback) noexcept { m_EventCallback = callback; }
         inline u32     GetFrameCount() const noexcept { return m_FrameCount; }
+        inline void           SetCursor(const SystemCursor cursor) noexcept 
+        {  
+            auto cursor_ptr = GetSDLCursor(cursor);
+            SDL_SetCursor(cursor_ptr);
+        }
         inline Vector2 GetPosition() const noexcept
         {
             Vector2 vec;
@@ -116,6 +139,7 @@ namespace codex {
         void SDLCheckError(const i32 line = -1);
         void SDLThrowError(const i32 line, const std::string_view errorMessage);
         void OnWindowResize_Event(const i32 newWidth, const i32 newHeight);
+        SDL_Cursor* GetSDLCursor(const SystemCursor cursor) noexcept;
     };
 } // namespace codex
 

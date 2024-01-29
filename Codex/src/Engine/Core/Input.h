@@ -7,7 +7,6 @@
 #include "Geomtryd.h"
 
 namespace codex {
-
     // Forward decelrations.
     namespace events {
         class KeyDownEvent;
@@ -294,7 +293,7 @@ namespace codex {
 
     const char* MouseToString(const Mouse button) noexcept;
 
-    class Input
+    class CODEX_API Input
     {
     private:
         static Input*                        m_Instance;
