@@ -103,16 +103,9 @@ namespace codex::events {
 
 namespace fmt {
     template <>
-    struct formatter<codex::events::Event>
+    struct formatter<codex::events::Event> : formatter<std::string_view>
     {
-        template <typename ParseContext>
-        constexpr auto parse(ParseContext& ctx)
-        {
-            return ctx.begin();
-        }
-
-        template <typename FormatContext>
-        auto format(const codex::events::Event& event, FormatContext& ctx)
+        auto format(const codex::events::Event& event, format_context& ctx) const
         {
             static const char* type_str_arr[] = { "None",
 
