@@ -50,6 +50,12 @@ namespace codex {
         inline void                             SetOwner(const Entity entity) noexcept { m_Owner = entity; }
 
     public:
+        Entity CreateEntity(const std::string_view tag = "default tag") 
+        { 
+            return m_Owner.m_Scene->CreateEntity(tag);
+        }
+
+    public:
         template <typename T, typename... TArgs>
         T& AddComponent(TArgs&&... args)
         {
@@ -72,7 +78,6 @@ namespace codex {
         }
 
     public:
-        NativeBehaviour()          = default;
         virtual ~NativeBehaviour() = default;
 
         // FIXME: Mark these methods protected!

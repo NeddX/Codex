@@ -24,10 +24,6 @@ namespace codex {
         std::string    m_Name = "Default scene";
 
     public:
-        Scene()  = default;
-        ~Scene() = default;
-
-    public:
         inline std::string&       GetName() noexcept { return m_Name; }
         inline const std::string& GetName() const noexcept { return m_Name; }
         inline usize              GetEntityCount() const noexcept { return m_Registry.size(); }

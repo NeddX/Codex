@@ -9,12 +9,14 @@ namespace codex {
     // Forward declerations.
     class Serializer;
     class SpriteRendererComponent;
+    class NativeBehaviour;
 
     class CODEX_API Entity
     {
         friend class Serializer;
         friend class Scene;
         friend class SpriteRendererComponent;
+        friend class NativeBehaviour;
 
     private:
         entt::entity m_Handle{ entt::null };
