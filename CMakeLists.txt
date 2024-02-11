@@ -63,7 +63,15 @@ add_custom_command(
 add_custom_target(copy_compile_commands ALL
                   DEPENDS ${CMAKE_SOURCE_DIR}/compile_commands.json)
 
-# Add sub projects add_subdirectory("NetNT") add_subdirectory("CodexAPI")
+# Add sub projects.
 add_subdirectory("Codex")
-# add_subdirectory("TestGame")
-add_subdirectory("CodexEditor")
+
+if (DEFINED CX_ENABLE_NETNT)
+    add_subdirectory("NetNT")
+endif()
+if (DEFINED CX_ENABLE_TESTGAME)
+    add_subdirectory("TestGame")
+endif()
+if (DEFINED CX_ENABLE_CEDITOR)
+    add_subdirectory("CodexEditor")
+endif()
