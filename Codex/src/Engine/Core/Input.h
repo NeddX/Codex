@@ -357,22 +357,16 @@ namespace codex {
         bool OnMouseMove_Event(const events::MouseMoveEvent event);
         bool OnMouseScroll_Event(const events::MouseScrollEvent event);
     };
+
 } // namespace codex
 
 namespace fmt {
     template <>
-    struct formatter<codex::Key>
+    struct formatter<codex::Key> : formatter<std::string_view>
     {
-        template <typename ParseContext>
-        constexpr auto parse(ParseContext& ctx)
+        auto format(const codex::Key& key, format_context& ctx) const
         {
-            return ctx.begin();
-        }
-
-        template <typename FormatContext>
-        auto format(const codex::Key& key, FormatContext& ctx)
-        {
-            return fmt::format_to(ctx.out(), "{}", codex::KeyToString(key));
+            return formatter<string_view>::format(codex::KeyToString(key), ctx);
         }
     };
 } // namespace fmt

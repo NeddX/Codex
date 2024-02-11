@@ -84,7 +84,7 @@
 #include "../Engine/Math/Math.h"
 
 // Library specific
-#include <fmt/core.h>
+#include <fmt/format.h>
 #define SDL_MAIN_HANDLED
 #include <MGL.h>
 #include <SDL.h>

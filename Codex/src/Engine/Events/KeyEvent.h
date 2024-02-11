@@ -45,7 +45,10 @@ namespace codex::events {
         KeyUpEvent(const Key key) : KeyEvent(key) {}
 
     public:
-        std::string ToString() const noexcept override { return fmt::format("KeyUpEvent: Key({})", m_Key); }
+        std::string ToString() const noexcept override
+        {
+            return fmt::format("KeyUpEvent: Key({})", m_Key);
+        }
 
         EVENT_CLASS_TYPE(KeyUp);
     };
