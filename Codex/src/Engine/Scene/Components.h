@@ -52,7 +52,6 @@ namespace codex {
         friend class Entity;
 
     public:
-        std::unordered_map<std::string_view, mem::Box<NativeBehaviour>> behaviours;
         Vector3f position;
         Vector3f rotation;
         Vector3f scale;
@@ -136,18 +135,8 @@ namespace codex {
         std::unordered_map<std::string_view, mem::Box<NativeBehaviour>> behaviours;
 
     public:
-        NativeBehaviourComponent()                                noexcept = default;
-        NativeBehaviourComponent(const NativeBehaviourComponent&) noexcept = delete;
-        NativeBehaviourComponent(NativeBehaviourComponent&& other) noexcept : behaviours{std::move(other.behaviours)}
-        {
-        }
-        NativeBehaviourComponent& operator=(const NativeBehaviourComponent&) noexcept = delete;
-        NativeBehaviourComponent& operator=(NativeBehaviourComponent&& other) noexcept
-        {
-            if (this == &other)
-                return *this;
-            behaviours = std::move(other.behaviours);
-        }
+        NativeBehaviourComponent() {}
+        NativeBehaviourComponent(const NativeBehaviourComponent&) = delete;
 
     public:
         void Start() override

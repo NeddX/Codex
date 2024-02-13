@@ -102,25 +102,25 @@ namespace codex {
             }
         }
 
-        //for (auto& entity : GetAllEntitiesWithComponent<NativeBehaviourComponent>())
+        // for (auto& entity : GetAllEntitiesWithComponent<NativeBehaviourComponent>())
         //{
-        //    // TODO: This should happen OnScenePlay.
-        //    auto& behaviour_component = entity.GetComponent<NativeBehaviourComponent>();
-        //    /*
-        //    if (!behaviour_component.instance)
-        //    {
-        //        //behaviour_component.instance          = behaviour_component.Instantiate();
-        //        //behaviour_component.instance->m_Owner = entity;
-        //        //behaviour_component.instance->Init();
-        //        continue;
-        //    }
-        //    behaviour_component.instance->Update(deltaTime);
-        //    */
-        //    for (auto& [k, v] : behaviour_component.behaviours)
-        //    {
-        //        v->Update(deltaTime);
-        //    }
-        //}
+        //     // TODO: This should happen OnScenePlay.
+        //     auto& behaviour_component = entity.GetComponent<NativeBehaviourComponent>();
+        //     /*
+        //     if (!behaviour_component.instance)
+        //     {
+        //         //behaviour_component.instance          = behaviour_component.Instantiate();
+        //         //behaviour_component.instance->m_Owner = entity;
+        //         //behaviour_component.instance->Init();
+        //         continue;
+        //     }
+        //     behaviour_component.instance->Update(deltaTime);
+        //     */
+        //     for (auto& [k, v] : behaviour_component.behaviours)
+        //     {
+        //         v->Update(deltaTime);
+        //     }
+        // }
 
         /*
         for (auto& entity : GetAllEntitiesWithComponent<TilemapComponent>())

@@ -61,27 +61,27 @@ namespace codex {
         template <typename T>
         auto GetAllEntitiesWithComponent()
         {
-            return m_Owner->m_Scene->GetAllEntitiesWithComponent<T>();
+            return m_Owner.m_Scene->GetAllEntitiesWithComponent<T>();
         }
         template <typename T, typename... TArgs>
         T& AddComponent(TArgs&&... args)
         {
-            return m_Owner->AddComponent<T>(std::forward<TArgs>(args)...);
+            return m_Owner.AddComponent<T>(std::forward<TArgs>(args)...);
         }
         template <typename T>
         void RemoveComponent()
         {
-            m_Owner->RemoveComponent<T>();
+            m_Owner.RemoveComponent<T>();
         }
         template <typename T>
         T& GetComponent()
         {
-            return m_Owner->GetComponent<T>();
+            return m_Owner.GetComponent<T>();
         }
         template <typename T>
         bool HasComponent()
         {
-            return m_Owner->HasComponent<T>();
+            return m_Owner.HasComponent<T>();
         }
 
     public:
@@ -93,7 +93,7 @@ namespace codex {
         virtual void   Init() = 0;
         virtual void   Update(const f32 deltaTime) {}
         virtual void   Destroy() {}
-        virtual void   Serialize() {m_SerializedData[typeid(this).name()]["Id"] = -1; };
+        virtual void   Serialize() { m_SerializedData[typeid(this).name()]["Id"] = -1; };
         virtual object GetField(const std::string_view name) { return nullobj; }
     };
 } // namespace codex
