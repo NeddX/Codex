@@ -149,6 +149,7 @@ namespace codex {
         void Attach(mem::Box<NativeBehaviour> bh)
         {
             bh->Serialize();
+            bh->m_Owner = m_Parent;
             const std::string_view name = bh->m_SerializedData.begin().key();
             if (!behaviours.contains(name))
                 behaviours[name] = std::move(bh);
@@ -181,7 +182,6 @@ namespace codex {
             auto it = behaviours.find(className);
             if (it != behaviours.end())
             {
-                // it->second.Reset();
                 behaviours.erase(it, behaviours.end());
             }
             else
