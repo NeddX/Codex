@@ -28,7 +28,7 @@ namespace codex {
         // displaying the names of the objects just like in UE.
         inline std::string&       GetName() noexcept { return m_Name; }
         inline const std::string& GetName() const noexcept { return m_Name; }
-        inline usize              GetEntityCount() const noexcept { return m_Registry.size(); }
+        inline usize              GetEntityCount() const noexcept { return m_Registry.view<entt::entity>().size_hint(); }
 
     public:
         template <typename T>
@@ -47,6 +47,13 @@ namespace codex {
 
     public:
         friend void to_json(nlohmann::ordered_json& j, const Scene& scene);
+        template <typename T>
+            requires(std::is_copy_constructible_v<T>)
+        friend std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene);
+
+        template <typename T>
+            requires(!std::is_copy_constructible_v<T>)
+        friend std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene);
     };
 } // namespace codex
 

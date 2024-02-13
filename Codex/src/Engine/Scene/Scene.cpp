@@ -16,6 +16,7 @@ namespace codex {
 
     void Scene::RemoveEntity(const Entity entity)
     {
+        CX_ASSERT(m_Registry.valid(entity.m_Handle), "Entity does not exists in registry.");
         m_Registry.destroy(entity.m_Handle);
     }
 
@@ -24,18 +25,36 @@ namespace codex {
         m_Registry.destroy((entt::entity)entity);
     }
 
-    // NOTE: Potentially non-standard!
-    // QUESTION: Why?
-    // NOTE: You're talking to yourself.
+    // NOTE: Okay so if T is copyable then view<T> will provide the
+    // size() method, otherwise the size_hint() method.
     template <typename T>
-    std::vector<Entity> Scene::GetAllEntitiesWithComponent()
+        requires(std::is_copy_constructible_v<T>)
+    static std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene)
     {
-        auto                view = m_Registry.view<T>();
+        auto                view = scene.m_Registry.view<T>();
         std::vector<Entity> entities;
         entities.reserve(view.size());
         for (auto& e : view)
-            entities.emplace_back(e, this);
+            entities.emplace_back(e, &scene);
         return entities;
+    }
+
+    template <typename T>
+        requires(!std::is_copy_constructible_v<T>)
+    static std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene)
+    {
+        auto                view = scene.m_Registry.view<T>();
+        std::vector<Entity> entities;
+        entities.reserve(view.size_hint());
+        for (auto& e : view)
+            entities.emplace_back(e, &scene);
+        return entities;
+    }
+
+    template <typename T>
+    std::vector<Entity> Scene::GetAllEntitiesWithComponent()
+    {
+        return SceneGetAllEntitiesWithComponent<T>(*this);
     }
 
     // NOTE: Don't forget to update this when new components get added, LOL.
@@ -63,15 +82,15 @@ namespace codex {
     std::vector<Entity> Scene::GetAllEntities()
     {
         std::vector<Entity> entities;
-        entities.reserve(m_Registry.size());
-        m_Registry.each(
-            [&](const auto entityId)
-            {
-                const auto entity = Entity(entityId, this);
-                if (!entity)
-                    return;
-                entities.push_back(entity);
-            });
+        entities.reserve(GetEntityCount());
+        auto entities_view = m_Registry.view<entt::entity>();
+        for (const auto& e : entities_view)
+        {
+            const auto entity = Entity(e, this);
+            if (!entity)
+                break;
+            entities.push_back(entity);
+        }
         return entities;
     }
 
@@ -150,8 +169,10 @@ namespace codex {
     void to_json(nlohmann::ordered_json& j, const Scene& scene)
     {
         std::vector<Entity> entities;
-        entities.reserve(scene.m_Registry.size());
-        scene.m_Registry.each([&](const auto entityId) { entities.emplace_back(entityId, (Scene*)&scene); });
+        const auto entities_view = scene.m_Registry.view<entt::entity>();
+        entities.reserve(entities_view.size_hint());
+        for (const auto& e : entities)
+            entities.emplace_back(e, (Scene*)&scene); 
 
         j["Name"]     = scene.m_Name;
         j["Entities"] = entities;
