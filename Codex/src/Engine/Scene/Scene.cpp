@@ -32,7 +32,7 @@ namespace codex {
     {
         auto                view = m_Registry.view<T>();
         std::vector<Entity> entities;
-        entities.reserve(view.size_hint());
+        entities.reserve(view.size());
         for (auto& e : view)
             entities.emplace_back(e, this);
         return entities;
@@ -50,10 +50,10 @@ namespace codex {
     {
         auto                view = m_Registry.view<TagComponent>();
         std::vector<Entity> entities;
-        entities.reserve(view.size_hint());
+        entities.reserve(view.size());
         for (auto& e : view)
         {
-            Entity entity = { e, this };
+            Entity entity{ e, this };
             if (entity.GetComponent<TagComponent>().tag == tag)
                 entities.push_back(entity);
         }
@@ -102,25 +102,25 @@ namespace codex {
             }
         }
 
-        for (auto& entity : GetAllEntitiesWithComponent<NativeBehaviourComponent>())
-        {
-            // TODO: This should happen OnScenePlay.
-            auto& behaviour_component = entity.GetComponent<NativeBehaviourComponent>();
-            /*
-            if (!behaviour_component.instance)
-            {
-                //behaviour_component.instance          = behaviour_component.Instantiate();
-                //behaviour_component.instance->m_Owner = entity;
-                //behaviour_component.instance->Init();
-                continue;
-            }
-            behaviour_component.instance->Update(deltaTime);
-            */
-            for (const auto& e : behaviour_component.behaviours)
-            {
-                e.second->Update(deltaTime);
-            }
-        }
+        //for (auto& entity : GetAllEntitiesWithComponent<NativeBehaviourComponent>())
+        //{
+        //    // TODO: This should happen OnScenePlay.
+        //    auto& behaviour_component = entity.GetComponent<NativeBehaviourComponent>();
+        //    /*
+        //    if (!behaviour_component.instance)
+        //    {
+        //        //behaviour_component.instance          = behaviour_component.Instantiate();
+        //        //behaviour_component.instance->m_Owner = entity;
+        //        //behaviour_component.instance->Init();
+        //        continue;
+        //    }
+        //    behaviour_component.instance->Update(deltaTime);
+        //    */
+        //    for (auto& [k, v] : behaviour_component.behaviours)
+        //    {
+        //        v->Update(deltaTime);
+        //    }
+        //}
 
         /*
         for (auto& entity : GetAllEntitiesWithComponent<TilemapComponent>())

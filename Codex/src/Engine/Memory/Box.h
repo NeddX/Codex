@@ -16,7 +16,6 @@ namespace codex::mem {
     public:
         Box() = default;
         Box(BaseType*&& rawPtr) noexcept : m_Ptr(rawPtr) { rawPtr = nullptr; }
-        Box(const Box<T>& other) noexcept = delete;
         Box(Box<T>&& other) noexcept
         {
             if (this == &other)
@@ -50,7 +49,6 @@ namespace codex::mem {
         constexpr const BaseType* operator->() const noexcept { return m_Ptr; }
         constexpr BaseType&       operator*() noexcept { return *m_Ptr; }
         constexpr const BaseType& operator*() const noexcept { return *m_Ptr; }
-        inline Box<T>&            operator=(const Box<T>& other) noexcept = delete;
         inline Box<T>&            operator=(Box<T>&& other) noexcept
         {
             if (this == &other)

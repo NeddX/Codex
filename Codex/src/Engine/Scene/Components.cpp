@@ -21,7 +21,7 @@ namespace codex {
     {
     }
 
-    SpriteRendererComponent::SpriteRendererComponent(const Sprite& sprite) : m_Sprite(sprite)
+    SpriteRendererComponent::SpriteRendererComponent(Sprite sprite) : m_Sprite(std::move(sprite))
     {
     }
 
@@ -64,9 +64,9 @@ namespace codex {
 
     void TilemapComponent::Start()
     {
-        m_GridRenderer = (m_Parent->HasComponent<GridRendererComponent>())
-                             ? &m_Parent->GetComponent<GridRendererComponent>()
-                             : &m_Parent->AddComponent<GridRendererComponent>(m_GridSize);
+        m_GridRenderer = (m_Parent.HasComponent<GridRendererComponent>())
+                             ? &m_Parent.GetComponent<GridRendererComponent>()
+                             : &m_Parent.AddComponent<GridRendererComponent>(m_GridSize);
         m_GridRenderer->SetGridSize(m_GridSize);
     }
 

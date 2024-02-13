@@ -4,6 +4,7 @@
 #include <sdafx.h>
 
 #include "../Core/Geomtryd.h"
+#include "../Memory/Memory.h"
 #include "../NativeBehaviour/NativeBehaviour.h"
 #include "Sprite.h"
 
@@ -19,7 +20,7 @@ namespace codex {
         friend class Entity;
 
     protected:
-        std::unique_ptr<Entity> m_Parent;
+        Entity m_Parent;
 
     protected:
         virtual void Start() {}
@@ -51,6 +52,7 @@ namespace codex {
         friend class Entity;
 
     public:
+        std::unordered_map<std::string_view, mem::Box<NativeBehaviour>> behaviours;
         Vector3f position;
         Vector3f rotation;
         Vector3f scale;
@@ -85,7 +87,7 @@ namespace codex {
         Sprite m_Sprite;
 
     public:
-        SpriteRendererComponent(const Sprite& sprite);
+        SpriteRendererComponent(Sprite sprite);
 
     public:
         inline Sprite& GetSprite() { return m_Sprite; }
@@ -131,31 +133,52 @@ namespace codex {
         friend class Entity;
 
     public:
-        std::unordered_map<std::string_view, NativeBehaviour*> behaviours;
+        std::unordered_map<std::string_view, mem::Box<NativeBehaviour>> behaviours;
 
     public:
-        void Attach(NativeBehaviour* bh)
+        NativeBehaviourComponent()                                noexcept = default;
+        NativeBehaviourComponent(const NativeBehaviourComponent&) noexcept = delete;
+        NativeBehaviourComponent(NativeBehaviourComponent&& other) noexcept : behaviours{std::move(other.behaviours)}
+        {
+        }
+        NativeBehaviourComponent& operator=(const NativeBehaviourComponent&) noexcept = delete;
+        NativeBehaviourComponent& operator=(NativeBehaviourComponent&& other) noexcept
+        {
+            if (this == &other)
+                return *this;
+            behaviours = std::move(other.behaviours);
+        }
+
+    public:
+        void Start() override
+        {
+            for (auto& [k, v] : behaviours)
+            {
+                v->Init();
+            }
+        }
+        void Attach(mem::Box<NativeBehaviour> bh)
         {
             bh->Serialize();
             const std::string_view name = bh->m_SerializedData.begin().key();
             if (!behaviours.contains(name))
-                behaviours[name] = bh;
+                behaviours[name] = std::move(bh);
         }
-        NativeBehaviour* Detach(const std::string_view className)
+        mem::Box<NativeBehaviour> Detach(const std::string_view className)
         {
             auto it = behaviours.find(className);
             if (it != behaviours.end())
             {
-                auto* ptr = it->second;
+                auto ptr = std::move(it->second);
                 behaviours.erase(it, behaviours.end());
-                return ptr;
+                return std::move(ptr);
             }
             else
             {
                 cx_throw(ScriptException, "Tried to detach a behaviour ({}) that is not attach on first place.",
                          className);
-                return nullptr;
             }
+            return nullptr;
         }
         void InstantiateBehaviour(const std::string_view className)
         {
@@ -169,7 +192,7 @@ namespace codex {
             auto it = behaviours.find(className);
             if (it != behaviours.end())
             {
-                delete it->second;
+                // it->second.Reset();
                 behaviours.erase(it, behaviours.end());
             }
             else
@@ -178,6 +201,7 @@ namespace codex {
                          className);
             }
         }
+        void DisposeBehaviours() { behaviours.clear(); }
 
     public:
         CX_COMPONENT_SERIALIZABLE()

@@ -24,6 +24,8 @@ namespace codex {
         std::string    m_Name = "Default scene";
 
     public:
+        // TODO: Have a IDisplay trait which allows for
+        // displaying the names of the objects just like in UE.
         inline std::string&       GetName() noexcept { return m_Name; }
         inline const std::string& GetName() const noexcept { return m_Name; }
         inline usize              GetEntityCount() const noexcept { return m_Registry.size(); }

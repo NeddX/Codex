@@ -50,31 +50,38 @@ namespace codex {
         inline void                             SetOwner(const Entity entity) noexcept { m_Owner = entity; }
 
     public:
-        Entity CreateEntity(const std::string_view tag = "default tag") 
-        { 
-            return m_Owner.m_Scene->CreateEntity(tag);
-        }
+        auto CreateEntity(const std::string_view tag = "default tag") { return m_Owner.m_Scene->CreateEntity(tag); }
+        void RemoveEntity(codex::Entity entity) { m_Owner.m_Scene->RemoveEntity(entity); }
+        auto GetAllEntities() { return m_Owner.m_Scene->GetAllEntities(); }
+        auto GetAllEntitiesWithTag(const std::string_view tag) { return m_Owner.m_Scene->GetAllEntitesWithTag(tag); }
+        auto GetEntityCount() const noexcept { return m_Owner.m_Scene->GetEntityCount(); }
+        auto GetSceneName() const noexcept { return m_Owner.m_Scene->GetName(); }
 
     public:
+        template <typename T>
+        auto GetAllEntitiesWithComponent()
+        {
+            return m_Owner->m_Scene->GetAllEntitiesWithComponent<T>();
+        }
         template <typename T, typename... TArgs>
         T& AddComponent(TArgs&&... args)
         {
-            return m_Owner.AddComponent<T>(std::forward<TArgs>(args)...);
+            return m_Owner->AddComponent<T>(std::forward<TArgs>(args)...);
         }
         template <typename T>
         void RemoveComponent()
         {
-            m_Owner.RemoveComponent<T>();
+            m_Owner->RemoveComponent<T>();
         }
         template <typename T>
         T& GetComponent()
         {
-            return m_Owner.GetComponent<T>();
+            return m_Owner->GetComponent<T>();
         }
         template <typename T>
         bool HasComponent()
         {
-            return m_Owner.HasComponent<T>();
+            return m_Owner->HasComponent<T>();
         }
 
     public:
@@ -83,10 +90,10 @@ namespace codex {
         // FIXME: Mark these methods protected!
         // protected:
     public:
-        virtual void   Init(){};
+        virtual void   Init() = 0;
         virtual void   Update(const f32 deltaTime) {}
         virtual void   Destroy() {}
-        virtual void   Serialize() = 0;
+        virtual void   Serialize() {m_SerializedData[typeid(this).name()]["Id"] = -1; };
         virtual object GetField(const std::string_view name) { return nullobj; }
     };
 } // namespace codex

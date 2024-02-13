@@ -202,7 +202,7 @@ namespace codex::editor {
                         for (auto& e : entities)
                         {
                             auto& c = e.GetComponent<NativeBehaviourComponent>();
-                            // c.destroy(&c);
+                            c.DisposeBehaviours();
                         }
                         d->scriptModule.Reset(
                             new DLib(fmt::format("{}/lib/libNBMan.dll", d->currentProjectPath.string())));
@@ -216,12 +216,8 @@ namespace codex::editor {
                         auto entities = d->scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
                         for (auto& e : entities)
                         {
-                            auto&                         c = e.GetComponent<NativeBehaviourComponent>();
-                            std::vector<std::string_view> scripts;
-                            for (const auto& [k, v] : c.behaviours)
-                                scripts.push_back(k);
-                            for (const auto& e : scripts)
-                                c.Detach(e);
+                            auto& c = e.GetComponent<NativeBehaviourComponent>();
+                            c.DisposeBehaviours();
                         }
                         d->scriptModule.Reset(nullptr);
                     }

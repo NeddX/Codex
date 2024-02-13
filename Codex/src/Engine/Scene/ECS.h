@@ -43,7 +43,7 @@ namespace codex {
         {
             CX_ASSERT(!m_Scene->m_Registry.any_of<T>(m_Handle), "Entity already has that component.");
             auto& c    = m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<TArgs>(args)...);
-            c.m_Parent = std::make_unique<Entity>(m_Handle, m_Scene);
+            c.m_Parent = Entity(m_Handle, m_Scene);
             c.Start();
             return c;
         }
