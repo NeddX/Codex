@@ -29,7 +29,7 @@ namespace codex {
     // size() method, otherwise the size_hint() method.
     template <typename T>
         requires(std::is_copy_constructible_v<T>)
-    static std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene)
+    std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene)
     {
         auto                view = scene.m_Registry.view<T>();
         std::vector<Entity> entities;
@@ -41,7 +41,7 @@ namespace codex {
 
     template <typename T>
         requires(!std::is_copy_constructible_v<T>)
-    static std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene)
+    std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene)
     {
         auto                view = scene.m_Registry.view<T>();
         std::vector<Entity> entities;
@@ -96,8 +96,7 @@ namespace codex {
 
     void Scene::Start()
     {
-        /*for (const auto& ent : m_Entities)
-            ent->Start();*/
+
     }
 
     void Scene::Update(const f32 deltaTime)
@@ -123,10 +122,10 @@ namespace codex {
 
         for (auto& entity : GetAllEntitiesWithComponent<NativeBehaviourComponent>())
         {
-             // TODO: This should happen OnScenePlay.
-             auto& behaviour_component = entity.GetComponent<NativeBehaviourComponent>();
-             for (auto& [k, v] : behaviour_component.behaviours)
-                 v->Update(deltaTime);
+            // TODO: This should happen OnScenePlay.
+            auto& behaviour_component = entity.GetComponent<NativeBehaviourComponent>();
+            for (auto& [k, v] : behaviour_component.behaviours)
+                v->Update(deltaTime);
         }
 
         /*
@@ -157,10 +156,10 @@ namespace codex {
     void to_json(nlohmann::ordered_json& j, const Scene& scene)
     {
         std::vector<Entity> entities;
-        const auto entities_view = scene.m_Registry.view<entt::entity>();
+        const auto          entities_view = scene.m_Registry.view<entt::entity>();
         entities.reserve(entities_view.size_hint());
         for (const auto& e : entities)
-            entities.emplace_back(e, (Scene*)&scene); 
+            entities.emplace_back(e, (Scene*)&scene);
 
         j["Name"]     = scene.m_Name;
         j["Entities"] = entities;
