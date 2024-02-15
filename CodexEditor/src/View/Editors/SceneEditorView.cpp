@@ -13,7 +13,7 @@ namespace codex::editor {
 
     void SceneEditorView::OnAttach()
     {
-#ifdef CX_PLATFORM_LINUX
+#ifdef CX_PLATFORM_UNIX
         m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("share/Codex");
 #elif defined(CX_PLATFORM_WINDOWS)
         m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("bin");
@@ -271,23 +271,6 @@ namespace codex::editor {
         // Debug viewport
         {
             ImGui::Begin("Debug viewport");
-            auto viewport_min_region = ImGui::GetWindowContentRegionMin();
-            auto viewport_max_region = ImGui::GetWindowContentRegionMax();
-            auto viewport_offset     = ImGui::GetWindowPos();
-            m_ViewportBounds[0]      = { viewport_min_region.x + viewport_offset.x,
-                                         viewport_min_region.y + viewport_offset.y };
-            m_ViewportBounds[1]      = { viewport_max_region.x + viewport_offset.x,
-                                         viewport_max_region.y + viewport_offset.y };
-
-            static ImVec2 viewport_window_size;
-            ImVec2        current_viewport_window_size = ImGui::GetContentRegionAvail();
-            if (viewport_window_size.x != current_viewport_window_size.x ||
-                viewport_window_size.y != current_viewport_window_size.y)
-            {
-                viewport_window_size = current_viewport_window_size;
-                m_Camera->SetWidth((i32)viewport_window_size.x);
-                m_Camera->SetHeight((i32)viewport_window_size.y);
-            }
             ImGui::Image((void*)(intptr)m_Framebuffer->GetColourAttachmentIdAt(1), current_viewport_window_size,
                          { 0, 1 }, { 1, 0 });
             ImGui::End();
@@ -296,6 +279,14 @@ namespace codex::editor {
         // Engine viewport
         {
             ImGui::Begin("Viewport");
+            const auto viewport_min_region = ImGui::GetWindowContentRegionMin();
+            const auto viewport_max_region = ImGui::GetWindowContentRegionMax();
+            const auto viewport_offset     = ImGui::GetWindowPos();
+            m_ViewportBounds[0]            = { viewport_min_region.x + viewport_offset.x,
+                                               viewport_min_region.y + viewport_offset.y };
+            m_ViewportBounds[1]            = { viewport_max_region.x + viewport_offset.x,
+                                               viewport_max_region.y + viewport_offset.y };
+
             static ImVec2 viewport_window_size;
             ImVec2        current_viewport_window_size = ImGui::GetContentRegionAvail();
             if (viewport_window_size.x != current_viewport_window_size.x ||

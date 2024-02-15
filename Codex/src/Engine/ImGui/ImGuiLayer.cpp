@@ -32,8 +32,9 @@ namespace codex::imgui {
         io.DisplaySize = ImVec2((f32)window.GetWidth(), (f32)window.GetHeight()); // Set to your SDL2 window size
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-        // Viewports are very buggy when docking as of now.
-        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        // NOTE: Viewports are very buggy when docking as of now and they
+        // crash on OSX so I am disabling them for now.
+        //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
         m_CurrentContext = ImGui::GetCurrentContext();
 
         ImGui::StyleColorsDark();

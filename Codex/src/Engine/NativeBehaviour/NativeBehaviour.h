@@ -55,7 +55,8 @@ namespace codex {
         auto GetAllEntities() { return m_Owner.m_Scene->GetAllEntities(); }
         auto GetAllEntitiesWithTag(const std::string_view tag) { return m_Owner.m_Scene->GetAllEntitesWithTag(tag); }
         auto GetEntityCount() const noexcept { return m_Owner.m_Scene->GetEntityCount(); }
-        auto GetSceneName() const noexcept { return m_Owner.m_Scene->GetName(); }
+        const auto& GetCurrentScene() const noexcept { return m_Owner.m_Scene; }
+        auto& GetCurrentScene() noexcept { return *m_Owner.m_Scene; }
 
     public:
         template <typename T>
