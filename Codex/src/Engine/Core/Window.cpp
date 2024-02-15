@@ -73,8 +73,6 @@ namespace codex {
         if (m_NativeWindow)
         {
             // m_SdlWindow = SDL_CreateWindowFrom(m_NativeWindow, m_Flags | SDL_WINDOW_OPENGL);
-            fmt::println("Creating an SDL Window from a native window. Native window address {}",
-                         (void*)m_NativeWindow);
             cx_throw(SDLException, "Native windows are not supported.");
         }
         else

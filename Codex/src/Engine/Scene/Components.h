@@ -126,7 +126,17 @@ namespace codex {
         constexpr const char* default_message() const noexcept override { return "An unknown behaviour exception."; }
     };
 
-    struct NativeBehaviourComponent : public IComponent
+    /*
+    class CODEX_API DuplicateBehaviourException : public CodexException
+    {
+        using CodexException::CodexException;
+
+    public:
+        constexpr const char* default_message() const noexcept override { return "Cannot have more than one type of behaviour for a single entity."; }
+    };
+    */
+
+    struct CODEX_API NativeBehaviourComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
@@ -191,6 +201,30 @@ namespace codex {
             }
         }
         void DisposeBehaviours() { behaviours.clear(); }
+
+    public:
+        //template<typename T, typename... TArgs>
+        //void New(TArgs&&... args)
+        //    requires(std::is_base_of_v<NativeBehaviour, T>)
+        //{
+        //    /*
+        //    for (const auto& [k, v] : behaviours)
+        //    {
+        //        if (typeid(v) == typeid(T))
+        //            cx_throwd(DuplicateBehaviourException);
+        //    }
+        //    */
+        //
+        //    mem::Box<NativeBehaviour> bh;//{ new T(std::forward<TArgs>(args)...) };
+        //
+        //    bh->Serialize();
+        //    bh->m_Owner                 = m_Parent;
+        //    const std::string_view name = bh->m_SerializedData.begin().key();
+        //    //if (!behaviours.contains(name))
+        //    //    behaviours[name] = std::move(bh);
+        //
+        //    //return *(T*)behaviours[name];
+        //}
 
     public:
         CX_COMPONENT_SERIALIZABLE()
