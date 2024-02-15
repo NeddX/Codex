@@ -59,6 +59,11 @@ namespace codex {
             return m_Scene->m_Registry.get<T>(m_Handle);
         }
         template <typename T>
+        const T& GetComponent() const
+        {
+            return (Entity*)(this)->GetComponent<T>();
+        }
+        template <typename T>
         bool HasComponent() const
         {
             return m_Scene->m_Registry.any_of<T>(m_Handle);

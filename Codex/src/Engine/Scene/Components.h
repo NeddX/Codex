@@ -212,9 +212,9 @@ namespace codex {
             }
 
             mem::Box<NativeBehaviour> bh{ new T(std::forward<TArgs>(args)...) };
+            bh->m_Owner = m_Parent;
             bh->Init();
             bh->Serialize();
-            bh->m_Owner                 = m_Parent;
             const std::string_view name = bh->m_SerializedData.begin().key();
             if (!behaviours.contains(name))
                 behaviours[name] = std::move(bh);

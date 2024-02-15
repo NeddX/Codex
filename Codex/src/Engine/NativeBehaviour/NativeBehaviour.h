@@ -80,7 +80,12 @@ namespace codex {
             return m_Owner.GetComponent<T>();
         }
         template <typename T>
-        bool HasComponent()
+        const T& GetComponent() const
+        {
+            return (NativeBehaviour*)(this)->GetComponent<T>();
+        }
+        template <typename T>
+        bool HasComponent() const
         {
             return m_Owner.HasComponent<T>();
         }
