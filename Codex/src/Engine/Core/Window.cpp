@@ -52,11 +52,11 @@ namespace codex {
         // Initialize SDL and OpenGL
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
-            cx_throwd(SDLException);
+            cx_throw(SDLException, "SDL Failed to initialize.\n\tSDL Error: {}", SDL_GetError());
             // SDLThrowError(__LINE__, "ERROR: FAILED TO INITIALIZE SDL!");
             return;
         }
-        SDLCheckError(__LINE__);
+        SDL_ClearError();
 
         // Tell SDL to use OpenGL 3.3.0 Core
 #ifdef CX_PLATFORM_OSX
@@ -81,19 +81,20 @@ namespace codex {
 
         if (!m_SdlWindow)
         {
-            cx_throw(SDLException, "Failed to create an SDL window.");
+            cx_throw(SDLException, "Failed to create an SDL window.\n\tSDL Error: {}", SDL_GetError());
             // SDLThrowError(__LINE__, "ERROR: FAILED TO CREATE SDL WINDOW!");
         }
-        SDLCheckError(__LINE__);
+        SDL_ClearError();
 
         // Create OpenGL context from SDL Window
         m_GlContext = SDL_GL_CreateContext(m_SdlWindow); // fails here
         if (!m_GlContext)
         {
-            cx_throw(SDLException, "Failed to create an OpenGL context from the SDL window.");
+            cx_throw(SDLException, "Failed to create an OpenGL context from the SDL window.\n\tSDL Error: {}",
+                     SDL_GetError());
             // SDLThrowError(__LINE__, "ERROR: FAILED TO CREATE AN OPENGL CONTEXT FROM SDL WINDOW!");
         }
-        SDLCheckError(__LINE__);
+        SDL_ClearError();
 
         // Enable VSync
         SDL_GL_SetSwapInterval((windowInfo.vsync) ? 1 : 0);
@@ -287,9 +288,9 @@ namespace codex {
             return cursor_ptr;
         else
         {
-            cursor_ptr = SDL_CreateSystemCursor((SDL_SystemCursor)cursor);
+            cursor_ptr                  = SDL_CreateSystemCursor((SDL_SystemCursor)cursor);
             m_SdlCursors[(usize)cursor] = cursor_ptr;
         }
-        return cursor_ptr; 
+        return cursor_ptr;
     }
 } // namespace codex
