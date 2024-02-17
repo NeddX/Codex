@@ -5,7 +5,7 @@ namespace codex::fs {
     {
         namespace fs = std::filesystem;
 
-#if defined(CX_PLATFORM_LINUX)
+#if defined(CX_PLATFORM_UNIX)
         static const char* home_dir = std::getenv("HOME");
         if (!home_dir)
         {
