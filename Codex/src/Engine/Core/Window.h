@@ -66,11 +66,12 @@ namespace codex {
         IBeam = SDL_SYSTEM_CURSOR_IBEAM,
         Wait = SDL_SYSTEM_CURSOR_WAIT,
         Crosshair = SDL_SYSTEM_CURSOR_CROSSHAIR,
+        Resize = SDL_SYSTEM_CURSOR_SIZEALL,
         WaitArrow = SDL_SYSTEM_CURSOR_WAITARROW,
         DiagonalLeftResize = SDL_SYSTEM_CURSOR_SIZENWSE,
         DiagonalRightResize = SDL_SYSTEM_CURSOR_SIZENESW,
         VerticalResize = SDL_SYSTEM_CURSOR_SIZENS,
-        HorizontalResize = SDL_SYSTEM_CURSOR_SIZEALL,
+        HorizontalResize = SDL_SYSTEM_CURSOR_SIZEWE,
         No = SDL_SYSTEM_CURSOR_NO,
         Hand = SDL_SYSTEM_CURSOR_HAND,
 

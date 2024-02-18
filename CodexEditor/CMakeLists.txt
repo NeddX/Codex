@@ -1,8 +1,10 @@
 file(GLOB_RECURSE CODEXEDITOR_SOURCE_FILES "src/*.cpp")
 file(GLOB_RECURSE CODEXEDITOR_HEADER_FILES "src/*.h")
+file(GLOB_RECURSE CODEXEDITOR_MODULE_FILES "src/*.ixx")
 
 add_executable(CodexEditor ${CODEXEDITOR_HEADER_FILES}
-                           ${CODEXEDITOR_SOURCE_FILES})
+                           ${CODEXEDITOR_SOURCE_FILES}
+                           ${CODEXEDITOR_MODULE_FILES})
 
 # Set the C++ Standard to 20 for this target
 set_property(TARGET CodexEditor PROPERTY CXX_STANDARD 20)

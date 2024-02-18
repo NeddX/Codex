@@ -74,8 +74,10 @@ namespace codex::editor {
 
         mgl::FrameBufferProperties props;
         props.attachments = { mgl::TextureFormat::RGBA8, mgl::TextureFormat::RedInt32 };
-        props.width       = 1280;
-        props.height      = 720;
+        
+        // TODO: This is the scene render resolution so you should not hard code this.
+        props.width       = 1920;
+        props.height      = 1080;
         m_Framebuffer     = Box<mgl::FrameBuffer>::New(props);
 
         // glEnable(GL_DEPTH_TEST);
@@ -266,14 +268,6 @@ namespace codex::editor {
                 }
                 ImGui::EndMainMenuBar();
             }
-        }
-
-        // Debug viewport
-        {
-            ImGui::Begin("Debug viewport");
-            ImGui::Image((void*)(intptr)m_Framebuffer->GetColourAttachmentIdAt(1), current_viewport_window_size,
-                         { 0, 1 }, { 1, 0 });
-            ImGui::End();
         }
 
         // Engine viewport

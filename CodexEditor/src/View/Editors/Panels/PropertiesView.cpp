@@ -84,7 +84,9 @@ namespace codex::editor {
                             script         = d->scriptModule->Invoke<NativeBehaviour*(const char*)>("Rf_CreateInstance",
                                                                                             script_class.c_str());
                             script->SetOwner(d->selectedEntity.entity);
-                            c.Attach(script);
+
+                            // TODO: FIX!
+                            c.Attach(std::move(script));
                         }
                     }
                     if (!script)
@@ -102,7 +104,7 @@ namespace codex::editor {
                     ImGui::Columns(1);
 
                     // Display serialized fields
-                    for (const auto& [k, v] : c.behaviours)
+                    for (auto& [k, v] : c.behaviours)
                     {
                         const auto& j = v->GetSerializedData();
                         if (j.empty())

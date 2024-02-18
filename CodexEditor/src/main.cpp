@@ -23,8 +23,9 @@ codex::Application* codex::CreateApplication(codex::ApplicationCLIArgs args)
         .cwd              = "./",
         .args             = std::move(args),
         .windowProperties = {
-            .width    = 1280,
-            .height   = 720,
+            .title     = "Codex Editor",
+            .width    = 800,
+            .height   = 600,
             .frameCap = 300,
             .flags    = codex::WindowFlags::Visible | codex::WindowFlags::Resizable | codex::WindowFlags::Borderless,
             .vsync    = false,

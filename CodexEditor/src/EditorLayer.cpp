@@ -24,41 +24,71 @@ namespace codex::editor {
 
     void EditorLayer::Update(const f32 deltaTime)
     {
-        auto pos       = Application::GetWindow().GetPosition();
-        auto mouse_pos = Input::GetMousePos();
+        static auto& win       = Application::GetWindow();
+        static SystemCursor cursor;
+        static SystemCursor prev_cursor;
+        static bool         is_dragging_window = false;
 
         // Window move
         // TODO: Replace the magic numbers.
         {
-            auto& win = Application::GetWindow();
-                static Vector2 diff{};
-                static bool    drag_valid = false;
-                if (Input::IsMouseDragging())
+            static Vector2 diff{};
+
+            auto pos       = Application::GetWindow().GetPosition();
+            auto mouse_pos = Input::GetMousePos();
+            if (Input::IsMouseDragging())
+            {
+                if (is_dragging_window)
                 {
-                    if (drag_valid)
-                        win.SetPosition(Input::GetScreenMousePos() - diff);
-                    else if (mouse_pos.y >= 0 && mouse_pos.y <= 18)
-                    {
-                        drag_valid = true;
-                        diff       = Input::GetScreenMousePos() - Application::GetWindow().GetPosition();
-                    }
+                    win.SetPosition(Input::GetScreenMousePos() - diff);
+                    cursor = SystemCursor::Resize;
                 }
-                else
-                    drag_valid = false;
+                else if (mouse_pos.y >= 0 && mouse_pos.y <= 18)
+                {
+                    is_dragging_window = true;
+                    diff       = Input::GetScreenMousePos() - win.GetPosition();
+                }
+            }
+            else
+            {
+                is_dragging_window = false;
+                cursor     = SystemCursor::Arrow;
+            }
         }
 
         // Window resize
         {
-            auto& win = Application::GetWindow();
             auto pos = Input::GetMousePos();
-            if ((pos.x >= 0 && pos.x <= 3) || (pos.x >= win.GetWidth() - 3 && pos.x <= win.GetWidth()))
+            static bool l = false, r = false;
+
+            if (!is_dragging_window)
             {
-                win.SetCursor(SystemCursor::DiagonalLeftResize);
+                if (pos.y <= 3 || pos.y >= win.GetHeight() - 3)
+                {
+                    cursor = SystemCursor::VerticalResize;
+                    l      = true;
+                }
+                else
+                    l = false;
+                if (pos.x <= 3 || pos.x >= win.GetWidth() - 3)
+                {
+                    cursor = SystemCursor::HorizontalResize;
+                    r      = true;
+                }
+                else
+                    r = false;
+
+                if (l && r)
+                {
+                    cursor = SystemCursor::DiagonalLeftResize;
+                }
             }
-            else
-            {
-                win.SetCursor(SystemCursor::Arrow);
-            }
+        }
+
+        if (prev_cursor != cursor)
+        {
+            prev_cursor = cursor;
+            win.SetCursor(cursor);
         }
     }
 

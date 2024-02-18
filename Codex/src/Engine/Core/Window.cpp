@@ -26,8 +26,7 @@ namespace codex {
     {
         // Release cursors.
         for (const auto& e : m_SdlCursors)
-            if (e)
-                SDL_FreeCursor(e);
+            if (e) SDL_FreeCursor(e);
 
         SDL_GL_DeleteContext(m_GlContext);
         SDL_DestroyWindow(m_SdlWindow);
@@ -151,6 +150,7 @@ namespace codex {
         {
             if (imgui)
                 ImGui_ImplSDL2_ProcessEvent(&m_SdlEvent);
+
             switch (m_SdlEvent.type)
             {
                 case SDL_QUIT: {
@@ -247,17 +247,6 @@ namespace codex {
 #ifdef CODEX_CONF_DEBUG
         DebugDraw::Render();
 #endif
-
-        /*
-        if (MouseHandler::IsMouseDown(0))
-        {
-            // Gotta reverse the Y cause opengl is gay
-            i32 x = MouseHandler::GetMouseX(), y = GetHeight() - MouseHandler::GetMouseY();
-            i32 pixel = fb->ReadPixel(1, x, y);
-            fmt::println("pixel: {}", pixel);
-            return;
-        }
-        */
 
         if (m_FrameCap > 0)
             SDL_Delay((u32)(1.0f / (f32)m_FrameCap * 1000.0f));
