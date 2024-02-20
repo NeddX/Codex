@@ -24,72 +24,7 @@ namespace codex::editor {
 
     void EditorLayer::Update(const f32 deltaTime)
     {
-        static auto& win       = Application::GetWindow();
-        static SystemCursor cursor;
-        static SystemCursor prev_cursor;
-        static bool         is_dragging_window = false;
-
-        // Window move
-        // TODO: Replace the magic numbers.
-        {
-            static Vector2 diff{};
-
-            auto pos       = Application::GetWindow().GetPosition();
-            auto mouse_pos = Input::GetMousePos();
-            if (Input::IsMouseDragging())
-            {
-                if (is_dragging_window)
-                {
-                    win.SetPosition(Input::GetScreenMousePos() - diff);
-                    cursor = SystemCursor::Resize;
-                }
-                else if (mouse_pos.y >= 0 && mouse_pos.y <= 18)
-                {
-                    is_dragging_window = true;
-                    diff       = Input::GetScreenMousePos() - win.GetPosition();
-                }
-            }
-            else
-            {
-                is_dragging_window = false;
-                cursor     = SystemCursor::Arrow;
-            }
-        }
-
-        // Window resize
-        {
-            auto pos = Input::GetMousePos();
-            static bool l = false, r = false;
-
-            if (!is_dragging_window)
-            {
-                if (pos.y <= 3 || pos.y >= win.GetHeight() - 3)
-                {
-                    cursor = SystemCursor::VerticalResize;
-                    l      = true;
-                }
-                else
-                    l = false;
-                if (pos.x <= 3 || pos.x >= win.GetWidth() - 3)
-                {
-                    cursor = SystemCursor::HorizontalResize;
-                    r      = true;
-                }
-                else
-                    r = false;
-
-                if (l && r)
-                {
-                    cursor = SystemCursor::DiagonalLeftResize;
-                }
-            }
-        }
-
-        if (prev_cursor != cursor)
-        {
-            prev_cursor = cursor;
-            win.SetCursor(cursor);
-        }
+        
     }
 
     void EditorLayer::ImGuiRender()

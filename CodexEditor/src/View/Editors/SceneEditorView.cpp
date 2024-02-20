@@ -155,6 +155,8 @@ namespace codex::editor {
     {
         auto& d  = m_Descriptor;
         auto& io = ImGui::GetIO();
+        
+        ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Always);
 
         // ImGuizmo
         ImGuizmo::BeginFrame();
@@ -164,6 +166,8 @@ namespace codex::editor {
 
         static bool show_demo_window = true;
         ImGui::ShowDemoWindow(&show_demo_window);
+
+        /*
 
         // File menu
         {
@@ -269,6 +273,8 @@ namespace codex::editor {
                 ImGui::EndMainMenuBar();
             }
         }
+
+        */
 
         // Engine viewport
         {

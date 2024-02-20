@@ -1,23 +1,19 @@
 cmake_minimum_required(VERSION 3.16)
 
-project("Codex")
+project("Codex2D")
 
-# ==================================================== # Export macros that
-# describe the current platform   #
 # ==================================================== #
-
+#   Export macros that describe the current platform   #
+# ==================================================== #
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(CX_PLATFORM_LINUX 1 CACHE INTERNAL "")
   set(CX_PLATFORM_UNIX 1 CACHE INTERNAL "")
-  set(CX_VARIABLE_PATH "${CMAKE_INSTALL_PREFIX}/share" CACHE INTERNAL "")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   set(CX_PLATFORM_OSX 1 CACHE INTERNAL "")
   set(CX_PLATFORM_UNIX 1 CACHE INTERNAL "")
-  set(CX_VARIABLE_PATH "${CMAKE_INSTALL_PREFIX}/share" CACHE INTERNAL "")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(CX_PLATFORM_WINDOWS 1 CACHE INTERNAL "")
   set(CX_APP_DATA_PATH "${CMAKE_INSTALL_PREFIX}" CACHE INTERNAL "")
-  set(CX_APP_DATA_VARIABLE_PATH "${CMAKE_INSTALL_PREFIX}/share" CACHE INTERNAL "")
 else()
   set(CX_PLATFORM_UNKNOWN 1)
 endif()
