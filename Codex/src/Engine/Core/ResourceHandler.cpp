@@ -1,6 +1,6 @@
 #include "ResourceHandler.h"
-#include "../Renderer/Shader.h"
-#include "../Renderer/Texture2D.h"
+#include "../Graphics/Shader.h"
+#include "../Graphics/Texture2D.h"
 
 namespace codex {
     using namespace codex::graphics;
@@ -34,17 +34,17 @@ namespace codex {
     {
         // I could use .c_str() but on MSVC c_str() is of value_type type which itself is wchar_t.
         // To put it short, It is for compatability reasons.
-        if (HasResource(filePath.string()))
+        if (HasResource(filePath))
             return GetResource<Texture2D>(filePath);
 
         // TODO: Use std::filesystem::path instead of string_view.
-        std::ifstream fs(filePath.string());
+        std::ifstream fs(filePath);
         if (fs.is_open())
         {
             usize id = util::Crypto::DJB2Hash(filePath.string());
 
-            ResRef<Texture2D> texture   = std::make_shared<Texture2D>(filePath.string(), props);
-            m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
+            ResRef<Texture2D> texture   = mem::Shared<Texture2D>::New(filePath, props);
+            m_Instance->m_Resources[id] = texture.As<IResource>();
             fs.close();
             fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath.string(), id);
             return texture;
@@ -66,12 +66,12 @@ namespace codex {
         std::ifstream fs(filePath.string());
         if (fs.is_open())
         {
-            usize          id           = util::Crypto::DJB2Hash(filePath.string());
-            ResRef<Shader> texture      = std::make_shared<Shader>(filePath.string(), version);
-            m_Instance->m_Resources[id] = std::static_pointer_cast<IResource>(texture);
+            const usize    id           = util::Crypto::DJB2Hash(filePath.string());
+            ResRef<Shader> shader       = mem::Shared<Shader>::New(filePath, version);
+            m_Instance->m_Resources[id] = shader.As<IResource>();
             fs.close();
             fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath.string(), id);
-            return texture;
+            return shader;
         }
         else
         {
@@ -91,7 +91,7 @@ namespace codex {
 
     bool Resources::HasResource(const std::filesystem::path filePath)
     {
-        usize id = util::Crypto::DJB2Hash(filePath.string());
+        const usize id = util::Crypto::DJB2Hash(filePath.string());
         return HasResource(id);
     }
 

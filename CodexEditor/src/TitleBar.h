@@ -1,15 +1,33 @@
 #pragma once
 
 #include <Codex.h>
+#include <array>
 
 namespace codex::editor {
-	class TitleBar : public codex::Layer
+    class Icon
     {
     private:
-        f32 m_TitleBarHeight = 30.0f;
-        u8* m_CloseSymbol    = nullptr;
-        u8* m_MaximizeSymbol = nullptr;
-        u8* m_MinimizeSymbol = nullptr;
+        graphics::Texture2D        m_Texture;
+        mem::Box<mgl::FrameBuffer> m_Fb;
+        Matrix4f                   m_TransformMat;
+
+    public:
+        Icon() = default;
+        Icon(graphics::Texture2D texture, const mgl::FrameBufferProperties props);
+
+    public:
+        inline u32 GetGLId() const noexcept { return m_Texture.GetGlId(); }
+
+    public:
+        void Render();
+    };
+
+    class TitleBar : public Layer
+    {
+    private:
+        f32                 m_TitleBarHeight = 30.0f;
+        std::array<Icon, 3> m_TitleBarIcons;
+        bool                m_ResizeTriggered = false;
 
     public:
         TitleBar();
@@ -18,9 +36,9 @@ namespace codex::editor {
     protected:
         void OnAttach() override;
         void OnDetach() override;
-        void Update(const codex::f32 deltaTime) override;
+        void Update(const f32 deltaTime) override;
         void ImGuiRender() override;
         void DrawTitleBar();
         void OnEvent(events::Event& event) override;
-	};
-} // namespace codex
+    };
+} // namespace codex::editor

@@ -12,11 +12,19 @@ extern ImGuiContext* GImGui;
 
 int main(int argc, char** argv)
 {
-    auto app = codex::CreateApplication({ argc, argv });
-    GImGui = codex::Application::GetImGuiLayer()->GetImGuiContext();
-    app->Init();
-    app->Run();
-    delete app;
+    try
+    {
+        auto app = codex::CreateApplication({ argc, argv });
+        GImGui = codex::Application::GetImGuiLayer()->GetImGuiContext();
+        app->Init();
+        app->Run();
+        delete app;
+    }
+    catch (const codex::CodexException& ex)
+    {
+        std::cerr << ex << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
     return 0;
 }
 

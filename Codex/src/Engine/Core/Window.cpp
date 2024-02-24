@@ -1,7 +1,7 @@
 #include "../Events/ApplicationEvent.h"
 #include "../Events/KeyEvent.h"
 #include "../Events/MouseEvent.h"
-#include "../Renderer/DebugDraw.h"
+#include "../Graphics/DebugDraw.h"
 #include "Application.h"
 #include "Input.h"
 

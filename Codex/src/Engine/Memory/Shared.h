@@ -11,18 +11,22 @@ namespace codex::mem {
     template <typename T>
     class Shared
     {
+        template <typename U>
+        friend class Shared; // We don't ask questions here.
         friend class Ref<T>;
 
     private:
-        using BaseType = typename std::remove_extent<T>::type;
+        using BaseType  = typename std::remove_extent<T>::type;
+        using Pointer   = BaseType*;
+        using Reference = BaseType&;
 
     private:
-        BaseType*           m_Ptr      = nullptr;
+        Pointer             m_Ptr      = nullptr;
         std::atomic<usize>* m_RefCount = nullptr;
 
     public:
         Shared() = default;
-        Shared(BaseType*&& rawPtr) : m_Ptr(rawPtr), m_RefCount(new std::atomic<usize>(1)) { rawPtr = nullptr; }
+        Shared(Pointer&& rawPtr) : m_Ptr(rawPtr), m_RefCount(new std::atomic<usize>(1)) { rawPtr = nullptr; }
         Shared(const Shared<T>& other) noexcept
         {
             m_Ptr      = other.m_Ptr;
@@ -63,21 +67,21 @@ namespace codex::mem {
         }
 
     public:
-        constexpr T*        Get() noexcept { return m_Ptr; }
-        constexpr const T*  Get() const noexcept { return m_Ptr; }
-        inline Ref<T>       AsRef() noexcept { return *this; }
-        inline const Ref<T> AsRef() const noexcept { return *this; }
+        constexpr Pointer       Get() noexcept { return m_Ptr; }
+        constexpr const Pointer Get() const noexcept { return m_Ptr; }
+        inline Ref<T>           AsRef() noexcept { return *this; }
+        inline const Ref<T>     AsRef() const noexcept { return *this; }
 
     public:
-        constexpr operator bool() const noexcept { return m_Ptr; }
-        constexpr BaseType*       operator->() noexcept { return m_Ptr; }
-        constexpr const BaseType* operator->() const noexcept { return m_Ptr; }
-        constexpr BaseType&       operator*() noexcept { return *m_Ptr; }
-        constexpr const BaseType& operator*() const noexcept { return *m_Ptr; }
+        constexpr                 operator bool() const noexcept { return m_Ptr; }
+        constexpr Pointer         operator->() noexcept { return m_Ptr; }
+        constexpr const Pointer   operator->() const noexcept { return m_Ptr; }
+        constexpr Reference       operator*() noexcept { return *m_Ptr; }
+        constexpr const Reference operator*() const noexcept { return *m_Ptr; }
         inline Shared<T>&         operator=(const Shared<T>& other) noexcept
         {
             if (this == &other)
-                return;
+                return *this;
 
             Drop();
 
@@ -86,6 +90,7 @@ namespace codex::mem {
 
             if (m_RefCount)
                 ++m_RefCount;
+            return *this;
         }
         inline Shared<T>& operator=(Shared<T>&& other) noexcept
         {
@@ -114,10 +119,10 @@ namespace codex::mem {
         }
 
     public:
-        inline Shared<T>& Reset(BaseType*&& ptr = nullptr)
+        inline Shared<T>& Reset(Pointer&& ptr = nullptr)
         {
             if (ptr == m_Ptr)
-                return;
+                return *this;
 
             Drop();
 
@@ -126,6 +131,22 @@ namespace codex::mem {
             ptr        = nullptr;
             return *this;
         }
+        inline Shared<T>& Swap(Shared<T>& other) noexcept
+        {
+            std::swap(m_Ptr, other.m_Ptr);
+            std::swap(m_RefCount, other.m_RefCount);
+        }
+
+    public:
+        template <typename U>
+        Shared<U> As()
+        {
+            Shared<U> cast_ptr;
+            cast_ptr.m_Ptr      = (typename Shared<U>::Pointer)m_Ptr;
+            cast_ptr.m_RefCount = m_RefCount;
+            ++(*cast_ptr.m_RefCount);
+            return cast_ptr;
+        }
 
     public:
         template <typename... TArgs>
@@ -133,7 +154,7 @@ namespace codex::mem {
         {
             return std::move(Shared<T>{ new T(std::forward<TArgs>(args)...) });
         }
-        static inline Shared<T> From(BaseType*&& rawPtr)
+        static inline Shared<T> From(Pointer&& rawPtr)
         {
             Shared<T> obj = std::move(rawPtr);
             return std::move(obj);

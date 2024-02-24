@@ -4,7 +4,7 @@
 #include <sdafx.h>
 
 #include "../Core/Geomtryd.h"
-#include "../Renderer/Texture2D.h"
+#include "../Graphics/Texture2D.h"
 #include "Sprite.h"
 
 namespace codex {

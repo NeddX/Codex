@@ -213,7 +213,7 @@ namespace codex::editor {
                         {
                             std::filesystem::path relative_path =
                                 std::filesystem::relative(file, std::filesystem::current_path());
-                            auto res = Resources::Load<Texture2D>(relative_path.string());
+                            auto res = Resources::Load<Texture2D>(relative_path);
                             sprite.SetTexture(res);
                             d->selectedEntity.overlayColour = sprite.GetColour();
                             sprite.GetColour()              = d->selectColour;

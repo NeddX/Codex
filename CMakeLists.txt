@@ -47,17 +47,19 @@ endif()
 # Export compile_commands.json for the LSPs.
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
-# Create a custom build command and a dummy target for it to copy
+# If we're not on VS, create a custom build command and a dummy target for it to copy
 # compile_commands.json to the source directory for LSPs.
-add_custom_command(
-  OUTPUT ${CMAKE_SOURCE_DIR}/compile_commands.json
-  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/compile_commands.json
-          ${CMAKE_SOURCE_DIR}/compile_commands.json
-  DEPENDS ${CMAKE_BINARY_DIR}/compile_commands.json
-  COMMENT "Copying compile_commands.json...")
+if (NOT CMAKE_GENERATOR MATCHES "Visual Studio")
+    add_custom_command(
+      OUTPUT ${CMAKE_SOURCE_DIR}/compile_commands.json
+      COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/compile_commands.json
+              ${CMAKE_SOURCE_DIR}/compile_commands.json
+      DEPENDS ${CMAKE_BINARY_DIR}/compile_commands.json
+      COMMENT "Copying compile_commands.json...")
 
-add_custom_target(copy_compile_commands ALL
-                  DEPENDS ${CMAKE_SOURCE_DIR}/compile_commands.json)
+    add_custom_target(copy_compile_commands ALL
+                      DEPENDS ${CMAKE_SOURCE_DIR}/compile_commands.json)
+endif()
 
 # Add sub projects.
 add_subdirectory("Codex")

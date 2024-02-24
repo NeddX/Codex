@@ -4,7 +4,7 @@
 #include "../Core/Camera.h"
 #include "../Core/Input.h"
 #include "../Core/ResourceHandler.h"
-#include "../Renderer/Renderer.h"
+#include "../Graphics/Renderer.h"
 #include "../Scene/SpriteSheet.h"
 
 namespace codex {

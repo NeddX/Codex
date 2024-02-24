@@ -32,19 +32,17 @@ namespace codex::editor {
         std::filesystem::path    currentProjectPath{};
     };
 
+    // SceneEditorView is technically a layer but it is not part of Codex's layer
+    // stack and is actually being proxied by EditorLayer (an actual layer).
     class SceneEditorView : public Layer
     {
     private:
-        ResRef<graphics::Shader>           m_BatchShader = nullptr;
-        mem::Box<Camera>                   m_Camera      = nullptr;
         mem::Box<mgl::FrameBuffer>         m_Framebuffer = nullptr;
         Vector2f                           m_ViewportBounds[2]{};
         bool                               m_GizmoActive = false;
         GizmoMode                          m_GizmoMode   = GizmoMode::Translation;
         NativeBehaviour*                   m_Script      = nullptr;
         mem::Shared<SceneEditorDescriptor> m_Descriptor  = nullptr;
-        std::filesystem::path              m_ApplicationDataPath{};
-        std::filesystem::path              m_VariableApplicationDataPath{};
 
     private:
         // Panels

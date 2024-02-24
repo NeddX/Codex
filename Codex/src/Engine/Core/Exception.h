@@ -6,7 +6,7 @@
 #define cx_throw(ex_type, ...) throw ex_type(fmt::format(__VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
 #define cx_throwd(ex_type)     throw ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
 #define CX_CUSTOM_EXCEPTION(name, default_msg)                                                                         \
-    class CODEX_API name : public CodexException                                                                                 \
+    class CODEX_API name : public CodexException                                                                       \
     {                                                                                                                  \
         using CodexException::CodexException;                                                                          \
                                                                                                                        \
@@ -26,15 +26,7 @@ public:                                                                         
         \                                                                                                              \
     }
 
-#define CX_EXCEPTION_PRINT(ex)                                                                                         \
-    do                                                                                                                 \
-    {                                                                                                                  \
-        fmt::println("An exception was caught: {}: {}\n\t{}", ex.TypeNameDemangle(typeid(ex).name()), ex.what(),       \
-                     ex.backtrace());                                                                                  \
-    } while (0)
-
 namespace codex {
-
     class CODEX_API CodexException : public std::exception
     {
     protected:
@@ -67,12 +59,21 @@ namespace codex {
     public:
         const char* what() const noexcept override;
         std::string backtrace() const noexcept;
+
+    public:
+        friend std::ostream& operator<<(std::ostream& stream, const codex::CodexException& ex) noexcept
+        {
+            stream << fmt::format("An exception was caught: {}: {}\n\t{}",
+                                  codex::CodexException::TypeNameDemangle(typeid(ex).name()), ex.what(),
+                                  ex.backtrace());
+            return stream;
+        }
     };
 
     // Generic Exceptions
-    CX_CUSTOM_EXCEPTION(FileNotFoundExceptio, "File was not found.")
+    CX_CUSTOM_EXCEPTION(FileNotFoundException, "File was not found.")
     CX_CUSTOM_EXCEPTION(NullReferenceException, "Object reference was not instantiated.")
-    CX_CUSTOM_EXCEPTION(IndexOutOfBoundsExceptio, "Index was out of bounds.")
+    CX_CUSTOM_EXCEPTION(IndexOutOfBoundsException, "Index was out of bounds.")
     CX_CUSTOM_EXCEPTION(NotFoundException, "Item was not found.")
     CX_CUSTOM_EXCEPTION(InvalidArgumentException, "Provided argument was invalid.")
     CX_CUSTOM_EXCEPTION(BadOperationException, "Something somewhere went wrong, we're not sure why.")

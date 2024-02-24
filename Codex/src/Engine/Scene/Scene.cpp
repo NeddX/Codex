@@ -1,5 +1,5 @@
 #include "Scene.h"
-#include "../Renderer/Renderer.h"
+#include "../Graphics/Renderer.h"
 #include "Components.h"
 #include "ECS.h"
 

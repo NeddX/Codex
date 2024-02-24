@@ -41,3 +41,6 @@ endif()
 
 target_include_directories(CodexEditor PUBLIC ${IMGUIZMO_INCLUDE_DIRS})
 target_sources(CodexEditor PRIVATE ${IMGUIZMO_SOURCE_FILES})
+
+# Misc
+target_include_directories(CodexEditor PRIVATE "src/")

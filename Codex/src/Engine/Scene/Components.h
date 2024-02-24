@@ -131,7 +131,10 @@ namespace codex {
         using CodexException::CodexException;
 
     public:
-        constexpr const char* default_message() const noexcept override { return "Cannot have more than one type of behaviour on a single entity."; }
+        constexpr const char* default_message() const noexcept override
+        {
+            return "Cannot have more than one type of behaviour on a single entity.";
+        }
     };
 
     struct NativeBehaviourComponent : public IComponent
@@ -201,10 +204,10 @@ namespace codex {
         void DisposeBehaviours() { behaviours.clear(); }
 
     public:
-        template<typename T, typename... TArgs>
+        template <typename T, typename... TArgs>
         T& New(TArgs&&... args)
             requires(std::is_base_of_v<NativeBehaviour, T>)
-        { 
+        {
             for (const auto& [k, v] : behaviours)
             {
                 if (typeid(v) == typeid(T))

@@ -54,7 +54,7 @@ namespace codex::graphics {
         {
             auto& ncsprite   = (Sprite&)sprite;
             auto& tex_coords = ncsprite.GetTextureCoords();
-            RenderRect(sprite.GetTexture().get(), tex_coords, transform, ncsprite.GetColour(), ncsprite.GetZIndex(),
+            RenderRect(sprite.GetTexture().Get(), tex_coords, transform, ncsprite.GetColour(), ncsprite.GetZIndex(),
                        entityId);
         }
     };

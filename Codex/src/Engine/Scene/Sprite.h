@@ -4,7 +4,7 @@
 #include "../Core/Geomtryd.h"
 #include "../Core/IResource.h"
 #include "../Core/ResourceHandler.h"
-#include "../Renderer/Texture2D.h"
+#include "../Graphics/Texture2D.h"
 
 namespace codex {
     class Sprite
@@ -49,7 +49,7 @@ namespace codex {
             m_SpriteSize    = { m_TextureCoords.w, m_TextureCoords.h };
             m_Colour        = { 1.0f, 1.0f, 1.0f, 1.0f };
         }
-        inline operator bool() const noexcept { return m_Texture != nullptr; }
+        inline operator bool() const noexcept { return m_Texture; }
 
     public:
         friend void to_json(nlohmann::ordered_json& j, const Sprite& sprite)

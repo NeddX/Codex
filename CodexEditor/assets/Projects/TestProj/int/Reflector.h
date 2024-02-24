@@ -3,6 +3,7 @@
 
 #define RF_CLASS(...)
 #define RF_SERIALIZE(...)
+#define RF_
 
 namespace codex {
 	class NativeBehaviour;

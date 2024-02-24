@@ -7,15 +7,20 @@ namespace codex::mem {
     template <typename T>
     class Box
     {
-    private:
-        using BaseType = typename std::remove_extent<T>::type;
+        template <typename U>
+        friend class Box; // We don't ask questions here.
 
     private:
-        BaseType* m_Ptr = nullptr;
+        using BaseType  = typename std::remove_extent<T>::type;
+        using Pointer   = typename BaseType*;
+        using Reference = typename BaseType&;
+
+    private:
+        Pointer m_Ptr = nullptr;
 
     public:
         Box() = default;
-        Box(BaseType*&& rawPtr) noexcept : m_Ptr(rawPtr) { rawPtr = nullptr; }
+        Box(Pointer&& rawPtr) noexcept : m_Ptr(rawPtr) { rawPtr = nullptr; }
         Box(Box<T>&& other) noexcept
         {
             if (this == &other)
@@ -40,15 +45,15 @@ namespace codex::mem {
         }
 
     public:
-        constexpr T*       Get() noexcept { return m_Ptr; }
-        constexpr const T* Get() const noexcept { return m_Ptr; }
+        constexpr Pointer       Get() noexcept { return m_Ptr; }
+        constexpr const Pointer Get() const noexcept { return m_Ptr; }
 
     public:
-        explicit constexpr operator bool() const noexcept { return m_Ptr; }
-        constexpr BaseType*       operator->() noexcept { return m_Ptr; }
-        constexpr const BaseType* operator->() const noexcept { return m_Ptr; }
-        constexpr BaseType&       operator*() noexcept { return *m_Ptr; }
-        constexpr const BaseType& operator*() const noexcept { return *m_Ptr; }
+        constexpr                 operator bool() const noexcept { return m_Ptr; }
+        constexpr Pointer         operator->() noexcept { return m_Ptr; }
+        constexpr const Pointer   operator->() const noexcept { return m_Ptr; }
+        constexpr Reference       operator*() noexcept { return *m_Ptr; }
+        constexpr const Reference operator*() const noexcept { return *m_Ptr; }
         inline Box<T>&            operator=(Box<T>&& other) noexcept
         {
             if (this == &other)
@@ -60,7 +65,7 @@ namespace codex::mem {
             other.m_Ptr = nullptr;
             return *this;
         }
-        inline Box<T>& operator=(T*&& ptr) noexcept
+        inline Box<T>& operator=(Pointer&& ptr) noexcept
         {
             if (ptr != m_Ptr)
                 Drop();
@@ -71,7 +76,7 @@ namespace codex::mem {
         }
 
     public:
-        inline Box<T>& Reset(BaseType*&& ptr = nullptr)
+        inline Box<T>& Reset(Pointer&& ptr = nullptr)
         {
             if (ptr == m_Ptr)
                 return *this;
@@ -82,6 +87,20 @@ namespace codex::mem {
             ptr   = nullptr;
             return *this;
         }
+        inline Box<T>& Swap(Box<T>& other) noexcept
+        {
+            std::swap(m_Ptr, other.m_Ptr);
+            return *this;
+        }
+
+    public:
+        template <typename U>
+        Box<U> As() const noexcept
+        {
+            auto cast_ptr = Box<U>((typename Box<U>::Pointer)m_Ptr);
+            m_Ptr         = nullptr;
+            return std::move(cast_ptr);
+        }
 
     public:
         template <typename... TArgs>
@@ -89,7 +108,7 @@ namespace codex::mem {
         {
             return std::move(Box<T>(new T{ std::forward<TArgs>(args)... }));
         }
-        static inline Box<T> From(BaseType*&& rawPtr) noexcept
+        static inline Box<T> From(Pointer&& rawPtr) noexcept
         {
             Box<T> obj = std::move(rawPtr);
             return std::move(obj);

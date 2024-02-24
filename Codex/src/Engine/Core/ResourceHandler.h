@@ -3,8 +3,8 @@
 
 #include <sdafx.h>
 
-#include "../Renderer/Shader.h"
-#include "../Renderer/Texture2D.h"
+#include "../Graphics/Shader.h"
+#include "../Graphics/Texture2D.h"
 #include "Exception.h"
 #include "IResource.h"
 
@@ -45,14 +45,14 @@ namespace codex {
 
     public:
         template <typename T, typename... TArgs>
-        static ResRef<T> Load(const std::filesystem::path filePath, TArgs&&... args)
+        static ResRef<T> Load(std::filesystem::path filePath, TArgs&&... args)
         {
             using namespace codex::graphics;
 
             if constexpr (std::is_same_v<T, Texture2D>)
-                return Load_Texture2D(filePath, std::forward<TArgs>(args)...);
+                return Load_Texture2D(std::move(filePath), std::forward<TArgs>(args)...);
             else if constexpr (std::is_same_v<T, Shader>)
-                return Load_Shader(filePath, std::forward<TArgs>(args)...);
+                return Load_Shader(std::move(filePath), std::forward<TArgs>(args)...);
 
             static_assert("Type not supported.");
             return nullptr;
@@ -64,7 +64,7 @@ namespace codex {
         {
             auto it = m_Instance->m_Resources.find(id);
             if (it != m_Instance->m_Resources.end())
-                return std::static_pointer_cast<T>(it->second);
+                return it->second.As<T>();
             else
                 throw ResourceNotFoundException(
                     fmt::format("Hash Id {} was not present in the resource pool.", id).c_str());

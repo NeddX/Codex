@@ -29,6 +29,5 @@ NativeBehaviour* Rf_CreateInstance(const char* className)
     std::printf("Creating instance of: %s\n", className);
     if (std::strcmp(className, "MienScripten") == 0)
         return new MienScripten();
-    else
-        return nullptr;
+    return nullptr;
 }

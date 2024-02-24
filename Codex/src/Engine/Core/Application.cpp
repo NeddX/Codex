@@ -2,7 +2,7 @@
 #include "../Events/ApplicationEvent.h"
 #include "../Events/KeyEvent.h"
 #include "../Events/MouseEvent.h"
-#include "../Renderer/DebugDraw.h"
+#include "../Graphics/DebugDraw.h"
 #include "../Scene/Scene.h"
 #include "Exception.h"
 #include "Input.h"
@@ -47,7 +47,7 @@ namespace codex {
         }
         catch (const CodexException& ex)
         {
-            CX_EXCEPTION_PRINT(ex);
+            std::cerr << ex << std::endl;
             std::exit(EXIT_FAILURE);
         }
     }
@@ -154,7 +154,7 @@ namespace codex {
             }
             catch (const CodexException& ex)
             {
-                CX_EXCEPTION_PRINT(ex);
+                std::cerr << ex << std::endl;
                 std::exit(EXIT_FAILURE);
             }
         }

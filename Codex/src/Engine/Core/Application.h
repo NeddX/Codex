@@ -5,7 +5,7 @@
 
 #include "../Events/Event.h"
 #include "../ImGui/ImGuiLayer.h"
-#include "../Renderer/Renderer.h"
+#include "../Graphics/Renderer.h"
 #include "CommonDef.h"
 #include "Exception.h"
 #include "LayerStack.h"

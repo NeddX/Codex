@@ -1,5 +1,7 @@
 #include "SceneEditorView.h"
 
+#include <CEditor.h>
+#include <EditorLayer.h>
 #include <tinyfiledialogs.h>
 
 namespace codex::editor {
@@ -13,95 +15,30 @@ namespace codex::editor {
 
     void SceneEditorView::OnAttach()
     {
-#ifdef CX_PLATFORM_UNIX
-        m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("share/Codex");
-#elif defined(CX_PLATFORM_WINDOWS)
-        m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("bin");
-#endif
-        m_VariableApplicationDataPath =
-            fs::path(GetSpecialFolder(SpecialFolder::UserApplicationData)) / fs::path("Codex/");
-
-        if (!fs::exists(m_VariableApplicationDataPath))
-        {
-            try
-            {
-                fs::create_directory(m_VariableApplicationDataPath);
-            }
-            catch (const std::exception& ex)
-            {
-                fmt::println("[Warning] :: Failed to create application data folder!");
-            }
-        }
-
-        fmt::println("[Info] :: Application data path: '{}'", m_ApplicationDataPath.string());
-        fmt::println("[Info] :: Variable application data path: '{}'", m_VariableApplicationDataPath.string());
-
-        // ImGui setup
-        auto&              io             = ImGui::GetIO();
-        static std::string ini_file_path  = (m_VariableApplicationDataPath / "imgui.ini").string();
-        static std::string font_file_path = (m_ApplicationDataPath / "Fonts/roboto/Roboto-Regular.ttf").string();
-
-        if (!fs::exists(ini_file_path))
-        {
-            try
-            {
-                fs::copy_file(m_ApplicationDataPath / "imgui.ini", m_VariableApplicationDataPath / "imgui.ini");
-            }
-            catch (const std::exception& ex)
-            {
-                fmt::println("[Warning] :: Failed to create variable application data folder! Some data will be lost "
-                             "after closing the application.");
-            }
-        }
-
-        f32 font_size  = 14.0f;
-        io.IniFilename = ini_file_path.c_str();
-        io.FontDefault = io.Fonts->AddFontFromFileTTF(font_file_path.c_str(), font_size);
-
-        auto width    = Application::GetWindow().GetWidth();
-        auto height   = Application::GetWindow().GetHeight();
-        m_BatchShader = Resources::Load<Shader>(m_ApplicationDataPath / "GL Shaders/batchRenderer.glsl");
-        m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
-        m_Camera = Box<Camera>::New(width, height);
-
         m_Descriptor = Shared<SceneEditorDescriptor>::From(new SceneEditorDescriptor{ .scene = Box<Scene>::New() });
 
         m_SceneHierarchyView = Box<SceneHierarchyView>::New(m_Descriptor.AsRef());
         m_PropertiesView     = Box<PropertiesView>::New(m_Descriptor.AsRef());
 
-        Renderer::Init(width, height);
-        BatchRenderer2D::BindShader(m_BatchShader.get());
-
         mgl::FrameBufferProperties props;
         props.attachments = { mgl::TextureFormat::RGBA8, mgl::TextureFormat::RedInt32 };
-        
+
         // TODO: This is the scene render resolution so you should not hard code this.
-        props.width       = 1920;
-        props.height      = 1080;
-        m_Framebuffer     = Box<mgl::FrameBuffer>::New(props);
+        props.width   = 1920;
+        props.height  = 1080;
+        m_Framebuffer = Box<mgl::FrameBuffer>::New(props);
 
         // glEnable(GL_DEPTH_TEST);
         // glDepthFunc(GL_LESS);
-
-        std::ifstream fs("./TestScript.h");
-        std::string   src((std::istreambuf_iterator<char>(fs)), (std::istreambuf_iterator<char>()));
-        TokenList     list = Lexer::Lex(src);
-        Lexer::Print(list);
     }
 
     void SceneEditorView::OnDetach()
     {
-        BatchRenderer2D::Destroy();
-        Renderer::Destroy();
     }
 
     void SceneEditorView::Update(const f32 deltaTime)
     {
         auto& d = m_Descriptor;
-
-        m_BatchShader->Bind();
-        m_BatchShader->SetUniformMat4f("u_View", m_Camera->GetViewMatrix());
-        m_BatchShader->SetUniformMat4f("u_Proj", m_Camera->GetProjectionMatrix());
 
         m_Framebuffer->Bind();
         Renderer::SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
@@ -114,9 +51,9 @@ namespace codex::editor {
         auto [mx, my] = ImGui::GetMousePos();
         mx -= m_ViewportBounds[0].x;
         my -= m_ViewportBounds[0].y;
-        Vector2f viewport_size = m_ViewportBounds[1] - m_ViewportBounds[0];
-        i32      mouse_x       = (i32)mx;
-        i32      mouse_y       = (i32)my;
+        const Vector2f viewport_size = m_ViewportBounds[1] - m_ViewportBounds[0];
+        const i32      mouse_x       = (i32)mx;
+        const i32      mouse_y       = (i32)my;
 
         if (Input::IsMouseDown(Mouse::LeftMouse) && mouse_x >= 0 && mouse_y >= 0 && mouse_x <= (i32)viewport_size.x &&
             mouse_y <= (i32)viewport_size.y && !m_GizmoActive)
@@ -155,7 +92,7 @@ namespace codex::editor {
     {
         auto& d  = m_Descriptor;
         auto& io = ImGui::GetIO();
-        
+
         ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Always);
 
         // ImGuizmo
@@ -167,8 +104,6 @@ namespace codex::editor {
         static bool show_demo_window = true;
         ImGui::ShowDemoWindow(&show_demo_window);
 
-        /*
-
         // File menu
         {
             if (ImGui::BeginMainMenuBar())
@@ -176,7 +111,10 @@ namespace codex::editor {
                 if (ImGui::BeginMenu("File"))
                 {
                     // Add File menu items here
-                    if (ImGui::MenuItem("Create new project", "Ctrl+N")) {}
+                    if (ImGui::MenuItem("Create new project", "Ctrl+N")) 
+                    {
+                        
+                    }
                     if (ImGui::MenuItem("Open", "Ctrl+O"))
                     {
                         const char* filters[]{ "*.cxproj" };
@@ -274,10 +212,10 @@ namespace codex::editor {
             }
         }
 
-        */
-
         // Engine viewport
         {
+            auto& camera = EditorLayer::GetCamera();
+
             ImGui::Begin("Viewport");
             const auto viewport_min_region = ImGui::GetWindowContentRegionMin();
             const auto viewport_max_region = ImGui::GetWindowContentRegionMax();
@@ -293,8 +231,8 @@ namespace codex::editor {
                 viewport_window_size.y != current_viewport_window_size.y)
             {
                 viewport_window_size = current_viewport_window_size;
-                m_Camera->SetWidth((i32)viewport_window_size.x);
-                m_Camera->SetHeight((i32)viewport_window_size.y);
+                camera.SetWidth((i32)viewport_window_size.x);
+                camera.SetHeight((i32)viewport_window_size.y);
             }
             ImGui::Image((void*)(intptr)m_Framebuffer->GetColourAttachmentIdAt(0), current_viewport_window_size,
                          { 0, 1 }, { 1, 0 });
@@ -310,8 +248,8 @@ namespace codex::editor {
                     ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, window_size.x, window_size.y);
 
                     // Camera stuff?
-                    auto proj_mat = m_Camera->GetProjectionMatrix();
-                    auto view_mat = m_Camera->GetViewMatrix();
+                    auto proj_mat = camera.GetProjectionMatrix();
+                    auto view_mat = camera.GetViewMatrix();
 
                     auto& c     = d->selectedEntity.entity.GetComponent<TransformComponent>();
                     auto  trans = c.GetTransform();

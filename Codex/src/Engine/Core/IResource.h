@@ -3,6 +3,8 @@
 
 #include <sdafx.h>
 
+#include "../Memory/Memory.h"
+
 namespace codex {
 	class IResource
 	{
@@ -14,11 +16,12 @@ namespace codex {
 		virtual ~IResource() = default;
 
 	public:
-		constexpr usize inline GetId() const noexcept { return m_Id; }
+		constexpr usize GetId() const noexcept { return m_Id; }
 	};
 
-    template<typename T, typename = typename std::enable_if<std::is_base_of<IResource, T>::value>::type>
-    using ResRef = std::shared_ptr<T>;
+    template <typename T>
+        requires(std::is_base_of_v<IResource, T>)
+	using ResRef = mem::Shared<T>;
 }
 
 #endif // CODEX_CORE_IRESROUCE_H

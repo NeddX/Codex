@@ -1,38 +1,20 @@
 #include <Codex.h>
 #include <Engine/Core/EntryPoint.h>
-#include <iostream>
 
-#include "EditorLayer.h"
-#include "TitleBar.h"
-
-class CodexEditor : public codex::Application
-{
-public:
-    using codex::Application::Application;
-
-public:
-    void Init() override 
-    {
-        PushLayer(new codex::editor::TitleBar);
-        PushLayer(new codex::editor::EditorLayer); 
-    }
-
-public:
-    ~CodexEditor() override {}
-};
+#include "CEditor.h"
 
 codex::Application* codex::CreateApplication(codex::ApplicationCLIArgs args)
 {
-    return new CodexEditor(codex::ApplicationProperties{
+    return new codex::editor::CEditor(codex::ApplicationProperties{
         .name             = "CodexEditor",
         .cwd              = "./",
         .args             = std::move(args),
         .windowProperties = {
-            .title     = "Codex Editor",
+            .title    = "Codex Editor",
             .width    = 1280,
             .height   = 720,
             .frameCap = 300,
-            .flags    = codex::WindowFlags::Visible | codex::WindowFlags::Resizable | codex::WindowFlags::Borderless,
+            .flags    = codex::WindowFlags::Visible | codex::WindowFlags::Resizable,
             .vsync    = false,
         } });
 }

@@ -1,11 +1,37 @@
 #include "TitleBar.h"
 
-#include <stb_image.h>
+#include <CEditor.h>
 
 namespace codex::editor {
+    CODEX_USE_ALL_NAMESPACES()
+
+    Icon::Icon(graphics::Texture2D texture, const mgl::FrameBufferProperties props) : m_Texture(std::move(texture))
+    {
+        m_Fb = Box<mgl::FrameBuffer>::New(props);
+
+        m_TransformMat = glm::identity<Matrix4f>();
+        m_TransformMat = glm::translate(m_TransformMat, Vector3f(0.0f, 0.0f, 0.0f));
+    }
+
+    void Icon::Render()
+    {
+        m_Fb->Bind();
+        Renderer::Clear();
+        BatchRenderer2D::RenderRect(&m_Texture, { 0.0f, 0.0f, (f32)m_Texture.GetWidth(), (f32)m_Texture.GetHeight() },
+                                    m_TransformMat, { 1.0f, 1.0f, 1.0f, 1.0f });
+        m_Fb->Unbind();
+    }
+
     TitleBar::TitleBar()
-    { 
-        m_TitleBarHeight = stbi_load();
+    {
+        mgl::FrameBufferProperties props;
+        props.attachments = { mgl::TextureFormat::RGBA8 };
+        props.width       = 16;
+        props.height      = 16;
+
+        m_TitleBarIcons[0] = Icon(Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_minimize.png"), props);
+        m_TitleBarIcons[1] = Icon(Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_maximize.png"), props);
+        m_TitleBarIcons[2] = Icon(Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_close.png"), props);
     }
 
     TitleBar::~TitleBar()
@@ -26,9 +52,53 @@ namespace codex::editor {
         static SystemCursor cursor;
         static SystemCursor prev_cursor;
         static bool         is_dragging_window = false;
+        
+        // Window resize.
+        /*
+        {
+            auto        pos = Input::GetMousePos();
+            static bool l = false, r = false;
+
+            if (true)
+            {
+                if (pos.y <= 3 || pos.y >= win.GetHeight() - 3)
+                {
+                    cursor = SystemCursor::VerticalResize;
+                    l      = true;
+                }
+                else
+                    l = false;
+                if (pos.x <= 3 || pos.x >= win.GetWidth() - 3)
+                {
+                    cursor = SystemCursor::HorizontalResize;
+                    r      = true;
+                }
+                else
+                    r = false;
+
+                if (l && r)
+                {
+                    cursor = SystemCursor::DiagonalLeftResize;
+                }
+            }
+
+            if (Input::IsMouseDragging())
+            {
+                if (l || r)
+                {
+                    const auto delta = Input::GetMouseDelta();
+                    const auto size  = win.GetSize();
+                    auto       pos   = win.GetPosition();
+                    win.SetPosition({ Input::GetScreenMousePos().x, pos.y });
+                    win.SetSize({ size.x + (pos.x - win.GetPosition().x), size.y });
+                }
+            }
+        }
+        */
 
         // Window move
         // TODO: Replace the magic numbers.
+        /*
         {
             static Vector2 diff{};
 
@@ -53,40 +123,23 @@ namespace codex::editor {
                 cursor             = SystemCursor::Arrow;
             }
         }
-
-        // Window resize
-        {
-            auto        pos = Input::GetMousePos();
-            static bool l = false, r = false;
-
-            if (!is_dragging_window)
-            {
-                if (pos.y <= 3 || pos.y >= win.GetHeight() - 3)
-                {
-                    cursor = SystemCursor::VerticalResize;
-                    l      = true;
-                }
-                else
-                    l = false;
-                if (pos.x <= 3 || pos.x >= win.GetWidth() - 3)
-                {
-                    cursor = SystemCursor::HorizontalResize;
-                    r      = true;
-                }
-                else
-                    r = false;
-
-                if (l && r)
-                {
-                    cursor = SystemCursor::DiagonalLeftResize;
-                }
-            }
-        }
+        */
 
         if (prev_cursor != cursor)
         {
             prev_cursor = cursor;
             win.SetCursor(cursor);
+        }
+
+        // Render our icons ONCE, I know, It's bad.
+        static bool icons_rendered = false;
+        if (!icons_rendered)
+        {
+            BatchRenderer2D::Begin();
+            for (auto& icon : m_TitleBarIcons)
+                icon.Render();
+            BatchRenderer2D::End();
+            icons_rendered = true;
         }
     }
 
@@ -125,11 +178,9 @@ namespace codex::editor {
         DrawTitleBar();
         ImGui::SetCursorPosY(m_TitleBarHeight);
 
-        auto& style       = ImGui::GetStyle();
-        f32 min_win_size_x = style.WindowMinSize.x;
-        //style.WindowMinSize.x   = 370.0f;
+        auto& style          = ImGui::GetStyle();
+        f32   min_win_size_x = style.WindowMinSize.x;
         ImGui::DockSpace(ImGui::GetID("MyDockspace"));
-        //style.WindowMinSize.x = min_win_size_x;
 
         ImGui::End();
     }
@@ -140,8 +191,7 @@ namespace codex::editor {
 
         window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
                         ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollWithMouse;
-        window_flags |= ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBringToFrontOnFocus |
-                        ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar;
+        window_flags |= ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar;
 
         const auto* viewport = ImGui::GetMainViewport();
 
@@ -161,7 +211,28 @@ namespace codex::editor {
         ImGui::TextColored(ImVec4{ 1.0f, 1.0f, 1.0f, 1.0f }, "Application Title");
         ImGui::SameLine();
 
-        ImGui::Image((void*));
+        const auto& win          = Application::GetWindow();
+        const auto  image_size   = ImVec2(16, 16);
+        const auto  spacing      = 15.0f;
+        const auto  window_width = ImGui::GetWindowWidth();
+        const auto  pos          = window_width - (3 * (image_size.x + spacing)); // Calculate the starting position
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui::SetCursorPosX(pos);
+        if (ImGui::ImageButton((void*)(intptr)m_TitleBarIcons[0].GetGLId(), image_size, { 0, 1 }, { 1, 0 }))
+            win.Minimize();
+        ImGui::SameLine();
+
+        ImGui::SetCursorPosX(pos + image_size.x + spacing);
+        if (ImGui::ImageButton((void*)(intptr)m_TitleBarIcons[1].GetGLId(), image_size, { 0, 1 }, { 1, 0 }))
+            win.Maximize();
+        ImGui::SameLine();
+
+        ImGui::SetCursorPosX(pos + 2 * (image_size.x + spacing));
+        if (ImGui::ImageButton((void*)(intptr)m_TitleBarIcons[2].GetGLId(), image_size, { 0, 1 }, { 1, 0 }))
+            Application::Get().Stop();
+        ImGui::SameLine();
+        ImGui::PopStyleColor(1);
 
         ImGui::End();
     }

@@ -35,11 +35,12 @@
 // Reflection
 #include "../src/Engine/Reflection/Lexer.h"
 
-// Renderer
-#include "../src/Engine/Renderer/BatchRenderer2D.h"
-#include "../src/Engine/Renderer/RenderBatch.h"
-#include "../src/Engine/Renderer/Renderer.h"
-#include "../src/Engine/Renderer/Shader.h"
-#include "../src/Engine/Renderer/Texture2D.h"
+// Graphics
+#include "../src/Engine/Graphics/BatchRenderer2D.h"
+#include "../src/Engine/Graphics/RenderBatch.h"
+#include "../src/Engine/Graphics/Renderer.h"
+#include "../src/Engine/Graphics/Shader.h"
+#include "../src/Engine/Graphics/Texture2D.h"
+#include "../src/Engine/Graphics/Image2D.h"
 
 #endif // CODEX_H
