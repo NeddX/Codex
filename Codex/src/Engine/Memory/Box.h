@@ -12,8 +12,8 @@ namespace codex::mem {
 
     private:
         using BaseType  = typename std::remove_extent<T>::type;
-        using Pointer   = typename BaseType*;
-        using Reference = typename BaseType&;
+        using Pointer   = BaseType*;
+        using Reference = BaseType&;
 
     private:
         Pointer m_Ptr = nullptr;
