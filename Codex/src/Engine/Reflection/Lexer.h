@@ -4,75 +4,202 @@
 #include <sdafx.h>
 
 namespace codex::reflect {
-    enum class TokenType : u8
+    enum class TokenType : u32
     {
-        Whitespace,
+        None,
+
+        // Identifier
         Identifier,
-        Semicolon,
-        OpenCurly,
-        CloseCurly,
-        OpenParen,
-        CloseParen,
+
+        // Literals
+        NumberLiteral,
+        StringLiteral,
+        CharacterLiteral,
+
+        // Operators
         Colon,
-        NumbericLiteral,
-        PPDirective,
-        DoubleQuote,
-        SingleQuote,
-        OpenAngle,
-        CloseAngle,
-        Asterisk,
+        DoubleColon,
+        SemiColon,
+        Equals,
+        LeftBrace,
+        RightBrace,
+        LeftCurlyBrace,
+        RightCurlyBrace,
         Plus,
         Minus,
-        Ampersand,
+        Asterisk,
         ForwardSlash,
-        BackwardSlash,
-        StringLiteral,
-        Comment,
-        BlockComment,
-        QuestionMark,
-        ExclamationMark,
-        PercentSign,
-        Tilda,
-        DollarSign,
-        Pound,
-        OpenSquare,
-        CloseSquare,
-        Dog,
-        Caret,
-        Underscore,
+        LeftAngleBracket,
+        RightAngleBracket,
+        LeftSquareBracket,
+        RightSquareBracket,
+        DoubleQuote,
+        Quote,
         Comma,
+        Exclamation,
+        Bar,
+        Pound,
         Dot,
-        Equal
+
+        // Conditionals
+        EqualsEquals,
+        GreaterThanEquals,
+        LesserThanEquals,
+        ExclamationEquals,
+        AmpersasndAmpersand,
+        BarBar,
+
+        // Unary
+        Increment,
+        Decrement,
+
+        // Shorthand
+        PlusEquals,
+        MinusEquals,
+        AsteriskEquals,
+        ForwardSlashEquals,
+
+        // Keywords
+        KeywordChar,
+        KeywordBool,
+        KeywordShort,
+        KeywordInt,
+        KeywordFloat,
+        KeywordLong,
+        KeywordDouble,
+        KeywordConst,
+        KeywordConstexpr,
+        KeywordVolatile,
+        KeywordUnsigned,
+        KeywordSigned,
+        KeywordImport,
+        KeywordExport,
+        KeywordIf,
+        KeywordElse,
+        KeywordElseIf,
+        KeywordWhile,
+        KeywordReturn,
+        KeywordTrue,
+        KeywordFalse,
+        KeywordPublic,
+        KeywordPrivate,
+        KeywordFinal,
+        KeywordClass,
+        KeywordStruct,
+        KeywordNamespace,
+        KeywordUsing,
+
+        // Comments
+        LineComment,
+        BlockComment,
+
+        // Eof
+        Eof
+    };
+
+    std::string_view TokenTypeToString(const TokenType type) noexcept;
+
+    struct TextSpan
+    {
+        usize       line{};
+        usize       cur{};
+        std::string text{};
     };
 
     struct Token
     {
-        TokenType   type = TokenType::Whitespace;
-        usize       line = 0, cur = 0;
-        std::string text;
+    public:
+        TokenType type = TokenType::None;
+        TextSpan  span{};
+        i64       num{};
 
     public:
-        Token() = default;
-        Token(const TokenType type, const usize line, const usize cur, const std::string_view text = {})
-            : type(type), line(line), cur(cur), text(text)
+        // Few handy methods to make parsing easier.
+        bool IsValid() const noexcept { return type != TokenType::None && type != TokenType::Eof; }
+        bool IsOperator() const noexcept
         {
-        }
+            switch (type)
+            {
+                using enum TokenType;
 
-    public:
-        inline const char* ToString() const noexcept
-        {
-            static const char* const str_arr[] = {
-                "Whitespace",    "Identifier",  "Semicolon",    "OpenCurly",     "CloseCurly",
-                "OpenParen",     "CloseParen",  "Colon",        "NumberLiteral", "PPDirective",
-                "DoubleQuote",   "SingleQuote", "OpenAngle",    "CloseAngle",    "Asterisk",
-                "Plus",          "Minus",       "Ampersand",    "ForwardSlash",  "BackwardSlash",
-                "StringLiteral", "Comment",     "BlockComment", "QuestionMark",  "ExclamationMark",
-                "PercentSign",   "Tilda",       "DollarSign",   "Pound",         "OpenSquare",
-                "CloseSquare",   "Dog",         "Caret",        "Underscore",    "Comma",
-                "Dot",           "Equal"
-            };
-            return str_arr[(usize)type];
+                case Colon:
+                case DoubleColon:
+                case SemiColon:
+                case Equals:
+                case LeftBrace:
+                case RightBrace:
+                case LeftCurlyBrace:
+                case RightCurlyBrace:
+                case Plus:
+                case Minus:
+                case Asterisk:
+                case ForwardSlash:
+                case LeftAngleBracket:
+                case RightAngleBracket:
+                case LeftSquareBracket:
+                case RightSquareBracket:
+                case DoubleQuote:
+                case Quote:
+                case Comma:
+                case Exclamation:
+                case Bar:
+                case Pound:
+                case Dot:
+                case EqualsEquals:
+                case GreaterThanEquals:
+                case LesserThanEquals:
+                case ExclamationEquals:
+                case AmpersasndAmpersand:
+                case BarBar:
+                case Increment:
+                case Decrement:
+                case PlusEquals:
+                case MinusEquals:
+                case AsteriskEquals:
+                case ForwardSlashEquals: return true;
+                default: break;
+            }
+            return false;
         }
+        bool IsKeyword() const noexcept
+        {
+            switch (type)
+            {
+                using enum TokenType;
+
+                case KeywordChar:
+                case KeywordBool:
+                case KeywordShort:
+                case KeywordInt:
+                case KeywordFloat:
+                case KeywordLong:
+                case KeywordDouble:
+                case KeywordConst:
+                case KeywordConstexpr:
+                case KeywordVolatile:
+                case KeywordUnsigned:
+                case KeywordSigned:
+                case KeywordImport:
+                case KeywordExport:
+                case KeywordIf:
+                case KeywordElse:
+                case KeywordElseIf:
+                case KeywordWhile:
+                case KeywordReturn:
+                case KeywordTrue:
+                case KeywordFalse:
+                case KeywordPublic:
+                case KeywordPrivate:
+                case KeywordFinal:
+                case KeywordClass:
+                case KeywordStruct:
+                case KeywordNamespace:
+                case KeywordUsing: return true;
+                default: break;
+            }
+            return false;
+        }
+        std::string_view ToString() const noexcept { return TokenTypeToString(type); }
     };
 
     using TokenList = std::vector<Token>;
@@ -80,21 +207,146 @@ namespace codex::reflect {
     class Lexer
     {
     private:
-        static TokenList                           m_Tokens;
-        static Token                               m_CurrentToken;
-        static std::unordered_map<char, TokenType> m_SingleCharTokenMatch;
-        static usize                               m_Line;
-        static usize                               m_Cur;
-        static usize                               m_Index;
+        std::string_view m_Source{};
+        usize            m_CurrentPos{};
+        usize            m_TokenCount{};
+        usize            m_LineCount = 1;
 
     public:
-        static TokenList Lex(const std::string_view src);
-        static void      Print(const TokenList& tokens);
+        Lexer() = default;
+        explicit Lexer(const std::string_view source);
+
+    public:
+        std::optional<Token> NextToken();
+        std::optional<Token> PeekToken();
 
     private:
-        static bool SingleMatch(const char c) noexcept;
-        static void EndToken();
+        std::optional<char>        CurrentChar() const noexcept;
+        std::optional<char>        Consume() noexcept;
+        i64                        ConsumeNumber() noexcept;
+        std::string                ConsumeIdentifier() noexcept;
+        TokenType                  ConsumeOperator() noexcept;
+        std::optional<std::string> ConsumeString() noexcept;
+        std::optional<std::string> ConsumeLineComment() noexcept;
+        std::optional<std::string> ConsumeBlockComment() noexcept;
+        bool                       IsIdentifierStart(const char c) const noexcept;
     };
+
 } // namespace codex::reflect
+
+namespace nlohmann {
+    template <>
+    struct adl_serializer<codex::reflect::TokenType>
+    {
+        static void to_json(ordered_json& j, const codex::reflect::TokenType& e)
+        {
+            switch (e)
+            {
+                using enum codex::reflect::TokenType;
+
+                case None: j = "None"; break;
+                case Identifier: j = "Identifier"; break;
+                case NumberLiteral: j = "NumberLiteral"; break;
+                case StringLiteral: j = "StringLiteral"; break;
+                case CharacterLiteral: j = "CharacterLiteral"; break;
+                case Colon: j = "Colon"; break;
+                case DoubleColon: j = "DoubleColon"; break;
+                case SemiColon: j = "SemiColon"; break;
+                case Equals: j = "Equals"; break;
+                case LeftBrace: j = "LeftBrace"; break;
+                case RightBrace: j = "RightBrace"; break;
+                case LeftCurlyBrace: j = "LeftCurlyBrace"; break;
+                case RightCurlyBrace: j = "RightCurlyBrace"; break;
+                case Plus: j = "Plus"; break;
+                case Minus: j = "Minus"; break;
+                case Asterisk: j = "Asterisk"; break;
+                case ForwardSlash: j = "ForwardSlash"; break;
+                case LeftAngleBracket: j = "LeftAngleBracket"; break;
+                case RightAngleBracket: j = "RightAngleBracket"; break;
+                case LeftSquareBracket: j = "LeftSquareBracket"; break;
+                case RightSquareBracket: j = "RightSquareBracket"; break;
+                case DoubleQuote: j = "DoubleQuote"; break;
+                case Quote: j = "Quote"; break;
+                case Comma: j = "Comma"; break;
+                case Exclamation: j = "Exclamation"; break;
+                case Bar: j = "Bar"; break;
+                case Pound: j = "Pound"; break;
+                case Dot: j = "Dot"; break;
+                case EqualsEquals: j = "EqualsEquals"; break;
+                case GreaterThanEquals: j = "GreaterThanEquals"; break;
+                case LesserThanEquals: j = "LesserThanEquals"; break;
+                case ExclamationEquals: j = "ExclamationEquals"; break;
+                case AmpersasndAmpersand: j = "AmpersandAmpersand"; break;
+                case BarBar: j = "BarBar"; break;
+                case Increment: j = "Increment"; break;
+                case Decrement: j = "Decrement"; break;
+                case PlusEquals: j = "PlusEquals"; break;
+                case MinusEquals: j = "MinusEquals"; break;
+                case AsteriskEquals: j = "AsteriskEquals"; break;
+                case ForwardSlashEquals: j = "ForwardSlashEquals"; break;
+                case KeywordChar: j = "KeywordChar"; break;
+                case KeywordBool: j = "KeywordBool"; break;
+                case KeywordShort: j = "KeywordShort"; break;
+                case KeywordInt: j = "KeywordInt"; break;
+                case KeywordFloat: j = "KeywordFloat"; break;
+                case KeywordLong: j = "KeywordLong"; break;
+                case KeywordDouble: j = "KeywordDouble"; break;
+                case KeywordConst: j = "KeywordConst"; break;
+                case KeywordConstexpr: j = "KeywordConstexpr"; break;
+                case KeywordVolatile: j = "KeywordVolatile"; break;
+                case KeywordUnsigned: j = "KeywordUnsigned"; break;
+                case KeywordSigned: j = "KeywordSigned"; break;
+                case KeywordImport: j = "KeywordImport"; break;
+                case KeywordExport: j = "KeywordExport"; break;
+                case KeywordIf: j = "KeywordIf"; break;
+                case KeywordElse: j = "KeywordElse"; break;
+                case KeywordElseIf: j = "KeywordElseIf"; break;
+                case KeywordWhile: j = "KeywordWhile"; break;
+                case KeywordReturn: j = "KeywordReturn"; break;
+                case KeywordTrue: j = "KeywordTrue"; break;
+                case KeywordFalse: j = "KeywordFalse"; break;
+                case KeywordPublic: j = "KeywordPublic"; break;
+                case KeywordPrivate: j = "KeywordPrivate"; break;
+                case KeywordFinal: j = "KeywordFinal"; break;
+                case KeywordClass: j = "KeywordClass"; break;
+                case KeywordStruct: j = "KeywordStruct"; break;
+                case KeywordNamespace: j = "KeywordNamespace"; break;
+                case KeywordUsing: j = "KeywordUsing"; break;
+                case LineComment: j = "LineComment"; break;
+                case BlockComment: j = "BlockComment"; break;
+                case Eof: j = "Eof"; break;
+                default: j = "Unknown"; break;
+            }
+        }
+
+        // Do not need a from_json() for now.
+    };
+
+    template <>
+    struct adl_serializer<codex::reflect::TextSpan>
+    {
+        static void to_json(ordered_json& j, const codex::reflect::TextSpan& t)
+        {
+            j["line"] = t.line;
+            j["cur"]  = t.cur;
+            j["text"] = t.text;
+        }
+    };
+
+    template <>
+    struct adl_serializer<codex::reflect::Token>
+    {
+        static void to_json(ordered_json& j, const codex::reflect::Token& t)
+        {
+            j["type"] = t.type;
+            j["span"] = t.span;
+            j["num"]  = t.num;
+        }
+    };
+
+} // namespace nlohmann
+
+std::ostream& operator<<(std::ostream& stream, const codex::reflect::TextSpan& span) noexcept;
+std::ostream& operator<<(std::ostream& stream, const codex::reflect::Token& token) noexcept;
 
 #endif // CODEX_REFLECTION_LEXER_H

@@ -30,6 +30,17 @@ namespace codex::editor {
 
         // glEnable(GL_DEPTH_TEST);
         // glDepthFunc(GL_LESS);
+
+        
+        std::ifstream     in("./TestScript.h");
+        if (in.is_open())
+        {
+            std::string out((std::istreambuf_iterator<char>(in)), (std::istreambuf_iterator<char>()));
+
+            Lexer lex(out);
+            for (auto t = lex.NextToken(); t; t = lex.NextToken())
+                std::cout << *t << std::endl;
+        }
     }
 
     void SceneEditorView::OnDetach()

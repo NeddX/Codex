@@ -23,7 +23,7 @@
         return category;                                                                                               \
     }
 
-namespace codex {
+namespace codex::events {
     enum class EventType : u8
     {
         None = 0,
@@ -61,7 +61,7 @@ namespace codex {
         EventCategoryMouseButton = BitFlag(4)
     };
 
-    class Event
+    class CODEX_API Event
     {
     public:
         bool handled = false;
@@ -79,7 +79,7 @@ namespace codex {
         inline bool IsInCategory(const EventCategory category) { return GetCategory() & category; }
     };
 
-    class EventDispatcher
+    class CODEX_API EventDispatcher
     {
     private:
         Event& m_Event;
@@ -99,20 +99,13 @@ namespace codex {
             return false;
         }
     };
-} // namespace codex
+} // namespace codex::events
 
 namespace fmt {
     template <>
-    struct formatter<codex::Event>
+    struct formatter<codex::events::Event> : formatter<std::string_view>
     {
-        template <typename ParseContext>
-        constexpr auto parse(ParseContext& ctx)
-        {
-            return ctx.begin();
-        }
-
-        template <typename FormatContext>
-        auto format(const codex::Event& event, FormatContext& ctx)
+        auto format(const codex::events::Event& event, format_context& ctx) const
         {
             static const char* type_str_arr[] = { "None",
 

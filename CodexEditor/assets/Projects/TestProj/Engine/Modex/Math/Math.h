@@ -16,4 +16,15 @@ namespace codex::math {
     }
 
     bool TransformDecompose(const glm::mat4& transform, glm::vec3& translation, glm::vec3& rotation, glm::vec3& scale);
+
+    template <typename T>
+    constexpr T Clamp(const T& value, const T& min, const T& max)
+    {
+        return std::max(min, std::min(value, max));
+    }
+
+    constexpr f32 Clampf(const f32 value, const f32 min, const f32 max)
+    {
+        return std::max(min, std::min(value, max));
+    }
 } // namespace codex::math

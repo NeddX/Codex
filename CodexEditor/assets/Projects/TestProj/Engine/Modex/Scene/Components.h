@@ -4,6 +4,7 @@
 #include <sdafx.h>
 
 #include "../Core/Geomtryd.h"
+#include "../Memory/Memory.h"
 #include "../NativeBehaviour/NativeBehaviour.h"
 #include "Sprite.h"
 
@@ -19,7 +20,7 @@ namespace codex {
         friend class Entity;
 
     protected:
-        std::unique_ptr<Entity> m_Parent;
+        Entity m_Parent;
 
     protected:
         virtual void Start() {}
@@ -29,7 +30,7 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
-    struct TagComponent : public IComponent
+    struct CODEX_API TagComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
@@ -45,7 +46,7 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
-    struct TransformComponent : public IComponent
+    struct CODEX_API TransformComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
@@ -75,7 +76,7 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
-    struct SpriteRendererComponent : public IComponent
+    struct CODEX_API SpriteRendererComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
@@ -85,7 +86,7 @@ namespace codex {
         Sprite m_Sprite;
 
     public:
-        SpriteRendererComponent(const Sprite& sprite);
+        SpriteRendererComponent(Sprite sprite);
 
     public:
         inline Sprite& GetSprite() { return m_Sprite; }
@@ -94,7 +95,7 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
-    struct GridRendererComponent : public IComponent
+    struct CODEX_API GridRendererComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
@@ -117,39 +118,124 @@ namespace codex {
         CX_COMPONENT_SERIALIZABLE()
     };
 
+    class ScriptException : public CodexException
+    {
+        using CodexException::CodexException;
+
+    public:
+        constexpr const char* default_message() const noexcept override { return "An unknown behaviour exception."; }
+    };
+
+    class DuplicateBehaviourException : public CodexException
+    {
+        using CodexException::CodexException;
+
+    public:
+        constexpr const char* default_message() const noexcept override
+        {
+            return "Cannot have more than one type of behaviour on a single entity.";
+        }
+    };
+
     struct NativeBehaviourComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
 
     public:
-        NativeBehaviour* instance = nullptr;
-        NativeBehaviour* (*Instantiate)();
-        void (*destroy)(NativeBehaviourComponent*);
+        std::unordered_map<std::string_view, mem::Box<NativeBehaviour>> behaviours;
 
     public:
-        template <typename T>
-        void Bind()
+        NativeBehaviourComponent() {}
+        NativeBehaviourComponent(const NativeBehaviourComponent&) = delete;
+
+    public:
+        void Start() override
         {
-            Instantiate = []() { return (NativeBehaviour*)new T(); };
-            destroy     = [](NativeBehaviourComponent* zis)
+            for (auto& [k, v] : behaviours)
             {
-                delete zis->instance;
-                zis->instance = nullptr;
-            };
+                v->Init();
+            }
+        }
+        void Attach(mem::Box<NativeBehaviour> bh)
+        {
+            bh->Serialize();
+            bh->m_Owner                 = m_Parent;
+            const std::string_view name = bh->m_SerializedData.begin().key();
+            if (!behaviours.contains(name))
+                behaviours[name] = std::move(bh);
+        }
+        mem::Box<NativeBehaviour> Detach(const std::string_view className)
+        {
+            auto it = behaviours.find(className);
+            if (it != behaviours.end())
+            {
+                auto ptr = std::move(it->second);
+                behaviours.erase(it, behaviours.end());
+                return std::move(ptr);
+            }
+            else
+            {
+                cx_throw(ScriptException, "Tried to detach a behaviour ({}) that is not attach on first place.",
+                         className);
+            }
+            return nullptr;
+        }
+        void InstantiateBehaviour(const std::string_view className)
+        {
+            if (behaviours.contains(className))
+                behaviours.at(className)->Init();
+            else
+                cx_throw(ScriptException, "Tried to instantiate a non-existent behaviour class {}.", className);
+        }
+        void Dispose(const std::string_view className)
+        {
+            auto it = behaviours.find(className);
+            if (it != behaviours.end())
+            {
+                behaviours.erase(it, behaviours.end());
+            }
+            else
+            {
+                cx_throw(ScriptException, "Tried to dispose a behaviour ({}) that is not attach on first place.",
+                         className);
+            }
+        }
+        void DisposeBehaviours() { behaviours.clear(); }
+
+    public:
+        template <typename T, typename... TArgs>
+        T& New(TArgs&&... args)
+            requires(std::is_base_of_v<NativeBehaviour, T>)
+        {
+            for (const auto& [k, v] : behaviours)
+            {
+                if (typeid(v) == typeid(T))
+                    cx_throwd(DuplicateBehaviourException);
+            }
+
+            mem::Box<NativeBehaviour> bh{ new T(std::forward<TArgs>(args)...) };
+            bh->m_Owner = m_Parent;
+            bh->Init();
+            bh->Serialize();
+            const std::string_view name = bh->m_SerializedData.begin().key();
+            if (!behaviours.contains(name))
+                behaviours[name] = std::move(bh);
+
+            return *(T*)behaviours[name].Get();
         }
 
     public:
         CX_COMPONENT_SERIALIZABLE()
     };
 
-    struct TilemapComponent : public IComponent
+    struct CODEX_API TilemapComponent : public IComponent
     {
         friend class Serializer;
         friend class Entity;
 
     private:
-        ResRef<Texture2D>                                     m_Texture;
+        ResRef<graphics::Texture2D>                           m_Texture;
         std::map<i32, std::unordered_map<Vector2f, Vector2f>> m_Tiles;
         Vector2f                                              m_GridSize;
         Vector2f                                              m_TileSize;
@@ -157,14 +243,14 @@ namespace codex {
         GridRendererComponent*                                m_GridRenderer;
 
     public:
-        TilemapComponent(ResRef<Texture2D> texture, const Vector2f gridSize, const Vector2f tileSize);
+        TilemapComponent(ResRef<graphics::Texture2D> texture, const Vector2f gridSize, const Vector2f tileSize);
 
     protected:
         void Start() override;
 
     public:
         inline const std::map<i32, std::unordered_map<Vector2f, Vector2f>>& GetAllTiles() const { return m_Tiles; }
-        inline ResRef<Texture2D>                                            GetTexture() const { return m_Texture; }
+        inline ResRef<graphics::Texture2D>                                  GetTexture() const { return m_Texture; }
         inline Vector2f                                                     GetGridSize() const { return m_GridSize; }
         inline Vector2f                                                     GetTileSize() const { return m_TileSize; }
         inline i32                                                          GetLayer() const { return m_Layer; }
@@ -175,7 +261,7 @@ namespace codex {
                 total_size += e.second.size();
             return total_size;
         }
-        inline void SetTexture(ResRef<Texture2D> newTexuture) { m_Texture = newTexuture; }
+        inline void SetTexture(ResRef<graphics::Texture2D> newTexuture) { m_Texture = newTexuture; }
         inline void SetGridSize(const Vector2f newGridSize)
         {
             m_GridSize = newGridSize;

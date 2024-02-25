@@ -9,6 +9,9 @@ namespace codex {
     using Vector2f = glm::vec2;
     using Vector3f = glm::vec3;
     using Vector4f = glm::vec4;
+    using Vector2  = glm::ivec2;
+    using Vector3  = glm::ivec3;
+    using Vector4  = glm::ivec4;
     using Rect     = mgl::Rect;
     using Rectf    = mgl::Rectf;
 } // namespace codex
@@ -69,66 +72,67 @@ namespace std {
 
 namespace fmt {
     template <>
-    struct formatter<codex::Vector2f>
+    struct formatter<codex::Vector2f> : formatter<std::string_view>
     {
-        template <typename ParseContext>
-        constexpr auto parse(ParseContext& ctx)
+        auto format(const codex::Vector2f& vec, format_context& ctx) const
         {
-            return ctx.begin();
-        }
-
-        template <typename FormatContext>
-        auto format(const codex::Vector2f& vec, FormatContext& ctx)
-        {
-            return fmt::format_to(ctx.out(), "({}, {})", vec.x, vec.y);
+            return format_to(ctx.out(), "({}, {})", vec.x, vec.y);
         }
     };
-
     template <>
-    struct formatter<codex::Vector3f>
+    struct formatter<codex::Vector2> : formatter<std::string_view>
     {
-        template <typename ParseContext>
-        constexpr auto parse(ParseContext& ctx)
+        auto format(const codex::Vector2& vec, format_context& ctx) const
         {
-            return ctx.begin();
-        }
-
-        template <typename FormatContext>
-        auto format(const codex::Vector3f& vec, FormatContext& ctx)
-        {
-            return fmt::format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
+            return format_to(ctx.out(), "({}, {})", vec.x, vec.y);
         }
     };
-
     template <>
-    struct formatter<codex::Vector4f>
+    struct formatter<codex::Vector3f> : formatter<std::string_view>
     {
-        template <typename ParseContext>
-        constexpr auto parse(ParseContext& ctx)
+        auto format(const codex::Vector3f& vec, format_context& ctx) const
         {
-            return ctx.begin();
-        }
-
-        template <typename FormatContext>
-        auto format(const codex::Vector4f& vec, FormatContext& ctx)
-        {
-            return fmt::format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.z, vec.w);
+            return format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
         }
     };
-
     template <>
-    struct formatter<codex::Rectf>
+    struct formatter<codex::Vector3> : formatter<std::string_view>
     {
-        template <typename ParseContext>
-        constexpr auto parse(ParseContext& ctx)
+        auto format(const codex::Vector3& vec, format_context& ctx) const
         {
-            return ctx.begin();
+            return format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
         }
-
-        template <typename FormatContext>
-        auto format(const codex::Rectf& vec, FormatContext& ctx)
+    };
+    template <>
+    struct formatter<codex::Vector4f> : formatter<std::string_view>
+    {
+        auto format(const codex::Vector4f& vec, format_context& ctx) const
         {
-            return fmt::format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.w, vec.h);
+            return format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.z, vec.w);
+        }
+    };
+    template <>
+    struct formatter<codex::Vector4> : formatter<std::string_view>
+    {
+        auto format(const codex::Vector4& vec, format_context& ctx) const
+        {
+            return format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.z, vec.w);
+        }
+    };
+    template <>
+    struct formatter<codex::Rectf> : formatter<std::string_view>
+    {
+        auto format(const codex::Rectf& rect, format_context& ctx) const
+        {
+            return format_to(ctx.out(), "({}, {}, {}, {})", rect.x, rect.y, rect.w, rect.h);
+        }
+    };
+    template <>
+    struct formatter<codex::Rect> : formatter<std::string_view>
+    {
+        auto format(const codex::Rect& rect, format_context& ctx) const
+        {
+            return format_to(ctx.out(), "({}, {}, {}, {})", rect.x, rect.y, rect.w, rect.h);
         }
     };
 } // namespace fmt

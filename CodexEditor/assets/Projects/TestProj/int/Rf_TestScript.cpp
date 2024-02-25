@@ -2,6 +2,7 @@
 
 #include "../Assets/Scripts/TestScript.h"
 
+/*
 void MienScripten::Serialize()
 {
     m_SerializedData["MienScripten"]["Id"]                              = 0;
@@ -23,3 +24,4 @@ object MienScripten::GetField(const std::string_view name)
         return &m_Axies;
     return nullobj;
 }
+*/

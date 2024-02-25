@@ -1,3 +1,5 @@
+project("CEditor")
+
 file(GLOB_RECURSE CODEXEDITOR_SOURCE_FILES "src/*.cpp")
 file(GLOB_RECURSE CODEXEDITOR_HEADER_FILES "src/*.h")
 file(GLOB_RECURSE CODEXEDITOR_MODULE_FILES "src/*.ixx")
@@ -36,7 +38,7 @@ if(DEFINED CX_PLATFORM_WINDOWS)
 elseif(DEFINED CX_PLATFORM_UNIX)
   install(TARGETS CodexEditor DESTINATION bin)
   install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/"
-          DESTINATION share/${CMAKE_PROJECT_NAME})
+          DESTINATION share/${PROJECT_NAME})
 endif()
 
 target_include_directories(CodexEditor PUBLIC ${IMGUIZMO_INCLUDE_DIRS})
@@ -44,3 +46,11 @@ target_sources(CodexEditor PRIVATE ${IMGUIZMO_SOURCE_FILES})
 
 # Misc
 target_include_directories(CodexEditor PRIVATE "src/")
+
+# Multicore compilation for MSVC if CX_PARALLEL is not 0.
+if(DEFINED CX_COMPILER_MSVC AND NOT CX_PARALLEL EQUAL 0)
+    target_compile_options(CodexEditor PRIVATE "/MP")
+endif()
+
+# Set default startup project to be this one when generating a VS Solution.
+set_target_properties(CodexEditor PROPERTIES VS_STARTUP_PROJECT CodexEditor)

@@ -3,18 +3,31 @@
 
 #include <sdafx.h>
 
-#define cx_throw(ex_type, msg, ...) throw ex_type(fmt::format(msg, __VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
-#define cx_throwd(ex_type)       throw ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
-#define CX_EXCEPTION_PRINT(ex)                                                                                         \
-    do                                                                                                                 \
+#define cx_throw(ex_type, ...) throw ex_type(fmt::format(__VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+#define cx_throwd(ex_type)     throw ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+#define CX_CUSTOM_EXCEPTION(name, default_msg)                                                                         \
+    class CODEX_API name : public CodexException                                                                       \
     {                                                                                                                  \
-        fmt::println("An exception was caught: {}: {}\n\t{}", ex.TypeNameDemangle(typeid(ex).name()), ex.what(),       \
-                     ex.backtrace());                                                                                  \
-    } while (0)
+        using CodexException::CodexException;                                                                          \
+                                                                                                                       \
+    public:                                                                                                            \
+        const char* default_message() const noexcept override                                                          \
+        {                                                                                                              \
+            return default_msg;                                                                                        \
+        }                                                                                                              \
+    };
+#define CX_CONSTRUCTOR(default_msg)                                                                                    \
+    using CodexException::CodexException;                                                                              \
+                                                                                                                       \
+public:                                                                                                                \
+    const char* default_message() const noexcept override \                                                            \
+    {                                                                                                                  \
+        \ return default_msg;                                                                                          \
+        \                                                                                                              \
+    }
 
 namespace codex {
-
-    class CodexException : public std::exception
+    class CODEX_API CodexException : public std::exception
     {
     protected:
         const std::string m_Message;
@@ -29,7 +42,7 @@ namespace codex {
         CodexException(const std::string_view message, const char* file, const char* function, const u32 line) noexcept;
 
     public:
-        inline virtual const char* default_message() const noexcept { return "Unknown engine message."; }
+        virtual const char* default_message() const noexcept { return "Unknown engine message."; }
 
     public:
         static inline std::string TypeNameDemangle(const char* name)
@@ -46,7 +59,24 @@ namespace codex {
     public:
         const char* what() const noexcept override;
         std::string backtrace() const noexcept;
+
+    public:
+        friend std::ostream& operator<<(std::ostream& stream, const codex::CodexException& ex) noexcept
+        {
+            stream << fmt::format("An exception was caught: {}: {}\n\t{}",
+                                  codex::CodexException::TypeNameDemangle(typeid(ex).name()), ex.what(),
+                                  ex.backtrace());
+            return stream;
+        }
     };
+
+    // Generic Exceptions
+    CX_CUSTOM_EXCEPTION(FileNotFoundException, "File was not found.")
+    CX_CUSTOM_EXCEPTION(NullReferenceException, "Object reference was not instantiated.")
+    CX_CUSTOM_EXCEPTION(IndexOutOfBoundsException, "Index was out of bounds.")
+    CX_CUSTOM_EXCEPTION(NotFoundException, "Item was not found.")
+    CX_CUSTOM_EXCEPTION(InvalidArgumentException, "Provided argument was invalid.")
+    CX_CUSTOM_EXCEPTION(BadOperationException, "Something somewhere went wrong, we're not sure why.")
 } // namespace codex
 
 #endif // CODEX_CORE_EXCEPTION_H

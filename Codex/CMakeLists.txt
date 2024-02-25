@@ -282,10 +282,21 @@ target_precompile_headers(CodexEngine PRIVATE src/PCH/sdafx.h)
 target_include_directories(CodexEngine-static PUBLIC src/PCH)
 target_precompile_headers(CodexEngine-static PRIVATE src/PCH/sdafx.h)
 
+# Multicore compilation for MSVC if CX_PARALLEL is not 0.
+if(DEFINED CX_COMPILER_MSVC AND NOT CX_PARALLEL EQUAL 0)
+    target_compile_options(CodexEngine PRIVATE "/MP")
+    target_compile_options(CodexEngine-static PRIVATE "/MP")
+endif()
+
 # Treat all warnings as errors for QUALITY
 if(CX_COMPILER_MSVC)
   # target_compile_options(CodexEngine PRIVATE /W3 /WX)
 else()
   # target_compile_options(CodexEngine PRIVATE -Wall -Wextra -Wno-error=extra
   # -Werror)
+endif()
+
+# Set this to be the startup project when generating a VS Solution and CEditor is disabled.
+if (NOT DEFINED CX_ENABLE_CEDITOR)
+    set_target_properties(CodexEngine PROPERTIES VS_STARTUP_PROJECT CodexEngine)
 endif()

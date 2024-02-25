@@ -6,8 +6,8 @@
 #include "../Core/Input.h"
 #include "Event.h"
 
-namespace codex {
-    class KeyEvent : public Event
+namespace codex::events {
+    class CODEX_API KeyEvent : public Event
     {
     protected:
         Key m_Key;
@@ -21,7 +21,7 @@ namespace codex {
         EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
     };
 
-    class KeyDownEvent : public KeyEvent
+    class CODEX_API KeyDownEvent : public KeyEvent
     {
     private:
         bool m_IsRepeat;
@@ -31,7 +31,7 @@ namespace codex {
 
     public:
         bool        IsRepeat() const noexcept { return m_IsRepeat; }
-        std::string ToString() const noexcept
+        std::string ToString() const noexcept override
         {
             return fmt::format("KeyDownEvent: Key({}), IsRepeat({})", m_Key, m_IsRepeat);
         }
@@ -39,16 +39,19 @@ namespace codex {
         EVENT_CLASS_TYPE(KeyDown);
     };
 
-    class KeyUpEvent : public KeyEvent
+    class CODEX_API KeyUpEvent : public KeyEvent
     {
     public:
         KeyUpEvent(const Key key) : KeyEvent(key) {}
 
     public:
-        std::string ToString() const noexcept { return fmt::format("KeyUpEvent: Key({})", m_Key); }
+        std::string ToString() const noexcept override
+        {
+            return fmt::format("KeyUpEvent: Key({})", m_Key);
+        }
 
         EVENT_CLASS_TYPE(KeyUp);
     };
-} // namespace codex
+} // namespace codex::events
 
 #endif // CODEX_EVENTS_KEY_EVENT_H

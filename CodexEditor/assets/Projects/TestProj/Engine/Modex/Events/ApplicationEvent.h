@@ -5,8 +5,8 @@
 
 #include "Event.h"
 
-namespace codex {
-    class WindowResizeEvent : public Event
+namespace codex::events {
+    class CODEX_API WindowResizeEvent : public Event
     {
     private:
         i32 m_Width;
@@ -18,7 +18,7 @@ namespace codex {
     public:
         inline i32         GetWidth() const noexcept { return m_Width; }
         inline i32         GetHeight() const noexcept { return m_Height; }
-        inline std::string ToString() const noexcept
+        inline std::string ToString() const noexcept override
         {
             return fmt::format("WindowResizeEvent: Width({}), Height({})", m_Width, m_Height);
         }
@@ -27,7 +27,7 @@ namespace codex {
         EVENT_CLASS_CATEGORY(EventCategoryApplication)
     };
 
-    class WindowCloseEvent : public Event
+    class CODEX_API WindowCloseEvent : public Event
     {
     public:
         WindowCloseEvent() = default;
@@ -35,6 +35,6 @@ namespace codex {
         EVENT_CLASS_TYPE(WindowClose)
         EVENT_CLASS_CATEGORY(EventCategoryApplication)
     };
-} // namespace codex
+} // namespace codex::events
 
 #endif // CODEX_EVENTS_APPLICATION_EVENT_H

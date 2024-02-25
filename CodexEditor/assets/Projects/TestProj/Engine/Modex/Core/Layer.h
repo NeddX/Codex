@@ -6,7 +6,7 @@
 #include "../Events/Event.h"
 
 namespace codex {
-    class Layer
+    class CODEX_API Layer
     {
     protected:
         std::string m_DebugName;
@@ -20,7 +20,7 @@ namespace codex {
         virtual void OnDetach() {}
         virtual void Update(const f32 deltaTime) {}
         virtual void ImGuiRender() {}
-        virtual void OnEvent(Event& event) {}
+        virtual void OnEvent(events::Event& event) {}
 
         const std::string& GetName() const noexcept { return m_DebugName; }
     };

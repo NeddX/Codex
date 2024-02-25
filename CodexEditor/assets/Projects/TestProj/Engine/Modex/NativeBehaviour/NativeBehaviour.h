@@ -36,7 +36,7 @@ namespace codex {
         StdString
     };
 
-    class NativeBehaviour
+    class CODEX_API NativeBehaviour
     {
         friend class Scene;
         friend class NativeBehaviourComponent;
@@ -47,8 +47,23 @@ namespace codex {
 
     public:
         constexpr const nlohmann::ordered_json& GetSerializedData() const noexcept { return m_SerializedData; }
+        inline void                             SetOwner(const Entity entity) noexcept { m_Owner = entity; }
 
     public:
+        auto CreateEntity(const std::string_view tag = "default tag") { return m_Owner.m_Scene->CreateEntity(tag); }
+        void RemoveEntity(codex::Entity entity) { m_Owner.m_Scene->RemoveEntity(entity); }
+        auto GetAllEntities() { return m_Owner.m_Scene->GetAllEntities(); }
+        auto GetAllEntitiesWithTag(const std::string_view tag) { return m_Owner.m_Scene->GetAllEntitesWithTag(tag); }
+        auto GetEntityCount() const noexcept { return m_Owner.m_Scene->GetEntityCount(); }
+        const auto& GetCurrentScene() const noexcept { return m_Owner.m_Scene; }
+        auto& GetCurrentScene() noexcept { return *m_Owner.m_Scene; }
+
+    public:
+        template <typename T>
+        auto GetAllEntitiesWithComponent()
+        {
+            return m_Owner.m_Scene->GetAllEntitiesWithComponent<T>();
+        }
         template <typename T, typename... TArgs>
         T& AddComponent(TArgs&&... args)
         {
@@ -65,22 +80,26 @@ namespace codex {
             return m_Owner.GetComponent<T>();
         }
         template <typename T>
-        bool HasComponent()
+        const T& GetComponent() const
+        {
+            return (NativeBehaviour*)(this)->GetComponent<T>();
+        }
+        template <typename T>
+        bool HasComponent() const
         {
             return m_Owner.HasComponent<T>();
         }
 
     public:
-        NativeBehaviour()          = default;
         virtual ~NativeBehaviour() = default;
 
         // FIXME: Mark these methods protected!
         // protected:
     public:
-        virtual void   Init(){};
+        virtual void   Init() = 0;
         virtual void   Update(const f32 deltaTime) {}
         virtual void   Destroy() {}
-        virtual void   Serialize(){};
+        virtual void   Serialize() { m_SerializedData[typeid(this).name()]["Id"] = -1; };
         virtual object GetField(const std::string_view name) { return nullobj; }
     };
 } // namespace codex

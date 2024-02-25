@@ -7,11 +7,11 @@
 #include "Shader.h"
 #include "Texture2D.h"
 
-namespace codex {
+namespace codex::graphics {
     constexpr auto QUAD2D_VERTEX_COMPONENT_COUNT = 13; // How many components does a vertex have?
     constexpr auto QUAD2D_VERTEX_COUNT           = 4;  // How many vertices does the buffer have?
-    constexpr auto QUAD2D_VERTEX_SIZE =
-        QUAD2D_VERTEX_COUNT * QUAD2D_VERTEX_COMPONENT_COUNT; // The total count of the elements in the buffer
+    constexpr auto QUAD2D_VERTEX_SIZE = QUAD2D_VERTEX_COUNT * QUAD2D_VERTEX_COMPONENT_COUNT; // The total count of the
+                                                                                             // elements in the buffer
 
     struct QuadVertex
     {
@@ -23,7 +23,7 @@ namespace codex {
         i32      entityId;
     };
 
-    class RenderBatch
+    class CODEX_API RenderBatch
     {
     private:
         i32                                      m_QuadCount           = 0;
@@ -60,6 +60,6 @@ namespace codex {
         std::vector<u32> GenerateIndicies(u32& size);
         void             Render();
     };
-} // namespace codex
+} // namespace codex::graphics
 
 #endif // CODEX_RENDERER_RENDER_BATCH_H

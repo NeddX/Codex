@@ -8,7 +8,7 @@ namespace codex {
     class Scene;
     class Entity;
 
-    class Serializer
+    class CODEX_API Serializer
     {
         friend class Scene;
         friend class Entity;

@@ -8,7 +8,7 @@
 #include "BatchRenderer2D.h"
 #include "Shader.h"
 
-namespace codex {
+namespace codex::graphics {
     // TODO: This is bad... fix it please.
     class Renderer
     {
@@ -25,17 +25,11 @@ namespace codex {
         static void Destroy();
 
     public:
-        static inline void Clear() { m_InternalRenderer->Clear(); }
-        static inline void SetClearColour(const f32 r, const f32 g, const f32 b, const f32 a)
-        {
-            m_InternalRenderer->SetClearColour(r, g, b, a);
-        }
-        static inline void Render(const mgl::VertexArray* vertexArray, const mgl::IndexBuffer* indexBuffer,
-                                  const mgl::Shader* shader)
-        {
-            m_InternalRenderer->Render(vertexArray, indexBuffer, shader);
-        }
+        static void Clear();
+        static void SetClearColour(const f32 r, const f32 g, const f32 b, const f32 a);
+        static void Render(const mgl::VertexArray* vertexArray, const mgl::IndexBuffer* indexBuffer,
+                           const mgl::Shader* shader);
     };
-} // namespace codex
+} // namespace codex::graphics
 
 #endif // CODEX_RENDERER_H

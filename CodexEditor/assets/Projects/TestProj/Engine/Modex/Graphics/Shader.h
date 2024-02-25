@@ -5,35 +5,23 @@
 
 #include "../Core/Exception.h"
 #include "../Core/IResource.h"
+#include "../Memory/Memory.h"
 
-namespace codex {
-    class ShaderException : public CodexException
-    {
-        using CodexException::CodexException;
-
-    public:
-        constexpr const char* default_message() const noexcept override { return "Bad shader."; }
-    };
-
-    class ShaderNotFoundException : public ShaderException
-    {
-        using ShaderException::ShaderException;
-
-    public:
-        constexpr const char* default_message() const noexcept override { return "Shader was not found."; }
-    };
+namespace codex::graphics {
+    CX_CUSTOM_EXCEPTION(ShaderException, "Bad shader.")
+    CX_CUSTOM_EXCEPTION(ShaderNotFoundException, "Shader file was not found.")
 
     class Shader : public IResource
     {
         friend class ResourceHandler;
 
     private:
-        std::unique_ptr<mgl::Shader> m_RawShader;
+        mem::Box<mgl::Shader> m_RawShader;
 
     public:
-        Shader(const std::string_view filePath, const std::string_view version = "330 core")
+        Shader(std::filesystem::path filePath, const std::string_view version = "330 core")
         {
-            m_RawShader = std::make_unique<mgl::Shader>(filePath, version);
+            m_RawShader = mem::Box<mgl::Shader>::New(std::move(filePath), version);
         }
 
     public:
@@ -68,6 +56,6 @@ namespace codex {
             return m_RawShader->CompileShader(compileDefinitions);
         }
     };
-} // namespace codex
+} // namespace codex::graphics
 
 #endif // CODEX_RENDERER_SHADER_H

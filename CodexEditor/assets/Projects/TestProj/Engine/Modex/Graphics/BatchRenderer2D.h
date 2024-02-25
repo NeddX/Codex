@@ -9,7 +9,7 @@
 #include "Shader.h"
 #include "Texture2D.h"
 
-namespace codex {
+namespace codex::graphics {
     constexpr auto BATCH_RENDERER_INITIAL_CAPACITY         = 16;
     constexpr auto BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH = 1024;
 
@@ -35,16 +35,10 @@ namespace codex {
         ~BatchRenderer2D()                                           = default;
 
     public:
-        static inline Shader* GetShader() noexcept { return m_Shader; }
-        static inline usize   GeBatchCount() noexcept { return m_Batches.size(); }
-        static inline usize   GetQuadCount() noexcept
-        {
-            usize quad_count = 0;
-            for (const auto b : m_Batches)
-                quad_count += b->GetCount();
-            return quad_count;
-        };
-        static inline std::vector<RenderBatch*>& GetBatches() noexcept { return m_Batches; }
+        static Shader*                    GetShader() noexcept;
+        static usize                      GeBatchCount() noexcept;
+        static usize                      GetQuadCount() noexcept;
+        static std::vector<RenderBatch*>& GetBatches() noexcept;
 
     public:
         static void Init();
@@ -60,10 +54,10 @@ namespace codex {
         {
             auto& ncsprite   = (Sprite&)sprite;
             auto& tex_coords = ncsprite.GetTextureCoords();
-            RenderRect(sprite.GetTexture().get(), tex_coords, transform, ncsprite.GetColour(), ncsprite.GetZIndex(),
+            RenderRect(sprite.GetTexture().Get(), tex_coords, transform, ncsprite.GetColour(), ncsprite.GetZIndex(),
                        entityId);
         }
     };
-} // namespace codex
+} // namespace codex::graphics
 
 #endif // CODEX_RENDERER_SPRITE_BATCH_RENDERER_H

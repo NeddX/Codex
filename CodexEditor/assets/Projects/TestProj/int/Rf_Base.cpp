@@ -1,5 +1,4 @@
 #include <Modex.h>
-#include <Reflector.h>
 
 // To be added by Reflector.
 #include "../Assets/Scripts/TestScript.h"
@@ -9,25 +8,19 @@
 
 using namespace codex;
 
-std::unordered_map<const char*, NativeBehaviour* (*)()> g_Classes;
-
-void Rf_Dummy()
+void Rf_Dummy() noexcept
 {
     std::puts("Dummy function executed.");
 }
 
-bool Rf_DoesInstanceExist(const char* className)
+bool Rf_DoesInstanceExist(const char* className) noexcept
 {
-    if (std::strcmp(className, "MienScripten") == 0)
-        return true;
     return false;
 }
 
-NativeBehaviour* Rf_CreateInstance(const char* className)
+NativeBehaviour* Rf_CreateInstance(const char* className) noexcept
 {
     // There was an issue with entity owner I don't know, I don't remember.
     std::printf("Creating instance of: %s\n", className);
-    if (std::strcmp(className, "MienScripten") == 0)
-        return new MienScripten();
     return nullptr;
 }

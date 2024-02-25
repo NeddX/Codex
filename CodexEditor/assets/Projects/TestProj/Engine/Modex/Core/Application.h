@@ -5,28 +5,24 @@
 
 #include "../Events/Event.h"
 #include "../ImGui/ImGuiLayer.h"
-#include "../Renderer/Renderer.h"
+#include "../Graphics/Renderer.h"
 #include "CommonDef.h"
 #include "Exception.h"
-#include "Input.h"
 #include "LayerStack.h"
 #include "Window.h"
 
 int main(int argc, char** argv);
 
 namespace codex {
-    // Forward declerations.
-    class WindowResizeEvent;
+    // Forward declarations.
+    class Input;
+    namespace events {
+        class WindowResizeEvent;
+    } // namespace events
 
-    class InvalidPathException : public CodexException
-    {
-        using CodexException::CodexException;
+    CX_CUSTOM_EXCEPTION(InvalidPathException, "The path supplied is invalid.");
 
-    public:
-        constexpr const char* default_message() const noexcept override { return "The path supplied is invalid."; }
-    };
-
-    struct ApplicationCLIArgs
+    struct CODEX_API ApplicationCLIArgs
     {
     public:
         int    count = 0;
@@ -40,7 +36,7 @@ namespace codex {
         }
     };
 
-    struct ApplicationProperties
+    struct CODEX_API ApplicationProperties
     {
         std::string        name = "Codex Application";
         std::string        cwd;
@@ -48,58 +44,49 @@ namespace codex {
         WindowProperties   windowProperties;
     };
 
-    class Application
+    class CODEX_API Application
     {
         friend int ::main(int argc, char** argv);
-        friend Application* CreateApplication(const ApplicationCLIArgs args);
+        friend Application* CreateApplication(ApplicationCLIArgs args);
 
     protected:
-        ApplicationProperties                 m_Properties;
+        ApplicationProperties                 m_Properties{};
         Window::Box                           m_Window    = nullptr;
         bool                                  m_Running   = true;
         bool                                  m_Minimized = false;
-        LayerStack                            m_LayerStack;
-        std::chrono::system_clock::time_point m_Tp1, m_Tp2;
+        LayerStack                            m_LayerStack{};
+        std::chrono::system_clock::time_point m_Tp1{}, m_Tp2{};
         f32                                   m_DeltaTime  = 0.0f;
-        ImGuiLayer*                           m_ImGuiLayer = nullptr;
+        imgui::ImGuiLayer*                    m_ImGuiLayer = nullptr;
         Input*                                m_Input      = nullptr;
 
     private:
         static Application* m_Instance;
 
     public:
-        Application(const ApplicationProperties& props);
+        Application(ApplicationProperties props);
+        Application(const Application& other) = delete;
         virtual ~Application();
 
     public:
-        inline static Window&          GetWindow() noexcept { return *m_Instance->m_Window; }
-        inline static Application&     Get() noexcept { return *m_Instance; }
-        inline static u32              GetFps() noexcept { return (u32)(1.0f / m_Instance->m_DeltaTime); }
-        inline static f32              GetDelta() noexcept { return m_Instance->m_DeltaTime; }
-        inline static ImGuiLayer*      GetImGuiLayer() noexcept { return m_Instance->m_ImGuiLayer; }
-        inline static std::string_view GetCurrentWorkingDirectory() noexcept { return m_Instance->m_Properties.cwd; };
-        inline static void             SetCurrentWorkingDirectory(const std::string_view newCwd)
-        {
-            std::filesystem::path fs_new_cwd = newCwd;
-            if (std::filesystem::exists(fs_new_cwd) && std::filesystem::is_directory(fs_new_cwd))
-            {
-                std::filesystem::current_path(fs_new_cwd);
-                m_Instance->m_Properties.cwd = newCwd;
-            }
-            else
-            {
-                cx_throw(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
-                          newCwd);
-            }
-        }
+        static Window&            GetWindow() noexcept;
+        static Application&       Get() noexcept;
+        static u32                GetFps() noexcept;
+        static f32                GetDelta() noexcept;
+        static imgui::ImGuiLayer* GetImGuiLayer() noexcept;
+        static std::string_view   GetCurrentWorkingDirectory() noexcept;
+        static void               SetCurrentWorkingDirectory(const std::string_view newCwd);
 
     public:
-        bool OnWindowResize_Event(const WindowResizeEvent& event);
+        bool OnWindowResize_Event(const events::WindowResizeEvent& event);
+
+    public:
+        virtual void Init(){};
 
     public:
         void Run();
         void Stop();
-        void OnEvent(Event& e);
+        void OnEvent(events::Event& e);
         void PushLayer(Layer* layer);
         void PushOverlay(Layer* overlay);
     };

@@ -3,16 +3,19 @@
 
 #include <sdafx.h>
 
+#include "Application.h"
 #include "Geomtryd.h"
 
 namespace codex {
     // Forward decelrations.
-    class KeyDownEvent;
-    class KeyUpEvent;
-    class MouseDownEvent;
-    class MouseUpEvent;
-    class MouseMoveEvent;
-    class MouseScrollEvent;
+    namespace events {
+        class KeyDownEvent;
+        class KeyUpEvent;
+        class MouseDownEvent;
+        class MouseUpEvent;
+        class MouseMoveEvent;
+        class MouseScrollEvent;
+    } // namespace events
 
     enum class Key
     {
@@ -290,7 +293,7 @@ namespace codex {
 
     const char* MouseToString(const Mouse button) noexcept;
 
-    class Input
+    class CODEX_API Input
     {
     private:
         static Input*                        m_Instance;
@@ -313,15 +316,32 @@ namespace codex {
         static bool   IsMouseDown(const Mouse button);
 
     public:
-        static inline i32 GetMouseX() noexcept { return m_Instance->m_MousePosX; }
-        static inline i32 GetMouseY() noexcept { return m_Instance->m_MousePosY; }
-        static inline i32 GetMouseDeltaX() noexcept { return m_Instance->m_MouseLastPosX - m_Instance->m_MousePosX; }
-        static inline i32 GetMouseDeltaY() noexcept { return m_Instance->m_MouseLastPosY - m_Instance->m_MousePosY; }
-        static inline Vector2f GetMousePos() noexcept { return Vector2f(GetMouseX(), GetMouseY()); }
-        static inline i32      GetScrollX() noexcept { return m_Instance->m_MouseScrollX; }
-        static inline i32      GetScrollY() noexcept { return m_Instance->m_MouseScrollY; }
-        static inline bool     IsMouseDragging() noexcept { return m_Instance->m_MouseDragging; }
-        static inline void     EndFrame() noexcept
+        static inline i32      GetMouseX() noexcept { return m_Instance->m_MousePosX; }
+        static inline i32      GetMouseY() noexcept { return m_Instance->m_MousePosY; }
+        static inline Vector2f GetMouseDelta() noexcept
+        {
+            return Vector2f((f32)m_Instance->m_MouseLastPosX - (f32)m_Instance->m_MousePosX,
+                            (f32)m_Instance->m_MouseLastPosY - (f32)m_Instance->m_MousePosY);
+        }
+        static inline f32 GetMouseDeltaX() noexcept
+        {
+            return (f32)m_Instance->m_MouseLastPosX - (f32)m_Instance->m_MousePosX;
+        }
+        static inline f32 GetMouseDeltaY() noexcept
+        {
+            return (f32)m_Instance->m_MouseLastPosY - (f32)m_Instance->m_MousePosY;
+        }
+        static inline Vector2 GetMousePos() noexcept { return Vector2(GetMouseX(), GetMouseY()); }
+        static inline Vector2 GetScreenMousePos() noexcept
+        {
+            Vector2 vec;
+            SDL_GetGlobalMouseState(&vec.x, &vec.y);
+            return vec;
+        }
+        static inline i32  GetScrollX() noexcept { return m_Instance->m_MouseScrollX; }
+        static inline i32  GetScrollY() noexcept { return m_Instance->m_MouseScrollY; }
+        static inline bool IsMouseDragging() noexcept { return m_Instance->m_MouseDragging; }
+        static inline void EndFrame() noexcept
         {
             m_Instance->m_MouseLastPosX = m_Instance->m_MousePosX;
             m_Instance->m_MouseLastPosY = m_Instance->m_MousePosY;
@@ -330,29 +350,23 @@ namespace codex {
         }
 
     public:
-        bool OnKeyDown_Event(const KeyDownEvent event);
-        bool OnKeyUp_Event(const KeyUpEvent event);
-        bool OnMouseDown_Event(const MouseDownEvent event);
-        bool OnMouseUp_Event(const MouseUpEvent event);
-        bool OnMouseMove_Event(const MouseMoveEvent event);
-        bool OnMouseScroll_Event(const MouseScrollEvent event);
+        bool OnKeyDown_Event(const events::KeyDownEvent event);
+        bool OnKeyUp_Event(const events::KeyUpEvent event);
+        bool OnMouseDown_Event(const events::MouseDownEvent event);
+        bool OnMouseUp_Event(const events::MouseUpEvent event);
+        bool OnMouseMove_Event(const events::MouseMoveEvent event);
+        bool OnMouseScroll_Event(const events::MouseScrollEvent event);
     };
+
 } // namespace codex
 
 namespace fmt {
     template <>
-    struct formatter<codex::Key>
+    struct formatter<codex::Key> : formatter<std::string_view>
     {
-        template <typename ParseContext>
-        constexpr auto parse(ParseContext& ctx)
+        auto format(const codex::Key& key, format_context& ctx) const
         {
-            return ctx.begin();
-        }
-
-        template <typename FormatContext>
-        auto format(const codex::Key& key, FormatContext& ctx)
-        {
-            return fmt::format_to(ctx.out(), "{}", codex::KeyToString(key));
+            return formatter<string_view>::format(codex::KeyToString(key), ctx);
         }
     };
 } // namespace fmt
