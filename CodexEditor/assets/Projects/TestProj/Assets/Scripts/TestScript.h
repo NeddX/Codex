@@ -1,14 +1,14 @@
 #pragma once
 
-#include <Modex.h>
-
-// To be added by Reflector
-#include <Reflector.h>
+#include <Codex.h>
 
 using namespace codex;
 
+// This should be auto-generated.
+#define MYPROJECT_API __declspec(dllexport)
+
 RF_CLASS()
-class CODEX_EXPORT MienScripten : public NativeBehaviour
+class MYPROJECT_API MienScripten : public NativeBehaviour
 {
     RF_GENERATE_BODY()
 

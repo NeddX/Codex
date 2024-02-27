@@ -30,17 +30,6 @@ namespace codex::editor {
 
         // glEnable(GL_DEPTH_TEST);
         // glDepthFunc(GL_LESS);
-
-        
-        std::ifstream     in("./TestScript.h");
-        if (in.is_open())
-        {
-            std::string out((std::istreambuf_iterator<char>(in)), (std::istreambuf_iterator<char>()));
-
-            Lexer lex(out);
-            for (auto t = lex.NextToken(); t; t = lex.NextToken())
-                std::cout << *t << std::endl;
-        }
     }
 
     void SceneEditorView::OnDetach()
@@ -150,6 +139,29 @@ namespace codex::editor {
                             d->scene.Reset(new Scene());
                             Serializer::DeserializeScene(file, *d->scene);
                         }
+                    }
+                    if (ImGui::MenuItem("Compile scripts"))
+                    {
+                        UnloadScriptModule();
+                        const auto files =
+                            GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
+                        std::vector<Reflector> rf_files;
+                        rf_files.reserve(files.size());
+
+                        const fs::path output_path = fs::absolute(d->currentProjectPath / "int/");
+                        for (const auto& f : files)
+                            rf_files.emplace_back(f).EmitMetadata(output_path);
+                        Reflector::EmitBaseClass(output_path, rf_files);
+
+#ifdef CX_PLATFORM_WINDOWS
+                        std::system("cmake ./ -G \"Visual Studio 17\" -B builds/vs2202");
+                        std::system("cmake --build builds/vs2202");
+#elif defined(CX_PLATFORM_LINUX)
+                        std::system("./build.py --preset=linux-x86_64-debug");
+#elif defined(CX_PLATFORM_OSX)
+                        std::system("./build.py --preset=linux-x86_64-debug");
+#endif
+                        LoadScriptModule();
                     }
                     if (ImGui::MenuItem("Reload Script Module"))
                     {

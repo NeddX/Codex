@@ -9,6 +9,7 @@
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl.exe",
         "CMAKE_CXX_COMPILER": "cl.exe",
+		"CMAKE_PRESET_NAME": "${presetName}",
         "CX_ENABLE_CEDITOR": 1
       },
       "condition": {
@@ -25,6 +26,7 @@
       "cacheVariables": {
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_CXX_COMPILER": "clang++",
+		"CMAKE_PRESET_NAME": "${presetName}",
         "CX_ENABLE_CEDITOR": 1
       },
       "condition": {
@@ -41,6 +43,7 @@
       "cacheVariables": {
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_CXX_COMPILER": "clang++",
+		"CMAKE_PRESET_NAME": "${presetName}",
         "CX_ENABLE_CEDITOR": 1
       },
       "condition": {
