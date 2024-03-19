@@ -285,6 +285,7 @@ namespace codex::reflect {
                 content += fmt::format("\n  return &{};\n", e.name);
             }
 
+            content += " return codex::nullobj;\n";
             content += "}\n";
         }
 

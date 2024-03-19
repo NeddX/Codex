@@ -51,21 +51,11 @@ namespace codex::graphics {
 
     void RenderBatch::Flush()
     {
-        static bool texture_slots_initialized = false;
         m_QuadCount                           = 0;
         m_HasRoom                             = true;
         m_CurrentTexIndex                     = 0;
         m_VertexPtr                           = m_Verticies;
         std::fill(m_TextureList.begin(), m_TextureList.end(), nullptr);
-
-        if (!texture_slots_initialized)
-        {
-            std::vector<i32> textures(m_MaxTextureSlotCount);
-            for (u32 i = 0; i < (u32)textures.size(); ++i)
-                textures[i] = i;
-            m_Shader->SetUniform1iArr("u_Textures", 8, textures.data());
-            texture_slots_initialized = true;
-        }
     }
 
     bool RenderBatch::UploadQuad(Texture2D* texture, const Rectf& srcRect, const Matrix4f& transform,
@@ -148,10 +138,19 @@ namespace codex::graphics {
         m_Ebo->Bind();
         m_Vbo->Bind();
         m_Vbo->SetBufferSubData<QuadVertex>(m_Verticies, 0, sizeof(QuadVertex) * QUAD2D_VERTEX_COUNT * m_QuadCount);
-        // m_Vbo->SetBufferSubData<f32>(m_Verticies, 0, QUAD2D_VERTEX_SIZE * m_QuadCount * sizeof(f32));
 
         for (i32 i = 0; i < m_CurrentTexIndex; ++i)
             m_TextureList[i]->Bind(i);
+
+        static bool texture_slots_initialized = false;
+        if (!texture_slots_initialized)
+        {
+            std::vector<i32> textures(m_MaxTextureSlotCount);
+            for (u32 i = 0; i < (u32)textures.size(); ++i)
+                textures[i] = i;
+            m_Shader->SetUniform1iArr("u_Textures", m_MaxTextureSlotCount, textures.data());
+            texture_slots_initialized = false;
+        }
 
         GL_Call(glDrawElements(GL_TRIANGLES, 6 * m_QuadCount, GL_UNSIGNED_INT, nullptr));
 

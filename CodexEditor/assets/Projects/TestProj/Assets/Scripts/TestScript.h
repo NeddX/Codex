@@ -14,7 +14,7 @@ class MYPROJECT_API MienScripten : public NativeBehaviour
 
 private:
     RF_SERIALIZABLE()
-    bool m_Move = false;
+    bool m_Move = true;
     RF_SERIALIZABLE()
     f32 m_Multiplier = 1.0f;
     RF_SERIALIZABLE()

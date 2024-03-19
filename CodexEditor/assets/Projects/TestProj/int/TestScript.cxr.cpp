@@ -25,5 +25,6 @@ codex::object MienScripten::GetField(const std::string_view name)
   return &m_Multiplier;
  else if (name == "m_Axies")
   return &m_Axies;
+ return codex::nullobj;
 }
 

@@ -4,5 +4,6 @@
 #include "Box.h"
 #include "Ref.h"
 #include "Shared.h"
+#include "Sharable.h"
 
 #endif // CODEX_MEMORY_H

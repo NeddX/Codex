@@ -44,7 +44,7 @@ namespace codex {
             usize id = util::Crypto::DJB2Hash(filePath.string());
 
             ResRef<Texture2D> texture   = mem::Shared<Texture2D>::New(filePath, props);
-            m_Instance->m_Resources[id] = texture.As<IResource>();
+            m_Instance->m_Resources[id] = texture;
             fs.close();
             fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath.string(), id);
             return texture;
@@ -68,7 +68,7 @@ namespace codex {
         {
             const usize    id           = util::Crypto::DJB2Hash(filePath.string());
             ResRef<Shader> shader       = mem::Shared<Shader>::New(filePath, version);
-            m_Instance->m_Resources[id] = shader.As<IResource>();
+            m_Instance->m_Resources[id] = shader;
             fs.close();
             fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath.string(), id);
             return shader;

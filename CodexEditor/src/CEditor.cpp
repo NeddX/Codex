@@ -5,6 +5,8 @@
 #include "EditorLayer.h"
 #include "TitleBar.h"
 
+#include <ConsoleMan.h>
+
 namespace codex::editor {
     CODEX_USE_ALL_NAMESPACES()
 
@@ -48,5 +50,6 @@ namespace codex::editor {
         
         //PushLayer(new TitleBar); // Don't need a custom titlebar, for now.
         PushLayer(new EditorLayer);
+        PushLayer(new ConsoleMan);
     }
 } // namespace codex::editor

@@ -44,4 +44,7 @@
 #include "../src/Engine/Graphics/Texture2D.h"
 #include "../src/Engine/Graphics/Image2D.h"
 
+// System
+#include "../src/Engine/System/Process.h"
+
 #endif // CODEX_H
