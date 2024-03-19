@@ -54,6 +54,8 @@
 #include <pwd.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <fcntl.h>
 
 #ifdef CX_PLATFORM_OSX
 #include <GLUT/glut.h>

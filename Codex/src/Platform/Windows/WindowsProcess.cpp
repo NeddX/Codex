@@ -133,7 +133,7 @@ namespace codex::sys {
                 if (Event_OnOutDataReceived)
                 {
                     m_StdOutThread = std::thread(
-                        [this]()
+                        [this]
                         {
                             char  buffer[Process::READ_BUFFER_SIZE];
                             DWORD bytes_read;
@@ -145,7 +145,7 @@ namespace codex::sys {
                 if (Event_OnErrDataReceived)
                 {
                     m_StdErrThread = std::thread(
-                        [this]()
+                        [this]
                         {
                             char  buffer[Process::READ_BUFFER_SIZE];
                             DWORD bytes_read;
