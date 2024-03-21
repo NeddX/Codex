@@ -9,16 +9,28 @@
 namespace codex::sys {
     CX_CUSTOM_EXCEPTION(ProcessException, "Could not create process.")
 
+    // An enum for the state of the process window.
+    enum class WindowState
+    {
+        Normal,
+        Maximized,
+        Minimized,
+        Hidden
+    };
+
     struct ProcessInfo
     {
         std::string                command;
-        std::optional<std::string> appName        = std::nullopt;
-        std::optional<std::string> cwd            = std::nullopt;
-        bool                       redirectStdIn  = false;
-        bool                       redirectStdOut = false;
-        bool                       redirectStdErr = false;
-        bool                       systemShell    = true;
-        std::function<void(i32)>   onExit         = nullptr;
+        std::optional<std::string> cwd             = std::nullopt;
+        bool                       redirectStdIn   = false;
+        bool                       redirectStdOut  = false;
+        bool                       redirectStdErr  = false;
+        bool                       systemShell     = true;
+        bool                       createWindow    = true;
+        bool                       separateConsole = false;
+        bool                       shellOpen       = false;
+        WindowState                windowState     = WindowState::Normal;
+        std::function<void(i32)>   onExit          = nullptr;
     };
 
     class Process : public mem::SharedManagable<Process>

@@ -13,9 +13,7 @@ namespace codex::mem {
     private:
         using BaseType  = typename std::remove_extent<T>::type;
         using Pointer   = BaseType*;
-		using ConstPointer = const BaseType*;
         using Reference = BaseType&;
-		using ConstReference = const BaseType&;
 
     private:
         Pointer m_Ptr = nullptr;
@@ -48,14 +46,14 @@ namespace codex::mem {
 
     public:
         constexpr Pointer       Get() noexcept { return m_Ptr; }
-        constexpr ConstPointer Get() const noexcept { return m_Ptr; }
+        constexpr const Pointer Get() const noexcept { return m_Ptr; }
 
     public:
         constexpr                 operator bool() const noexcept { return m_Ptr; }
-        constexpr ConstPointer         operator->() noexcept { return m_Ptr; }
-        constexpr ConstPointer   operator->() const noexcept { return m_Ptr; }
+        constexpr Pointer         operator->() noexcept { return m_Ptr; }
+        constexpr const Pointer   operator->() const noexcept { return m_Ptr; }
         constexpr Reference       operator*() noexcept { return *m_Ptr; }
-        constexpr ConstReference operator*() const noexcept { return *m_Ptr; }
+        constexpr const Reference operator*() const noexcept { return *m_Ptr; }
         inline Box<T>&            operator=(Box<T>&& other) noexcept
         {
             if (this == &other)

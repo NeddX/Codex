@@ -10,7 +10,7 @@
                 "CMAKE_C_COMPILER": "cl.exe",
                 "CMAKE_CXX_COMPILER": "cl.exe",
                 "CMAKE_PRESET_NAME": "${presetName}",
-                "CX_ENABLE_CEDITOR": "on"
+                "CX_ENABLE_CEDITOR": 1
             },
             "condition": {
                 "type": "equals",
@@ -27,7 +27,7 @@
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_PRESET_NAME": "${presetName}",
-                "CX_ENABLE_CEDITOR": "on"
+                "CX_ENABLE_CEDITOR": 1
             },
             "condition": {
                 "type": "equals",
@@ -44,7 +44,7 @@
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_PRESET_NAME": "${presetName}",
-                "CX_ENABLE_CEDITOR": "on"
+                "CX_ENABLE_CEDITOR": 1
             },
             "condition": {
                 "type": "equals",
