@@ -1,5 +1,7 @@
 #include "WindowsProcess.h"
 
+#include "../../src/Engine/Memory/Memory.h"
+
 namespace codex::sys {
     NTProcess::NTProcess(ProcessInfo info) noexcept : Process(std::move(info))
     {
