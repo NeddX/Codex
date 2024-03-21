@@ -1,10 +1,10 @@
 #include "FileSystem.h"
 
 namespace codex::fs {
+    namespace fs = std::filesystem;
+
     std::filesystem::path GetSpecialFolder(const SpecialFolder folder) noexcept
     {
-        namespace fs = std::filesystem;
-
 #if defined(CX_PLATFORM_UNIX)
         static const char* home_dir = std::getenv("HOME");
         if (!home_dir)
@@ -51,5 +51,29 @@ namespace codex::fs {
         }
 #endif
         return "";
+    }
+
+    std::vector<std::filesystem::path> GetAllFilesWithExtensions(
+        const std::filesystem::path& directory, const std::initializer_list<std::string_view> extensions) noexcept
+    {
+        std::vector<fs::path> matching_files;
+
+        for (const auto& entry : fs::recursive_directory_iterator(directory))
+        {
+            if (entry.is_regular_file())
+            {
+                const auto& path = entry.path();
+                for (const auto& ext : extensions)
+                {
+                    if (path.extension() == ext)
+                    {
+                        matching_files.push_back(path);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return matching_files;
     }
 } // namespace codex::fs

@@ -33,6 +33,7 @@
 #include "../src/Engine/Scene/Scene.h"
 
 // Reflection
+#include "../src/Engine/Reflection/Reflector.h"
 #include "../src/Engine/Reflection/Lexer.h"
 
 // Graphics
@@ -42,5 +43,8 @@
 #include "../src/Engine/Graphics/Shader.h"
 #include "../src/Engine/Graphics/Texture2D.h"
 #include "../src/Engine/Graphics/Image2D.h"
+
+// System
+#include "../src/Engine/System/Process.h"
 
 #endif // CODEX_H

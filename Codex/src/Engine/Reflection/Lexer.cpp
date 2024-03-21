@@ -34,7 +34,7 @@ namespace codex::reflect {
                                      "KeywordExport", "KeywordIf", "KeywordElse", "KeywordElseIf", "KeywordWhile",
                                      "KeywordReturn", "KeywordTrue", "KeywordFalse", "KeywordPublic", "KeywordPrivate",
                                      "KeywordFinal", "KeywordClass", "KeywordStruct", "KeywordNamespace",
-                                     "KeywordUsing",
+                                     "KeywordUsing", "KeywordInline", "KeywordStatic",
 
                                      // Comments
                                      "LineComment", "BlockComment",
@@ -164,6 +164,8 @@ namespace codex::reflect {
                     current_token.type = TokenType::KeywordNamespace;
                 else if (ident == "using")
                     current_token.type = TokenType::KeywordUsing;
+                else if (ident == "inlie")
+                    current_token.type = TokenType::KeywordInline;
                 else
                     current_token.type = TokenType::Identifier;
             }

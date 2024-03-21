@@ -1,6 +1,7 @@
 #include "SceneEditorView.h"
 
 #include <CEditor.h>
+#include <ConsoleMan.h>
 #include <EditorLayer.h>
 #include <tinyfiledialogs.h>
 
@@ -30,17 +31,6 @@ namespace codex::editor {
 
         // glEnable(GL_DEPTH_TEST);
         // glDepthFunc(GL_LESS);
-
-        
-        std::ifstream     in("./TestScript.h");
-        if (in.is_open())
-        {
-            std::string out((std::istreambuf_iterator<char>(in)), (std::istreambuf_iterator<char>()));
-
-            Lexer lex(out);
-            for (auto t = lex.NextToken(); t; t = lex.NextToken())
-                std::cout << *t << std::endl;
-        }
     }
 
     void SceneEditorView::OnDetach()
@@ -122,10 +112,7 @@ namespace codex::editor {
                 if (ImGui::BeginMenu("File"))
                 {
                     // Add File menu items here
-                    if (ImGui::MenuItem("Create new project", "Ctrl+N")) 
-                    {
-                        
-                    }
+                    if (ImGui::MenuItem("Create new project", "Ctrl+N")) {}
                     if (ImGui::MenuItem("Open", "Ctrl+O"))
                     {
                         const char* filters[]{ "*.cxproj" };
@@ -150,6 +137,86 @@ namespace codex::editor {
                             d->scene.Reset(new Scene());
                             Serializer::DeserializeScene(file, *d->scene);
                         }
+                    }
+                    if (ImGui::MenuItem("Compile scripts"))
+                    {
+                        UnloadScriptModule();
+                        const auto files =
+                            GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
+                        std::vector<Reflector> rf_files;
+                        rf_files.reserve(files.size());
+
+                        const fs::path output_path = fs::absolute(d->currentProjectPath / "int/");
+                        for (const auto& f : files)
+                            rf_files.emplace_back(f).EmitMetadata(output_path);
+                        Reflector::EmitBaseClass(output_path, rf_files);
+
+                        sys::ProcessInfo p_info;
+
+#ifdef CX_PLATFORM_WINDOWS
+                        p_info.command =
+                            "cmake ./ -G \"Visual Studio 17\" -B builds/vs2022 && cmake --build builds/vs2022";
+#elif defined(CX_PLATFORM_LINUX)
+                        p_info.command = "./build.py --preset=linux-x86_64-debug";
+#elif defined(CX_PLATFORM_OSX)
+                        p_info.command = "./build.py --preset=linux-x86_64-debug";
+#endif
+                        p_info.onExit = [this](i32 exitCode)
+                        {
+                            LoadScriptModule();
+                            ConsoleMan::AppendMessage("-- Script build finished.");
+                        };
+                        p_info.redirectStdOut = true;
+                        p_info.redirectStdErr = true;
+
+                        const auto redirector = [](const char* buffer, usize len)
+                        { ConsoleMan::AppendMessage(std::string(buffer, len)); };
+
+                        ConsoleMan::AppendMessage("-- Script build started.");
+                        auto proc                     = sys::Process::New(std::move(p_info));
+                        proc->Event_OnOutDataReceived = redirector;
+                        proc->Event_OnErrDataReceived = redirector;
+                        proc->Launch();
+                    }
+                    if (ImGui::MenuItem("Clear build files"))
+                    {
+                        UnloadScriptModule();
+                        const auto files =
+                            GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
+                        std::vector<Reflector> rf_files;
+                        rf_files.reserve(files.size());
+
+                        const fs::path output_path = fs::absolute(d->currentProjectPath / "int/");
+                        for (const auto& f : files)
+                            rf_files.emplace_back(f).EmitMetadata(output_path);
+                        Reflector::EmitBaseClass(output_path, rf_files);
+
+                        sys::ProcessInfo p_info;
+
+#ifdef CX_PLATFORM_WINDOWS
+                        p_info.command =
+                            "cmake --build builds/vs2022 --target clean";
+#elif defined(CX_PLATFORM_LINUX)
+                        p_info.command = "./build.py --preset=linux-x86_64-debug --clear";
+#elif defined(CX_PLATFORM_OSX)
+                        p_info.command = "./build.py --preset=linux-x86_64-debug --clear";
+#endif
+                        p_info.onExit = [this](i32 exitCode)
+                        {
+                            LoadScriptModule();
+                            ConsoleMan::AppendMessage("-- Clear finished.");
+                        };
+                        p_info.redirectStdOut = true;
+                        p_info.redirectStdErr = true;
+
+                        const auto redirector = [](const char* buffer, usize len)
+                        { ConsoleMan::AppendMessage(std::string(buffer, len)); };
+
+                        ConsoleMan::AppendMessage("-- Clear started.");
+                        auto proc                     = sys::Process::New(std::move(p_info));
+                        proc->Event_OnOutDataReceived = redirector;
+                        proc->Event_OnErrDataReceived = redirector;
+                        proc->Launch();
                     }
                     if (ImGui::MenuItem("Reload Script Module"))
                     {
@@ -182,7 +249,6 @@ namespace codex::editor {
                         static const char* save_dir = nullptr;
                         if (!save_dir)
                         {
-                            auto& c = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
                             const char* filter_patterns[] = { "*.cxproj" };
                             save_dir =
                                 tinyfd_saveFileDialog("Save Project", "default.cxproj", 1, filter_patterns, NULL);

@@ -117,7 +117,7 @@ namespace codex::editor {
                             {
                                 // fmt::println("\n{}", field.value().dump());
                                 const std::string& field_name = field.key();
-                                const FieldType    field_type = field.value().at("Type");
+                                const RFType    field_type = field.value().at("Type");
 
                                 ImGui::Columns(2);
                                 ImGui::SetColumnWidth(0, d->columnWidth);
@@ -127,44 +127,43 @@ namespace codex::editor {
                                 object field_ptr = v->GetField(field_name);
                                 switch (field_type)
                                 {
-                                    case FieldType::I32:
-                                    case FieldType::U32: {
+                                    case RFType::I32:
+                                    case RFType::U32: {
                                         ImGui::DragInt("##drag_int", (i32*)field_ptr);
                                         break;
                                     }
-                                    case FieldType::F32:
-                                    case FieldType::F64:
-                                    case FieldType::F128: {
+                                    case RFType::F32:
+                                    case RFType::F64:
+                                    case RFType::F128: {
                                         ImGui::DragFloat("##dragger", (f32*)field_ptr);
                                         break;
                                     }
-                                    case FieldType::CString: {
+                                    case RFType::CString: {
                                         break;
                                     }
-                                    case FieldType::StdString: {
+                                    case RFType::StdString: {
                                         ImGui::InputText("##input", (std::string*)field_ptr);
                                         break;
                                     }
-                                    case FieldType::Boolean: {
+                                    case RFType::Boolean: {
                                         ImGui::Checkbox("##checkbox", (bool*)field_ptr);
                                         break;
                                     }
-                                    case FieldType::Vector2f: {
+                                    case RFType::Vector2f: {
                                         SceneEditorView::DrawVec2Control("##t", *(Vector2f*)field_ptr, d->columnWidth);
                                         break;
                                     }
-                                    case FieldType::Vector3f: {
+                                    case RFType::Vector3f: {
                                         SceneEditorView::DrawVec3Control("##t", *(Vector3f*)field_ptr, d->columnWidth);
                                         break;
                                     }
-                                    default: cx_throw(CodexException, "WHAT THE FUCK"); break;
+                                    default: break; //cx_throw(CodexException, "WHAT THE FUCK"); break;
                                 }
                                 ImGui::Columns(1);
                             }
                             for (const auto& field_obj : klass.value()["Fields"])
                             {
-                                /*
-                                fmt::println("{}"field_obj.dump();
+                                fmt::println("{}", field_obj.dump());
                                 const auto& field = field_obj.begin();
 
                                 ImGui::Columns(2);
@@ -176,7 +175,6 @@ namespace codex::editor {
                                 ImGui::InputText("##input", &field_data);
 
                                 ImGui::Columns(1);
-                                */
                             }
                             ImGui::TreePop();
                         }

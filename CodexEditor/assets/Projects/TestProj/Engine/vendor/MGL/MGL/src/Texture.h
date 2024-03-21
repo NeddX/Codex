@@ -2,6 +2,7 @@
 #define MGL_TEXTURE_H
 
 #include <cstdint>
+#include <filesystem>
 
 #include "Constants.h"
 
@@ -73,25 +74,25 @@ namespace mgl {
     class Texture
     {
     private:
-        uint32_t          m_RendererId;
-        const std::string m_FilePath;
-        TextureProperties m_Props;
-        uint8_t*          m_Buffer;
-        int               m_Width;
-        int               m_Height;
-        int               m_GPP;
-        uint32_t          m_Slot;
+        uint32_t                    m_RendererId;
+        const std::filesystem::path m_FilePath;
+        TextureProperties           m_Props;
+        uint8_t*                    m_Buffer;
+        int                         m_Width;
+        int                         m_Height;
+        int                         m_GPP;
+        uint32_t                    m_Slot;
 
     public:
         inline uint32_t                 GetGlId() const { return m_RendererId; }
         inline int                      GetWidth() const { return m_Width; }
         inline int                      GetHeight() const { return m_Height; }
         inline uint32_t                 GetSlot() const { return m_Slot; }
-        inline std::string_view         GetFilePath() const { return m_FilePath; }
+        inline std::filesystem::path    GetFilePath() const { return m_FilePath; }
         inline const TextureProperties& GetProperties() const { return m_Props; }
 
     public:
-        Texture(const std::string_view filePath, TextureProperties properties = {});
+        Texture(std::filesystem::path filePath, TextureProperties properties = {});
         ~Texture();
 
     public:

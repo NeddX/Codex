@@ -2,6 +2,7 @@
 #define MGL_SHADER_H
 
 #include <cstdint>
+#include <filesystem>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <string>
@@ -12,7 +13,7 @@ namespace mgl {
     {
     private:
         uint32_t                                 m_RendererId;
-        std::string                              m_FilePath;
+        std::filesystem::path                    m_FilePath;
         std::string                              m_VertexSource;
         std::string                              m_FragmentSource;
         uint32_t                                 m_VertexShaderId;
@@ -21,7 +22,7 @@ namespace mgl {
         std::string                              m_Version;
 
     public:
-        Shader(const std::string_view filePath, const std::string_view version = "330 core");
+        Shader(std::filesystem::path filePath, const std::string_view version = "330 core");
         ~Shader();
 
     public:

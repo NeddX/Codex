@@ -54,9 +54,8 @@ namespace codex::graphics {
     }
     void BatchRenderer2D::End()
     {
-        std::vector<RenderBatch*> sorted_batch(m_Batches.begin(), m_Batches.end());
-        std::sort(sorted_batch.begin(), sorted_batch.end(),
-                  [](auto* a, auto* b) { return a->GetZIndex() < b->GetZIndex(); });
+        std::vector<RenderBatch*> sorted_batch = m_Batches;
+        std::sort(sorted_batch.begin(), sorted_batch.end(), std::less());
 
         std::for_each(sorted_batch.begin(), sorted_batch.end(),
                       [](auto* b)

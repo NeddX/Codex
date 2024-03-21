@@ -117,12 +117,12 @@ target_include_directories(NBMan PUBLIC Engine/vendor/glm)
 target_include_directories(NBMan PUBLIC Engine/vendor/fmt/include)
 target_include_directories(NBMan PUBLIC Engine/vendor/entt)
 target_include_directories(NBMan PUBLIC Engine/vendor/glad)
-target_include_directories(NBMan PUBLIC Engine/PCH)
+target_include_directories(NBMan PUBLIC Engine/src/PCH)
 
 # Reflector
 target_include_directories(NBMan PRIVATE int/)
 
-target_precompile_headers(NBMan PRIVATE Engine/PCH/sdafx.h)
+target_precompile_headers(NBMan PRIVATE Engine/src/PCH/sdafx.h)
 
 # Expose the engine API
-target_include_directories(NBMan PUBLIC Engine/)
+target_include_directories(NBMan PUBLIC Engine/include)

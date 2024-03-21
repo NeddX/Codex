@@ -96,7 +96,6 @@ namespace codex {
 
     void Scene::Start()
     {
-
     }
 
     void Scene::Update(const f32 deltaTime)
@@ -155,13 +154,8 @@ namespace codex {
 
     void to_json(nlohmann::ordered_json& j, const Scene& scene)
     {
-        std::vector<Entity> entities;
-        const auto          entities_view = scene.m_Registry.view<entt::entity>();
-        entities.reserve(entities_view.size_hint());
-        for (const auto& e : entities)
-            entities.emplace_back(e, (Scene*)&scene);
-
-        j["Name"]     = scene.m_Name;
-        j["Entities"] = entities;
+        const auto entities = ((Scene&)scene).GetAllEntities();
+        j["Name"]           = scene.m_Name;
+        j["Entities"]       = entities;
     }
 } // namespace codex

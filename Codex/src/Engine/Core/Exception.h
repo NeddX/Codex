@@ -71,12 +71,14 @@ namespace codex {
     };
 
     // Generic Exceptions
+    CX_CUSTOM_EXCEPTION(IOException, "I/O operation did not succeed.")
     CX_CUSTOM_EXCEPTION(FileNotFoundException, "File was not found.")
+    CX_CUSTOM_EXCEPTION(DirectoryNotFoundException, "Directory was not found.")
     CX_CUSTOM_EXCEPTION(NullReferenceException, "Object reference was not instantiated.")
     CX_CUSTOM_EXCEPTION(IndexOutOfBoundsException, "Index was out of bounds.")
     CX_CUSTOM_EXCEPTION(NotFoundException, "Item was not found.")
     CX_CUSTOM_EXCEPTION(InvalidArgumentException, "Provided argument was invalid.")
-    CX_CUSTOM_EXCEPTION(BadOperationException, "Something somewhere went wrong, we're not sure why.")
+    CX_CUSTOM_EXCEPTION(InvalidOperationException, "Something somewhere went wrong, we're not sure why.")
 } // namespace codex
 
 #endif // CODEX_CORE_EXCEPTION_H

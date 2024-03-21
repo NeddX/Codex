@@ -1,0 +1,146 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "windows-base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/builds/${presetName}",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe",
+		"CMAKE_PRESET_NAME": "${presetName}"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "linux-base",
+      "hidden": true,
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/builds/${presetName}",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+		"CMAKE_PRESET_NAME": "${presetName}"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "osx-base",
+      "hidden": true,
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/builds/${presetName}",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+		"CMAKE_PRESET_NAME": "${presetName}"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      }
+    },
+    {
+      "name": "windows-x86_64-debug",
+      "displayName": "x86_64 Debug",
+      "installDir": "${sourceDir}/installs/${presetName}",
+      "inherits": "windows-base",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "windows-x86_64-release",
+      "displayName": "x86_64 Release",
+      "installDir": "${sourceDir}/installs/${presetName}",
+      "inherits": "windows-x86_64-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "windows-x86_64-shipping",
+      "displayName": "x86_64 Shipping",
+      "installDir": "C:/Program Files/Carbine/Codex Editor",
+      "inherits": "windows-x86_64-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Shipping"
+      }
+    },
+    {
+      "name": "linux-x86_64-debug",
+      "displayName": "x86_64 Debug",
+      "installDir": "${sourceDir}/installs/${presetName}",
+      "inherits": "linux-base",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "linux-x86_64-release",
+      "displayName": "x86_64 Release",
+      "installDir": "${sourceDir}/installs/${presetName}",
+      "inherits": "linux-x86_64-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "linux-x86_64-shipping",
+      "displayName": "x86_64 Shipping",
+      "installDir": "/usr/local",
+      "inherits": "linux-x86_64-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Shipping"
+      }
+    },
+    {
+      "name": "osx-x86_64-debug",
+      "displayName": "x86_64 Debug",
+      "installDir": "${sourceDir}/installs/${presetName}",
+      "inherits": "osx-base",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "osx-x86_64-release",
+      "displayName": "x86_64 Release",
+      "installDir": "${sourceDir}/installs/${presetName}",
+      "inherits": "osx-x86_64-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "osx-x86_64-shipping",
+      "displayName": "x86_64 Shipping",
+      "installDir": "/usr/local",
+      "inherits": "osx-x86_64-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Shipping"
+      }
+    }
+  ]
+}

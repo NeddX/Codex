@@ -1,6 +1,10 @@
 # Fetch all the source and header files and the then add them automatically
 file(GLOB_RECURSE ENGINE_SOURCES "src/Engine/*.cpp")
 file(GLOB_RECURSE ENGINE_HEADERS "src/Engine/*.h")
+file(GLOB_RECURSE PLATFORM_WINDOWS_SOURCES "src/Platform/Windows/*.cpp")
+file(GLOB_RECURSE PLATFORM_LINUX_SOURCES "src/Platform/Linux/*.cpp")
+file(GLOB_RECURSE PLATFORM_POSIX_SOURCES "src/Platform/POSIX/*.cpp")
+file(GLOB_RECURSE PLATFORM_OSX_SOURCES "src/Platform/OSX/*.cpp")
 
 # Export all symbols on Windows (NOTE TO SELF: Do not uncomment).
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -29,14 +33,24 @@ if(DEFINED CX_PLATFORM_LINUX)
   target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_UNIX)
   target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_LINUX)
   target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_UNIX)
+  target_sources(CodexEngine PRIVATE ${PLATFORM_LINUX_SOURCES})
+  target_sources(CodexEngine-static PRIVATE ${PLATFORM_LINUX_SOURCES})
+  target_sources(CodexEngine PRIVATE ${PLATFORM_POSIX_SOURCES})
+  target_sources(CodexEngine-static PRIVATE ${PLATFORM_POSIX_SOURCES})
 elseif(DEFINED CX_PLATFORM_OSX)
   target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_OSX)
   target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_UNIX)
   target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_OSX)
   target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_UNIX)
+  target_sources(CodexEngine PRIVATE ${PLATFORM_OSX_SOURCES})
+  target_sources(CodexEngine-static PRIVATE ${PLATFORM_OSX_SOURCES})
+  target_sources(CodexEngine PRIVATE ${PLATFORM_POSIX_SOURCES})
+  target_sources(CodexEngine-static PRIVATE ${PLATFORM_POSIX_SOURCES})
 elseif(DEFINED CX_PLATFORM_WINDOWS)
   target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_WINDOWS)
   target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_WINDOWS)
+  target_sources(CodexEngine PRIVATE ${PLATFORM_WINDOWS_SOURCES})
+  target_sources(CodexEngine-static PRIVATE ${PLATFORM_WINDOWS_SOURCES})
 else()
   target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_UNKNOWN)
   target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_UNKNOWN)
@@ -262,7 +276,7 @@ elseif(DEFINED CX_PLATFORM_UNIX)
   # machine dependent data. /var/local/(lib, bin)/appname for modifiable data.
 endif()
 
-# =============== # MISC      # =============== #
+# =============== # MISC # =============== #
 
 # Define standalone mode for the static library since the static version is
 # going to be used for shipping target_compile_definitions(CodexEngine-static

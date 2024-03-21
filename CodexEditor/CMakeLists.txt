@@ -29,7 +29,11 @@ target_sources(CodexEditor PRIVATE ${TFDS_SOURCE_FILES})
 set(IMGUIZMO_INCLUDE_DIRS vendor/ImGuizmo)
 set(IMGUIZMO_SOURCE_FILES vendor/ImGuizmo/ImGuizmo.cpp)
 
-add_definitions(-DCE_INSTALL_DIR="${CMAKE_INSTALL_PREFIX}")
+if (DEFINED CX_COMPILER_GCC OR DEFINED CX_COMPILER_CLANG)
+	add_definitions(-DCE_INSTALL_DIR="${CMAKE_INSTALL_PREFIX}")
+elseif(DEFINED CX_COMPILER_MSVC)
+	add_definitions(/DCE_INSTALL_DIR="${CMAKE_INSTALL_PREFIX}")
+endif()
 
 # Dependencies
 if(DEFINED CX_PLATFORM_WINDOWS)
