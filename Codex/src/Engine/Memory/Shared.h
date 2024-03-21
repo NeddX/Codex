@@ -66,7 +66,7 @@ namespace codex::mem {
         Shared(const Pointer ptr)
         {
             if constexpr (std::is_array_v<T>)
-                InitManager(ptr, new ManagedResource(ptr, std::default_delete<T[]>{}));
+                InitManager(ptr, new ManagedResource(ptr, std::default_delete<T[]>));
             else
                 InitManager(ptr, new ManagedMemory(ptr));
         }

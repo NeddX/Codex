@@ -16,53 +16,82 @@ namespace codex::sys {
         CloseHandle(m_ProcInfo.hThread);
 
         // Cleanup the pipes if used any.
-        if (m_hStdInWrite)
-        {
-            CloseHandle(m_hStdInRead);
-            CloseHandle(m_hStdInWrite);
-        }
-        if (m_hStdOutRead)
-        {
-            if (m_StdOutThread.joinable())
-                m_StdOutThread.join();
-            CloseHandle(m_hStdOutRead);
-            CloseHandle(m_hStdOutWrite);
-        }
-        if (m_hStdErrRead)
-        {
-            if (m_StdErrThread.joinable())
-                m_StdErrThread.join();
-            CloseHandle(m_hStdErrRead);
-            CloseHandle(m_hStdErrWrite);
-        }
+        DisposeHandle(m_hStdInRead);
+        DisposeHandle(m_hStdInWrite);
+        DisposeHandle(m_hStdOutRead);
+        DisposeHandle(m_hStdOutWrite);
+        DisposeHandle(m_hStdErrRead);
+        DisposeHandle(m_hStdErrWrite);
+
+        // Wait for our threads to finish.
+        if (m_StdOutThread.joinable())
+            m_StdOutThread.join();
+        if (m_StdErrThread.joinable())
+            m_StdErrThread.join();
     }
 
     void NTProcess::CreateChildProcess()
     {
+        DWORD creation_flags = 0;
+
         // Set our handles.
         m_StartInfo.hStdInput  = m_hStdInWrite;
         m_StartInfo.hStdOutput = m_hStdOutWrite;
         m_StartInfo.hStdError  = m_hStdErrRead;
-        //m_StartInfo.dwFlags |= CREATE_NEW_CONSOLE;
+
+        switch (m_Info.windowState)
+        {
+            using enum WindowState;
+
+            case Normal: m_StartInfo.wShowWindow = SW_SHOW; break;
+            case Maximized: m_StartInfo.wShowWindow = SW_MAXIMIZE; break;
+            case Minimized: m_StartInfo.wShowWindow = SW_MINIMIZE; break;
+            case Hidden: m_StartInfo.wShowWindow = SW_HIDE; break;
+        }
+
+        if (!m_Info.createWindow)
+            creation_flags |= CREATE_NO_WINDOW;
+        else if (m_Info.separateConsole)
+            creation_flags |= CREATE_NEW_CONSOLE;
 
         // If we have any handle set then tell Windows to use our handles.
         if (m_StartInfo.hStdInput || m_StartInfo.hStdOutput || m_StartInfo.hStdError)
             m_StartInfo.dwFlags |= STARTF_USESTDHANDLES;
 
         // Try and create the process, If it fails then throw an exception.
-        if (!CreateProcessA((m_Info.appName) ? m_Info.appName->c_str() : nullptr, // No app name (shellexecute)
-                            (char*)m_Info.command.c_str(),                        // Command line (arguments if app)
-                            nullptr,                                              // Process attribs
-                            nullptr,                                              // Thread attribs
-                            true,                                                 // Inherit handle?
-                            0,                                                    // Creation flags
-                            nullptr,                                              // Envrionment (use parent's)
-                            (m_Info.cwd) ? m_Info.cwd->c_str() : nullptr,         // CWD (use parent's)
-                            &m_StartInfo,                                         // Pointer to STARTUPINFOA
-                            &m_ProcInfo                                           // Pointer to PROCESS_INFORMATION
+        if (!CreateProcessA(nullptr,                                          // No app name (shellexecute)
+                            (char*)m_Info.command.c_str(),                    // Command line (arguments if app)
+                            nullptr,                                          // Process attribs
+                            nullptr,                                          // Thread attribs
+                            bool(m_StartInfo.dwFlags & STARTF_USESTDHANDLES), // Inherit handle?
+                            creation_flags,                               // Creation flags
+                            nullptr,                                          // Envrionment (use parent's)
+                            (m_Info.cwd) ? m_Info.cwd->c_str() : nullptr,     // CWD (use parent's)
+                            &m_StartInfo,                                     // Pointer to STARTUPINFOA
+                            &m_ProcInfo                                       // Pointer to PROCESS_INFORMATION
                             ))
         {
-            cx_throw(InvalidOperationException, "Failed to start process.");
+            const auto error_code = GetLastError();
+            if (error_code == 2)
+                cx_throw(FileNotFoundException, "'{}': No such file or directory.", m_Info.command);
+            else
+                cx_throw(InvalidOperationException, "Failed to start process. Native Error: {}", GetLastError());
+        }
+
+        if (m_StartInfo.dwFlags & STARTF_USESTDHANDLES)
+        {
+            // Close pipes we no longer need since we're redirecting.
+            DisposeHandle(m_hStdOutWrite);
+            DisposeHandle(m_hStdInRead);
+        }
+    }
+
+    void NTProcess::DisposeHandle(HANDLE& handle)
+    {
+        if (handle && handle != INVALID_HANDLE_VALUE)
+        {
+            CloseHandle(handle);
+            handle = INVALID_HANDLE_VALUE;
         }
     }
 
@@ -70,13 +99,13 @@ namespace codex::sys {
     {
         // If we want to just run a shell command then create a cmd instance
         // and pass contents of m_Info.command as an argument.
-        if (m_Info.systemShell && !m_Info.appName)
+        if (m_Info.systemShell)
             m_Info.command = "cmd /c \"" + m_Info.command + "\"";
 
         // Security attributes for our anonymous pipes.
         SECURITY_ATTRIBUTES sa_attrs;
-        sa_attrs.nLength = sizeof(SECURITY_ATTRIBUTES);
-        sa_attrs.bInheritHandle = true;
+        sa_attrs.nLength              = sizeof(SECURITY_ATTRIBUTES);
+        sa_attrs.bInheritHandle       = true;
         sa_attrs.lpSecurityDescriptor = nullptr;
 
         // If the user wants to redirect stdin, stdout and/or stderr.
@@ -133,7 +162,7 @@ namespace codex::sys {
                 if (Event_OnOutDataReceived)
                 {
                     m_StdOutThread = std::thread(
-                        [this]
+                        [this]()
                         {
                             char  buffer[Process::READ_BUFFER_SIZE];
                             DWORD bytes_read;
@@ -145,7 +174,7 @@ namespace codex::sys {
                 if (Event_OnErrDataReceived)
                 {
                     m_StdErrThread = std::thread(
-                        [this]
+                        [this]()
                         {
                             char  buffer[Process::READ_BUFFER_SIZE];
                             DWORD bytes_read;

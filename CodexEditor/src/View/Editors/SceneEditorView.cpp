@@ -16,20 +16,6 @@ namespace codex::editor {
 
     void SceneEditorView::OnAttach()
     {
-        sys::ProcessInfo p_info;
-        p_info.appName = "python.exe";
-        //p_info.command                = "python.exe";
-        p_info.redirectStdOut         = true;
-        p_info.redirectStdErr         = true;
-        p_info.redirectStdIn          = true;
-        auto proc                     = sys::Process::New(p_info);
-        proc->Event_OnOutDataReceived = [](const char* buffer, usize len)
-        { ConsoleMan::AppendMessage(std::string(buffer, len)); };
-        proc->Event_OnErrDataReceived = [](const char* buffer, usize len)
-        { ConsoleMan::AppendMessage(std::string(buffer, len)); };
-        proc->Launch();
-        proc->WriteLine("print('nigger gaming')");
-
         m_Descriptor = Shared<SceneEditorDescriptor>::From(new SceneEditorDescriptor{ .scene = Box<Scene>::New() });
 
         m_SceneHierarchyView = Box<SceneHierarchyView>::New(m_Descriptor.AsRef());
@@ -187,6 +173,46 @@ namespace codex::editor {
                         { ConsoleMan::AppendMessage(std::string(buffer, len)); };
 
                         ConsoleMan::AppendMessage("-- Script build started.");
+                        auto proc                     = sys::Process::New(std::move(p_info));
+                        proc->Event_OnOutDataReceived = redirector;
+                        proc->Event_OnErrDataReceived = redirector;
+                        proc->Launch();
+                    }
+                    if (ImGui::MenuItem("Clear build files"))
+                    {
+                        UnloadScriptModule();
+                        const auto files =
+                            GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
+                        std::vector<Reflector> rf_files;
+                        rf_files.reserve(files.size());
+
+                        const fs::path output_path = fs::absolute(d->currentProjectPath / "int/");
+                        for (const auto& f : files)
+                            rf_files.emplace_back(f).EmitMetadata(output_path);
+                        Reflector::EmitBaseClass(output_path, rf_files);
+
+                        sys::ProcessInfo p_info;
+
+#ifdef CX_PLATFORM_WINDOWS
+                        p_info.command =
+                            "cmake --build builds/vs2022 --target clean";
+#elif defined(CX_PLATFORM_LINUX)
+                        p_info.command = "./build.py --preset=linux-x86_64-debug --clear";
+#elif defined(CX_PLATFORM_OSX)
+                        p_info.command = "./build.py --preset=linux-x86_64-debug --clear";
+#endif
+                        p_info.onExit = [this](i32 exitCode)
+                        {
+                            LoadScriptModule();
+                            ConsoleMan::AppendMessage("-- Clear finished.");
+                        };
+                        p_info.redirectStdOut = true;
+                        p_info.redirectStdErr = true;
+
+                        const auto redirector = [](const char* buffer, usize len)
+                        { ConsoleMan::AppendMessage(std::string(buffer, len)); };
+
+                        ConsoleMan::AppendMessage("-- Clear started.");
                         auto proc                     = sys::Process::New(std::move(p_info));
                         proc->Event_OnOutDataReceived = redirector;
                         proc->Event_OnErrDataReceived = redirector;
