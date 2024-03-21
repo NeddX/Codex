@@ -3,6 +3,7 @@
 
 #include <sdafx.h>
 
+#include "../../src/Engine/Memory/Memory.h"
 #include "../../src/Engine/System/Process.h"
 
 namespace codex::sys {
@@ -32,6 +33,7 @@ namespace codex::sys {
 
     private:
         void CreateChildProcess();
+        void DisposeHandle(HANDLE& handle);
 
     public:
         void Launch() override;
