@@ -20,10 +20,10 @@
 $
 
 # Command Line History (newest to oldest):
-:q!
-|2,0,1711300151,,"q!"
 :wq
-|2,0,1709803757,,"wq"
+|2,0,1711700200,,"wq"
+:q!
+|2,0,1711537820,,"q!"
 :w
 |2,0,1709742579,,"w"
 :qw!
@@ -222,73 +222,243 @@ $
 	                  DEPENDS ${CMAKE_SOURCE_DIR}/compile_commands.json)
 |3,0,0,1,11,0,1705424463,"# Create a custom build command and a dummy target for it to copy","# compile_commands.json to the source directory for LSPs.","add_custom_command(","  OUTPUT ${CMAKE_SOURCE_DIR}/compile_commands.json","  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/compile_commands.json","          ${CMAKE_SOURCE_DIR}/compile_commands.json","  DEPENDS ${CMAKE_BINARY_DIR}/compile_commands.json",>49
 |<"  COMMENT \"Copying compile_commands.json...\")","","add_custom_target(copy_compile_commands ALL","                  DEPENDS ${CMAKE_SOURCE_DIR}/compile_commands.json)"
-"1	LINE	0
-	dd};
-|3,0,1,1,1,0,1709744663,"dd};"
+""1	LINE	0
+	+------+
+	|      |
+	|      |
+	+------+
+|3,1,1,1,4,0,1711446525,"+------+","|      |","|      |","+------+"
 "2	LINE	0
-	figlet 'Welcome back' | lolcat
-|3,0,2,1,1,0,1709459807,"figlet 'Welcome back' | lolcat"
+	
+|3,0,2,1,1,0,1711446098,""
 "3	LINE	0
-	
-|3,0,3,1,1,0,1709456638,""
+	#############
+	#   #   #   #
+	#############
+	#   #   #   #
+	#############
+	#   #   #   #
+	#############
+|3,0,3,1,7,0,1711446098,"#############","#   #   #   #","#############","#   #   #   #","#############","#   #   #   #","#############"
 "4	LINE	0
-	    // gay party :))))
-|3,0,4,1,1,0,1709456637,"    // gay party :))))"
+	dd};
+|3,0,4,1,1,0,1709744663,"dd};"
 "5	LINE	0
-	
-|3,0,5,1,1,0,1705424265,""
+	figlet 'Welcome back' | lolcat
+|3,0,5,1,1,0,1709459807,"figlet 'Welcome back' | lolcat"
 "6	LINE	0
-	message(":: BRUH :: ${SUB_DIRS}")
-|3,0,6,1,1,0,1705424265,"message(\":: BRUH :: ${SUB_DIRS}\")"
+	
+|3,0,6,1,1,0,1709456638,""
 "7	LINE	0
-	#
-|3,0,7,1,1,0,1705424247,"#"
+	    // gay party :))))
+|3,0,7,1,1,0,1709456637,"    // gay party :))))"
 "8	LINE	0
-	# Same with every subdirectory of src/.
-	#foreach(SUB_DIRS ${DIR})
-	#  message("SRC :: ${DIR}")
-	#  target_include_directories(MinLib PUBLIC ${DIR})
-	#endforeach()
-|3,0,8,1,5,0,1705424246,"# Same with every subdirectory of src/.","#foreach(SUB_DIRS ${DIR})","#  message(\"SRC :: ${DIR}\")","#  target_include_directories(MinLib PUBLIC ${DIR})","#endforeach()"
+	
+|3,0,8,1,1,0,1705424265,""
 "9	LINE	0
-	file(
-	  GLOB SRC_SUB_DIRS
-	  LIST_DIRECTORIES true
-	  "${CMAKE_CURRENT_SOURCE_DIR}/src")
-|3,0,9,1,4,0,1705424169,"file(","  GLOB SRC_SUB_DIRS","  LIST_DIRECTORIES true","  \"${CMAKE_CURRENT_SOURCE_DIR}/src\")"
-""-	CHAR	0
+	message(":: BRUH :: ${SUB_DIRS}")
+|3,0,9,1,1,0,1705424265,"message(\":: BRUH :: ${SUB_DIRS}\")"
+"-	CHAR	0
 	+
-|3,1,36,0,1,0,1709803749,"+"
+|3,0,36,0,1,0,1709803749,"+"
 
 # File marks:
-'0  1  0  ~/dev/TicTacToe/main.cpp
-|4,48,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
-'1  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,49,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
-'2  22  12  ~/dev/FrankList/test.cpp
-|4,50,22,12,1709744692,"~/dev/FrankList/test.cpp"
-'3  1  0  ~/dev/FrankList/test.cpp
-|4,51,1,0,1709744633,"~/dev/FrankList/test.cpp"
-'4  1  0  ~/dev/FrankList/test.cpp
-|4,52,1,0,1709744633,"~/dev/FrankList/test.cpp"
-'5  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,53,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
-'6  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,54,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
-'7  1  0  ~/dev/CMakeLists.txt
-|4,55,1,0,1709744412,"~/dev/CMakeLists.txt"
-'8  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,56,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
-'9  47  42  ~/dev/FrankList/.ignore/FrankenshteinList/FList.hpp
-|4,57,47,42,1709742581,"~/dev/FrankList/.ignore/FrankenshteinList/FList.hpp"
+'0  3  4  ~/dev/ClutterJunk/.gitignore
+|4,48,3,4,1711700200,"~/dev/ClutterJunk/.gitignore"
+'1  2  6  ~/dev/ClutterJunk/.gitignore
+|4,49,2,6,1711700138,"~/dev/ClutterJunk/.gitignore"
+'2  2  6  ~/dev/ClutterJunk/.gitignore
+|4,50,2,6,1711700138,"~/dev/ClutterJunk/.gitignore"
+'3  1  0  ~/dev/SCalc/CMakeLists.txt
+|4,51,1,0,1711537820,"~/dev/SCalc/CMakeLists.txt"
+'4  1  0  ~/dev/TicTacToe/main.cpp
+|4,52,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+'5  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,53,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+'6  22  12  ~/dev/FrankList/test.cpp
+|4,54,22,12,1709744692,"~/dev/FrankList/test.cpp"
+'7  1  0  ~/dev/FrankList/test.cpp
+|4,55,1,0,1709744633,"~/dev/FrankList/test.cpp"
+'8  1  0  ~/dev/FrankList/test.cpp
+|4,56,1,0,1709744633,"~/dev/FrankList/test.cpp"
+'9  4  0  ~/dev/FrankList/CMakeLists.txt
+|4,57,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
 
 # Jumplist (newest first):
+-'  3  4  ~/dev/ClutterJunk/.gitignore
+|4,39,3,4,1711700200,"~/dev/ClutterJunk/.gitignore"
+-'  1  0  ~/dev/ClutterJunk/.gitignore
+|4,39,1,0,1711700194,"~/dev/ClutterJunk/.gitignore"
+-'  2  6  ~/dev/ClutterJunk/.gitignore
+|4,39,2,6,1711700138,"~/dev/ClutterJunk/.gitignore"
+-'  2  6  ~/dev/ClutterJunk/.gitignore
+|4,39,2,6,1711700138,"~/dev/ClutterJunk/.gitignore"
+-'  1  0  ~/dev/ClutterJunk/.gitignore
+|4,39,1,0,1711700119,"~/dev/ClutterJunk/.gitignore"
+-'  1  0  ~/dev/SCalc/CMakeLists.txt
+|4,39,1,0,1711537820,"~/dev/SCalc/CMakeLists.txt"
+-'  1  0  ~/dev/SCalc/CMakeLists.txt
+|4,39,1,0,1711537820,"~/dev/SCalc/CMakeLists.txt"
+-'  1  0  ~/dev/SCalc/CMakeLists.txt
+|4,39,1,0,1711537820,"~/dev/SCalc/CMakeLists.txt"
+-'  1  0  ~/dev/SCalc/CMakeLists.txt
+|4,39,1,0,1711537820,"~/dev/SCalc/CMakeLists.txt"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
+-'  1  0  ~/dev/TicTacToe/main.cpp
+|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
 -'  1  0  ~/dev/TicTacToe/main.cpp
 |4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
 -'  5  23  ~/dev/FrankList/CMakeLists.txt
 |4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
 -'  5  23  ~/dev/FrankList/CMakeLists.txt
 |4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  5  23  ~/dev/FrankList/CMakeLists.txt
+|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
+-'  1  0  ~/dev/FrankList/CMakeLists.txt
+|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
 -'  1  0  ~/dev/FrankList/CMakeLists.txt
 |4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
 -'  1  0  ~/dev/FrankList/CMakeLists.txt
@@ -301,190 +471,34 @@ $
 |4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
 -'  22  12  ~/dev/FrankList/test.cpp
 |4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
--'  1  0  ~/dev/FrankList/test.cpp
-|4,39,1,0,1709744633,"~/dev/FrankList/test.cpp"
--'  1  0  ~/dev/FrankList/test.cpp
-|4,39,1,0,1709744633,"~/dev/FrankList/test.cpp"
--'  1  0  ~/dev/FrankList/test.cpp
-|4,39,1,0,1709744633,"~/dev/FrankList/test.cpp"
--'  1  0  ~/dev/FrankList/test.cpp
-|4,39,1,0,1709744633,"~/dev/FrankList/test.cpp"
--'  1  0  ~/dev/FrankList/test.cpp
-|4,39,1,0,1709744633,"~/dev/FrankList/test.cpp"
--'  1  0  ~/dev/FrankList/test.cpp
-|4,39,1,0,1709744633,"~/dev/FrankList/test.cpp"
--'  1  0  ~/dev/FrankList/test.cpp
-|4,39,1,0,1709744633,"~/dev/FrankList/test.cpp"
--'  1  0  ~/dev/FrankList/test.cpp
-|4,39,1,0,1709744633,"~/dev/FrankList/test.cpp"
--'  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
--'  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
--'  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
--'  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
--'  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
--'  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
--'  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
--'  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
--'  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
--'  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709744429,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709744429,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709744429,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709744429,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709744429,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709744429,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709744429,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709744429,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/CMakeLists.txt
-|4,39,1,0,1709744412,"~/dev/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-|4,39,1,0,1709744402,"~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt"
+-'  22  12  ~/dev/FrankList/test.cpp
+|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
+-'  22  12  ~/dev/FrankList/test.cpp
+|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
+-'  22  12  ~/dev/FrankList/test.cpp
+|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
+-'  22  12  ~/dev/FrankList/test.cpp
+|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
+-'  22  12  ~/dev/FrankList/test.cpp
+|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
+-'  22  12  ~/dev/FrankList/test.cpp
+|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
+-'  22  12  ~/dev/FrankList/test.cpp
+|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
 
 # History of marks within files (newest to oldest):
+
+> ~/dev/ClutterJunk/.gitignore
+	*	1711700200	0
+	"	3	4
+	^	3	5
+	.	3	4
+	+	2	6
+	+	3	4
+
+> ~/dev/SCalc/CMakeLists.txt
+	*	1711537820	0
+	"	1	0
 
 > ~/dev/TicTacToe/main.cpp
 	*	1711300150	0
@@ -1738,11 +1752,3 @@ $
 > ~/dev/tests/ARDELIEN/CMakeLists.txt
 	*	1694217225	0
 	"	23	0
-
-> ~/dev/tests/ALVM/CMakeLists.txt
-	*	1694217170	0
-	"	1	1
-
-> ~/dev/tests/ALVM/ALVM/CMakeLists.txt
-	*	1694217101	0
-	"	1	0
