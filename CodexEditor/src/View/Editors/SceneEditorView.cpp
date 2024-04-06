@@ -16,6 +16,21 @@ namespace codex::editor {
 
     void SceneEditorView::OnAttach()
     {
+        sys::ProcessInfo inf;
+        inf.command        = "ls";
+        inf.redirectStdOut = true;
+        //    inf.redirectStdErr = true;
+        inf.onExit = [](i32) { ConsoleMan::AppendMessage("Exited."); };
+
+        const auto ldb = [](const char* buffer, usize len) { ConsoleMan::AppendMessage(std::string(buffer, len)); };
+
+        auto handle                     = sys::Process::New(inf);
+        handle->Event_OnOutDataReceived = ldb;
+        handle->Event_OnErrDataReceived = ldb;
+
+        ConsoleMan::AppendMessage("Started.");
+        handle->Launch();
+
         m_Descriptor = Shared<SceneEditorDescriptor>::From(new SceneEditorDescriptor{ .scene = Box<Scene>::New() });
 
         m_SceneHierarchyView = Box<SceneHierarchyView>::New(m_Descriptor.AsRef());
@@ -157,13 +172,19 @@ namespace codex::editor {
                         p_info.command =
                             "cmake ./ -G \"Visual Studio 17\" -B builds/vs2022 && cmake --build builds/vs2022";
 #elif defined(CX_PLATFORM_LINUX)
-                        p_info.command = "./build.py --preset=linux-x86_64-debug";
+                        p_info.command = "python3 ./build.py --preset=linux-x86_64-debug";
 #elif defined(CX_PLATFORM_OSX)
-                        p_info.command = "./build.py --preset=linux-x86_64-debug";
+                        p_info.command = "python3 ./build.py --preset=linux-x86_64-debug";
 #endif
                         p_info.onExit = [this](i32 exitCode)
                         {
-                            LoadScriptModule();
+                            try
+                            {
+                                LoadScriptModule();
+                            }
+                            catch (...)
+                            {
+                            }
                             ConsoleMan::AppendMessage("-- Script build finished.");
                         };
                         p_info.redirectStdOut = true;
@@ -194,8 +215,7 @@ namespace codex::editor {
                         sys::ProcessInfo p_info;
 
 #ifdef CX_PLATFORM_WINDOWS
-                        p_info.command =
-                            "cmake --build builds/vs2022 --target clean";
+                        p_info.command = "cmake --build builds/vs2022 --target clean";
 #elif defined(CX_PLATFORM_LINUX)
                         p_info.command = "./build.py --preset=linux-x86_64-debug --clear";
 #elif defined(CX_PLATFORM_OSX)

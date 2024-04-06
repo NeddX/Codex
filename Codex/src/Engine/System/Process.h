@@ -49,6 +49,7 @@ namespace codex::sys {
 
     public:
         constexpr static auto READ_BUFFER_SIZE = 4096;
+        constexpr static auto MAX_ARG_COUNT    = 128;
 
     protected:
         Process() = default;

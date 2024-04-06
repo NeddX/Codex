@@ -66,7 +66,7 @@ namespace codex::sys {
                             nullptr,                                          // Process attribs
                             nullptr,                                          // Thread attribs
                             bool(m_StartInfo.dwFlags & STARTF_USESTDHANDLES), // Inherit handle?
-                            creation_flags,                               // Creation flags
+                            creation_flags,                                   // Creation flags
                             nullptr,                                          // Envrionment (use parent's)
                             (m_Info.cwd) ? m_Info.cwd->c_str() : nullptr,     // CWD (use parent's)
                             &m_StartInfo,                                     // Pointer to STARTUPINFOA
@@ -151,20 +151,22 @@ namespace codex::sys {
         // Indicate that our process is running.
         m_Running = true;
 
-        // A non-blocking thread that will wait for the process to finish, get the exit code and indicate that the
-        // process has stopped.
-        // Since the thread is detached meaning that the owning shared pointer might get out of scope
-        // before our thread finishes, it will capture the instance of that shared pointer thus becoming
-        // an owner using NewSharedFromThis() (because Process inherits from mem::SharedManagable).
+        // A non-blocking thread that will wait for the process to finish,
+        // get the exit code and indicate that the process has stopped.
+        // Since the thread is detached, there's a chance that the owning ProcessHandle (which is just a
+        // mem::Shared<Process>) might get out of scope before our thread finishes while this thread and our process are
+        // still active. To fix this we can make the thread hold a strong reference to the process handle, we do this by
+        // passing a dummy variable that creates an instace of our shared pointer using NewSharedFromThis() (because
+        // Process inherits from mem::SharedManagable).
         std::thread(
-            [dummy = NewSharedFromThis().As<NTProcess>(), this]() mutable
+            [dummy = NewSharedFromThis(), this]() mutable
             {
                 // Create the threads responsible for redirecting stdout and stderr if
                 // the user wants to redirect.
                 if (Event_OnOutDataReceived)
                 {
                     m_StdOutThread = std::thread(
-                        [this]()
+                        [this]
                         {
                             char  buffer[Process::READ_BUFFER_SIZE];
                             DWORD bytes_read;
@@ -176,7 +178,7 @@ namespace codex::sys {
                 if (Event_OnErrDataReceived)
                 {
                     m_StdErrThread = std::thread(
-                        [this]()
+                        [this]
                         {
                             char  buffer[Process::READ_BUFFER_SIZE];
                             DWORD bytes_read;
