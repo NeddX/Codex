@@ -2,7 +2,7 @@
 
 #include <stb_image.h>
 
-namespace codex::graphics {
+namespace codex::gfx {
     namespace fs = std::filesystem;
 
     Image2D::Image2D(fs::path file) : m_Path(std::move(file))
@@ -65,10 +65,10 @@ namespace codex::graphics {
         std::swap(*this, other);
         return *this;
     }
-} // namespace codex::graphics
+} // namespace codex::gfx
 
 namespace std {
-    void swap(codex::graphics::Image2D& lhv, codex::graphics::Image2D& rhv) noexcept
+    void swap(codex::gfx::Image2D& lhv, codex::gfx::Image2D& rhv) noexcept
     {
         std::swap(lhv.m_Id, rhv.m_Id);
         std::swap(lhv.m_RawData, rhv.m_RawData);

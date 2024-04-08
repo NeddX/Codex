@@ -1,7 +1,7 @@
 #include "BatchRenderer2D.h"
 #include "../Core/ResourceHandler.h"
 
-namespace codex::graphics {
+namespace codex::gfx {
     i32                       BatchRenderer2D::m_Capacity             = BATCH_RENDERER_INITIAL_CAPACITY;
     i32                       BatchRenderer2D::m_MaxQuadCountPerBatch = BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH;
     Shader*                   BatchRenderer2D::m_Shader               = nullptr;
@@ -117,4 +117,4 @@ namespace codex::graphics {
         new_batch->UploadQuad(texture, srcRect, transform, colour, entityId);
         m_Batches.push_back(new_batch);
     }
-} // namespace codex::graphics
+} // namespace codex::gfx

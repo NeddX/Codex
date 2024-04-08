@@ -52,16 +52,13 @@ namespace codex {
 
     void DLib::Load(const std::string_view filePath)
     {
+        m_FilePath = filePath;
 #if defined(CX_PLATFORM_UNIX)
-        m_FilePath = filePath;
-        m_Handle   = dlopen(m_FilePath.c_str(), RTLD_LAZY);
-        if (!m_Handle)
-            cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
+        m_Handle = dlopen(m_FilePath.c_str(), RTLD_LAZY);
 #elif defined(CX_PLATFORM_WINDOWS)
-        m_FilePath = filePath;
-        m_Handle   = LoadLibraryA(m_FilePath.c_str());
+        m_Handle = LoadLibraryA(m_FilePath.c_str());
+#endif
         if (!m_Handle)
             cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
-#endif
     }
 } // namespace codex

@@ -8,36 +8,36 @@
 #include <ConsoleMan.h>
 
 namespace codex::editor {
-    CODEX_USE_ALL_NAMESPACES()
+    namespace stdfs = std::filesystem;
 
-    std::filesystem::path CEditor::m_ApplicationDataPath{};
-    std::filesystem::path CEditor::m_VariableApplicationDataPath{};
+    stdfs::path CEditor::m_ApplicationDataPath{};
+    stdfs::path CEditor::m_VariableApplicationDataPath{};
 
-    std::filesystem::path CEditor::GetAppDataPath() noexcept
+    stdfs::path CEditor::GetAppDataPath() noexcept
     {
         return m_ApplicationDataPath;
     }
 
-    std::filesystem::path CEditor::GetVarAppDataPath() noexcept
+    stdfs::path CEditor::GetVarAppDataPath() noexcept
     {
         return m_VariableApplicationDataPath;
     }
 
-    void CEditor::Init()
+    void CEditor::OnInit()
     {
 #ifdef CX_PLATFORM_UNIX
-        m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("share/CEditor");
+        m_ApplicationDataPath = stdfs::path(CE_INSTALL_DIR) / stdfs::path("share/CEditor");
 #elif defined(CX_PLATFORM_WINDOWS)
-        m_ApplicationDataPath = fs::path(CE_INSTALL_DIR) / fs::path("bin");
+        m_ApplicationDataPath = stdfs::path(CE_INSTALL_DIR) / stdfs::path("bin");
 #endif
         m_VariableApplicationDataPath =
-            fs::path(GetSpecialFolder(SpecialFolder::UserApplicationData)) / fs::path("CEditor/");
+            stdfs::path(fs::GetSpecialFolder(fs::SpecialFolder::UserApplicationData)) / stdfs::path("CEditor/");
 
-        if (!fs::exists(m_VariableApplicationDataPath))
+        if (!stdfs::exists(m_VariableApplicationDataPath))
         {
             try
             {
-                fs::create_directory(m_VariableApplicationDataPath);
+                stdfs::create_directory(m_VariableApplicationDataPath);
             }
             catch (const std::exception& ex)
             {

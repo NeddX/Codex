@@ -5,17 +5,17 @@
 #include <tinyfiledialogs.h>
 
 namespace codex::editor {
-    CODEX_USE_ALL_NAMESPACES()
+    namespace stdfs = std::filesystem;
 
-    ResRef<graphics::Shader> EditorLayer::m_BatchShader = nullptr;
-    mem::Box<Camera>         EditorLayer::m_Camera      = nullptr;
+    ResRef<gfx::Shader>     EditorLayer::m_BatchShader = nullptr;
+    mem::Box<scene::Camera> EditorLayer::m_Camera      = nullptr;
 
-    ResRef<graphics::Shader> EditorLayer::GetBatchShader() noexcept
+    ResRef<gfx::Shader> EditorLayer::GetBatchShader() noexcept
     {
         return m_BatchShader;
     }
 
-    Camera& EditorLayer::GetCamera() noexcept
+    scene::Camera& EditorLayer::GetCamera() noexcept
     {
         return *m_Camera;
     }
@@ -28,11 +28,11 @@ namespace codex::editor {
         static std::string ini_file_path  = (CEditor::GetVarAppDataPath() / "imgui.ini").string();
         static std::string font_file_path = (CEditor::GetAppDataPath() / "Fonts/roboto/Roboto-Regular.ttf").string();
 
-        if (!fs::exists(ini_file_path))
+        if (!stdfs::exists(ini_file_path))
         {
             try
             {
-                fs::copy_file(CEditor::GetAppDataPath() / "imgui.ini", CEditor::GetVarAppDataPath() / "imgui.ini");
+                stdfs::copy_file(CEditor::GetAppDataPath() / "imgui.ini", CEditor::GetVarAppDataPath() / "imgui.ini");
             }
             catch (const std::exception& ex)
             {
@@ -47,20 +47,20 @@ namespace codex::editor {
 
         const auto width  = Application::GetWindow().GetWidth();
         const auto height = Application::GetWindow().GetHeight();
-        m_BatchShader     = Resources::Load<Shader>(CEditor::GetAppDataPath() / "GL Shaders/batchRenderer.glsl");
+        m_BatchShader     = Resources::Load<gfx::Shader>(CEditor::GetAppDataPath() / "GL Shaders/batchRenderer.glsl");
         m_BatchShader->CompileShader({ { "CX_MAX_SLOT_COUNT", "16" } });
 
         // Init the renderers.
-        Renderer::Init(width, height);
-        BatchRenderer2D::BindShader(m_BatchShader.Get());
-        m_Camera = Box<Camera>::New(width, height);
+        gfx::Renderer::Init(width, height);
+        gfx::BatchRenderer2D::BindShader(m_BatchShader.Get());
+        m_Camera = mem::Box<scene::Camera>::New(width, height);
 
         m_BatchShader->Bind();
         m_BatchShader->SetUniformMat4f("u_View", m_Camera->GetViewMatrix());
         m_BatchShader->SetUniformMat4f("u_Proj", m_Camera->GetProjectionMatrix());
         m_BatchShader->Unbind();
 
-        m_SceneEditorView = Box<SceneEditorView>::New();
+        m_SceneEditorView = mem::Box<SceneEditorView>::New();
         m_SceneEditorView->OnAttach();
     }
 
@@ -71,33 +71,32 @@ namespace codex::editor {
         m_BatchShader.Reset();
         m_Camera.Reset();
 
-        BatchRenderer2D::Destroy();
-        Renderer::Destroy();
+        gfx::BatchRenderer2D::Destroy();
+        gfx::Renderer::Destroy();
     }
 
-    void EditorLayer::Update(const f32 deltaTime)
+    void EditorLayer::OnUpdate(const f32 deltaTime)
     {
         m_BatchShader->Bind();
         m_BatchShader->SetUniformMat4f("u_View", m_Camera->GetViewMatrix());
         m_BatchShader->SetUniformMat4f("u_Proj", m_Camera->GetProjectionMatrix());
         m_BatchShader->Unbind();
 
-        m_SceneEditorView->Update(deltaTime);
-
+        m_SceneEditorView->OnUpdate(deltaTime);
     }
 
-    void EditorLayer::ImGuiRender()
+    void EditorLayer::OnImGuiRender()
     {
-        m_SceneEditorView->ImGuiRender();
+        m_SceneEditorView->OnImGuiRender();
     }
 
-    void EditorLayer::OnEvent(Event& e)
+    void EditorLayer::OnEvent(events::Event& e)
     {
         // EventDispatcher d(e);
         // d.Dispatch<KeyDownEvent>(BindEventDelegate(this, &EditorLayer::OnKeyDown_Event));
     }
 
-    bool EditorLayer::OnKeyDown_Event(KeyDownEvent& e)
+    bool EditorLayer::OnKeyDown_Event(events::KeyDownEvent& e)
     {
         /*
         switch (e.GetKey())

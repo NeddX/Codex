@@ -5,7 +5,7 @@
 #include "ECS.h"
 
 namespace codex {
-    using namespace codex::graphics;
+    using namespace codex::gfx;
 
     TagComponent::TagComponent()
     {
@@ -62,7 +62,7 @@ namespace codex {
     {
     }
 
-    void TilemapComponent::Start()
+    void TilemapComponent::OnInit()
     {
         m_GridRenderer = (m_Parent.HasComponent<GridRendererComponent>())
                              ? &m_Parent.GetComponent<GridRendererComponent>()

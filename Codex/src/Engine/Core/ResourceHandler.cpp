@@ -3,7 +3,7 @@
 #include "../Graphics/Texture2D.h"
 
 namespace codex {
-    using namespace codex::graphics;
+    using namespace codex::gfx;
 
     Resources* Resources::m_Instance = nullptr;
 

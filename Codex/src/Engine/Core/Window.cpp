@@ -12,7 +12,7 @@
 namespace codex {
     using namespace codex::events;
     using namespace codex::imgui;
-    using namespace codex::graphics;
+    using namespace codex::gfx;
 
     WindowFlags operator|(const WindowFlags& lhv, const WindowFlags& rhv) noexcept
     {
@@ -230,7 +230,7 @@ namespace codex {
         }
     }
 
-    void Window::Update(const f32 delta_time)
+    void Window::OnUpdate(const f32 delta_time)
     {
         // static mgl::FrameBufferProperties props(GetWidth(), GetHeight(), { mgl::TextureFormat::RGBA8,
         // mgl::TextureFormat::RedInt32 }); static mgl::FrameBuffer* fb = new mgl::FrameBuffer(props);

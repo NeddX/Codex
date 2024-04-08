@@ -16,7 +16,7 @@ int main(int argc, char** argv)
     {
         auto app = codex::CreateApplication({ argc, argv });
         GImGui = codex::Application::GetImGuiLayer()->GetImGuiContext();
-        app->Init();
+        app->OnInit();
         app->Run();
         delete app;
     }

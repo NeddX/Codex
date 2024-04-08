@@ -7,16 +7,16 @@
 #include "../Core/IResource.h"
 #include "../Memory/Memory.h"
 
-namespace codex::graphics {
+namespace codex::gfx {
     // Forward declerations.
     class Image2D;
-} // namespace codex::graphics
+} // namespace codex::gfx
 
 namespace std {
-    void swap(codex::graphics::Image2D& lhv, codex::graphics::Image2D& rhv) noexcept;
+    void swap(codex::gfx::Image2D& lhv, codex::gfx::Image2D& rhv) noexcept;
 } // namespace std
 
-namespace codex::graphics {
+namespace codex::gfx {
     CX_CUSTOM_EXCEPTION(ImageLoadException, "Failed to load the image.")
 
     // Wrapper over stb_image.
@@ -52,6 +52,6 @@ namespace codex::graphics {
     public:
         void friend std::swap(Image2D& lhv, Image2D& rhv) noexcept;
     };
-} // namespace codex::graphics
+} // namespace codex::gfx
 
 #endif // CODEX_GRAPHICS_IMAGE_2D_H

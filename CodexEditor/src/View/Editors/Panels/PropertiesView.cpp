@@ -6,12 +6,8 @@
 
 namespace codex::editor {
     using namespace codex::events;
-    using namespace codex::imgui;
-    using namespace codex::mem;
-    using namespace codex::graphics;
-    using namespace codex::reflect;
 
-    PropertiesView::PropertiesView(const Ref<SceneEditorDescriptor>& editorDesc) : m_EditorDesc(editorDesc)
+    PropertiesView::PropertiesView(const mem::Ref<SceneEditorDescriptor>& editorDesc) : m_EditorDesc(editorDesc)
     {
     }
     void PropertiesView::OnImGuiRender()
@@ -116,8 +112,8 @@ namespace codex::editor {
                             for (const auto& field : klass.value()["Fields"].items())
                             {
                                 // fmt::println("\n{}", field.value().dump());
-                                const std::string& field_name = field.key();
-                                const RFType    field_type = field.value().at("Type");
+                                const std::string&    field_name = field.key();
+                                const reflect::RFType field_type = field.value().at("Type");
 
                                 ImGui::Columns(2);
                                 ImGui::SetColumnWidth(0, d->columnWidth);
@@ -127,37 +123,41 @@ namespace codex::editor {
                                 object field_ptr = v->GetField(field_name);
                                 switch (field_type)
                                 {
-                                    case RFType::I32:
-                                    case RFType::U32: {
+                                    using enum reflect::RFType;
+
+                                    case I32:
+                                    case U32: {
                                         ImGui::DragInt("##drag_int", (i32*)field_ptr);
                                         break;
                                     }
-                                    case RFType::F32:
-                                    case RFType::F64:
-                                    case RFType::F128: {
+                                    case F32:
+                                    case F64:
+                                    case F128: {
                                         ImGui::DragFloat("##dragger", (f32*)field_ptr);
                                         break;
                                     }
-                                    case RFType::CString: {
+                                    case CString: {
                                         break;
                                     }
-                                    case RFType::StdString: {
+                                    case StdString: {
                                         ImGui::InputText("##input", (std::string*)field_ptr);
                                         break;
                                     }
-                                    case RFType::Boolean: {
+                                    case Boolean: {
                                         ImGui::Checkbox("##checkbox", (bool*)field_ptr);
                                         break;
                                     }
-                                    case RFType::Vector2f: {
-                                        SceneEditorView::DrawVec2Control("##t", *(Vector2f*)field_ptr, d->columnWidth);
+                                    case Vector2f: {
+                                        SceneEditorView::DrawVec2Control("##t", *(codex::Vector2f*)field_ptr,
+                                                                         d->columnWidth);
                                         break;
                                     }
-                                    case RFType::Vector3f: {
-                                        SceneEditorView::DrawVec3Control("##t", *(Vector3f*)field_ptr, d->columnWidth);
+                                    case Vector3f: {
+                                        SceneEditorView::DrawVec3Control("##t", *(codex::Vector3f*)field_ptr,
+                                                                         d->columnWidth);
                                         break;
                                     }
-                                    default: break; //cx_throw(CodexException, "WHAT THE FUCK"); break;
+                                    default: break; // cx_throw(CodexException, "WHAT THE FUCK"); break;
                                 }
                                 ImGui::Columns(1);
                             }
@@ -211,7 +211,7 @@ namespace codex::editor {
                         {
                             std::filesystem::path relative_path =
                                 std::filesystem::relative(file, std::filesystem::current_path());
-                            auto res = Resources::Load<Texture2D>(relative_path);
+                            auto res = Resources::Load<gfx::Texture2D>(relative_path);
                             sprite.SetTexture(res);
                             d->selectedEntity.overlayColour = sprite.GetColour();
                             sprite.GetColour()              = d->selectColour;
@@ -242,26 +242,26 @@ namespace codex::editor {
                         const auto& props            = texture->GetProperties();
                         switch (props.filterMode)
                         {
-                            case TextureFilterMode::Linear: preview_item = "Linear"; break;
-                            case TextureFilterMode::Nearest: preview_item = "Nearest"; break;
+                            case gfx::TextureFilterMode::Linear: preview_item = "Linear"; break;
+                            case gfx::TextureFilterMode::Nearest: preview_item = "Nearest"; break;
                         }
                         if (ImGui::BeginCombo("##texture_filter_mode", preview_item))
                         {
-                            if (ImGui::Selectable("Nearest", props.filterMode == TextureFilterMode::Nearest))
+                            if (ImGui::Selectable("Nearest", props.filterMode == gfx::TextureFilterMode::Nearest))
                             {
-                                if (props.filterMode != TextureFilterMode::Nearest)
+                                if (props.filterMode != gfx::TextureFilterMode::Nearest)
                                 {
                                     auto new_props       = props;
-                                    new_props.filterMode = TextureFilterMode::Nearest;
+                                    new_props.filterMode = gfx::TextureFilterMode::Nearest;
                                     texture->New(texture->GetFilePath(), new_props);
                                 }
                             }
-                            if (ImGui::Selectable("Linear", props.filterMode == TextureFilterMode::Linear))
+                            if (ImGui::Selectable("Linear", props.filterMode == gfx::TextureFilterMode::Linear))
                             {
-                                if (props.filterMode != TextureFilterMode::Linear)
+                                if (props.filterMode != gfx::TextureFilterMode::Linear)
                                 {
                                     auto new_props       = props;
-                                    new_props.filterMode = TextureFilterMode::Linear;
+                                    new_props.filterMode = gfx::TextureFilterMode::Linear;
                                     texture->New(texture->GetFilePath(), new_props);
                                 }
                             }

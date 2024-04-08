@@ -56,7 +56,7 @@ namespace codex {
         template <typename T>
         const T& GetComponent() const
         {
-            return (NativeBehaviour*)(this)->GetComponent<T>();
+            return NativeBehaviour*(this)->GetComponent<T>();
         }
         template <typename T>
         bool HasComponent() const
@@ -70,10 +70,10 @@ namespace codex {
         // FIXME: Mark these methods protected!
         // protected:
     public:
-        virtual void   Init() = 0;
-        virtual void   Update(const f32 deltaTime) {}
-        virtual void   Destroy() {}
-        virtual void   Serialize() { m_SerializedData[typeid(this).name()]["Id"] = -1; };
+        virtual void   OnInit() = 0;
+        virtual void   OnUpdate(const f32 deltaTime) {}
+        virtual void   OnDispose() {}
+        virtual void   Serialize() { m_SerializedData[typeid(*this).name()]["Id"] = -1; };
         virtual object GetField(const std::string_view name) { return nullobj; }
     };
 } // namespace codex

@@ -14,21 +14,8 @@ namespace codex {
     class Application;
     class Scene;
 
-    class SDLException : public CodexException
-    {
-        using CodexException::CodexException;
-
-    public:
-        constexpr const char* default_message() const noexcept override { return "SDL failed to initialize."; }
-    };
-
-    class GLADException : public CodexException
-    {
-        using CodexException::CodexException;
-
-    public:
-        constexpr const char* default_message() const noexcept override { return "GLAD failed to initialize."; }
-    };
+    CX_CUSTOM_EXCEPTION(SDLException, "SDL failed to initialize.")
+    CX_CUSTOM_EXCEPTION(GLADException, "GLAD failed to initialize.")
 
     enum class WindowFlags : u32
     {
@@ -93,7 +80,7 @@ namespace codex {
         u32                                                m_Fps, m_FrameCount, m_FrameCap;
         std::chrono::system_clock::time_point              m_Tp1, m_Tp2;
         const void*                                        m_NativeWindow;
-        std::unique_ptr<graphics::Renderer>                m_Renderer;
+        std::unique_ptr<gfx::Renderer>                m_Renderer;
         SDL_Window*                                        m_SdlWindow;
         SDL_GLContext                                      m_GlContext;
         SDL_Event                                          m_SdlEvent;
@@ -143,7 +130,7 @@ namespace codex {
 
     public:
         void        Init(const WindowProperties& windowInfo = WindowProperties(), const void* nativeWindow = nullptr);
-        void        Update(const f32 delta_time);
+        void        OnUpdate(const f32 deltaTime);
         void        SwapBuffers();
         void        ProcessEvents();
         void        SDLCheckError(const i32 line = -1);

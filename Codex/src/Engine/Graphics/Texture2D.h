@@ -6,7 +6,7 @@
 #include "../Core/IResource.h"
 #include "../Memory/Memory.h"
 
-namespace codex::graphics {
+namespace codex::gfx {
     typedef mgl::TextureProperties TextureProperties;
     typedef mgl::TextureFilterMode TextureFilterMode;
     typedef mgl::TextureWrapMode   TextureWrapMode;
@@ -51,6 +51,6 @@ namespace codex::graphics {
                                   { "format", props.format } };
         }
     };
-} // namespace codex::graphics
+} // namespace codex::gfx
 
 #endif // CODEX_CORE_TEXTURE_2D_H

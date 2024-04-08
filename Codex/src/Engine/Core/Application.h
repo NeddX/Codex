@@ -81,7 +81,7 @@ namespace codex {
         bool OnWindowResize_Event(const events::WindowResizeEvent& event);
 
     public:
-        virtual void Init(){};
+        virtual void OnInit(){};
 
     public:
         void Run();

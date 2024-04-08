@@ -5,13 +5,8 @@
 #include "../SceneEditorView.h"
 
 namespace codex::editor {
-    using namespace codex::events;
-    using namespace codex::imgui;
-    using namespace codex::mem;
-    using namespace codex::graphics;
-    using namespace codex::reflect;
 
-    SceneHierarchyView::SceneHierarchyView(const Ref<SceneEditorDescriptor>& editorDesc) : m_EditorDesc(editorDesc)
+    SceneHierarchyView::SceneHierarchyView(const mem::Ref<SceneEditorDescriptor>& editorDesc) : m_EditorDesc(editorDesc)
     {
     }
 
@@ -83,7 +78,6 @@ namespace codex::editor {
                             ImGui::InputText("##entity_name", &t.tag);
                             ImGui::SameLine();
                             if (ImGui::IsKeyPressed(ImGuiKey_Enter) || ImGui::Button("Enter")) // Check for Enter key
-                                                                                               // press
                                 ImGui::CloseCurrentPopup();
                             ImGui::EndPopup();
                         }

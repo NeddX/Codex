@@ -7,7 +7,7 @@
 #include "../Core/IResource.h"
 #include "../Memory/Memory.h"
 
-namespace codex::graphics {
+namespace codex::gfx {
     CX_CUSTOM_EXCEPTION(ShaderException, "Bad shader.")
     CX_CUSTOM_EXCEPTION(ShaderNotFoundException, "Shader file was not found.")
 
@@ -56,6 +56,6 @@ namespace codex::graphics {
             return m_RawShader->CompileShader(compileDefinitions);
         }
     };
-} // namespace codex::graphics
+} // namespace codex::gfx
 
 #endif // CODEX_RENDERER_SHADER_H

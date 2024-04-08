@@ -4,7 +4,7 @@
 #include "../Core/Window.h"
 #include "../Scene/Scene.h"
 
-namespace codex::graphics {
+namespace codex::gfx {
     DebugDraw*                                             DebugDraw::m_Instance = nullptr;
     std::vector<Line2D>                                    DebugDraw::m_Lines;
     std::array<f32, LINE2D_MAX_LINES * LINE2D_VERTEX_SIZE> DebugDraw::m_Verticies;
@@ -197,4 +197,4 @@ namespace codex::graphics {
             m_Lines.emplace_back(poi32_one, poi32_two, colour, lifeTime);
         }
     }
-} // namespace codex::graphics
+} // namespace codex::gfx

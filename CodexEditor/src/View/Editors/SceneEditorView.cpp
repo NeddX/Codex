@@ -6,13 +6,7 @@
 #include <tinyfiledialogs.h>
 
 namespace codex::editor {
-    namespace fs = std::filesystem;
-    using namespace codex::events;
-    using namespace codex::fs;
-    using namespace codex::imgui;
-    using namespace codex::mem;
-    using namespace codex::graphics;
-    using namespace codex::reflect;
+    namespace stdfs = std::filesystem;
 
     void SceneEditorView::OnAttach()
     {
@@ -31,10 +25,10 @@ namespace codex::editor {
         ConsoleMan::AppendMessage("Started.");
         handle->Launch();
 
-        m_Descriptor = Shared<SceneEditorDescriptor>::From(new SceneEditorDescriptor{ .scene = Box<Scene>::New() });
+        m_Descriptor = mem::Shared<SceneEditorDescriptor>::From(new SceneEditorDescriptor{ .scene = mem::Box<Scene>::New() });
 
-        m_SceneHierarchyView = Box<SceneHierarchyView>::New(m_Descriptor.AsRef());
-        m_PropertiesView     = Box<PropertiesView>::New(m_Descriptor.AsRef());
+        m_SceneHierarchyView = mem::Box<SceneHierarchyView>::New(m_Descriptor.AsRef());
+        m_PropertiesView     = mem::Box<PropertiesView>::New(m_Descriptor.AsRef());
 
         mgl::FrameBufferProperties props;
         props.attachments = { mgl::TextureFormat::RGBA8, mgl::TextureFormat::RedInt32 };
@@ -42,7 +36,7 @@ namespace codex::editor {
         // TODO: This is the scene render resolution so you should not hard code this.
         props.width   = 1920;
         props.height  = 1080;
-        m_Framebuffer = Box<mgl::FrameBuffer>::New(props);
+        m_Framebuffer = mem::Box<mgl::FrameBuffer>::New(props);
 
         // glEnable(GL_DEPTH_TEST);
         // glDepthFunc(GL_LESS);
@@ -52,17 +46,17 @@ namespace codex::editor {
     {
     }
 
-    void SceneEditorView::Update(const f32 deltaTime)
+    void SceneEditorView::OnUpdate(const f32 deltaTime)
     {
         auto& d = m_Descriptor;
 
         m_Framebuffer->Bind();
-        Renderer::SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
-        Renderer::Clear();
+        gfx::Renderer::SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
+        gfx::Renderer::Clear();
 
-        BatchRenderer2D::Begin();
-        m_Descriptor->scene->Update(deltaTime);
-        BatchRenderer2D::End();
+        gfx::BatchRenderer2D::Begin();
+        m_Descriptor->scene->OnEditorUpdate(deltaTime);
+        gfx::BatchRenderer2D::End();
 
         auto [mx, my] = ImGui::GetMousePos();
         mx -= m_ViewportBounds[0].x;
@@ -104,7 +98,7 @@ namespace codex::editor {
         m_Framebuffer->Unbind();
     }
 
-    void SceneEditorView::ImGuiRender()
+    void SceneEditorView::OnImGuiRender()
     {
         auto& d  = m_Descriptor;
         auto& io = ImGui::GetIO();
@@ -142,11 +136,11 @@ namespace codex::editor {
                                     .GetColour()         = d->selectedEntity.overlayColour;
                                 d->selectedEntity.entity = Entity::None();
                             }
-                            d->currentProjectPath = fs::path(file);
+                            d->currentProjectPath = stdfs::path(file);
                             d->currentProjectPath = d->currentProjectPath.parent_path();
 
                             // NOTE: I do not like this.
-                            fs::current_path(d->currentProjectPath);
+                            stdfs::current_path(d->currentProjectPath);
 
                             UnloadScriptModule();
                             d->scene.Reset(new Scene());
@@ -157,14 +151,14 @@ namespace codex::editor {
                     {
                         UnloadScriptModule();
                         const auto files =
-                            GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
-                        std::vector<Reflector> rf_files;
+                            fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
+                        std::vector<reflect::Reflector> rf_files;
                         rf_files.reserve(files.size());
 
-                        const fs::path output_path = fs::absolute(d->currentProjectPath / "int/");
+                        const auto output_path = stdfs::absolute(d->currentProjectPath / "int/");
                         for (const auto& f : files)
                             rf_files.emplace_back(f).EmitMetadata(output_path);
-                        Reflector::EmitBaseClass(output_path, rf_files);
+                        reflect::Reflector::EmitBaseClass(output_path, rf_files);
 
                         sys::ProcessInfo p_info;
 
@@ -203,14 +197,14 @@ namespace codex::editor {
                     {
                         UnloadScriptModule();
                         const auto files =
-                            GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
-                        std::vector<Reflector> rf_files;
+                            fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
+                        std::vector<reflect::Reflector> rf_files;
                         rf_files.reserve(files.size());
 
-                        const fs::path output_path = fs::absolute(d->currentProjectPath / "int/");
+                        const auto output_path = stdfs::absolute(d->currentProjectPath / "int/");
                         for (const auto& f : files)
                             rf_files.emplace_back(f).EmitMetadata(output_path);
-                        Reflector::EmitBaseClass(output_path, rf_files);
+                        reflect::Reflector::EmitBaseClass(output_path, rf_files);
 
                         sys::ProcessInfo p_info;
 
@@ -376,8 +370,8 @@ namespace codex::editor {
             ImGui::Text("Renderer information");
             ImGui::Text("FPS: %u", Application::GetFps());
             ImGui::Text("Delta time: %f", Application::GetDelta());
-            ImGui::Text("Batch count: %zu", BatchRenderer2D::GeBatchCount());
-            ImGui::Text("Total quad count: %zu", BatchRenderer2D::GetQuadCount());
+            ImGui::Text("Batch count: %zu", gfx::BatchRenderer2D::GeBatchCount());
+            ImGui::Text("Total quad count: %zu", gfx::BatchRenderer2D::GetQuadCount());
             ImGui::End();
         }
 
@@ -386,13 +380,13 @@ namespace codex::editor {
         m_PropertiesView->OnImGuiRender();
     }
 
-    void SceneEditorView::OnEvent(Event& e)
+    void SceneEditorView::OnEvent(events::Event& e)
     {
-        EventDispatcher d(e);
-        d.Dispatch<KeyDownEvent>(BindEventDelegate(this, &SceneEditorView::OnKeyDown_Event));
+        events::EventDispatcher d(e);
+        d.Dispatch<events::KeyDownEvent>(BindEventDelegate(this, &SceneEditorView::OnKeyDown_Event));
     }
 
-    bool SceneEditorView::OnKeyDown_Event(KeyDownEvent& e)
+    bool SceneEditorView::OnKeyDown_Event(events::KeyDownEvent& e)
     {
         switch (e.GetKey())
         {
@@ -410,7 +404,7 @@ namespace codex::editor {
     void SceneEditorView::LoadScriptModule()
     {
         auto& d         = m_Descriptor;
-        d->scriptModule = Box<DLib>::New(fmt::format("{}/lib/libNBMan.dll", d->currentProjectPath.string()));
+        d->scriptModule = mem::Box<DLib>::New(fmt::format("{}/lib/libNBMan.dll", d->currentProjectPath.string()));
         if (d->scriptModule)
             fmt::println("Script module loaded.");
         else

@@ -23,14 +23,14 @@ namespace codex {
         void PopOverlay(Layer* overlay);
 
     public:
-        std::vector<Layer*>::iterator               begin() noexcept { return m_Layers.begin(); }
-        std::vector<Layer*>::iterator               end() noexcept { return m_Layers.end(); }
-        std::vector<Layer*>::reverse_iterator       rbegin() noexcept { return m_Layers.rbegin(); }
-        std::vector<Layer*>::reverse_iterator       rend() noexcept { return m_Layers.rend(); }
-        std::vector<Layer*>::const_iterator         begin() const noexcept { return m_Layers.begin(); }
-        std::vector<Layer*>::const_iterator         end() const noexcept { return m_Layers.end(); }
-        std::vector<Layer*>::const_reverse_iterator rbegin() const noexcept { return m_Layers.rbegin(); }
-        std::vector<Layer*>::const_reverse_iterator rend() const noexcept { return m_Layers.rend(); }
+        auto begin() noexcept { return m_Layers.begin(); }
+        auto end() noexcept { return m_Layers.end(); }
+        auto rbegin() noexcept { return m_Layers.rbegin(); }
+        auto rend() noexcept { return m_Layers.rend(); }
+        auto begin() const noexcept { return m_Layers.begin(); }
+        auto end() const noexcept { return m_Layers.end(); }
+        auto rbegin() const noexcept { return m_Layers.rbegin(); }
+        auto rend() const noexcept { return m_Layers.rend(); }
     };
 } // namespace codex
 

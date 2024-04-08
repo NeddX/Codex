@@ -3,11 +3,9 @@
 #include <CEditor.h>
 
 namespace codex::editor {
-    CODEX_USE_ALL_NAMESPACES()
-
-    Icon::Icon(graphics::Texture2D texture, const mgl::FrameBufferProperties props) : m_Texture(std::move(texture))
+    Icon::Icon(gfx::Texture2D texture, const mgl::FrameBufferProperties props) : m_Texture(std::move(texture))
     {
-        m_Fb = Box<mgl::FrameBuffer>::New(props);
+        m_Fb = mem::Box<mgl::FrameBuffer>::New(props);
 
         m_TransformMat = glm::identity<Matrix4f>();
         m_TransformMat = glm::translate(m_TransformMat, Vector3f(0.0f, 0.0f, 0.0f));
@@ -16,9 +14,10 @@ namespace codex::editor {
     void Icon::Render()
     {
         m_Fb->Bind();
-        Renderer::Clear();
-        BatchRenderer2D::RenderRect(&m_Texture, { 0.0f, 0.0f, (f32)m_Texture.GetWidth(), (f32)m_Texture.GetHeight() },
-                                    m_TransformMat, { 1.0f, 1.0f, 1.0f, 1.0f });
+        gfx::Renderer::Clear();
+        gfx::BatchRenderer2D::RenderRect(&m_Texture,
+                                         { 0.0f, 0.0f, (f32)m_Texture.GetWidth(), (f32)m_Texture.GetHeight() },
+                                         m_TransformMat, { 1.0f, 1.0f, 1.0f, 1.0f });
         m_Fb->Unbind();
     }
 
@@ -29,9 +28,9 @@ namespace codex::editor {
         props.width       = 16;
         props.height      = 16;
 
-        m_TitleBarIcons[0] = Icon(Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_minimize.png"), props);
-        m_TitleBarIcons[1] = Icon(Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_maximize.png"), props);
-        m_TitleBarIcons[2] = Icon(Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_close.png"), props);
+        m_TitleBarIcons[0] = Icon(gfx::Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_minimize.png"), props);
+        m_TitleBarIcons[1] = Icon(gfx::Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_maximize.png"), props);
+        m_TitleBarIcons[2] = Icon(gfx::Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_close.png"), props);
     }
 
     TitleBar::~TitleBar()
@@ -46,13 +45,13 @@ namespace codex::editor {
     {
     }
 
-    void TitleBar::Update(const codex::f32 deltaTime)
+    void TitleBar::OnUpdate(const codex::f32 deltaTime)
     {
         static auto&        win = Application::GetWindow();
         static SystemCursor cursor;
         static SystemCursor prev_cursor;
         static bool         is_dragging_window = false;
-        
+
         // Window resize.
         /*
         {
@@ -135,15 +134,15 @@ namespace codex::editor {
         static bool icons_rendered = false;
         if (!icons_rendered)
         {
-            BatchRenderer2D::Begin();
+            gfx::BatchRenderer2D::Begin();
             for (auto& icon : m_TitleBarIcons)
                 icon.Render();
-            BatchRenderer2D::End();
+            gfx::BatchRenderer2D::End();
             icons_rendered = true;
         }
     }
 
-    void TitleBar::ImGuiRender()
+    void TitleBar::OnImGuiRender()
     {
         static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
 

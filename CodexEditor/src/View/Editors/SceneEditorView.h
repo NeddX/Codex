@@ -55,8 +55,8 @@ namespace codex::editor {
     public:
         void OnAttach() override;
         void OnDetach() override;
-        void Update(const f32 deltaTime) override;
-        void ImGuiRender() override;
+        void OnUpdate(const f32 deltaTime) override;
+        void OnImGuiRender() override;
 
     public:
         void OnEvent(events::Event& e) override;

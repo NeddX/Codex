@@ -7,11 +7,11 @@ namespace codex::editor {
     {
     }
 
-    void ConsoleMan::Update(const f32 deltaTime)
+    void ConsoleMan::OnUpdate(const f32 deltaTime)
     {
     }
 
-    void ConsoleMan::ImGuiRender()
+    void ConsoleMan::OnImGuiRender()
     {
         ImGui::Begin("Console");
         const float footer_height = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();

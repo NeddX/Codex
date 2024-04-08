@@ -23,12 +23,12 @@ namespace codex {
         Scene*       m_Scene = nullptr;
 
     public:
-        Entity() = default;
+        constexpr Entity() = default;
         Entity(const entt::entity entity, Scene* scene) : m_Handle(entity), m_Scene(scene) {}
         Entity(const u32 entity, Scene* scene) : m_Handle((entt::entity)entity), m_Scene(scene) {}
 
     public:
-        static inline Entity None() { return Entity(); }
+        static constexpr Entity None() { return Entity(); }
 
     public:
         inline i32  GetId() const { return (i32)(m_Handle); }
@@ -43,7 +43,7 @@ namespace codex {
             CX_ASSERT(!m_Scene->m_Registry.any_of<T>(m_Handle), "Entity already has that component.");
             auto& c    = m_Scene->m_Registry.emplace<T>(m_Handle, std::forward<TArgs>(args)...);
             c.m_Parent = Entity(m_Handle, m_Scene);
-            c.Start();
+            c.OnInit();
             return c;
         }
         template <typename T>

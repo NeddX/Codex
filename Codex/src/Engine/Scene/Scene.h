@@ -1,10 +1,11 @@
-#ifndef CODEX_CORE_SCENE_H
-#define CODEX_CORE_SCENE_H
+#ifndef CODEX_SCENE_H
+#define CODEX_SCENE_H
 
-#include "../Core/Camera.h"
 #include "../Core/Input.h"
 #include "../Core/ResourceHandler.h"
 #include "../Graphics/Renderer.h"
+#include "../Scene/Camera.h"
+#include "../Scene/EditorCamera.h"
 #include "../Scene/SpriteSheet.h"
 
 namespace codex {
@@ -28,7 +29,7 @@ namespace codex {
         // displaying the names of the objects just like in UE.
         inline std::string&       GetName() noexcept { return m_Name; }
         inline const std::string& GetName() const noexcept { return m_Name; }
-        inline usize              GetEntityCount() const noexcept { return m_Registry.view<entt::entity>().size_hint(); }
+        inline usize GetEntityCount() const noexcept { return m_Registry.view<entt::entity>().size_hint(); }
 
     public:
         template <typename T>
@@ -42,8 +43,10 @@ namespace codex {
         std::vector<Entity> GetAllEntities();
 
     public:
-        void Start();
-        void Update(const f32 deltaTime);
+        void OnEditorInit(scene::EditorCamera& camera);
+        void OnRuntimeInit();
+        void OnEditorUpdate(const f32 deltaTime, scene::EditorCamera& camera);
+        void OnRuntimeUpdate(const f32 deltaTime);
 
     public:
         friend void to_json(nlohmann::ordered_json& j, const Scene& scene);
@@ -57,4 +60,4 @@ namespace codex {
     };
 } // namespace codex
 
-#endif // CODEX_CORE_SCENE_H
+#endif // CODEX_SCENE_H

@@ -9,7 +9,7 @@
 #include "Shader.h"
 #include "Texture2D.h"
 
-namespace codex::graphics {
+namespace codex::gfx {
     constexpr auto BATCH_RENDERER_INITIAL_CAPACITY         = 16;
     constexpr auto BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH = 1024;
 
@@ -58,6 +58,6 @@ namespace codex::graphics {
                        entityId);
         }
     };
-} // namespace codex::graphics
+} // namespace codex::gfx
 
 #endif // CODEX_RENDERER_SPRITE_BATCH_RENDERER_H

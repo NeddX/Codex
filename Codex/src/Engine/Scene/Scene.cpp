@@ -4,11 +4,9 @@
 #include "ECS.h"
 
 namespace codex {
-    using namespace codex::graphics;
-
     Entity Scene::CreateEntity(const std::string_view defaultTag)
     {
-        Entity entity(m_Registry.create(), this);
+        Entity entity{ m_Registry.create(), this };
         entity.AddComponent<TransformComponent>();
         entity.AddComponent<TagComponent>(defaultTag);
         return entity;
@@ -83,8 +81,7 @@ namespace codex {
     {
         std::vector<Entity> entities;
         entities.reserve(GetEntityCount());
-        auto entities_view = m_Registry.view<entt::entity>();
-        for (const auto& e : entities_view)
+        for (auto entities_view = m_Registry.view<entt::entity>(); const auto& e : entities_view)
         {
             const auto entity = Entity(e, this);
             if (!entity)
@@ -94,11 +91,15 @@ namespace codex {
         return entities;
     }
 
-    void Scene::Start()
+    void Scene::OnEditorInit(scene::EditorCamera& camera)
     {
     }
 
-    void Scene::Update(const f32 deltaTime)
+    void Scene::OnRuntimeInit()
+    {
+    }
+
+    void Scene::OnEditorUpdate(const f32 deltaTime, scene::EditorCamera& camera)
     {
         // Render
         for (auto& entity : GetAllEntitiesWithComponent<GridRendererComponent>())
@@ -115,7 +116,7 @@ namespace codex {
                 auto transform = transform_component.GetTransform();
                 auto size      = s.GetSize();
                 transform      = transform * glm::scale(glm::identity<Matrix4f>(), { size.x, size.y, 1.0f });
-                BatchRenderer2D::RenderSprite(renderer_component.GetSprite(), transform, entity.GetId());
+                gfx::BatchRenderer2D::RenderSprite(renderer_component.GetSprite(), transform, entity.GetId());
             }
         }
 
@@ -124,7 +125,7 @@ namespace codex {
             // TODO: This should happen OnScenePlay.
             auto& behaviour_component = entity.GetComponent<NativeBehaviourComponent>();
             for (auto& [k, v] : behaviour_component.behaviours)
-                v->Update(deltaTime);
+                v->OnUpdate(deltaTime);
         }
 
         /*
@@ -150,6 +151,10 @@ namespace codex {
             }
         }
         */
+    }
+
+    void Scene::OnRuntimeUpdate(const f32 deltaTime)
+    {
     }
 
     void to_json(nlohmann::ordered_json& j, const Scene& scene)

@@ -11,7 +11,7 @@ namespace codex {
     class SpriteSheet
     {
     private:
-        ResRef<graphics::Texture2D> m_Texture;
+        ResRef<gfx::Texture2D> m_Texture;
         std::vector<Vector2f>       m_SpriteCoords;
         std::vector<Sprite>         m_Sprites;
         i32                         m_Width;
@@ -21,7 +21,7 @@ namespace codex {
         i32                         m_SpriteHeight;
 
     public:
-        SpriteSheet(ResRef<graphics::Texture2D> texture, i32 spriteWidth, i32 spriteHeight, i32 spriteCount, i32 space)
+        SpriteSheet(ResRef<gfx::Texture2D> texture, i32 spriteWidth, i32 spriteHeight, i32 spriteCount, i32 space)
             : m_Texture(texture), m_Width(texture->GetWidth()), m_Height(texture->GetHeight()),
               m_TotalSpriteCount(spriteCount), m_SpriteWidth(spriteWidth), m_SpriteHeight(spriteHeight)
         {

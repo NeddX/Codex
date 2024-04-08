@@ -3,10 +3,34 @@
 
 #include <sdafx.h>
 
-#include "Geomtryd.h"
+#include "../Core/Geomtryd.h"
 
-namespace codex {
-    class CODEX_API Camera
+namespace codex::scene {
+    class Kamera
+    {
+    private:
+        i32      m_Width;
+        i32      m_Height;
+        Matrix4f m_Projection = Matrix4f(1.0f);
+        Matrix4f m_View       = Matrix4f(1.0f);
+
+    public:
+        Vector3f position;
+
+    public:
+        Kamera() = default;
+        Kamera(const i32 width, const i32 height, Vector3f position = Vector3f())
+            : m_Width(width), m_Height(height), m_Projection(Matrix4f(0.0f)), position(std::move(position))
+        {
+            RecalculateView();
+        }
+        virtual ~Kamera() = default;
+
+    private:
+        void RecalculateView();
+    };
+
+    class Camera
     {
     private:
         i32      m_Width;
@@ -58,6 +82,6 @@ namespace codex {
             UpdateProjectionMatrix();
         }
     };
-} // namespace codex
+} // namespace codex::scene
 
 #endif // CODEX_CORE_CAMERA_H

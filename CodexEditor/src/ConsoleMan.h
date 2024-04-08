@@ -10,8 +10,8 @@ namespace codex::editor {
 
     public:
         void OnAttach() override;
-        void Update(const f32 deltaTime) override;
-        void ImGuiRender() override;
+        void OnUpdate(const f32 deltaTime) override;
+        void OnImGuiRender() override;
 
 	public:
 		static void AppendMessage(const std::string_view msg) noexcept;

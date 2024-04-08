@@ -3,16 +3,6 @@
 #include <Codex.h>
 #include <filesystem>
 
-#define CODEX_USE_ALL_NAMESPACES()                                                                                     \
-    namespace fs = std::filesystem;                                                                                    \
-    using namespace codex;                                                                                             \
-    using namespace codex::fs;                                                                                         \
-    using namespace codex::mem;                                                                                        \
-    using namespace codex::imgui;                                                                                      \
-    using namespace codex::events;                                                                                     \
-    using namespace codex::reflect;                                                                                    \
-    using namespace codex::graphics;
-
 namespace codex::editor {
     class CEditor : public Application
     {
@@ -31,6 +21,6 @@ namespace codex::editor {
         ~CEditor() override = default;
 
     public:
-        void Init() override;
+        void OnInit() override;
     };
 } // namespace codex::editor

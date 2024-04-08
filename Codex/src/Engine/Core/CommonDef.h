@@ -96,6 +96,9 @@ namespace codex {
 #define CX_ASSERT(x, msg) ;
 #endif
 
-#define CX_COMPONENT_SERIALIZABLE() friend void from_json(const nlohmann::ordered_json& j, Entity& entity);
+#define CX_COMPONENT                                                                                                   \
+    friend void from_json(const nlohmann::ordered_json& j, Entity& entity);                                            \
+    friend class Serializer;                                                                                           \
+    friend class Entity;
 
 #endif // CODEX_CORE_COMMON_DEFINITIONS_H

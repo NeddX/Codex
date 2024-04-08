@@ -18,8 +18,8 @@ namespace codex {
     public:
         virtual void OnAttach() {}
         virtual void OnDetach() {}
-        virtual void Update(const f32 deltaTime) {}
-        virtual void ImGuiRender() {}
+        virtual void OnUpdate(const f32 deltaTime) {}
+        virtual void OnImGuiRender() {}
         virtual void OnEvent(events::Event& event) {}
 
         const std::string& GetName() const noexcept { return m_DebugName; }

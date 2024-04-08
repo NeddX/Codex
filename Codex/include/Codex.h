@@ -3,9 +3,7 @@
 
 // Core
 #include "../src/Engine/Core/Application.h"
-#include "../src/Engine/Core/Camera.h"
 #include "../src/Engine/Core/CommonDef.h"
-#include "../src/Engine/Core/DynamicLibrary.h"
 #include "../src/Engine/Core/Exception.h"
 #include "../src/Engine/Core/Geomtryd.h"
 #include "../src/Engine/Core/Input.h"
@@ -28,23 +26,26 @@
 #include "../src/Engine/Memory/Memory.h"
 
 // Scene
+#include "../src/Engine/Scene/Camera.h"
 #include "../src/Engine/Scene/Components.h"
 #include "../src/Engine/Scene/ECS.h"
+#include "../src/Engine/Scene/EditorCamera.h"
 #include "../src/Engine/Scene/Scene.h"
 
 // Reflection
-#include "../src/Engine/Reflection/Reflector.h"
 #include "../src/Engine/Reflection/Lexer.h"
+#include "../src/Engine/Reflection/Reflector.h"
 
 // Graphics
 #include "../src/Engine/Graphics/BatchRenderer2D.h"
+#include "../src/Engine/Graphics/Image2D.h"
 #include "../src/Engine/Graphics/RenderBatch.h"
 #include "../src/Engine/Graphics/Renderer.h"
 #include "../src/Engine/Graphics/Shader.h"
 #include "../src/Engine/Graphics/Texture2D.h"
-#include "../src/Engine/Graphics/Image2D.h"
 
 // System
+#include "../src/Engine/System/DynamicLibrary.h"
 #include "../src/Engine/System/Process.h"
 
 #endif // CODEX_H

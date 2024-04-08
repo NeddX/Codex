@@ -1,37 +1,25 @@
-#ifndef CODEX_CORE_DYNAMIC_LIBRARY_H
-#define CODEX_CORE_DYNAMIC_LIBRARY_H
+#ifndef CODEX_SYSTEM_DYNAMIC_LIBRARY_H
+#define CODEX_SYSTEM_DYNAMIC_LIBRARY_H
 
 #include <sdafx.h>
 
-#include "Exception.h"
-
-#ifdef CX_PLATFORM_WINDOWS
-using DLibInstance = HINSTANCE;
-#elif defined(CX_PLATFORM_UNIX)
-using DLibInstance = void*;
-#endif
+#include "../Core/Exception.h"
 
 namespace codex {
-    class DynamicLibraryLoadException : public CodexException
-    {
-        using CodexException::CodexException;
-
-    public:
-        constexpr const char* default_message() const noexcept override { return "Failed to load dynamic library."; }
-    };
-
-    class DynamicLibraryInvokeException : public CodexException
-    {
-        using CodexException::CodexException;
-
-    public:
-        constexpr const char* default_message() const noexcept override { return "Failed to invoke function."; }
-    };
+    CX_CUSTOM_EXCEPTION(DynamicLibraryLoadException, "Failed to load dynamic library.")
+    CX_CUSTOM_EXCEPTION(DynamicLibraryInvokeException, "Failed to invoke function")
 
     class CODEX_API DLib
     {
     private:
-        DLibInstance m_Handle = (DLibInstance)0;
+#ifdef CX_PLATFORM_WINDOWS
+        using DLibInstance = HINSTANCE;
+#elif defined(CX_PLATFORM_UNIX)
+        using DLibInstance = void*;
+#endif
+
+    private:
+        DLibInstance m_Handle = (DLibInstance) nullptr;
         std::string  m_FilePath;
 
     public:
@@ -52,15 +40,12 @@ namespace codex {
         {
 #if defined(CX_PLATFORM_UNIX)
             Fn* instance = (Fn*)dlsym(m_Handle, func);
-            if (!instance)
-                cx_throw(DynamicLibraryInvokeException, "Failed to invoke '{}' in '{}'", func, m_FilePath);
-            return instance(std::forward<TArgs>(args)...);
 #elif defined(CX_PLATFORM_WINDOWS)
             Fn* instance = (Fn*)GetProcAddress(m_Handle, func);
+#endif
             if (!instance)
                 cx_throw(DynamicLibraryInvokeException, "Failed to invoke '{}' in '{}'", func, m_FilePath);
             return instance(std::forward<TArgs>(args)...);
-#endif
         }
     };
 } // namespace codex

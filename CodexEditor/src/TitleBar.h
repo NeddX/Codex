@@ -7,13 +7,13 @@ namespace codex::editor {
     class Icon
     {
     private:
-        graphics::Texture2D        m_Texture;
+        gfx::Texture2D        m_Texture;
         mem::Box<mgl::FrameBuffer> m_Fb;
         Matrix4f                   m_TransformMat;
 
     public:
         Icon() = default;
-        Icon(graphics::Texture2D texture, const mgl::FrameBufferProperties props);
+        Icon(gfx::Texture2D texture, const mgl::FrameBufferProperties props);
 
     public:
         inline u32 GetGLId() const noexcept { return m_Texture.GetGlId(); }
@@ -36,8 +36,8 @@ namespace codex::editor {
     protected:
         void OnAttach() override;
         void OnDetach() override;
-        void Update(const f32 deltaTime) override;
-        void ImGuiRender() override;
+        void OnUpdate(const f32 deltaTime) override;
+        void OnImGuiRender() override;
         void DrawTitleBar();
         void OnEvent(events::Event& event) override;
     };

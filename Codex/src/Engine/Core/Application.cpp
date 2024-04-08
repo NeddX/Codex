@@ -13,7 +13,7 @@ namespace codex {
     namespace fs = std::filesystem;
     using namespace codex::events;
     using namespace codex::imgui;
-    using namespace codex::graphics;
+    using namespace codex::gfx;
 
     Application* Application::m_Instance = nullptr;
 
@@ -131,13 +131,13 @@ namespace codex {
                 if (!m_Minimized)
                 {
                     for (Layer* layer : m_LayerStack)
-                        layer->Update(m_DeltaTime);
+                        layer->OnUpdate(m_DeltaTime);
 
                     if (m_ImGuiLayer)
                     {
                         m_ImGuiLayer->Begin();
                         for (Layer* layer : m_LayerStack)
-                            layer->ImGuiRender();
+                            layer->OnImGuiRender();
                         m_ImGuiLayer->End();
                     }
                 }
