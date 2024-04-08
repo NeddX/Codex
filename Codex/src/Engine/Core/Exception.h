@@ -6,7 +6,7 @@
 #define cx_throw(ex_type, ...) throw ex_type(fmt::format(__VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
 #define cx_throwd(ex_type)     throw ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
 #define CX_CUSTOM_EXCEPTION(name, default_msg)                                                                         \
-    class CODEX_API name : public CodexException                                                                       \
+    class name : public CodexException                                                                       \
     {                                                                                                                  \
         using CodexException::CodexException;                                                                          \
                                                                                                                        \

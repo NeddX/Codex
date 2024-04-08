@@ -99,7 +99,7 @@ namespace codex {
     {
     }
 
-    void Scene::OnEditorUpdate(const f32 deltaTime, scene::EditorCamera& camera)
+    void Scene::OnEditorUpdate(const f32 deltaTime)
     {
         // Render
         for (auto& entity : GetAllEntitiesWithComponent<GridRendererComponent>())

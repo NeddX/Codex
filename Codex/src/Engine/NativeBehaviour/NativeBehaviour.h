@@ -24,13 +24,16 @@ namespace codex {
         inline void                             SetOwner(const Entity entity) noexcept { m_Owner = entity; }
 
     public:
+        virtual ~NativeBehaviour() = default;
+
+    public:
         auto CreateEntity(const std::string_view tag = "default tag") { return m_Owner.m_Scene->CreateEntity(tag); }
         void RemoveEntity(codex::Entity entity) { m_Owner.m_Scene->RemoveEntity(entity); }
         auto GetAllEntities() { return m_Owner.m_Scene->GetAllEntities(); }
         auto GetAllEntitiesWithTag(const std::string_view tag) { return m_Owner.m_Scene->GetAllEntitesWithTag(tag); }
         auto GetEntityCount() const noexcept { return m_Owner.m_Scene->GetEntityCount(); }
         const auto& GetCurrentScene() const noexcept { return m_Owner.m_Scene; }
-        auto& GetCurrentScene() noexcept { return *m_Owner.m_Scene; }
+        auto&       GetCurrentScene() noexcept { return *m_Owner.m_Scene; }
 
     public:
         template <typename T>
@@ -56,16 +59,13 @@ namespace codex {
         template <typename T>
         const T& GetComponent() const
         {
-            return NativeBehaviour*(this)->GetComponent<T>();
+            return (NativeBehaviour*)(this)->GetComponent<T>();
         }
         template <typename T>
         bool HasComponent() const
         {
             return m_Owner.HasComponent<T>();
         }
-
-    public:
-        virtual ~NativeBehaviour() = default;
 
         // FIXME: Mark these methods protected!
         // protected:

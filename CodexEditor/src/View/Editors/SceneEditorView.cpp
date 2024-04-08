@@ -38,6 +38,8 @@ namespace codex::editor {
         props.height  = 1080;
         m_Framebuffer = mem::Box<mgl::FrameBuffer>::New(props);
 
+        //EditorLayer::GetCamera().SetProjectionType(scene::Camera::ProjectionType::Perspective);
+
         // glEnable(GL_DEPTH_TEST);
         // glDepthFunc(GL_LESS);
     }
@@ -64,6 +66,23 @@ namespace codex::editor {
         const Vector2f viewport_size = m_ViewportBounds[1] - m_ViewportBounds[0];
         const i32      mouse_x       = (i32)mx;
         const i32      mouse_y       = (i32)my;
+
+        // TODO: Remove.
+        if (Input::IsKeyDown(Key::Left))
+            --EditorLayer::GetCamera().position.x;
+        if (Input::IsKeyDown(Key::Right))
+            ++EditorLayer::GetCamera().position.x;
+        if (Input::IsKeyDown(Key::Up))
+            --EditorLayer::GetCamera().position.y;
+        if (Input::IsKeyDown(Key::Down))
+            ++EditorLayer::GetCamera().position.y;
+        if (Input::IsKeyDown(Key::RightShift))
+        {
+            using enum scene::Camera::ProjectionType;
+            static auto proj = Perspective;
+            EditorLayer::GetCamera().SetProjectionType(proj);
+            proj             = (proj == Perspective) ? Orthographic : Perspective;
+        }
 
         if (Input::IsMouseDown(Mouse::LeftMouse) && mouse_x >= 0 && mouse_y >= 0 && mouse_x <= (i32)viewport_size.x &&
             mouse_y <= (i32)viewport_size.y && !m_GizmoActive)
