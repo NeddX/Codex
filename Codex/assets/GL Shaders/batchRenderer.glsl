@@ -18,8 +18,9 @@ uniform mat4 u_Proj;
 void main()
 {
 	o_Colour = a_Colour;
-	o_TexCoord = vec2(a_TexCoord.x / a_TexDim.x, 1.0 - (a_TexCoord.y / a_TexDim.y));
-	o_TexId = a_TexId;
+	//o_TexCoord = vec2(a_TexCoord.x / a_TexDim.x, 1.0 - (a_TexCoord.y / a_TexDim.y));
+	o_TexCoord = vec2(a_TexCoord.x / a_TexDim.x, a_TexCoord.y / a_TexDim.y);
+    o_TexId = a_TexId;
 	o_EntityId = a_EntityId;
 	gl_Position = u_Proj * u_View * vec4(a_Pos, 1.0);
 }

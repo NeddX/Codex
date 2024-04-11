@@ -47,7 +47,7 @@ namespace codex::editor {
 
         fmt::println("[Info] :: Application data path: '{}'", m_ApplicationDataPath.string());
         fmt::println("[Info] :: Variable application data path: '{}'", m_VariableApplicationDataPath.string());
-        
+       
         //PushLayer(new TitleBar); // Don't need a custom titlebar, for now.
         PushLayer(new EditorLayer);
         PushLayer(new ConsoleMan);

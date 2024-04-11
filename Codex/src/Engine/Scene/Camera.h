@@ -43,7 +43,7 @@ namespace codex::scene {
         inline void UpdateProjectionMatrix() noexcept
         {
             if (m_ProjectionType == ProjectionType::Orthographic)
-                m_Projection = glm::ortho(0.0f, (f32)m_Width, (f32)m_Height, 0.0f, m_NearClip, m_FarClip);
+                m_Projection = glm::ortho(0.0f, (f32)m_Width, 0.0f, (f32)m_Height, m_NearClip, m_FarClip);
             else
                 m_Projection = glm::perspective(m_Fov, (f32)m_Width / (f32)m_Height, m_NearClip, m_FarClip);
         }
