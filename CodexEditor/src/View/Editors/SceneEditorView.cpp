@@ -10,6 +10,7 @@ namespace codex::editor {
 
     void SceneEditorView::OnAttach()
     {
+        /*
         sys::ProcessInfo inf;
         inf.command        = "ls";
         inf.redirectStdOut = true;
@@ -24,8 +25,10 @@ namespace codex::editor {
 
         ConsoleMan::AppendMessage("Started.");
         handle->Launch();
+        */
 
-        m_Descriptor = mem::Shared<SceneEditorDescriptor>::From(new SceneEditorDescriptor{ .scene = mem::Box<Scene>::New() });
+        m_Descriptor =
+            mem::Shared<SceneEditorDescriptor>::From(new SceneEditorDescriptor{ .scene = mem::Box<Scene>::New() });
 
         m_SceneHierarchyView = mem::Box<SceneHierarchyView>::New(m_Descriptor.AsRef());
         m_PropertiesView     = mem::Box<PropertiesView>::New(m_Descriptor.AsRef());
@@ -38,7 +41,7 @@ namespace codex::editor {
         props.height  = 1080;
         m_Framebuffer = mem::Box<mgl::FrameBuffer>::New(props);
 
-        //EditorLayer::GetCamera().SetProjectionType(scene::Camera::ProjectionType::Perspective);
+        // EditorLayer::GetCamera().SetProjectionType(scene::Camera::ProjectionType::Perspective);
 
         // glEnable(GL_DEPTH_TEST);
         // glDepthFunc(GL_LESS);
@@ -81,7 +84,7 @@ namespace codex::editor {
             using enum scene::Camera::ProjectionType;
             static auto proj = Perspective;
             EditorLayer::GetCamera().SetProjectionType(proj);
-            proj             = (proj == Perspective) ? Orthographic : Perspective;
+            proj = (proj == Perspective) ? Orthographic : Perspective;
         }
 
         if (Input::IsMouseDown(Mouse::LeftMouse) && mouse_x >= 0 && mouse_y >= 0 && mouse_x <= (i32)viewport_size.x &&
@@ -161,56 +164,23 @@ namespace codex::editor {
                             // NOTE: I do not like this.
                             stdfs::current_path(d->currentProjectPath);
 
-                            UnloadScriptModule();
+                            // TODO: Regarding to UnloadScriptModule(), LoadScriptModule() and CompileProject() here:
+                            // Some projects might just not use C++ for scripting (in the future when add C#
+                            // support) so make sure to not always force load the C++ script module. For now I will
+                            // leave this as is because there's only C++ support.
+
+                            UnloadScriptModule(); // NOTE
+
                             d->scene.Reset(new Scene());
                             Serializer::DeserializeScene(file, *d->scene);
+
+                            CompileProject();   // NOTE
+                            LoadScriptModule(); // NOTE
                         }
                     }
-                    if (ImGui::MenuItem("Compile scripts"))
+                    if (ImGui::MenuItem("Compile project"))
                     {
-                        UnloadScriptModule();
-                        const auto files =
-                            fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
-                        std::vector<reflect::Reflector> rf_files;
-                        rf_files.reserve(files.size());
-
-                        const auto output_path = stdfs::absolute(d->currentProjectPath / "int/");
-                        for (const auto& f : files)
-                            rf_files.emplace_back(f).EmitMetadata(output_path);
-                        reflect::Reflector::EmitBaseClass(output_path, rf_files);
-
-                        sys::ProcessInfo p_info;
-
-#ifdef CX_PLATFORM_WINDOWS
-                        p_info.command =
-                            "cmake ./ -G \"Visual Studio 17\" -B builds/vs2022 && cmake --build builds/vs2022";
-#elif defined(CX_PLATFORM_LINUX)
-                        p_info.command = "python3 ./build.py --preset=linux-x86_64-debug";
-#elif defined(CX_PLATFORM_OSX)
-                        p_info.command = "python3 ./build.py --preset=linux-x86_64-debug";
-#endif
-                        p_info.onExit = [this](i32 exitCode)
-                        {
-                            try
-                            {
-                                LoadScriptModule();
-                            }
-                            catch (...)
-                            {
-                            }
-                            ConsoleMan::AppendMessage("-- Script build finished.");
-                        };
-                        p_info.redirectStdOut = true;
-                        p_info.redirectStdErr = true;
-
-                        const auto redirector = [](const char* buffer, usize len)
-                        { ConsoleMan::AppendMessage(std::string(buffer, len)); };
-
-                        ConsoleMan::AppendMessage("-- Script build started.");
-                        auto proc                     = sys::Process::New(std::move(p_info));
-                        proc->Event_OnOutDataReceived = redirector;
-                        proc->Event_OnErrDataReceived = redirector;
-                        proc->Launch();
+                        CompileProject();
                     }
                     if (ImGui::MenuItem("Clear build files"))
                     {
@@ -435,6 +405,56 @@ namespace codex::editor {
         auto& d = m_Descriptor;
         if (d->scriptModule)
             d->scriptModule.Reset();
+    }
+
+    void SceneEditorView::CompileProject()
+    {
+        auto& d = m_Descriptor;
+
+        UnloadScriptModule();
+        const auto files = fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
+        std::vector<reflect::Reflector> rf_files;
+        rf_files.reserve(files.size());
+
+        const auto output_path = stdfs::absolute(d->currentProjectPath / "int/");
+        for (const auto& f : files)
+            rf_files.emplace_back(f).EmitMetadata(output_path);
+        reflect::Reflector::EmitBaseClass(output_path, rf_files);
+
+        sys::ProcessInfo p_info;
+
+#ifdef CX_PLATFORM_WINDOWS
+        p_info.command = "cmake ./ -G \"Visual Studio 17\" -B builds/vs2022 && cmake --build builds/vs2022";
+#elif defined(CX_PLATFORM_LINUX)
+        p_info.command = "python3 ./build.py --preset=linux-x86_64-debug";
+#elif defined(CX_PLATFORM_OSX)
+        p_info.command = "python3 ./build.py --preset=linux-x86_64-debug";
+#endif
+        p_info.onExit = [this](i32 exitCode)
+        {
+            try
+            {
+                LoadScriptModule();
+            }
+            catch (...)
+            {
+            }
+            ConsoleMan::AppendMessage("-- Script build finished.");
+        };
+
+#ifndef CX_PLATFORM_UNIX
+        p_info.redirectStdOut = true;
+        p_info.redirectStdErr = true;
+#endif
+
+        const auto redirector = [](const char* buffer, usize len)
+        { ConsoleMan::AppendMessage(std::string(buffer, len)); };
+
+        ConsoleMan::AppendMessage("-- Script build started.");
+        auto proc                     = sys::Process::New(std::move(p_info));
+        proc->Event_OnOutDataReceived = redirector;
+        proc->Event_OnErrDataReceived = redirector;
+        proc->Launch();
     }
 
     void SceneEditorView::DrawVec3Control(const char* label, Vector3f& values, const f32 columnWidth, const f32 speed,

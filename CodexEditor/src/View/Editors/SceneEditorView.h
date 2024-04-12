@@ -65,6 +65,7 @@ namespace codex::editor {
     public:
         void LoadScriptModule();
         void UnloadScriptModule();
+        void CompileProject();
 
     public:
         static void DrawVec3Control(const char* label, Vector3f& values, const f32 columnWidth = 100.0f,

@@ -35,7 +35,7 @@ elseif(DEFINED CX_COMPILER_MSVC)
 	add_definitions(/DCE_INSTALL_DIR="${CMAKE_INSTALL_PREFIX}")
 endif()
 
-# Dependencies
+# === Dependencies ===
 if(DEFINED CX_PLATFORM_WINDOWS)
   install(TARGETS CodexEditor DESTINATION bin)
   install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
@@ -48,7 +48,14 @@ endif()
 target_include_directories(CodexEditor PUBLIC ${IMGUIZMO_INCLUDE_DIRS})
 target_sources(CodexEditor PRIVATE ${IMGUIZMO_SOURCE_FILES})
 
-# Misc
+# === Misc ===
+
+# Run the python script resonsible for creating the template project.
+add_custom_target(generate_template_project
+  COMMAND ${PYTHON_EXECUTABLE} "${CX_ROOT_DIR}/Scripts/generate-template-project.py"
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  COMMENT "Generating Template Project...")
+add_dependencies(CodexEditor generate_template_project)
 target_include_directories(CodexEditor PRIVATE "src/")
 
 # Multicore compilation for MSVC if CX_PARALLEL is not 0.

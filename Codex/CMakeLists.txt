@@ -253,7 +253,6 @@ if(DEFINED CX_PLATFORM_WINDOWS)
   install(TARGETS SDL2 SDL2main glm glad nlohmann_json CodexEngine
           DESTINATION bin)
   install(TARGETS CodexEngine-static MGL DESTINATION "bin/Object Libraries")
-  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
 
   # Program Files (or same location as the binary) for unmodifiable file data.
   # App Data for modifidable file data.
@@ -268,8 +267,6 @@ elseif(DEFINED CX_PLATFORM_UNIX)
             CodexEngine
             CodexEngine-static
     DESTINATION lib)
-  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/"
-          DESTINATION share/${CMAKE_PROJECT_NAME})
 
   # /etc/appname for global configuration files. /usr/local/share/appname for
   # unmodifiable data. /usr/local/(lib, bin)/appname for unmodifiable and
