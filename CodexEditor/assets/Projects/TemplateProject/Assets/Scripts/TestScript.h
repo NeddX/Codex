@@ -21,3 +21,19 @@ public:
     void OnInit() override;
     void OnUpdate(const f32 deltaTime) override;
 };
+
+
+RF_CLASS()
+class CODEX_EXPORT RotateScript : public NativeBehaviour
+{
+	RF_GENERATE_BODY()
+	
+public:
+	void OnInit() override
+	{
+	}
+	void OnUpdate(const f32 deltaTime) override
+	{
+		GetComponent<TransformComponent>().rotation.z += 10 * deltaTime;
+	}
+};

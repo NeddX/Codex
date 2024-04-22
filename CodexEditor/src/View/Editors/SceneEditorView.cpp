@@ -417,6 +417,9 @@ namespace codex::editor {
         rf_files.reserve(files.size());
 
         const auto output_path = stdfs::absolute(d->currentProjectPath / "int/");
+        if (!stdfs::exists(output_path))
+            stdfs::create_directories(output_path);
+
         for (const auto& f : files)
             rf_files.emplace_back(f).EmitMetadata(output_path);
         reflect::Reflector::EmitBaseClass(output_path, rf_files);

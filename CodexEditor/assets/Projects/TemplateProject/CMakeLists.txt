@@ -70,10 +70,10 @@ elseif(DEFINED CX_PLATFORM_OSX)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNIX)
 elseif(DEFINED CX_PLATFORM_WINDOWS)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_WINDOWS)
-  # target_link_libraries(NBMan PRIVATE
-  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/CodexEngine.lib
-  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/MGL.lib
-  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmtd.lib )
+  target_link_libraries(NBMan PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/CodexEngine.lib
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/MGL.lib
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmtd.lib )
 else()
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNKNOWN)
 endif()

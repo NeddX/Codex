@@ -12,8 +12,8 @@
 #define RF_GENERATE_BODY()                                                                                             \
 private:                                                                                                               \
     friend CODEX_EXPORT codex::NativeBehaviour* Rf_CreateInstance(const char* className) noexcept;                     \
-    void                                        Serialize() override;                                                  \
-    codex::object                               GetField(const std::string_view fieldName) override;
+    void                                        Serialize() const noexcept override;                                                  \
+    codex::object                               GetField(const std::string_view fieldName) noexcept override;
 
 extern "C" CODEX_EXPORT codex::NativeBehaviour* Rf_CreateInstance(const char* className) noexcept;
 extern "C" CODEX_EXPORT bool                    Rf_DoesInstanceExist(const char* className) noexcept;

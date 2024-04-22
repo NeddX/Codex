@@ -248,7 +248,7 @@ namespace codex::reflect {
 
         // Serialize()
         {
-            content += "void " + classInfo.namescope + "::Serialize()\n{\n";
+            content += "void " + classInfo.namescope + "::Serialize() const noexcept\n{\n";
 
             content += fmt::format(R"( m_SerializedData["{}"]["{}"] = {};)", classInfo.name, "Id", 0);
             content += '\n';
@@ -270,7 +270,7 @@ namespace codex::reflect {
 
         // GetField()
         {
-            content += "codex::object " + classInfo.namescope + "::GetField(const std::string_view name)\n{\n";
+            content += "codex::object " + classInfo.namescope + "::GetField(const std::string_view name) noexcept\n{\n";
 
             bool first_if = true;
             for (const auto& e : classInfo.fields)
