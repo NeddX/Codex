@@ -10,9 +10,11 @@ file(GLOB_RECURSE HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Assets/*.h")
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Assets/*.cpp")
 file(GLOB_RECURSE CODGEN_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/int/*.h")
 file(GLOB_RECURSE CODGEN_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/int/*.cpp")
-add_library(NBMan SHARED ${HEADER_FILES} ${SOURCE_FILES} ${CODGEN_HEADERS} ${CODGEN_SOURCES})
+add_library(NBMan SHARED ${HEADER_FILES} ${SOURCE_FILES} ${CODGEN_HEADERS}
+                         ${CODGEN_SOURCES})
 
 if(DEFINED CX_PLATFORM_WINDOWS)
+
 endif()
 
 set_property(TARGET NBMan PROPERTY CXX_STANDARD 20)
@@ -21,77 +23,76 @@ set(CMAKE_STATIC_LIBRARY_PREFIX "lib")
 set_target_properties(NBMan PROPERTIES OUTPUT_NAME "NBMan")
 set_target_properties(NBMan PROPERTIES SUFFIX ".dll")
 
-# ==================================================== #
-#   Export macros that describe the current platform   #
+# ==================================================== # Export macros that
+# describe the current platform   #
 # ==================================================== #
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    set(CX_PLATFORM_LINUX 1)
-    set(CX_PLATFORM_UNIX 1)
+  set(CX_PLATFORM_LINUX 1)
+  set(CX_PLATFORM_UNIX 1)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    set(CX_PLATFORM_OSX 1)
-    set(CX_PLATFORM_UNIX 1)
+  set(CX_PLATFORM_OSX 1)
+  set(CX_PLATFORM_UNIX 1)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(CX_PLATFORM_WINDOWS 1)
+  set(CX_PLATFORM_WINDOWS 1)
 else()
-    set(CX_PLATFORM_UNKNOWN 1)
+  set(CX_PLATFORM_UNKNOWN 1)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(CX_COMPILER_GNUC 1)
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-    set(CX_COMPILER_CLANG 1)
+  set(CX_COMPILER_GNUC 1)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL
+                                                 "AppleClang")
+  set(CX_COMPILER_CLANG 1)
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    set(CX_COMPILER_MSVC 1)
+  set(CX_COMPILER_MSVC 1)
 else()
-    set(CX_COMPILER_UNKNOWN 1)
+  set(CX_COMPILER_UNKNOWN 1)
 endif()
 
 # Determine the processor architecture
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-    set(CX_WORD_SIZE_64 1)
+  set(CX_WORD_SIZE_64 1)
 else()
-    set(CX_WORD_SIZE_32 1)
+  set(CX_WORD_SIZE_32 1)
 endif()
 
 # Define macros that describe the current platform.
 if(DEFINED CX_PLATFORM_LINUX)
-    target_compile_definitions(NBMan PUBLIC CX_PLATFORM_LINUX)
-    target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNIX)
-	target_link_libraries(NBMan PRIVATE 
-		${CMAKE_CURRENT_SOURCE_DIR}/lib/libCodexEngine-static.a
-		${CMAKE_CURRENT_SOURCE_DIR}/lib/libMGL.a
-		${CMAKE_CURRENT_SOURCE_DIR}/lib/libfmtd.a
-	)
+  target_compile_definitions(NBMan PUBLIC CX_PLATFORM_LINUX)
+  target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNIX)
+  # target_link_libraries(NBMan PRIVATE
+  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/libCodexEngine-static.a
+  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/libMGL.a
+  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/libfmtd.a )
 elseif(DEFINED CX_PLATFORM_OSX)
-    target_compile_definitions(NBMan PUBLIC CX_PLATFORM_OSX)
-    target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNIX)
+  target_compile_definitions(NBMan PUBLIC CX_PLATFORM_OSX)
+  target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNIX)
 elseif(DEFINED CX_PLATFORM_WINDOWS)
-    target_compile_definitions(NBMan PUBLIC CX_PLATFORM_WINDOWS)
-	target_link_libraries(NBMan PRIVATE 
-		${CMAKE_CURRENT_SOURCE_DIR}/lib/CodexEngine.lib
-		${CMAKE_CURRENT_SOURCE_DIR}/lib/MGL.lib
-		${CMAKE_CURRENT_SOURCE_DIR}/lib/fmtd.lib
-	)
+  target_compile_definitions(NBMan PUBLIC CX_PLATFORM_WINDOWS)
+  # target_link_libraries(NBMan PRIVATE
+  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/CodexEngine.lib
+  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/MGL.lib
+  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmtd.lib )
 else()
-    target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNKNOWN)
+  target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNKNOWN)
 endif()
 
 if(DEFINED CX_COMPILER_GNUC)
-    target_compile_definitions(NBMan PUBLIC CX_COMPILER_GNUC)
+  target_compile_definitions(NBMan PUBLIC CX_COMPILER_GNUC)
 elseif(DEFINED CX_COMPILER_CLANG)
-    target_compile_definitions(NBMan PUBLIC CX_COMPILER_CLANG)
+  target_compile_definitions(NBMan PUBLIC CX_COMPILER_CLANG)
 elseif(DEFINED CX_COMPILER_MSVC)
-    target_compile_definitions(NBMan PUBLIC CX_COMPILER_MSVC)
+  target_compile_definitions(NBMan PUBLIC CX_COMPILER_MSVC)
 else()
-    target_compile_definitions(NBMan PUBLIC CX_COMPILER_UNKNOWN)
+  target_compile_definitions(NBMan PUBLIC CX_COMPILER_UNKNOWN)
 endif()
 
 # Determine the processor architecture
 if(DEFINED CX_WORD_SIZE_64)
-    target_compile_definitions(NBMan PUBLIC CX_WORD_SIZE_64)
+  target_compile_definitions(NBMan PUBLIC CX_WORD_SIZE_64)
 else()
-    target_compile_definitions(NBMan PUBLIC CX_WORD_SIZE_32)
+  target_compile_definitions(NBMan PUBLIC CX_WORD_SIZE_32)
 endif()
 
 # Print the platform information
@@ -101,12 +102,10 @@ message(":: CPU word size: ${CMAKE_SIZEOF_VOID_P} bytes")
 message("")
 
 add_custom_command(
-    TARGET NBMan
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        $<TARGET_FILE_DIR:NBMan>
-        "${CMAKE_SOURCE_DIR}/lib/"
-)
+  TARGET NBMan
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory $<TARGET_FILE_DIR:NBMan>
+          "${CMAKE_SOURCE_DIR}/lib/")
 
 # Expose Codex's dependencies.
 target_include_directories(NBMan PUBLIC Engine/vendor/SDL/include)
@@ -126,3 +125,17 @@ target_precompile_headers(NBMan PRIVATE Engine/src/PCH/sdafx.h)
 
 # Expose the engine API
 target_include_directories(NBMan PUBLIC Engine/include)
+
+# If we're not on VS, then copy compile_commands.json for LSPs like clangd and
+# ccls.
+if(NOT CMAKE_GENERATOR MATCHES "Visual Studio")
+  add_custom_command(
+    OUTPUT ${CMAKE_SOURCE_DIR}/compile_commands.json
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/compile_commands.json
+            ${CMAKE_SOURCE_DIR}/compile_commands.json
+    DEPENDS ${CMAKE_BINARY_DIR}/compile_commands.json
+    COMMENT "Copying compile_commands.json...")
+
+  add_custom_target(copy_compile_commands ALL
+                    DEPENDS ${CMAKE_SOURCE_DIR}/compile_commands.json)
+endif()

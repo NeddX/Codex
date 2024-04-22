@@ -4,11 +4,8 @@
 
 using namespace codex;
 
-// This should be auto-generated.
-#define MYPROJECT_API __declspec(dllexport)
-
 RF_CLASS()
-class MYPROJECT_API MienScripten : public NativeBehaviour
+class CODEX_EXPORT MienScripten : public NativeBehaviour
 {
     RF_GENERATE_BODY()
 

@@ -7,3 +7,4 @@ lib/*
 .ccls/*
 *.swp
 .ignore_*/*
+compile_commands.json
