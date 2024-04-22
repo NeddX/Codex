@@ -22,21 +22,21 @@ namespace codex {
 
     CX_CUSTOM_EXCEPTION(InvalidPathException, "The path supplied is invalid.");
 
-    struct CODEX_API ApplicationCLIArgs
+    struct ApplicationCLIArgs
     {
     public:
         int    count = 0;
         char** args  = nullptr;
 
     public:
-        const char* operator[](const usize index) const
+        const char* operator[](const usize index) const noexcept
         {
             CX_ASSERT(index > count, "Index out of bounds.");
             return args[index];
         }
     };
 
-    struct CODEX_API ApplicationProperties
+    struct ApplicationProperties
     {
         std::string        name = "Codex Application";
         std::string        cwd;
@@ -50,12 +50,12 @@ namespace codex {
         friend Application* CreateApplication(ApplicationCLIArgs args);
 
     protected:
-        ApplicationProperties                 m_Properties{};
+        ApplicationProperties                 m_Properties;
         Window::Box                           m_Window    = nullptr;
         bool                                  m_Running   = true;
         bool                                  m_Minimized = false;
-        LayerStack                            m_LayerStack{};
-        std::chrono::system_clock::time_point m_Tp1{}, m_Tp2{};
+        LayerStack                            m_LayerStack;
+        std::chrono::system_clock::time_point m_Tp1, m_Tp2;
         f32                                   m_DeltaTime  = 0.0f;
         imgui::ImGuiLayer*                    m_ImGuiLayer = nullptr;
         Input*                                m_Input      = nullptr;

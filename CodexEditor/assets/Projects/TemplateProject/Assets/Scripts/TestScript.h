@@ -21,6 +21,6 @@ private:
     Vector3f m_Axies = { 0.0f, 1.0f, 0.0f };
 
 public:
-    void Init() override;
-    void Update(const f32 deltaTime) override;
+    void OnInit() override;
+    void OnUpdate(const f32 deltaTime) override;
 };

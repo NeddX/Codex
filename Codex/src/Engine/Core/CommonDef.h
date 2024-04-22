@@ -60,21 +60,16 @@ namespace codex {
     concept DerivedFrom = std::is_base_of<Base, Derived>::value;
 
     template <typename T>
-    inline constexpr T BitFlag(const T b)
+    constexpr T BitFlag(const T count)
     {
-        return b << 1;
-    }
-
-    template <typename T, const usize n>
-    inline constexpr T ArrayCount(const T (&arr)[n])
-    {
-        return sizeof(arr) / sizeof(arr[0]);
+        return 1 << count;
     }
 
     template <typename Fn>
-    inline constexpr auto BindEventDelegate(auto* self, Fn delegate)
+    constexpr auto BindEventDelegate(auto* self, Fn delegate)
     {
-        return [self, delegate](auto&&... args) { return (self->*delegate)(std::forward<decltype(args)>(args)...); };
+        return [self, delegate](auto&&... args)
+        { return (self->*delegate)(std::forward<decltype(args)>(args)...); };
     }
 
     struct InvalidState
@@ -84,21 +79,23 @@ namespace codex {
 
 #ifdef CX_CONFIG_DEBUG
 #define MGL_DEBUG
-#define CX_ASSERT(x, msg)                                                                                              \
-    if (!(x))                                                                                                          \
-    {                                                                                                                  \
-        std::cerr << "[CODEX-DEBUG] :: Assertion failed: " << msg << "\n\tStack trace:"                                \
-                  << "\n\t\tFunction: " << __FUNCTION__ << "\n\t\tFile: " << __FILE__ << "\n\t\tLine: " << __LINE__    \
-                  << std::endl;                                                                                        \
-        CX_DEBUG_TRAP();                                                                                               \
+#define CX_ASSERT(x, msg)                                                      \
+    if (!(x))                                                                  \
+    {                                                                          \
+        std::cerr << "[CODEX-DEBUG] :: Assertion failed: " << msg              \
+                  << "\n\tStack trace:"                                        \
+                  << "\n\t\tFunction: " << __FUNCTION__                        \
+                  << "\n\t\tFile: " << __FILE__ << "\n\t\tLine: " << __LINE__  \
+                  << std::endl;                                                \
+        CX_DEBUG_TRAP();                                                       \
     }
 #else
 #define CX_ASSERT(x, msg) ;
 #endif
 
-#define CX_COMPONENT                                                                                                   \
-    friend void from_json(const nlohmann::ordered_json& j, Entity& entity);                                            \
-    friend class Serializer;                                                                                           \
+#define CX_COMPONENT                                                           \
+    friend void from_json(const nlohmann::ordered_json& j, Entity& entity);    \
+    friend class Serializer;                                                   \
     friend class Entity;
 
 #endif // CODEX_CORE_COMMON_DEFINITIONS_H

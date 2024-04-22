@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project("TestProj")
 
-# For clangd
+# For LSPs.
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
 # The target

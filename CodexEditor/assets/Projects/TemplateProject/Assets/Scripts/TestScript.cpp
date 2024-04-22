@@ -1,11 +1,11 @@
 #include "TestScript.h"
 
-void MienScripten::Init()
+void MienScripten::OnInit()
 {
     std::cout << "Initialized baby!\n";
 }
 
-void MienScripten::Update(const f32 deltaTime)
+void MienScripten::OnUpdate(const f32 deltaTime)
 {
     if (m_Move)
     {

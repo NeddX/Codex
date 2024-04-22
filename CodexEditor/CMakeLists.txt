@@ -1,5 +1,8 @@
 project("CEditor")
 
+# For running Python scripts from CMake.
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
+
 file(GLOB_RECURSE CODEXEDITOR_SOURCE_FILES "src/*.cpp")
 file(GLOB_RECURSE CODEXEDITOR_HEADER_FILES "src/*.h")
 file(GLOB_RECURSE CODEXEDITOR_MODULE_FILES "src/*.ixx")
@@ -52,9 +55,22 @@ target_sources(CodexEditor PRIVATE ${IMGUIZMO_SOURCE_FILES})
 
 # Run the python script resonsible for creating the template project.
 add_custom_target(generate_template_project
-  COMMAND ${PYTHON_EXECUTABLE} "${CX_ROOT_DIR}/Scripts/generate-template-project.py"
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  COMMENT "Generating Template Project...")
+    COMMAND ${Python3_EXECUTABLE} "${CX_ROOT_DIR}/Scripts/generate-template-project.py" "--src-dir=${CX_ROOT_DIR}/Codex" "--dest-dir=${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject" "--root-dir=${CX_ROOT_DIR}"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    COMMENT "Generating Template Project..."
+)
+
+# If we're on MSVC then we also need to copy the symbol libraries for linkage.
+if (DEFINED CX_COMPILER_MSVC)
+add_custom_command(TARGET generate_template_project
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/"
+    COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE_DIR:CodexEngine>/CodexEngine.lib" "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/CodexEngine.lib"
+    COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:MGL>" "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/"
+    COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:fmt>" "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/"
+)
+endif()
+
 add_dependencies(CodexEditor generate_template_project)
 target_include_directories(CodexEditor PRIVATE "src/")
 

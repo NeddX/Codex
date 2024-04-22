@@ -1,0 +1,9 @@
+*build*/
+builds/*
+Engine/*
+int/*
+lib/*
+.cache/*
+.ccls/*
+*.swp
+.ignore_*/*

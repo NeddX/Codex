@@ -19,33 +19,21 @@ namespace codex {
 
     enum class WindowFlags : u32
     {
-        PositionCentre = SDL_WINDOWPOS_CENTERED,
-        Resizable      = SDL_WINDOW_RESIZABLE,
-        FullScreen     = SDL_WINDOW_FULLSCREEN,
-        Visible        = SDL_WINDOW_SHOWN,
-        Hidden         = SDL_WINDOW_HIDDEN,
-        Borderless     = SDL_WINDOW_BORDERLESS,
-        Minimized      = SDL_WINDOW_MINIMIZED,
-        Maximized      = SDL_WINDOW_MAXIMIZED,
-        SkipTaskbar    = SDL_WINDOW_SKIP_TASKBAR,
-        OpenGLContext  = SDL_WINDOW_OPENGL
+        Visible        = BitFlag<u32>(0),
+        Hidden         = BitFlag<u32>(1),
+        Resizable      = BitFlag<u32>(2),
+        FullScreen     = BitFlag<u32>(3),
+        Borderless     = BitFlag<u32>(4),
+        Minimized      = BitFlag<u32>(5),
+        Maximized      = BitFlag<u32>(6),
+        SkipTaskbar    = BitFlag<u32>(7),
+        OpenGLContext  = BitFlag<u32>(8),
+        PositionCentre = BitFlag<u32>(9)
     };
 
-    // TODO: Move this outta here!
-    WindowFlags operator|(const WindowFlags& lhv, const WindowFlags& rhv) noexcept;
-
-    struct WindowProperties
-    {
-        const char* title      = "Codex - Window";
-        i32         width      = 1280;
-        i32         height     = 720;
-        i32         posX       = SDL_WINDOWPOS_CENTERED;
-        i32         posY       = SDL_WINDOWPOS_CENTERED;
-        u32         frameCap   = 300;
-        WindowFlags flags      = WindowFlags::Visible | WindowFlags::Resizable;
-        bool        vsync      = true;
-        bool        borderless = false;
-    };
+    WindowFlags operator|(const WindowFlags& lhv,
+                          const WindowFlags& rhv) noexcept;
+    u32 operator&(const WindowFlags& lhv, const WindowFlags& rhv) noexcept;
 
     enum class SystemCursor
     {
@@ -65,27 +53,40 @@ namespace codex {
         Null
     };
 
+    struct WindowProperties
+    {
+        const char* title      = "Codex - Window";
+        i32         width      = 1280;
+        i32         height     = 720;
+        i32         posX       = 0;
+        i32         posY       = 0;
+        u32         frameCap   = 300;
+        WindowFlags flags      = WindowFlags::Visible | WindowFlags::Resizable;
+        bool        vsync      = true;
+        bool        borderless = false;
+    };
+
     class CODEX_API Window
     {
-        using Box                   = std::unique_ptr<Window, std::function<void(Window*)>>;
+        using Box = std::unique_ptr<Window, std::function<void(Window*)>>;
         using EventCallbackDelegate = std::function<void(events::Event&)>;
 
         friend class Application;
 
     private:
-        std::string                                        m_Title;
-        i32                                                m_Width, m_Height;
-        i32                                                m_PosX, m_PosY;
-        WindowFlags                                        m_Flags;
-        u32                                                m_Fps, m_FrameCount, m_FrameCap;
-        std::chrono::system_clock::time_point              m_Tp1, m_Tp2;
-        const void*                                        m_NativeWindow;
-        std::unique_ptr<gfx::Renderer>                m_Renderer;
-        SDL_Window*                                        m_SdlWindow;
-        SDL_GLContext                                      m_GlContext;
-        SDL_Event                                          m_SdlEvent;
-        EventCallbackDelegate                              m_EventCallback;
-        std::array<SDL_Cursor*, (usize)SystemCursor::Null> m_SdlCursors{};
+        std::string                           m_Title;
+        i32                                   m_Width, m_Height;
+        i32                                   m_PosX, m_PosY;
+        u32                                   m_Flags;
+        u32                                   m_Fps, m_FrameCount, m_FrameCap;
+        std::chrono::system_clock::time_point m_Tp1, m_Tp2;
+        const void*                           m_NativeWindow;
+        std::unique_ptr<gfx::Renderer>        m_Renderer;
+        SDL_Window*                           m_SdlWindow;
+        SDL_GLContext                         m_GlContext;
+        SDL_Event                             m_SdlEvent;
+        EventCallbackDelegate                 m_EventCallback;
+        std::array<SDL_Cursor*, (usize)SystemCursor::Null> m_SdlCursors;
 
     private:
         Window();
@@ -96,12 +97,19 @@ namespace codex {
         ~Window();
 
     public:
-        inline i32            GetWidth() const noexcept { return m_Width; }
-        inline i32            GetHeight() const noexcept { return m_Height; }
-        inline void           SetTitle(const char* newTitle) noexcept { SDL_SetWindowTitle(m_SdlWindow, newTitle); }
+        inline i32  GetWidth() const noexcept { return m_Width; }
+        inline i32  GetHeight() const noexcept { return m_Height; }
+        inline void SetTitle(const char* newTitle) noexcept
+        {
+            SDL_SetWindowTitle(m_SdlWindow, newTitle);
+        }
         inline SDL_Window*    GetNativeWindow() noexcept { return m_SdlWindow; }
         inline SDL_GLContext* GetGlContext() noexcept { return &m_GlContext; }
-        inline void SetEventCallback(const EventCallbackDelegate& callback) noexcept { m_EventCallback = callback; }
+        inline void           SetEventCallback(
+                      const EventCallbackDelegate& callback) noexcept
+        {
+            m_EventCallback = callback;
+        }
         inline u32  GetFrameCount() const noexcept { return m_FrameCount; }
         inline void SetCursor(const SystemCursor cursor) noexcept
         {
@@ -124,18 +132,28 @@ namespace codex {
         {
             SDL_SetWindowPosition(m_SdlWindow, newPos.x, newPos.y);
         }
-        inline void SetSize(const Vector2& newSize) noexcept { SDL_SetWindowSize(m_SdlWindow, newSize.x, newSize.y); }
-        inline void Minimize() const noexcept { SDL_MinimizeWindow(m_SdlWindow); }
-        inline void Maximize() const noexcept { SDL_MaximizeWindow(m_SdlWindow); }
+        inline void SetSize(const Vector2& newSize) noexcept
+        {
+            SDL_SetWindowSize(m_SdlWindow, newSize.x, newSize.y);
+        }
+        inline void Minimize() const noexcept
+        {
+            SDL_MinimizeWindow(m_SdlWindow);
+        }
+        inline void Maximize() const noexcept
+        {
+            SDL_MaximizeWindow(m_SdlWindow);
+        }
 
     public:
-        void        Init(const WindowProperties& windowInfo = WindowProperties(), const void* nativeWindow = nullptr);
-        void        OnUpdate(const f32 deltaTime);
-        void        SwapBuffers();
-        void        ProcessEvents();
-        void        SDLCheckError(const i32 line = -1);
-        void        SDLThrowError(const i32 line, const std::string_view errorMessage);
-        void        OnWindowResize_Event(const i32 newWidth, const i32 newHeight);
+        void Init(const WindowProperties& windowInfo   = WindowProperties(),
+                  const void*             nativeWindow = nullptr);
+        void OnUpdate(const f32 deltaTime);
+        void SwapBuffers();
+        void ProcessEvents();
+        void SDLCheckError(const i32 line = -1);
+        void SDLThrowError(const i32 line, const std::string_view errorMessage);
+        void OnWindowResize_Event(const i32 newWidth, const i32 newHeight);
         SDL_Cursor* GetSDLCursor(const SystemCursor cursor) noexcept;
     };
 } // namespace codex
