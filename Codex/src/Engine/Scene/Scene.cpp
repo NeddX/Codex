@@ -11,7 +11,7 @@ namespace codex {
     Scene::~Scene() noexcept
     {
         // Okay so attached scripts need to be detached and delete-ed before NBMan is unloaded.
-        m_Registry.~basic_registry();
+        // m_Registry.~basic_registry();
         m_ScriptModule.Reset();
     }
 
@@ -133,10 +133,10 @@ namespace codex {
         auto nbc_view = m_Registry.view<NativeBehaviourComponent>();
         for (auto& entt : nbc_view)
         {
-            Entity entity{ entt, this };
-            auto&  nbc        = entity.GetComponent<NativeBehaviourComponent>();
-            auto&  behaviours = nbc.GetBehaviours();
-            auto   it         = behaviours.begin();
+            Entity                      entity{ entt, this };
+            auto&                       nbc        = entity.GetComponent<NativeBehaviourComponent>();
+            auto&                       behaviours = nbc.GetBehaviours();
+            auto                        it         = behaviours.begin();
             std::list<std::string_view> to_be_detached;
 
             for (auto& [name, _] : behaviours)

@@ -23,7 +23,7 @@ namespace codex::sys {
         std::filesystem::path m_FilePath;
 
     public:
-        constexpr DLib() noexcept = default;
+        DLib() noexcept = default;
         DLib(std::filesystem::path filePath);
         DLib(const DLib& other) noexcept = delete;
         DLib(DLib&& other) noexcept;

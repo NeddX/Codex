@@ -69,7 +69,7 @@ namespace codex::rf {
         std::vector<RFAttributeInfo> attributes;
 
     public:
-        constexpr RFTypeInfo() noexcept = default;
+        RFTypeInfo() noexcept = default;
         RFTypeInfo(const RFType type, const std::string_view name, const std::string_view qualifiers);
     };
 
