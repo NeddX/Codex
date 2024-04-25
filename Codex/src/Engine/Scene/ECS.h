@@ -18,23 +18,38 @@ namespace codex {
         friend class SpriteRendererComponent;
         friend class NativeBehaviour;
 
+    public:
+        using HandleType       = entt::id_type;
+        using SingedHandleType = std::make_signed_t<HandleType>();
+
     private:
         entt::entity m_Handle{ entt::null };
         Scene*       m_Scene = nullptr;
 
     public:
         constexpr Entity() = default;
-        Entity(const entt::entity entity, Scene* scene) : m_Handle(entity), m_Scene(scene) {}
-        Entity(const u32 entity, Scene* scene) : m_Handle((entt::entity)entity), m_Scene(scene) {}
+        Entity(const entt::entity entity, Scene* scene)
+            : m_Handle(entity)
+            , m_Scene(scene)
+        {
+        }
+        Entity(const HandleType entity, Scene* scene)
+            : m_Handle((entt::entity)entity)
+            , m_Scene(scene)
+        {
+        }
 
     public:
-        static constexpr Entity None() { return Entity(); }
+        [[nodiscard]] static constexpr Entity None() noexcept { return Entity(); }
 
     public:
-        inline i32  GetId() const { return (i32)(m_Handle); }
-        inline bool IsValid() const noexcept { return m_Scene->m_Registry.valid(m_Handle); }
-        operator bool() const { return m_Handle != entt::entity{ entt::null } && IsValid(); }
-        bool operator==(const Entity& other) const { return other.m_Handle == m_Handle; }
+        [[nodiscard]] operator HandleType() const noexcept { return (HandleType)m_Handle; }
+
+    public:
+        [[nodiscard]] inline HandleType GetId() const noexcept { return (HandleType)(m_Handle); }
+        [[nodiscard]] inline bool       IsValid() const noexcept { return m_Scene->m_Registry.valid(m_Handle); }
+        [[nodiscard]] operator bool() const noexcept { return m_Handle != entt::entity{ entt::null } && IsValid(); }
+        [[nodiscard]] bool operator==(const Entity& other) const { return other.m_Handle == m_Handle; }
 
     public:
         template <typename T, typename... TArgs>
@@ -61,7 +76,7 @@ namespace codex {
         template <typename T>
         const T& GetComponent() const
         {
-            return (Entity*)(this)->GetComponent<T>();
+            return ((Entity*)this)->GetComponent<T>();
         }
         template <typename T>
         bool HasComponent() const

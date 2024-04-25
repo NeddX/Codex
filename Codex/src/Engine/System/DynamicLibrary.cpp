@@ -1,16 +1,18 @@
 #include "DynamicLibrary.h"
 
-namespace codex {
-    DLib::DLib(const std::string_view filePath) : m_FilePath(filePath)
+namespace codex::sys {
+    DLib::DLib(std::filesystem::path filePath)
+        : m_FilePath(std::move(filePath))
     {
+        const auto& file_path_str = m_FilePath.string();
 #if defined(CX_PLATFORM_UNIX)
-        m_Handle = dlopen(m_FilePath.c_str(), RTLD_LAZY);
+        m_Handle = dlopen(file_path_str.c_str(), RTLD_LAZY);
         if (!m_Handle)
-            cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
+            cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", file_path_str);
 #elif defined(CX_PLATFORM_WINDOWS)
-        m_Handle = LoadLibraryA(m_FilePath.c_str());
+        m_Handle = LoadLibraryA(file_path_str.c_str());
         if (!m_Handle)
-            cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
+            cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", file_path_str);
 #endif
     }
 
@@ -47,18 +49,6 @@ namespace codex {
         FreeLibrary(m_Handle);
 #endif
         m_Handle   = (DLibInstance) nullptr;
-        m_FilePath = "";
+        m_FilePath = std::filesystem::path{};
     }
-
-    void DLib::Load(const std::string_view filePath)
-    {
-        m_FilePath = filePath;
-#if defined(CX_PLATFORM_UNIX)
-        m_Handle = dlopen(m_FilePath.c_str(), RTLD_LAZY);
-#elif defined(CX_PLATFORM_WINDOWS)
-        m_Handle = LoadLibraryA(m_FilePath.c_str());
-#endif
-        if (!m_Handle)
-            cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", m_FilePath);
-    }
-} // namespace codex
+} // namespace codex::sys

@@ -3,7 +3,7 @@
 #include "../Core/Exception.h"
 #include "Lexer.h"
 
-namespace codex::reflect {
+namespace codex::rf {
     namespace fs = std::filesystem;
 
     RFTypeInfo::RFTypeInfo(const RFType type, const std::string_view name, const std::string_view qualifiers)
@@ -11,7 +11,7 @@ namespace codex::reflect {
     {
     }
 
-    Reflector::Reflector(fs::path sourceFile) : m_SourceFile(std::move(sourceFile))
+    RFScript::RFScript(fs::path sourceFile) : m_SourceFile(std::move(sourceFile))
     {
         std::ifstream fs(m_SourceFile);
         if (fs.is_open())
@@ -23,13 +23,8 @@ namespace codex::reflect {
             cx_throwd(FileNotFoundException);
     }
 
-    void Reflector::EmitMetadata(fs::path outputPath)
+    RFScript& RFScript::Parse()
     {
-        m_OutputPath = std::move(outputPath);
-
-        if (!fs::exists(m_OutputPath))
-            cx_throw(DirectoryNotFoundException, "Provided directory at: {} does not exist.", m_OutputPath.string());
-
         m_CurrentToken = m_Lexer.NextToken();
         while (m_CurrentToken->IsValid())
         {
@@ -50,6 +45,15 @@ namespace codex::reflect {
             else
                 m_PreviousToken = *Consume();
         }
+        return *this;
+    }
+
+    RFScript& RFScript::EmitMetadata(fs::path outputPath)
+    {
+        m_OutputPath = std::move(outputPath);
+
+        if (!fs::exists(m_OutputPath))
+            cx_throw(DirectoryNotFoundException, "Provided directory at: {} does not exist.", m_OutputPath.string());
 
         bool       generate_includes = true;
         const auto    file_path = m_OutputPath / (m_SourceFile.filename().replace_extension().string() + ".cxr.cpp");
@@ -66,9 +70,11 @@ namespace codex::reflect {
         }
         else
             cx_throw(IOException, "Failed to write to: {}.", file_path.string());
+
+        return *this;
     }
 
-    std::optional<Token> Reflector::Consume() noexcept
+    std::optional<Token> RFScript::Consume() noexcept
     {
         const auto token = m_CurrentToken;
         if (m_CurrentToken)
@@ -76,7 +82,7 @@ namespace codex::reflect {
         return token;
     }
 
-    std::optional<std::string> Reflector::ExpectNamespace() noexcept
+    std::optional<std::string> RFScript::ExpectNamespace() noexcept
     {
         auto        prev_state = m_Lexer;
         std::string namespaceName;
@@ -117,7 +123,7 @@ namespace codex::reflect {
             return std::nullopt;
     }
 
-    std::optional<RFTypeInfo> Reflector::ExpectRFClass() noexcept
+    std::optional<RFTypeInfo> RFScript::ExpectRFClass() noexcept
     {
         RFTypeInfo type_info;
 
@@ -186,7 +192,7 @@ namespace codex::reflect {
         return std::nullopt;
     }
 
-    std::optional<Token> Reflector::ExpectAttribute(const std::string_view attrbName) noexcept
+    std::optional<Token> RFScript::ExpectAttribute(const std::string_view attrbName) noexcept
     {
         if (m_CurrentToken->type == TokenType::Identifier)
         {
@@ -211,7 +217,7 @@ namespace codex::reflect {
         return std::nullopt;
     }
 
-    std::optional<RFFieldInfo> Reflector::ExpectRFField() noexcept
+    std::optional<RFFieldInfo> RFScript::ExpectRFField() noexcept
     {
         if (ExpectAttribute("RF_SERIALIZABLE"))
         {
@@ -232,7 +238,7 @@ namespace codex::reflect {
         return std::nullopt;
     }
 
-    std::string Reflector::EmitClass(const RFTypeInfo& classInfo, const bool generateIncludes) const noexcept
+    std::string RFScript::EmitClass(const RFTypeInfo& classInfo, const bool generateIncludes) const noexcept
     {
         std::string content;
 
@@ -255,7 +261,7 @@ namespace codex::reflect {
 
             for (const auto& e : classInfo.fields)
             {
-                content += fmt::format(R"( m_SerializedData["{}"]["{}"]["{}"]["{}"] = codex::reflect::RFTypeOf({});)",
+                content += fmt::format(R"( m_SerializedData["{}"]["{}"]["{}"]["{}"] = codex::rf::RFTypeOf({});)",
                                        classInfo.name, "Fields", e.name, "Type", e.name);
                 content += '\n';
                 content += fmt::format(R"( m_SerializedData["{}"]["{}"]["{}"]["{}"] = {};)", classInfo.name, "Fields",
@@ -294,7 +300,7 @@ namespace codex::reflect {
         return content;
     }
 
-    void Reflector::EmitBaseClass(const fs::path& outputPath, const std::vector<Reflector>& files)
+    void RFScript::EmitBaseClass(const fs::path& outputPath, const std::vector<RFScript>& files)
     {
         const auto file_path = outputPath / "Rf_Base.cxr.cpp";
         auto       fs        = std::ofstream(file_path);
@@ -374,4 +380,4 @@ namespace codex::reflect {
         else
             cx_throw(IOException, "Failed to write to: {}.", file_path.string());
     }
-} // namespace codex::reflect
+} // namespace codex::rf

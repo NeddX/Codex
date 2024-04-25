@@ -4,31 +4,38 @@
 namespace codex {
     void to_json(nlohmann::ordered_json& j, const Entity& entity)
     {
-        // We are not modifying anything anyways.
-        auto& e = (Entity&)entity;
-
         nlohmann::ordered_json jentity;
         jentity["Components"] = nlohmann::ordered_json::array();
 
-        if (e.HasComponent<TagComponent>())
+        if (entity.HasComponent<TagComponent>())
         {
-            auto&                  c = e.GetComponent<TagComponent>();
+            const auto&            c = entity.GetComponent<TagComponent>();
             nlohmann::ordered_json jc;
             jc["TagComponent"]["tag"] = c.tag;
             jentity["Components"].push_back(jc);
         }
-        if (e.HasComponent<TransformComponent>())
+        if (entity.HasComponent<TransformComponent>())
         {
-            auto&                  c = e.GetComponent<TransformComponent>();
+            const auto&            c = entity.GetComponent<TransformComponent>();
             nlohmann::ordered_json jc;
             jc["TransformComponent"] = { { "position", c.position }, { "rotation", c.rotation }, { "scale", c.scale } };
             jentity["Components"].push_back(jc);
         }
-        if (e.HasComponent<SpriteRendererComponent>())
+        if (entity.HasComponent<SpriteRendererComponent>())
         {
-            auto&                  c = e.GetComponent<SpriteRendererComponent>();
+            const auto&            c = entity.GetComponent<SpriteRendererComponent>();
             nlohmann::ordered_json jc;
             jc["SpriteRendererComponent"]["m_Sprite"] = c.GetSprite();
+            jentity["Components"].push_back(jc);
+        }
+        if (entity.HasComponent<NativeBehaviourComponent>())
+        {
+            auto&                  c = entity.GetComponent<NativeBehaviourComponent>();
+            nlohmann::ordered_json jc;
+
+            std::list<std::string_view> scripts;
+            std::ranges::for_each(c.GetBehaviours(), [&scripts](const auto& e) { scripts.push_back(e.first); });
+            jc["NativeBehaviourComponent"]["AttachedScripts"] = scripts;
             jentity["Components"].push_back(jc);
         }
         j = jentity;
@@ -40,7 +47,7 @@ namespace codex {
         {
             if (j.is_object() && j.count(component))
                 return j.at(component);
-            return nlohmann::ordered_json();
+            return nlohmann::ordered_json{};
         };
 
         const auto& components = j.at("Components");
@@ -63,6 +70,19 @@ namespace codex {
                 Sprite s;
                 cj.at("m_Sprite").get_to(s);
                 entity.AddComponent<SpriteRendererComponent>(s);
+            }
+            else if (auto cj = is_component(c, "NativeBehaviourComponent"); !cj.empty())
+            {
+                // TODO: Here we boldly assume that Native Scripting is being used so we call CreateBehaviour()
+                // on scene without worrying, but in the future we should worry.
+                auto& nc = entity.AddComponent<NativeBehaviourComponent>();
+                for (const auto& e : cj.at("AttachedScripts"))
+                {
+                    const auto class_name = e.get<std::string>();
+                    auto*      class_instance = entity.m_Scene->CreateBehaviour(class_name.c_str());
+                    class_instance->SetOwner(entity);
+                    nc.Attach(std::move(class_instance));
+                }
             }
         }
     }

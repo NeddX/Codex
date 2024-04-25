@@ -24,12 +24,13 @@ namespace codex::editor {
 
     struct SceneEditorDescriptor
     {
-        mem::Box<Scene>          scene{};
-        mem::Box<DLib>           scriptModule{};
-        SelectedEntityDescriptor selectedEntity{};
-        f32                      columnWidth  = 120.0f;
-        Vector4f                 selectColour = { 0.5f, 1.0f, 0.5f, 1.0f };
-        std::filesystem::path    currentProjectPath{};
+        mem::Box<Scene>           scene;
+        std::filesystem::path     scriptModulePath;
+        SelectedEntityDescriptor  selectedEntity;
+        f32                       columnWidth  = 120.0f;
+        Vector4f                  selectColour = { 0.5f, 1.0f, 0.5f, 1.0f };
+        std::filesystem::path     currentProjectPath;
+        std::vector<rf::RFScript> scripts;
     };
 
     // SceneEditorView is technically a layer but it is not part of Codex's layer
@@ -63,8 +64,6 @@ namespace codex::editor {
         bool OnKeyDown_Event(events::KeyDownEvent& e);
 
     public:
-        void LoadScriptModule();
-        void UnloadScriptModule();
         void CompileProject();
 
     public:

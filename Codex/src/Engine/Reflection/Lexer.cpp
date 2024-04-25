@@ -1,6 +1,6 @@
 #include "Lexer.h"
 
-namespace codex::reflect {
+namespace codex::rf {
     std::string_view TokenTypeToString(const TokenType type) noexcept
     {
         static const char* str[] = { "None",
@@ -15,7 +15,7 @@ namespace codex::reflect {
                                      "Colon", "DoubleColon", "SemiColon", "Equals", "LeftBrace", "RightBrace",
                                      "LeftCurlyBrace", "RightCurlyBrace", "Plus", "Minus", "Asterisk", "ForwardSlash",
                                      "LeftAngleBracket", "RightAngleBracket", "LeftSquareBracket", "RightSquareBracket",
-                                     "DoubleQuote", "Quote", "Comma", "Exclamation", "Bar", "Pound", "Dot",
+                                     "DoubleQuote", "Quote", "Comma", "Exclamation", "Bar", "Pound", "Dot", "Tilda",
 
                                      // Conditionals
                                      "EqualsEquals", "GreaterThanEquals", "LesserThanEquals", "ExclamationEquals",
@@ -44,7 +44,8 @@ namespace codex::reflect {
         return str[(usize)type];
     }
 
-    Lexer::Lexer(const std::string_view source) : m_Source(source)
+    Lexer::Lexer(const std::string_view source)
+        : m_Source(source)
     {
     }
 
@@ -451,6 +452,7 @@ namespace codex::reflect {
             case ',': return Comma;
             case '#': return Pound;
             case '.': return Dot;
+            case '~': return Tilda;
             default: break;
         }
         return TokenType::None;
@@ -520,15 +522,15 @@ namespace codex::reflect {
         // Identifiers start with a letter or an underscore followed by more letters, underscores and numbers.
         return (std::isalpha(c) || c == '_');
     }
-} // namespace codex::reflect
+} // namespace codex::rf
 
-std::ostream& operator<<(std::ostream& stream, const codex::reflect::TextSpan& span) noexcept
+std::ostream& operator<<(std::ostream& stream, const codex::rf::TextSpan& span) noexcept
 {
     stream << "{ Text: '" << span.text << "', Line: " << span.line << ", Cursor: " << span.cur << " }";
     return stream;
 }
 
-std::ostream& operator<<(std::ostream& stream, const codex::reflect::Token& token) noexcept
+std::ostream& operator<<(std::ostream& stream, const codex::rf::Token& token) noexcept
 {
     stream << "{ Type: " << TokenTypeToString(token.type) << ", NumberLiteral: " << token.num
            << ", Span: " << token.span << " }";

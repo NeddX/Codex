@@ -46,7 +46,11 @@ namespace codex::gfx {
 
     RenderBatch::~RenderBatch()
     {
-        delete[] m_Verticies;
+		if (m_Verticies)
+		{
+			delete[] m_Verticies;
+			m_Verticies = nullptr;
+		}
     }
 
     void RenderBatch::Flush()

@@ -49,6 +49,8 @@ namespace codex::editor {
 
     void SceneEditorView::OnDetach()
     {
+        auto& d = m_Descriptor;
+        d->scene.Reset();
     }
 
     void SceneEditorView::OnUpdate(const f32 deltaTime)
@@ -169,13 +171,14 @@ namespace codex::editor {
                             // support) so make sure to not always force load the C++ script module. For now I will
                             // leave this as is because there's only C++ support.
 
-                            UnloadScriptModule(); // NOTE
-
-                            d->scene.Reset(new Scene());
+                            d->scene.Reset(new Scene);
+                            d->scriptModulePath = d->currentProjectPath / stdfs::path("lib/libNBMan.dll");
+                            d->scene->LoadScriptModule(d->scriptModulePath);
                             Serializer::DeserializeScene(file, *d->scene);
 
-                            CompileProject();   // NOTE
-                            LoadScriptModule(); // NOTE
+                            // FIXME: Cannot unload the script module while we have attached scripts, invalidates the vptr of our class
+                            // effetively invalidating the whole thing really.
+                            CompileProject(); // NOTE
                         }
                     }
                     if (ImGui::MenuItem("Compile project"))
@@ -184,16 +187,18 @@ namespace codex::editor {
                     }
                     if (ImGui::MenuItem("Clear build files"))
                     {
-                        UnloadScriptModule();
+                        auto& d = m_Descriptor;
+                        d->scene->UnloadScriptModule();
+
                         const auto files =
                             fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
-                        std::vector<reflect::Reflector> rf_files;
+                        std::vector<rf::RFScript> rf_files;
                         rf_files.reserve(files.size());
 
                         const auto output_path = stdfs::absolute(d->currentProjectPath / "int/");
                         for (const auto& f : files)
                             rf_files.emplace_back(f).EmitMetadata(output_path);
-                        reflect::Reflector::EmitBaseClass(output_path, rf_files);
+                        rf::RFScript::EmitBaseClass(output_path, rf_files);
 
                         sys::ProcessInfo p_info;
 
@@ -206,7 +211,8 @@ namespace codex::editor {
 #endif
                         p_info.onExit = [this](i32 exitCode)
                         {
-                            LoadScriptModule();
+                            auto& d = m_Descriptor;
+                            d->scene->LoadScriptModule(d->scriptModulePath); // COME BACK
                             ConsoleMan::AppendMessage("-- Clear finished.");
                         };
                         p_info.redirectStdOut = true;
@@ -220,31 +226,6 @@ namespace codex::editor {
                         proc->Event_OnOutDataReceived = redirector;
                         proc->Event_OnErrDataReceived = redirector;
                         proc->Launch();
-                    }
-                    if (ImGui::MenuItem("Reload Script Module"))
-                    {
-                        auto entities = d->scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
-                        for (auto& e : entities)
-                        {
-                            auto& c = e.GetComponent<NativeBehaviourComponent>();
-                            c.DisposeBehaviours();
-                        }
-                        d->scriptModule.Reset(
-                            new DLib(fmt::format("{}/lib/libNBMan.dll", d->currentProjectPath.string())));
-                        if (d->scriptModule)
-                            fmt::println("Script module reloaded.");
-                        else
-                            fmt::println("Failed to reload script module.");
-                    }
-                    if (ImGui::MenuItem("Unload Script Module"))
-                    {
-                        auto entities = d->scene->GetAllEntitiesWithComponent<NativeBehaviourComponent>();
-                        for (auto& e : entities)
-                        {
-                            auto& c = e.GetComponent<NativeBehaviourComponent>();
-                            c.DisposeBehaviours();
-                        }
-                        d->scriptModule.Reset(nullptr);
                     }
                     if (ImGui::MenuItem("Save", "Ctrl+S"))
                     {
@@ -390,39 +371,22 @@ namespace codex::editor {
         return false;
     }
 
-    void SceneEditorView::LoadScriptModule()
-    {
-        auto& d         = m_Descriptor;
-        d->scriptModule = mem::Box<DLib>::New(fmt::format("{}/lib/libNBMan.dll", d->currentProjectPath.string()));
-        if (d->scriptModule)
-            fmt::println("Script module loaded.");
-        else
-            fmt::println("Failed to load script module.");
-    }
-
-    void SceneEditorView::UnloadScriptModule()
-    {
-        auto& d = m_Descriptor;
-        if (d->scriptModule)
-            d->scriptModule.Reset();
-    }
-
     void SceneEditorView::CompileProject()
     {
         auto& d = m_Descriptor;
 
-        UnloadScriptModule();
+        d->scripts.clear();
+        d->scene->UnloadScriptModule();
         const auto files = fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
-        std::vector<reflect::Reflector> rf_files;
-        rf_files.reserve(files.size());
+        d->scripts.reserve(files.size());
 
         const auto output_path = stdfs::absolute(d->currentProjectPath / "int/");
         if (!stdfs::exists(output_path))
             stdfs::create_directories(output_path);
 
         for (const auto& f : files)
-            rf_files.emplace_back(f).EmitMetadata(output_path);
-        reflect::Reflector::EmitBaseClass(output_path, rf_files);
+            d->scripts.emplace_back(f).Parse().EmitMetadata(output_path);
+        rf::RFScript::EmitBaseClass(output_path, d->scripts);
 
         sys::ProcessInfo p_info;
 
@@ -437,7 +401,8 @@ namespace codex::editor {
         {
             try
             {
-                LoadScriptModule();
+                auto& d = m_Descriptor;
+                d->scene->LoadScriptModule(d->scriptModulePath);
             }
             catch (...)
             {

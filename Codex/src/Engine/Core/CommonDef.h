@@ -93,6 +93,8 @@ namespace codex {
 #define CX_ASSERT(x, msg) ;
 #endif
 
+#define CX_MACRO_STRINGFY(x) #x
+
 #define CX_COMPONENT                                                           \
     friend void from_json(const nlohmann::ordered_json& j, Entity& entity);    \
     friend class Serializer;                                                   \

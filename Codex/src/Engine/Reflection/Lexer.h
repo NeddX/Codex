@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-namespace codex::reflect {
+namespace codex::rf {
     enum class TokenType : u32
     {
         None,
@@ -40,6 +40,7 @@ namespace codex::reflect {
         Bar,
         Pound,
         Dot,
+        Tilda,
         // Conditionals
         EqualsEquals,
         GreaterThanEquals,
@@ -156,17 +157,17 @@ namespace codex::reflect {
         bool                       IsIdentifierStart(const char c) const noexcept;
     };
 
-} // namespace codex::reflect
+} // namespace codex::rf
 
 namespace nlohmann {
     template <>
-    struct adl_serializer<codex::reflect::TokenType>
+    struct adl_serializer<codex::rf::TokenType>
     {
-        static void to_json(ordered_json& j, const codex::reflect::TokenType& e)
+        static void to_json(ordered_json& j, const codex::rf::TokenType& e)
         {
             switch (e)
             {
-                using enum codex::reflect::TokenType;
+                using enum codex::rf::TokenType;
 
                 case None: j = "None"; break;
                 case Identifier: j = "Identifier"; break;
@@ -249,9 +250,9 @@ namespace nlohmann {
     };
 
     template <>
-    struct adl_serializer<codex::reflect::TextSpan>
+    struct adl_serializer<codex::rf::TextSpan>
     {
-        static void to_json(ordered_json& j, const codex::reflect::TextSpan& t)
+        static void to_json(ordered_json& j, const codex::rf::TextSpan& t)
         {
             j["line"] = t.line;
             j["cur"]  = t.cur;
@@ -260,9 +261,9 @@ namespace nlohmann {
     };
 
     template <>
-    struct adl_serializer<codex::reflect::Token>
+    struct adl_serializer<codex::rf::Token>
     {
-        static void to_json(ordered_json& j, const codex::reflect::Token& t)
+        static void to_json(ordered_json& j, const codex::rf::Token& t)
         {
             j["type"] = t.type;
             j["span"] = t.span;
@@ -272,7 +273,7 @@ namespace nlohmann {
 
 } // namespace nlohmann
 
-std::ostream& operator<<(std::ostream& stream, const codex::reflect::TextSpan& span) noexcept;
-std::ostream& operator<<(std::ostream& stream, const codex::reflect::Token& token) noexcept;
+std::ostream& operator<<(std::ostream& stream, const codex::rf::TextSpan& span) noexcept;
+std::ostream& operator<<(std::ostream& stream, const codex::rf::Token& token) noexcept;
 
 #endif // CODEX_REFLECTION_LEXER_H

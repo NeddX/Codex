@@ -1,12 +1,23 @@
 #include "Scene.h"
 #include "../Graphics/Renderer.h"
+#include "../NativeBehaviour/NativeBehaviour.h"
+#include "../Reflection/Reflector.h"
 #include "Components.h"
 #include "ECS.h"
 
 namespace codex {
+    static std::unordered_map<Entity::HandleType, std::string> g_PossibleAttachedScripts;
+
+    Scene::~Scene() noexcept
+    {
+        // Okay so attached scripts need to be detached and delete-ed before NBMan is unloaded.
+        m_Registry.~basic_registry();
+        m_ScriptModule.Reset();
+    }
+
     Entity Scene::CreateEntity(const std::string_view defaultTag)
     {
-        Entity entity{ m_Registry.create(), this };
+        Entity entity(m_Registry.create(), this);
         entity.AddComponent<TransformComponent>();
         entity.AddComponent<TagComponent>(defaultTag);
         return entity;
@@ -23,10 +34,10 @@ namespace codex {
         m_Registry.destroy((entt::entity)entity);
     }
 
-    // NOTE: Okay so if T is copyable then view<T> will provide the
+    // NOTE: Okay so if T is movable then view<T> will provide the
     // size() method, otherwise the size_hint() method.
     template <typename T>
-        requires(std::is_copy_constructible_v<T>)
+        requires(std::is_move_constructible_v<T>)
     std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene)
     {
         auto                view = scene.m_Registry.view<T>();
@@ -38,7 +49,7 @@ namespace codex {
     }
 
     template <typename T>
-        requires(!std::is_copy_constructible_v<T>)
+        requires(!std::is_move_constructible_v<T>)
     std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene)
     {
         auto                view = scene.m_Registry.view<T>();
@@ -91,6 +102,67 @@ namespace codex {
         return entities;
     }
 
+    void Scene::LoadScriptModule(std::filesystem::path modulePath)
+    {
+        if (m_ScriptModule)
+            UnloadScriptModule();
+        m_ScriptModule = mem::Box<sys::DLib>::New(std::move(modulePath));
+
+        if (!g_PossibleAttachedScripts.empty())
+        {
+            for (auto& [handle, name] : g_PossibleAttachedScripts)
+            {
+                Entity entity{ handle, this };
+                if (entity.HasComponent<NativeBehaviourComponent>())
+                {
+                    auto& nbc = entity.GetComponent<NativeBehaviourComponent>();
+                    if (BehaviourExists(name.c_str()))
+                        nbc.Attach(CreateBehaviour(name.c_str()));
+                }
+            }
+            g_PossibleAttachedScripts.clear();
+        }
+
+        fmt::println("Script module loaded."); // TODO: Remove!
+    }
+
+    void Scene::UnloadScriptModule()
+    {
+        // When unloading we need to check for possible attached scripts, if any script is attached then record its name
+        // so that we can attached them back (that is if they still exist) when the module is loaded back.
+        auto nbc_view = m_Registry.view<NativeBehaviourComponent>();
+        for (auto& entt : nbc_view)
+        {
+            Entity entity{ entt, this };
+            auto&  nbc        = entity.GetComponent<NativeBehaviourComponent>();
+            auto&  behaviours = nbc.GetBehaviours();
+            auto   it         = behaviours.begin();
+            std::list<std::string_view> to_be_detached;
+
+            for (auto& [name, _] : behaviours)
+            {
+                g_PossibleAttachedScripts[(Entity::HandleType)entity] = name;
+                to_be_detached.emplace_back(name);
+            }
+
+            for (const auto& e : to_be_detached)
+                nbc.Detach(e);
+        }
+
+        m_ScriptModule.Reset();
+        fmt::println("Script module unloaded."); // TODO: Remove!
+    }
+
+    NativeBehaviour* Scene::CreateBehaviour(const char* className) const noexcept
+    {
+        return RF_INSTANCE_CREATE(m_ScriptModule, className);
+    }
+
+    bool Scene::BehaviourExists(const char* className) const noexcept
+    {
+        return RF_INSTANCE_CHECK(m_ScriptModule, className);
+    }
+
     void Scene::OnEditorInit(scene::EditorCamera& camera)
     {
     }
@@ -124,7 +196,7 @@ namespace codex {
         {
             // TODO: This should happen OnScenePlay.
             auto& behaviour_component = entity.GetComponent<NativeBehaviourComponent>();
-            for (auto& [k, v] : behaviour_component.behaviours)
+            for (auto& [k, v] : behaviour_component.GetBehaviours())
                 v->OnUpdate(deltaTime);
         }
 

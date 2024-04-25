@@ -76,7 +76,8 @@ namespace codex {
         SpriteRendererComponent(Sprite sprite);
 
     public:
-        inline Sprite& GetSprite() { return m_Sprite; }
+        inline Sprite&       GetSprite() noexcept { return m_Sprite; }
+        inline const Sprite& GetSprite() const noexcept { return m_Sprite; }
     };
 
     struct CODEX_API GridRendererComponent : public IComponent
@@ -105,87 +106,112 @@ namespace codex {
     {
         CX_COMPONENT
 
-    public:
-        std::unordered_map<std::string_view, mem::Box<NativeBehaviour>> behaviours;
+    private:
+        std::unordered_map<std::string_view, mem::Box<NativeBehaviour>> m_Behaviours;
 
     public:
-        NativeBehaviourComponent() {}
-        NativeBehaviourComponent(const NativeBehaviourComponent&) = delete;
+        NativeBehaviourComponent() noexcept                           = default;
+        NativeBehaviourComponent(const NativeBehaviourComponent&)     = delete;
+        NativeBehaviourComponent(NativeBehaviourComponent&&) noexcept = default;
+        ~NativeBehaviourComponent() noexcept { DisposeBehaviours(); }
+
+    public:
+        NativeBehaviourComponent& operator=(const NativeBehaviourComponent&) noexcept = delete;
+        NativeBehaviourComponent& operator=(NativeBehaviourComponent&&) noexcept      = default;
+
+    public:
+        inline std::unordered_map<std::string_view, mem::Box<NativeBehaviour>>& GetBehaviours() noexcept
+        {
+            return m_Behaviours;
+        }
+        inline const std::unordered_map<std::string_view, mem::Box<NativeBehaviour>>& GetBehaviours() const noexcept
+        {
+            return m_Behaviours;
+        }
 
     public:
         void OnInit() override
         {
-            for (auto& [k, v] : behaviours)
+            for (auto& [k, v] : m_Behaviours)
             {
                 v->OnInit();
             }
         }
         void Attach(mem::Box<NativeBehaviour> bh)
         {
+            // TODO: This should happen OnScenePlay().
+            // Optionally, you could have a OnAttach() or OnConstruct() method
+            // that will be called during attachment.
+            bh->OnInit();
+
             bh->Serialize();
             bh->m_Owner                 = m_Parent;
             const std::string_view name = bh->m_SerializedData.begin().key();
-            if (!behaviours.contains(name))
-                behaviours[name] = std::move(bh);
+            if (!m_Behaviours.contains(name))
+                m_Behaviours[name] = std::move(bh);
         }
         mem::Box<NativeBehaviour> Detach(const std::string_view className)
         {
-            auto it = behaviours.find(className);
-            if (it != behaviours.end())
+            auto it = m_Behaviours.find(className);
+            if (it != m_Behaviours.end())
             {
                 auto ptr = std::move(it->second);
-                behaviours.erase(it, behaviours.end());
+                m_Behaviours.erase(it);
                 return std::move(ptr);
             }
             else
             {
-                cx_throw(ScriptException, "Tried to detach a behaviour ({}) that is not attach on first place.",
+                cx_throw(ScriptException,
+                         "Tried to detach a behaviour ({}) that is not attached "
+                         "on first place.",
                          className);
             }
             return nullptr;
         }
         void InstantiateBehaviour(const std::string_view className)
         {
-            if (behaviours.contains(className))
-                behaviours.at(className)->OnInit();
+            if (m_Behaviours.contains(className))
+                m_Behaviours.at(className)->OnInit();
             else
                 cx_throw(ScriptException, "Tried to instantiate a non-existent behaviour class {}.", className);
         }
         void Dispose(const std::string_view className)
         {
-            auto it = behaviours.find(className);
-            if (it != behaviours.end())
+            auto it = m_Behaviours.find(className);
+            if (it != m_Behaviours.end())
             {
-                behaviours.erase(it, behaviours.end());
+                m_Behaviours.erase(it, m_Behaviours.end());
             }
             else
             {
-                cx_throw(ScriptException, "Tried to dispose a behaviour ({}) that is not attach on first place.",
+                cx_throw(ScriptException,
+                         "Tried to dispose a behaviour ({}) that is not attach "
+                         "on first place.",
                          className);
             }
         }
-        void DisposeBehaviours() { behaviours.clear(); }
+        void DisposeBehaviours() { m_Behaviours.clear(); }
 
     public:
         template <typename T, typename... TArgs>
         T& New(TArgs&&... args)
             requires(std::is_base_of_v<NativeBehaviour, T>)
         {
-            for (const auto& [k, v] : behaviours)
+            for (const auto& [k, v] : m_Behaviours)
             {
                 if (typeid(v) == typeid(T))
                     cx_throwd(DuplicateBehaviourException);
             }
 
-            mem::Box<NativeBehaviour> bh{ new T(std::forward<TArgs>(args)...) };
+            mem::Box<NativeBehaviour> bh(new T(std::forward<TArgs>(args)...));
             bh->m_Owner = m_Parent;
             bh->OnInit();
             bh->Serialize();
             const std::string_view name = bh->m_SerializedData.begin().key();
-            if (!behaviours.contains(name))
-                behaviours[name] = std::move(bh);
+            if (!m_Behaviours.contains(name))
+                m_Behaviours[name] = std::move(bh);
 
-            return *(T*)behaviours[name].Get();
+            return *(T*)m_Behaviours[name].Get();
         }
     };
 

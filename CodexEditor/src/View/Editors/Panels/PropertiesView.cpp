@@ -7,7 +7,8 @@
 namespace codex::editor {
     using namespace codex::events;
 
-    PropertiesView::PropertiesView(const mem::Ref<SceneEditorDescriptor>& editorDesc) : m_EditorDesc(editorDesc)
+    PropertiesView::PropertiesView(const mem::Ref<SceneEditorDescriptor>& editorDesc)
+        : m_EditorDesc(editorDesc)
     {
     }
     void PropertiesView::OnImGuiRender()
@@ -53,55 +54,50 @@ namespace codex::editor {
                 {
                     auto& c = d->selectedEntity.entity.GetComponent<NativeBehaviourComponent>();
 
+                    // Attached scripts.
                     ImGui::Columns(2);
                     ImGui::SetColumnWidth(0, d->columnWidth);
-                    ImGui::Text("Attach class: ");
+                    ImGui::Text("Attached behaviours: ");
                     ImGui::NextColumn();
 
-                    ImGui::BeginGroup();
-                    static NativeBehaviour* script         = nullptr;
-                    static bool             invalid_script = false;
-                    static std::string      script_class;
-                    static std::string      data;
-                    if (ImGui::InputText("##input", &script_class))
+                    if (ImGui::BeginCombo("###script_combo", "Select a script"))
                     {
-                        script         = nullptr;
-                        invalid_script = true;
-                    }
-                    if (ImGui::IsKeyPressed(ImGuiKey_Enter)) // Check for Enter key press
-                    {
-                        invalid_script = true;
-                        bool valid =
-                            d->scriptModule->Invoke<bool(const char*)>("Rf_DoesInstanceExist", script_class.c_str());
-                        if (valid)
+                        for (const auto& file : d->scripts)
                         {
-                            // TODO: This should happen OnScenePlay().
-                            invalid_script = false;
-                            script         = d->scriptModule->Invoke<NativeBehaviour*(const char*)>("Rf_CreateInstance",
-                                                                                            script_class.c_str());
-                            script->SetOwner(d->selectedEntity.entity);
+                            const auto& file_name = file.GetSourceFile().filename().string();
 
-                            // TODO: FIX!
-                            c.Attach(std::move(script));
+                            for (const auto& script : file.GetClasses())
+                            {
+                                const auto script_name = script.name;
+                                const auto& behaviours  = c.GetBehaviours();
+
+                                const auto it =
+                                    std::find_if(behaviours.cbegin(), behaviours.cend(),
+                                                 [&script_name](const auto& e)
+                                                 { return e.first == script_name; });
+                                if (it == behaviours.cend())
+                                {
+                                    if (ImGui::Selectable(script_name.c_str(), false))
+                                    {
+                                        auto* script = d->scene->CreateBehaviour(script_name.c_str());
+                                        script->SetOwner(d->selectedEntity.entity);
+                                        c.Attach(std::move(script));
+                                    }
+                                }
+                            }
                         }
+                        ImGui::EndCombo();
                     }
-                    if (!script)
-                    {
-                        if (!invalid_script)
-                            ImGui::Text("No bound class.");
-                        else
-                            ImGui::Text("No such class.");
-                    }
-                    else
-                    {
-                        ImGui::Text("libNBMan.dll : %s", script_class.c_str());
-                    }
-                    ImGui::EndGroup();
+
                     ImGui::Columns(1);
 
-                    // Display serialized fields
-                    for (auto& [k, v] : c.behaviours)
+                    // Display attached scripts and their serialized fields.
+                    auto& behaviours = c.GetBehaviours();
+                    std::list<std::string_view> possible_scripts_to_detach;
+                    for (auto it = behaviours.begin(); it != behaviours.end(); ++it)
                     {
+                        auto& [k, v] = *it;
+
                         const auto& j = v->GetSerializedData();
                         if (j.empty())
                             v->Serialize();
@@ -109,76 +105,73 @@ namespace codex::editor {
                         const auto& klass = j.begin();
                         if (ImGui::TreeNodeEx(klass.key().c_str(), ImGuiTreeNodeFlags_DefaultOpen))
                         {
-                            for (const auto& field : klass.value()["Fields"].items())
+                            if (ImGui::Button("Detach script"))
                             {
-                                // fmt::println("\n{}", field.value().dump());
-                                const std::string&    field_name = field.key();
-                                const reflect::RFType field_type = field.value().at("Type");
-
-                                ImGui::Columns(2);
-                                ImGui::SetColumnWidth(0, d->columnWidth);
-                                ImGui::Text("%s", field_name.c_str());
-                                ImGui::NextColumn();
-
-                                object field_ptr = v->GetField(field_name);
-                                switch (field_type)
-                                {
-                                    using enum reflect::RFType;
-
-                                    case I32:
-                                    case U32: {
-                                        ImGui::DragInt("##drag_int", (i32*)field_ptr);
-                                        break;
-                                    }
-                                    case F32:
-                                    case F64:
-                                    case F128: {
-                                        ImGui::DragFloat("##dragger", (f32*)field_ptr);
-                                        break;
-                                    }
-                                    case CString: {
-                                        break;
-                                    }
-                                    case StdString: {
-                                        ImGui::InputText("##input", (std::string*)field_ptr);
-                                        break;
-                                    }
-                                    case Boolean: {
-                                        ImGui::Checkbox("##checkbox", (bool*)field_ptr);
-                                        break;
-                                    }
-                                    case Vector2f: {
-                                        SceneEditorView::DrawVec2Control("##t", *(codex::Vector2f*)field_ptr,
-                                                                         d->columnWidth);
-                                        break;
-                                    }
-                                    case Vector3f: {
-                                        SceneEditorView::DrawVec3Control("##t", *(codex::Vector3f*)field_ptr,
-                                                                         d->columnWidth);
-                                        break;
-                                    }
-                                    default: break; // cx_throw(CodexException, "WHAT THE FUCK"); break;
-                                }
-                                ImGui::Columns(1);
+                                possible_scripts_to_detach.push_back(it->first);
+                                ImGui::TreePop();
+                                continue;
                             }
-                            for (const auto& field_obj : klass.value()["Fields"])
+
+                            if (klass.value().contains("Fields"))
                             {
-                                fmt::println("{}", field_obj.dump());
-                                const auto& field = field_obj.begin();
+                                for (const auto& field : klass.value()["Fields"].items())
+                                {
+                                    const std::string&    field_name = field.key();
+                                    const rf::RFType field_type = field.value().at("Type");
 
-                                ImGui::Columns(2);
-                                ImGui::SetColumnWidth(0, d->columnWidth);
-                                ImGui::Text(field.key().c_str());
-                                ImGui::NextColumn();
+                                    ImGui::Columns(2);
+                                    ImGui::SetColumnWidth(0, d->columnWidth);
+                                    ImGui::Text("%s", field_name.c_str());
+                                    ImGui::NextColumn();
 
-                                static std::string field_data = field.value().dump();
-                                ImGui::InputText("##input", &field_data);
+                                    object field_ptr = v->GetField(field_name);
+                                    switch (field_type)
+                                    {
+                                        using enum rf::RFType;
 
-                                ImGui::Columns(1);
+                                        case I32:
+                                        case U32: {
+                                            ImGui::DragInt("##drag_int", (i32*)field_ptr);
+                                            break;
+                                        }
+                                        case F32:
+                                        case F64:
+                                        case F128: {
+                                            ImGui::DragFloat("##dragger", (f32*)field_ptr);
+                                            break;
+                                        }
+                                        case CString: {
+                                            break;
+                                        }
+                                        case StdString: {
+                                            ImGui::InputText("##input", (std::string*)field_ptr);
+                                            break;
+                                        }
+                                        case Boolean: {
+                                            ImGui::Checkbox("##checkbox", (bool*)field_ptr);
+                                            break;
+                                        }
+                                        case Vector2f: {
+                                            SceneEditorView::DrawVec2Control("##t", *(codex::Vector2f*)field_ptr,
+                                                                             d->columnWidth);
+                                            break;
+                                        }
+                                        case Vector3f: {
+                                            SceneEditorView::DrawVec3Control("##t", *(codex::Vector3f*)field_ptr,
+                                                                             d->columnWidth);
+                                            break;
+                                        }
+                                        default:
+                                            break; // cx_throw(CodexException, "Should not happen."); break;
+                                    }
+                                    ImGui::Columns(1);
+                                }
                             }
                             ImGui::TreePop();
                         }
                     }
+                    for (const auto& e : possible_scripts_to_detach)
+                        c.Detach(e);
                     ImGui::TreePop();
                 }
             }
@@ -237,9 +230,11 @@ namespace codex::editor {
                         ImGui::SetColumnWidth(0, d->columnWidth);
                         ImGui::Text("Texture filter mode: ");
                         ImGui::NextColumn();
-                        static int  item_current_idx = 0; // Here we store our selection data as an index.
-                        const char* preview_item     = nullptr;
-                        const auto& props            = texture->GetProperties();
+                        static int item_current_idx = 0; // Here we store our
+                                                         // selection data as an
+                                                         // index.
+                        const char* preview_item = nullptr;
+                        const auto& props        = texture->GetProperties();
                         switch (props.filterMode)
                         {
                             case gfx::TextureFilterMode::Linear: preview_item = "Linear"; break;
@@ -285,7 +280,8 @@ namespace codex::editor {
                     auto&               colour = d->selectedEntity.overlayColour;
                     ImGuiColorEditFlags flags  = 0;
                     flags |= ImGuiColorEditFlags_AlphaBar;
-                    flags |= ImGuiColorEditFlags_DisplayRGB; // Override display mode
+                    flags |= ImGuiColorEditFlags_DisplayRGB; // Override display
+                                                             // mode
                     f32 temp_colour[4]{ colour.x, colour.y, colour.z, colour.w };
                     ImGui::ColorPicker4("##color_picker", temp_colour, flags);
                     colour = { temp_colour[0], temp_colour[1], temp_colour[2], temp_colour[3] };

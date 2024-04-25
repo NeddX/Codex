@@ -37,7 +37,6 @@ AlignConsecutiveDeclarations: true
 AlwaysBreakTemplateDeclarations: true
 Cpp11BracedListStyle: false
 BreakConstructorInitializers: BeforeComma
-ColumnLimit: 80
 
 ReflowComments: true
 PenaltyBreakComment: 0

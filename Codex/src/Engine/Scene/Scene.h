@@ -4,25 +4,39 @@
 #include "../Core/Input.h"
 #include "../Core/ResourceHandler.h"
 #include "../Graphics/Renderer.h"
+#include "../Memory/Memory.h"
 #include "../Scene/Camera.h"
 #include "../Scene/EditorCamera.h"
 #include "../Scene/SpriteSheet.h"
+#include "../System/DynamicLibrary.h"
 
 namespace codex {
     // Forward declarations
     class Window;
     class Entity;
     class Serializer;
+    class NativeBehaviour;
 
     class CODEX_API Scene
     {
-        friend class Serializer;
         friend class Window;
         friend class Entity;
+        friend class Serializer;
 
     private:
-        entt::registry m_Registry;
-        std::string    m_Name = "Default scene";
+        entt::registry                          m_Registry;
+        std::string                             m_Name         = "Default scene";
+        mem::Box<sys::DLib>                     m_ScriptModule = nullptr;
+
+    public:
+        Scene() noexcept        = default;
+        Scene(const Scene&)     = default;
+        Scene(Scene&&) noexcept = default;
+        ~Scene() noexcept;
+
+    public:
+        Scene& operator=(const Scene&)     = default;
+        Scene& operator=(Scene&&) noexcept = default;
 
     public:
         // TODO: Have a IDisplay trait which allows for
@@ -43,6 +57,12 @@ namespace codex {
         std::vector<Entity> GetAllEntities();
 
     public:
+        void             LoadScriptModule(std::filesystem::path modulePath);
+        void             UnloadScriptModule();
+        NativeBehaviour* CreateBehaviour(const char* className) const noexcept;
+        bool             BehaviourExists(const char* className) const noexcept;
+
+    public:
         void OnEditorInit(scene::EditorCamera& camera);
         void OnRuntimeInit();
         void OnEditorUpdate(const f32 deltaTime);
@@ -51,11 +71,11 @@ namespace codex {
     public:
         friend void to_json(nlohmann::ordered_json& j, const Scene& scene);
         template <typename T>
-            requires(std::is_copy_constructible_v<T>)
+            requires(std::is_move_constructible_v<T>)
         friend std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene);
 
         template <typename T>
-            requires(!std::is_copy_constructible_v<T>)
+            requires(!std::is_move_constructible_v<T>)
         friend std::vector<Entity> SceneGetAllEntitiesWithComponent(Scene& scene);
     };
 } // namespace codex

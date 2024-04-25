@@ -2,7 +2,7 @@
     "version": 3,
     "configurePresets": [
         {
-            "name": "windows-base",
+            "name": "windows-msvc",
             "hidden": true,
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/builds/${presetName}",
@@ -18,6 +18,38 @@
                 "rhs": "Windows"
             }
         },
+		{
+			"name": "windows-llvm",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/builds/${presetName}",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang.exe",
+                "CMAKE_CXX_COMPILER": "clang++.exe",
+                "CMAKE_PRESET_NAME": "${presetName}",
+                "CX_ENABLE_CEDITOR": "on"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+		},
+		{
+			"name": "windows-vs2022",
+            "generator": "Visual Studio 17",
+            "binaryDir": "${sourceDir}/builds/${presetName}",
+            "installDir": "C:/Program Files/Carbine/CEditor",
+            "cacheVariables": {
+                "CMAKE_PRESET_NAME": "${presetName}",
+                "CX_ENABLE_CEDITOR": "on"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+		},
         {
             "name": "linux-base",
             "hidden": true,
@@ -53,10 +85,10 @@
             }
         },
         {
-            "name": "windows-x86_64-debug",
+            "name": "windows-msvc-x86_64-debug",
             "displayName": "x86_64 Debug",
             "installDir": "${sourceDir}/installs/${presetName}",
-            "inherits": "windows-base",
+            "inherits": "windows-msvc",
             "architecture": {
                 "value": "x64",
                 "strategy": "external"
@@ -66,19 +98,81 @@
             }
         },
         {
-            "name": "windows-x86_64-release",
+            "name": "windows-msvc-x86_64-release",
             "displayName": "x86_64 Release",
             "installDir": "${sourceDir}/installs/${presetName}",
-            "inherits": "windows-x86_64-debug",
+            "inherits": "windows-msvc-x86_64-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
-            "name": "windows-x86_64-shipping",
+            "name": "windows-msvc-x86_64-shipping",
             "displayName": "x86_64 Shipping",
             "installDir": "C:/Program Files/Carbine/Codex Editor",
-            "inherits": "windows-x86_64-debug",
+            "inherits": "windows-msvc-x86_64-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Shipping"
+            }
+        },
+		{
+            "name": "windows-llvm-x86_64-debug",
+            "displayName": "x86_64 Debug",
+            "installDir": "${sourceDir}/installs/${presetName}",
+            "inherits": "windows-llvm",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "windows-llvm-x86_64-release",
+            "displayName": "x86_64 Release",
+            "installDir": "${sourceDir}/installs/${presetName}",
+            "inherits": "windows-llvm-x86_64-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "windows-llvm-x86_64-shipping",
+            "displayName": "x86_64 Shipping",
+            "installDir": "C:/Program Files/Carbine/CEditor",
+            "inherits": "windows-llvm-x86_64-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Shipping"
+            }
+        },
+		{
+            "name": "windows-vs2022-x86_64-debug",
+            "displayName": "x86_64 Debug",
+            "installDir": "${sourceDir}/installs/${presetName}",
+            "inherits": "windows-vs2022",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "windows-vs2022-x86_64-release",
+            "displayName": "x86_64 Release",
+            "installDir": "${sourceDir}/installs/${presetName}",
+            "inherits": "windows-vs2022-x86_64-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "windows-vs2022-x86_64-shipping",
+            "displayName": "x86_64 Shipping",
+            "installDir": "C:/Program Files/Carbine/CEditor",
+            "inherits": "windows-vs2022-x86_64-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Shipping"
             }
