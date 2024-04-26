@@ -16,7 +16,6 @@ private:
     f32 m_Multiplier = 1.0f;
     RF_SERIALIZABLE()
     Vector3f m_Axies = { 0.0f, 1.0f, 0.0f };
-    ~MienScripten();
 
 public:
     void OnInit() override;

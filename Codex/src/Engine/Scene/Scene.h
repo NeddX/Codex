@@ -24,19 +24,19 @@ namespace codex {
         friend class Serializer;
 
     private:
-        entt::registry                          m_Registry;
-        std::string                             m_Name         = "Default scene";
-        mem::Box<sys::DLib>                     m_ScriptModule = nullptr;
+        entt::registry      m_Registry;
+        std::string         m_Name         = "Default scene";
+        mem::Box<sys::DLib> m_ScriptModule = nullptr;
 
     public:
-        Scene() noexcept        = default;
-        Scene(const Scene&)     = default;
-        Scene(Scene&&) noexcept = default;
+        Scene() noexcept             = default;
+        Scene(const Scene&) noexcept = delete;
+        Scene(Scene&&) noexcept      = default;
         ~Scene() noexcept;
 
     public:
-        Scene& operator=(const Scene&)     = default;
-        Scene& operator=(Scene&&) noexcept = default;
+        Scene& operator=(const Scene&) noexcept = delete;
+        Scene& operator=(Scene&&) noexcept      = default;
 
     public:
         // TODO: Have a IDisplay trait which allows for

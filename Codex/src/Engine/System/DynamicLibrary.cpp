@@ -7,13 +7,12 @@ namespace codex::sys {
         const auto& file_path_str = m_FilePath.string();
 #if defined(CX_PLATFORM_UNIX)
         m_Handle = dlopen(file_path_str.c_str(), RTLD_LAZY);
-        if (!m_Handle)
-            cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", file_path_str);
+        // printf("Err: %s\n", dlerror());
 #elif defined(CX_PLATFORM_WINDOWS)
         m_Handle = LoadLibraryA(file_path_str.c_str());
+#endif
         if (!m_Handle)
             cx_throw(DynamicLibraryLoadException, "Failed to load '{}'.", file_path_str);
-#endif
     }
 
     DLib::DLib(DLib&& other) noexcept
@@ -41,7 +40,7 @@ namespace codex::sys {
         return *this;
     }
 
-    DLib::~DLib()
+    DLib::~DLib() noexcept
     {
 #if defined(CX_PLATFORM_UNIX)
         dlclose(m_Handle);

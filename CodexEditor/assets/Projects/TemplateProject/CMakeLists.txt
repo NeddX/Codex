@@ -61,10 +61,10 @@ endif()
 if(DEFINED CX_PLATFORM_LINUX)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_LINUX)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNIX)
-  # target_link_libraries(NBMan PRIVATE
-  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/libCodexEngine-static.a
-  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/libMGL.a
-  # ${CMAKE_CURRENT_SOURCE_DIR}/lib/libfmtd.a )
+  #target_link_libraries(NBMan PRIVATE
+  #${CMAKE_CURRENT_SOURCE_DIR}/lib/libCodexEngine-static.a
+  #${CMAKE_CURRENT_SOURCE_DIR}/lib/libMGL.a
+  #${CMAKE_CURRENT_SOURCE_DIR}/lib/libfmtd.a )
 elseif(DEFINED CX_PLATFORM_OSX)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_OSX)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNIX)

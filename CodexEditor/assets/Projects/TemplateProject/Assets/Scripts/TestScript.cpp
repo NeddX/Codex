@@ -10,11 +10,6 @@ void MienScripten::OnDispose()
 	std::cout << "Dead :(" << std::endl;
 }
 
-MienScripten::~MienScripten()
-{
-	std::cout << "dead as hell :((" << std::endl;
-}
-
 void MienScripten::OnUpdate(const f32 deltaTime)
 {
     if (m_Move)
