@@ -18,6 +18,21 @@
                 "rhs": "Windows"
             }
         },
+        {
+            "name": "vs2022",
+            "generator": "Visual Studio 17",
+            "binaryDir": "${sourceDir}/builds/${presetName}",
+            "installDir": "C:/Program Files/Carbine/CEditor",
+            "cacheVariables": {
+                "CMAKE_PRESET_NAME": "${presetName}",
+                "CX_ENABLE_CEDITOR": "on"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
 		{
 			"name": "windows-llvm",
             "hidden": true,

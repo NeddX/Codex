@@ -17,7 +17,8 @@ namespace codex {
 
     Application* Application::m_Instance = nullptr;
 
-    Application::Application(ApplicationProperties args) : m_Properties(std::move(args))
+    Application::Application(ApplicationProperties args)
+        : m_Properties(std::move(args))
     {
         try
         {
@@ -107,7 +108,8 @@ namespace codex {
 
     bool Application::OnWindowResize_Event(const WindowResizeEvent& event)
     {
-        i32 x = event.GetWidth(), y = event.GetHeight();
+        i32 x = event.GetWidth();
+        i32 y = event.GetHeight();
         glViewport(0, 0, x, y);
         if (m_ImGuiLayer)
         {
@@ -178,8 +180,8 @@ namespace codex {
 
         for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
         {
-            // if (e.handled)
-            //     break;
+            if (e.handled)
+                break;
             (*it)->OnEvent(e);
         }
     }

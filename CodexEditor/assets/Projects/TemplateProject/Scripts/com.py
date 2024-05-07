@@ -5,6 +5,7 @@ import re
 import sys
 import time
 import shutil
+import ctypes
 import platform
 from enum import Enum
 import subprocess as sb
@@ -30,7 +31,7 @@ def warn(msg):
     print(f'[Build] [Warning] :: {msg}')
 
 def err(msg):
-    print(f'[Build] [Warning] :: {msg}')
+    print(f'[Build] [Panic] :: {msg}')
 
 def panic(msg, exit_code = 1):
     err(msg)
@@ -54,3 +55,12 @@ def get_cmake_presets():
     presets = [(s[:s.rfind('"')])[1:] for s in presets]
 
     return presets
+
+def win32_is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAdmin()
+    except:
+        return False
+
+def win32_request_admin():
+    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)

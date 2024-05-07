@@ -20,34 +20,18 @@ namespace codex {
         mutable nlohmann::ordered_json m_SerializedData;
 
     public:
-        constexpr const nlohmann::ordered_json& GetSerializedData()
-            const noexcept
-        {
-            return m_SerializedData;
-        }
-        inline void SetOwner(const Entity entity) noexcept { m_Owner = entity; }
+        constexpr const nlohmann::ordered_json& GetSerializedData() const noexcept { return m_SerializedData; }
+        inline void                             SetOwner(const Entity entity) noexcept { m_Owner = entity; }
 
     public:
         virtual ~NativeBehaviour() = default;
 
     public:
-        auto CreateEntity(const std::string_view tag = "default tag")
-        {
-            return m_Owner.m_Scene->CreateEntity(tag);
-        }
-        void RemoveEntity(codex::Entity entity)
-        {
-            m_Owner.m_Scene->RemoveEntity(entity);
-        }
+        auto CreateEntity(const std::string_view tag = "default tag") { return m_Owner.m_Scene->CreateEntity(tag); }
+        void RemoveEntity(Entity entity) { m_Owner.m_Scene->RemoveEntity(entity); }
         auto GetAllEntities() { return m_Owner.m_Scene->GetAllEntities(); }
-        auto GetAllEntitiesWithTag(const std::string_view tag)
-        {
-            return m_Owner.m_Scene->GetAllEntitesWithTag(tag);
-        }
-        auto GetEntityCount() const noexcept
-        {
-            return m_Owner.m_Scene->GetEntityCount();
-        }
+        auto GetAllEntitiesWithTag(const std::string_view tag) { return m_Owner.m_Scene->GetAllEntitesWithTag(tag); }
+        auto GetEntityCount() const noexcept { return m_Owner.m_Scene->GetEntityCount(); }
         const auto& GetCurrentScene() const noexcept { return m_Owner.m_Scene; }
         auto&       GetCurrentScene() noexcept { return *m_Owner.m_Scene; }
 
@@ -86,17 +70,11 @@ namespace codex {
         // FIXME: Mark these methods protected!
         // protected:
     public:
-        virtual void OnInit() = 0;
-        virtual void OnUpdate(const f32 deltaTime) {}
-        virtual void OnDispose() {}
-        virtual void Serialize() const noexcept
-        {
-            m_SerializedData[typeid(*this).name()]["Id"] = -1;
-        };
-        virtual object GetField(const std::string_view name) noexcept
-        {
-            return nullobj;
-        }
+        virtual void   OnInit() = 0;
+        virtual void   OnUpdate(const f32 deltaTime) {}
+        virtual void   OnDispose() {}
+        virtual void   Serialize() const noexcept { m_SerializedData[typeid(*this).name()]["Id"] = -1; };
+        virtual object GetField(const std::string_view name) noexcept { return nullobj; }
     };
 } // namespace codex
 

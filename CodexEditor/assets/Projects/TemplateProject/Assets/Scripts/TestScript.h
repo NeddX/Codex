@@ -2,6 +2,8 @@
 
 #include <Codex.h>
 
+#include <string>
+
 using namespace codex;
 
 RF_CLASS()
@@ -10,6 +12,8 @@ class CODEX_EXPORT MienScripten : public NativeBehaviour
     RF_GENERATE_BODY()
 
 private:
+	RF_SERIALIZABLE()
+	std::string m_Str;
     RF_SERIALIZABLE()
     bool m_Move = true;
     RF_SERIALIZABLE()

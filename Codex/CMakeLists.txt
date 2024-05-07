@@ -293,6 +293,12 @@ target_precompile_headers(CodexEngine PRIVATE src/PCH/sdafx.h)
 target_include_directories(CodexEngine-static PUBLIC src/PCH)
 target_precompile_headers(CodexEngine-static PRIVATE src/PCH/sdafx.h)
 
+# Add the Engine and Platform folders
+target_include_directories(CodexEngine PRIVATE src/Engine)
+target_include_directories(CodexEngine-static PRIVATE src/Engine)
+target_include_directories(CodexEngine PRIVATE src/Platform)
+target_include_directories(CodexEngine-static PRIVATE src/Platform)
+
 # Multicore compilation for MSVC if CX_PARALLEL is not 0.
 if(DEFINED CX_COMPILER_MSVC AND NOT CX_PARALLEL EQUAL 0)
     target_compile_options(CodexEngine PRIVATE "/MP")

@@ -5,7 +5,7 @@
 #include <functional>
 #include <mutex>
 
-#if defined(CX_COMPILER_MSVC)
+#if defined(CX_PLATFORM_WINDOWS)
 #define NOINLINE     __declspec(noinline)
 #define CODEX_EXPORT __declspec(dllexport)
 #ifdef CX_BUILD_SHARED
@@ -15,7 +15,7 @@
 #else
 #define CODEX_API __declspec(dllimport)
 #endif
-#elif defined(__clang__) || defined(__GNUC__)
+#elif defined(CX_PLATFORM_UNIX)
 #define NOINLINE     __attribute__((NOINLINE))
 #define CODEX_API    __attribute__((visibility("default")))
 #define CODEX_EXPORT __attribute__((visibility("default")))
@@ -68,8 +68,7 @@ namespace codex {
     template <typename Fn>
     constexpr auto BindEventDelegate(auto* self, Fn delegate)
     {
-        return [self, delegate](auto&&... args)
-        { return (self->*delegate)(std::forward<decltype(args)>(args)...); };
+        return [self, delegate](auto&&... args) { return (self->*delegate)(std::forward<decltype(args)>(args)...); };
     }
 
     struct InvalidState
@@ -79,15 +78,13 @@ namespace codex {
 
 #ifdef CX_CONFIG_DEBUG
 #define MGL_DEBUG
-#define CX_ASSERT(x, msg)                                                      \
-    if (!(x))                                                                  \
-    {                                                                          \
-        std::cerr << "[CODEX-DEBUG] :: Assertion failed: " << msg              \
-                  << "\n\tStack trace:"                                        \
-                  << "\n\t\tFunction: " << __FUNCTION__                        \
-                  << "\n\t\tFile: " << __FILE__ << "\n\t\tLine: " << __LINE__  \
-                  << std::endl;                                                \
-        CX_DEBUG_TRAP();                                                       \
+#define CX_ASSERT(x, msg)                                                                                              \
+    if (!(x))                                                                                                          \
+    {                                                                                                                  \
+        std::cerr << "[CODEX-DEBUG] :: Assertion failed: " << msg << "\n\tStack trace:"                                \
+                  << "\n\t\tFunction: " << __FUNCTION__ << "\n\t\tFile: " << __FILE__ << "\n\t\tLine: " << __LINE__    \
+                  << std::endl;                                                                                        \
+        CX_DEBUG_TRAP();                                                                                               \
     }
 #else
 #define CX_ASSERT(x, msg) ;
@@ -95,9 +92,9 @@ namespace codex {
 
 #define CX_MACRO_STRINGFY(x) #x
 
-#define CX_COMPONENT                                                           \
-    friend void from_json(const nlohmann::ordered_json& j, Entity& entity);    \
-    friend class Serializer;                                                   \
+#define CX_COMPONENT                                                                                                   \
+    friend void from_json(const nlohmann::ordered_json& j, Entity& entity);                                            \
+    friend class Serializer;                                                                                           \
     friend class Entity;
 
 #endif // CODEX_CORE_COMMON_DEFINITIONS_H

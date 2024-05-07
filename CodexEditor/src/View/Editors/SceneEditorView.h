@@ -62,6 +62,9 @@ namespace codex::editor {
     public:
         void OnEvent(events::Event& e) override;
         bool OnKeyDown_Event(events::KeyDownEvent& e);
+        bool OnMouseDown_Event(events::MouseDownEvent& e);
+        bool OnMouseButton_Event(events::MouseButtonEvent& e);
+        bool OnMouseMove_Event(events::MouseMoveEvent& e);
 
     public:
         void CompileProject();

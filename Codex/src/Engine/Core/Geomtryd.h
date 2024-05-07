@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-namespace codex {
+namespace codex::math {
     using Matrix4f = glm::mat4;
     using Matrix2f = glm::mat2;
     using Vector2f = glm::vec2;
@@ -14,45 +14,157 @@ namespace codex {
     using Vector4  = glm::ivec4;
     using Rect     = mgl::Rect;
     using Rectf    = mgl::Rectf;
-} // namespace codex
+} // namespace codex::math
+
+using namespace codex::math;
 
 namespace nlohmann {
-    void to_json(nlohmann::ordered_json& j, const codex::Vector2f& vec);
-    void to_json(nlohmann::ordered_json& j, const codex::Vector3f& vec);
-    void to_json(nlohmann::ordered_json& j, const codex::Vector4f& vec);
-    void to_json(nlohmann::ordered_json& j, const codex::Rect& rect);
-    void to_json(nlohmann::ordered_json& j, const codex::Rectf& rect);
+    template <>
+    struct adl_serializer<codex::math::Vector2f>
+    {
+        static void to_json(ordered_json& j, const codex::math::Vector2f& vec)
+        {
+            j = ordered_json{ { "x", vec.x }, { "y", vec.y } };
+        }
+        static void from_json(const ordered_json& j, codex::math::Vector2f& vec)
+        {
+            j.at("x").get_to(vec.x);
+            j.at("y").get_to(vec.y);
+        }
+    };
 
-    void from_json(const nlohmann::ordered_json& j, codex::Vector2f& vec);
-    void from_json(const nlohmann::ordered_json& j, codex::Vector3f& vec);
-    void from_json(const nlohmann::ordered_json& j, codex::Vector4f& vec);
-    void from_json(const nlohmann::ordered_json& j, codex::Rect& rect);
-    void from_json(const nlohmann::ordered_json& j, codex::Rectf& rect);
+    template <>
+    struct adl_serializer<codex::math::Vector2>
+    {
+        static void to_json(ordered_json& j, const codex::math::Vector2& vec)
+        {
+            j = ordered_json{ { "x", vec.x }, { "y", vec.y } };
+        }
+        static void from_json(const ordered_json& j, codex::math::Vector2& vec)
+        {
+            j.at("x").get_to(vec.x);
+            j.at("y").get_to(vec.y);
+        }
+    };
+
+    template <>
+    struct adl_serializer<codex::math::Vector3f>
+    {
+        static void to_json(ordered_json& j, const codex::math::Vector3f& vec)
+        {
+            j = ordered_json{ { "x", vec.x }, { "y", vec.y }, { "z", vec.z } };
+        }
+        static void from_json(const ordered_json& j, codex::math::Vector3f& vec)
+        {
+            j.at("x").get_to(vec.x);
+            j.at("y").get_to(vec.y);
+            j.at("z").get_to(vec.z);
+        }
+    };
+
+    template <>
+    struct adl_serializer<codex::math::Vector3>
+    {
+        static void to_json(ordered_json& j, const codex::math::Vector3& vec)
+        {
+            j = ordered_json{ { "x", vec.x }, { "y", vec.y }, { "z", vec.z } };
+        }
+        static void from_json(const ordered_json& j, codex::math::Vector3& vec)
+        {
+            j.at("x").get_to(vec.x);
+            j.at("y").get_to(vec.y);
+            j.at("z").get_to(vec.z);
+        }
+    };
+
+    template <>
+    struct adl_serializer<codex::math::Vector4f>
+    {
+        static void to_json(ordered_json& j, const codex::math::Vector4f& vec)
+        {
+            j = ordered_json{ { "x", vec.x }, { "y", vec.y }, { "z", vec.z }, { "w", vec.w } };
+        }
+        static void from_json(const ordered_json& j, codex::math::Vector4f& vec)
+        {
+            j.at("x").get_to(vec.x);
+            j.at("y").get_to(vec.y);
+            j.at("z").get_to(vec.z);
+            j.at("w").get_to(vec.w);
+        }
+    };
+
+    template <>
+    struct adl_serializer<codex::math::Vector4>
+    {
+        static void to_json(ordered_json& j, const codex::math::Vector4& vec)
+        {
+            j = ordered_json{ { "x", vec.x }, { "y", vec.y }, { "z", vec.z }, { "w", vec.w } };
+        }
+        static void from_json(const ordered_json& j, codex::math::Vector4& vec)
+        {
+            j.at("x").get_to(vec.x);
+            j.at("y").get_to(vec.y);
+            j.at("z").get_to(vec.z);
+            j.at("w").get_to(vec.w);
+        }
+    };
+
+    template <>
+    struct adl_serializer<codex::math::Rectf>
+    {
+        static void to_json(ordered_json& j, const codex::math::Rectf& rect)
+        {
+            j = ordered_json{ { "x", rect.x }, { "y", rect.y }, { "w", rect.w }, { "h", rect.h } };
+        }
+        static void from_json(const ordered_json& j, codex::math::Rectf& rect)
+        {
+            j.at("x").get_to(rect.x);
+            j.at("y").get_to(rect.y);
+            j.at("w").get_to(rect.w);
+            j.at("h").get_to(rect.h);
+        }
+    };
+
+    template <>
+    struct adl_serializer<codex::math::Rect>
+    {
+        static void to_json(ordered_json& j, const codex::math::Rect& rect)
+        {
+            j = ordered_json{ { "x", rect.x }, { "y", rect.y }, { "w", rect.w }, { "h", rect.h } };
+        }
+        static void from_json(const ordered_json& j, codex::math::Rect& rect)
+        {
+            j.at("x").get_to(rect.x);
+            j.at("y").get_to(rect.y);
+            j.at("w").get_to(rect.w);
+            j.at("h").get_to(rect.h);
+        }
+    };
 } // namespace nlohmann
 
 namespace std {
     template <>
-    struct hash<codex::Vector2f>
+    struct hash<codex::math::Vector2f>
     {
-        codex::usize operator()(const codex::Vector2f& vec) const
+        codex::usize operator()(const codex::math::Vector2f& vec) const
         {
             return hash<codex::f32>()(vec.x) ^ hash<codex::f32>()(vec.y);
         }
     };
 
     template <>
-    struct hash<codex::Vector3f>
+    struct hash<codex::math::Vector3f>
     {
-        codex::usize operator()(const codex::Vector3f& vec) const
+        codex::usize operator()(const codex::math::Vector3f& vec) const
         {
             return hash<codex::f32>()(vec.x) ^ hash<codex::f32>()(vec.y) ^ hash<codex::f32>()(vec.z);
         }
     };
 
     template <>
-    struct hash<codex::Vector4f>
+    struct hash<codex::math::Vector4f>
     {
-        codex::usize operator()(const codex::Vector4f& vec) const
+        codex::usize operator()(const codex::math::Vector4f& vec) const
         {
             return hash<codex::f32>()(vec.x) ^ hash<codex::f32>()(vec.y) ^ hash<codex::f32>()(vec.z) ^
                    hash<codex::f32>()(vec.w);
@@ -60,9 +172,9 @@ namespace std {
     };
 
     template <>
-    struct hash<codex::Rectf>
+    struct hash<codex::math::Rectf>
     {
-        codex::usize operator()(const codex::Rectf& rect) const
+        codex::usize operator()(const codex::math::Rectf& rect) const
         {
             return hash<codex::f32>()(rect.x) ^ hash<codex::f32>()(rect.y) ^ hash<codex::f32>()(rect.w) ^
                    hash<codex::f32>()(rect.h);
@@ -72,65 +184,65 @@ namespace std {
 
 namespace fmt {
     template <>
-    struct formatter<codex::Vector2f> : formatter<std::string_view>
+    struct formatter<codex::math::Vector2f> : formatter<std::string_view>
     {
-        auto format(const codex::Vector2f& vec, format_context& ctx) const
+        auto format(const codex::math::Vector2f& vec, format_context& ctx) const
         {
             return format_to(ctx.out(), "({}, {})", vec.x, vec.y);
         }
     };
     template <>
-    struct formatter<codex::Vector2> : formatter<std::string_view>
+    struct formatter<codex::math::Vector2> : formatter<std::string_view>
     {
-        auto format(const codex::Vector2& vec, format_context& ctx) const
+        auto format(const codex::math::Vector2& vec, format_context& ctx) const
         {
             return format_to(ctx.out(), "({}, {})", vec.x, vec.y);
         }
     };
     template <>
-    struct formatter<codex::Vector3f> : formatter<std::string_view>
+    struct formatter<codex::math::Vector3f> : formatter<std::string_view>
     {
-        auto format(const codex::Vector3f& vec, format_context& ctx) const
+        auto format(const codex::math::Vector3f& vec, format_context& ctx) const
         {
             return format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
         }
     };
     template <>
-    struct formatter<codex::Vector3> : formatter<std::string_view>
+    struct formatter<codex::math::Vector3> : formatter<std::string_view>
     {
-        auto format(const codex::Vector3& vec, format_context& ctx) const
+        auto format(const codex::math::Vector3& vec, format_context& ctx) const
         {
             return format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
         }
     };
     template <>
-    struct formatter<codex::Vector4f> : formatter<std::string_view>
+    struct formatter<codex::math::Vector4f> : formatter<std::string_view>
     {
-        auto format(const codex::Vector4f& vec, format_context& ctx) const
+        auto format(const codex::math::Vector4f& vec, format_context& ctx) const
         {
             return format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.z, vec.w);
         }
     };
     template <>
-    struct formatter<codex::Vector4> : formatter<std::string_view>
+    struct formatter<codex::math::Vector4> : formatter<std::string_view>
     {
-        auto format(const codex::Vector4& vec, format_context& ctx) const
+        auto format(const codex::math::Vector4& vec, format_context& ctx) const
         {
             return format_to(ctx.out(), "({}, {}, {}, {})", vec.x, vec.y, vec.z, vec.w);
         }
     };
     template <>
-    struct formatter<codex::Rectf> : formatter<std::string_view>
+    struct formatter<codex::math::Rectf> : formatter<std::string_view>
     {
-        auto format(const codex::Rectf& rect, format_context& ctx) const
+        auto format(const codex::math::Rectf& rect, format_context& ctx) const
         {
             return format_to(ctx.out(), "({}, {}, {}, {})", rect.x, rect.y, rect.w, rect.h);
         }
     };
     template <>
-    struct formatter<codex::Rect> : formatter<std::string_view>
+    struct formatter<codex::math::Rect> : formatter<std::string_view>
     {
-        auto format(const codex::Rect& rect, format_context& ctx) const
+        auto format(const codex::math::Rect& rect, format_context& ctx) const
         {
             return format_to(ctx.out(), "({}, {}, {}, {})", rect.x, rect.y, rect.w, rect.h);
         }

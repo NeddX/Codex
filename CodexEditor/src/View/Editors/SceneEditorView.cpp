@@ -176,8 +176,8 @@ namespace codex::editor {
                             d->scene->LoadScriptModule(d->scriptModulePath);
                             Serializer::DeserializeScene(file, *d->scene);
 
-                            // FIXME: Cannot unload the script module while we have attached scripts, invalidates the vptr of our class
-                            // effetively invalidating the whole thing really.
+                            // FIXME: Cannot unload the script module while we have attached scripts, invalidates the
+                            // vptr of our class effetively invalidating the whole thing really.
                             CompileProject(); // NOTE
                         }
                     }
@@ -203,7 +203,7 @@ namespace codex::editor {
                         sys::ProcessInfo p_info;
 
 #ifdef CX_PLATFORM_WINDOWS
-                        p_info.command = "cmake --build builds/vs2022 --target clean";
+                        p_info.command = "cmake --preset=windows-llvm-x86_64-debug --clear";
 #elif defined(CX_PLATFORM_LINUX)
                         p_info.command = "./build.py --preset=linux-x86_64-debug --clear";
 #elif defined(CX_PLATFORM_OSX)
@@ -352,8 +352,11 @@ namespace codex::editor {
 
     void SceneEditorView::OnEvent(events::Event& e)
     {
-        events::EventDispatcher d(e);
+        events::EventDispatcher d{ e };
         d.Dispatch<events::KeyDownEvent>(BindEventDelegate(this, &SceneEditorView::OnKeyDown_Event));
+        d.Dispatch<events::MouseDownEvent>(BindEventDelegate(this, &SceneEditorView::OnMouseDown_Event));
+        d.Dispatch<events::MouseButtonEvent>(BindEventDelegate(this, &SceneEditorView::OnMouseButton_Event));
+        d.Dispatch<events::MouseMoveEvent>(BindEventDelegate(this, &SceneEditorView::OnMouseMove_Event));
     }
 
     bool SceneEditorView::OnKeyDown_Event(events::KeyDownEvent& e)
@@ -369,6 +372,21 @@ namespace codex::editor {
             default: break;
         }
         return false;
+    }
+
+    bool SceneEditorView::OnMouseDown_Event(events::MouseDownEvent& e)
+    {
+        return true;
+    }
+
+    bool SceneEditorView::OnMouseButton_Event(events::MouseButtonEvent& e)
+    {
+        return true;
+    }
+
+    bool SceneEditorView::OnMouseMove_Event(events::MouseMoveEvent& e)
+    {
+        return true;
     }
 
     void SceneEditorView::CompileProject()
@@ -391,11 +409,12 @@ namespace codex::editor {
         sys::ProcessInfo p_info;
 
 #ifdef CX_PLATFORM_WINDOWS
-        p_info.command = "cmake ./ -G \"Visual Studio 17\" -B builds/vs2022 && cmake --build builds/vs2022";
+        // p_info.command = "cmake ./ -G \"Visual Studio 17\" -B builds/vs2022 && cmake --build builds/vs2022";
+        p_info.command = "python3 Scripts/build.py --preset=windows-llvm-x86_64-debug --build";
 #elif defined(CX_PLATFORM_LINUX)
-        p_info.command = "python3 ./build.py --preset=linux-x86_64-debug";
+        p_info.command = "python3 Scripts/build.py --preset=linux-x86_64-debug --build";
 #elif defined(CX_PLATFORM_OSX)
-        p_info.command = "python3 ./build.py --preset=linux-x86_64-debug";
+        p_info.command = "python3 Scripts/build.py --preset=linux-x86_64-debug --build";
 #endif
         p_info.onExit = [this](i32 exitCode)
         {

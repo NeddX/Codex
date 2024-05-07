@@ -10,8 +10,15 @@ namespace codex {
 
     Scene::~Scene() noexcept
     {
-        // Okay so attached scripts need to be detached and delete-ed before NBMan is unloaded.
-        // m_Registry.~basic_registry();
+        // Attached scripts need to be detached (and freed) first before NBMan is unloaded.
+        // The reason why I'm not directly invoking the destructor of entt::basic_registry<> is
+        // because it causes a crash on OSX.
+        for (auto& handle : m_Registry.view<NativeBehaviourComponent>())
+        {
+            Entity entity(handle, this);
+            entity.GetComponent<NativeBehaviourComponent>().DisposeBehaviours();
+        }
+
         m_ScriptModule.Reset();
     }
 
@@ -123,7 +130,7 @@ namespace codex {
             g_PossibleAttachedScripts.clear();
         }
 
-        fmt::println("Script module loaded."); // TODO: Remove!
+        fmt::println("Script module loaded."); // TODO: Log to a logger!
     }
 
     void Scene::UnloadScriptModule()
@@ -133,7 +140,7 @@ namespace codex {
         auto nbc_view = m_Registry.view<NativeBehaviourComponent>();
         for (auto& entt : nbc_view)
         {
-            Entity                      entity{ entt, this };
+            Entity                      entity(entt, this);
             auto&                       nbc        = entity.GetComponent<NativeBehaviourComponent>();
             auto&                       behaviours = nbc.GetBehaviours();
             auto                        it         = behaviours.begin();
@@ -150,7 +157,7 @@ namespace codex {
         }
 
         m_ScriptModule.Reset();
-        fmt::println("Script module unloaded."); // TODO: Remove!
+        fmt::println("Script module unloaded."); // TODO: Log to a logger!
     }
 
     NativeBehaviour* Scene::CreateBehaviour(const char* className) const noexcept
@@ -171,7 +178,7 @@ namespace codex {
     {
     }
 
-    void Scene::OnEditorUpdate(const f32 deltaTime)
+    void Scene::OnEditorUpdate(const f32 deltaTime, scene::EditorCamera& camera)
     {
         // Render
         for (auto& entity : GetAllEntitiesWithComponent<GridRendererComponent>())

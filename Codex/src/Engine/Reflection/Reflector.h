@@ -52,7 +52,6 @@ namespace codex::rf {
         Vector3,
         Vector4f,
         Vector4,
-        CString,
         StdString,
         UserDefined
     };
@@ -120,20 +119,47 @@ namespace codex::rf {
     template <typename T>
     u8 RFTypeOf() noexcept
     {
-        if constexpr (std::is_same_v<T, unsigned char>)
-            return (u8)RFType::U8;
-        else if constexpr (std::is_same_v<T, signed char>)
-            return (u8)RFType::I8;
-        else if constexpr (std::is_same_v<T, float>)
-            return (u8)RFType::F32;
-        else if constexpr (std::is_same_v<T, Vector3f>)
-            return (u8)RFType::Vector3f;
-        else if constexpr (std::is_same_v<T, bool>)
-            return (u8)RFType::Boolean;
+        {
+            using enum RFType;
+
+            if constexpr (std::is_same_v<T, u8>)
+                return (u8)U8;
+            else if constexpr (std::is_same_v<T, i8>)
+                return (u8)I8;
+            else if constexpr (std::is_same_v<T, i16>)
+                return (u8)I16;
+            else if constexpr (std::is_same_v<T, u16>)
+                return (u8)U16;
+            else if constexpr (std::is_same_v<T, i32>)
+                return (u8)I32;
+            else if constexpr (std::is_same_v<T, u32>)
+                return (u8)U32;
+            else if constexpr (std::is_same_v<T, i64>)
+                return (u8)I64;
+            else if constexpr (std::is_same_v<T, u64>)
+                return (u8)U64;
+            else if constexpr (std::is_same_v<T, f32>)
+                return (u8)F32;
+            else if constexpr (std::is_same_v<T, f128>)
+                return (u8)F128;
+            else if constexpr (std::is_same_v<T, bool>)
+                return (u8)Boolean;
+            else if constexpr (std::is_same_v<T, codex::math::Vector3f>)
+                return (u8)Vector3f;
+            else if constexpr (std::is_same_v<T, codex::math::Vector2f>)
+                return (u8)Vector2f;
+            else if constexpr (std::is_same_v<T, codex::math::Vector3>)
+                return (u8)Vector3;
+            else if constexpr (std::is_same_v<T, codex::math::Vector2>)
+                return (u8)Vector2;
+            else if constexpr (std::is_same_v<T, std::string>)
+                return (u8)StdString;
+        }
 
         static_assert("Type not supported");
         return 0;
     }
+
     template <typename T>
     u8 RFTypeOf(T) noexcept
     {

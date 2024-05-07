@@ -30,11 +30,19 @@ namespace codex::scene {
         Vector3f target;
 
     public:
-        Camera(const i32 width, const i32 height, Vector3f position = Vector3f(0.0f, 0.0f, 30.0f), const f32 nearClip = 0.0f,
-               const f32 farClip = 100.0f, const ProjectionType projectionType = ProjectionType::Orthographic,
-               const f32 fov = 90.0f, Vector3f target = Vector3f()) noexcept
-            : m_Width(width), m_Height(height), m_ProjectionType(projectionType), m_Fov(fov), m_NearClip(nearClip),
-              m_FarClip(farClip), m_Projection(Matrix4f(1.0f)), position(std::move(position)), target(std::move(target))
+        Camera(const i32 width, const i32 height, Vector3f position = Vector3f(0.0f, 0.0f, 30.0f),
+               const f32 nearClip = 0.0f, const f32 farClip = 100.0f,
+               const ProjectionType projectionType = ProjectionType::Orthographic, const f32 fov = 90.0f,
+               Vector3f target = Vector3f()) noexcept
+            : m_Width(width)
+            , m_Height(height)
+            , m_ProjectionType(projectionType)
+            , m_Fov(fov)
+            , m_NearClip(nearClip)
+            , m_FarClip(farClip)
+            , m_Projection(Matrix4f(1.0f))
+            , position(std::move(position))
+            , target(std::move(target))
         {
             UpdateProjectionMatrix();
         }
@@ -51,7 +59,8 @@ namespace codex::scene {
         {
             const auto camera_front = Vector3f(0.0f, 0.0f, -1.0f);
             const auto camera_up    = Vector3f(0.0f, 1.0f, 0.0f);
-            m_View = glm::lookAt(position, position + camera_front, camera_up);
+            const auto camera_dir   = glm::normalize(position - target);
+            m_View                      = glm::lookAt(position, position + camera_front, camera_up);
             return m_View;
         }
         inline Matrix4f GetProjectionMatrix() const noexcept { return m_Projection; }
@@ -78,6 +87,6 @@ namespace codex::scene {
             UpdateProjectionMatrix();
         }
     };
-} // namespace codex::scene
+} // namespace codex
 
 #endif // CODEX_CORE_CAMERA_H

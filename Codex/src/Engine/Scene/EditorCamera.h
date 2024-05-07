@@ -3,10 +3,12 @@
 
 #include <sdafx.h>
 
+#include "Camera.h"
+
 namespace codex::scene {
-    class CODEX_API EditorCamera
+    class EditorCamera : public Camera
     {
     };
-} // namespace codex::scene
+} // namespace codex
 
 #endif // CODEX_SCENE_EDITOR_CAMERA_H

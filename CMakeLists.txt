@@ -61,6 +61,7 @@ add_custom_command(
 
     add_custom_target(copy_compile_commands ALL
                       DEPENDS ${CMAKE_SOURCE_DIR}/compile_commands.json)
+else()
 endif()
 
 # Add sub projects.

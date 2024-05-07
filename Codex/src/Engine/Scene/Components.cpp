@@ -12,20 +12,25 @@ namespace codex {
         tag = "default tag";
     }
 
-    TagComponent::TagComponent(const std::string_view tag) : tag(std::string(tag))
+    TagComponent::TagComponent(const std::string_view tag)
+        : tag(std::string(tag))
     {
     }
 
     TransformComponent::TransformComponent(const Vector3f position, const Vector3f rotation, const Vector3f scale)
-        : position(position), rotation(rotation), scale(scale)
+        : position(position)
+        , rotation(rotation)
+        , scale(scale)
     {
     }
 
-    SpriteRendererComponent::SpriteRendererComponent(Sprite sprite) : m_Sprite(std::move(sprite))
+    SpriteRendererComponent::SpriteRendererComponent(Sprite sprite)
+        : m_Sprite(std::move(sprite))
     {
     }
 
-    GridRendererComponent::GridRendererComponent(const Vector2f gridSize) : m_GridSize(gridSize)
+    GridRendererComponent::GridRendererComponent(const Vector2f gridSize)
+        : m_GridSize(gridSize)
     {
         // m_Camera = Application::GetWindow().GetCurrentScene()->GetCamera();
     }
@@ -58,7 +63,10 @@ namespace codex {
     }
 
     TilemapComponent::TilemapComponent(ResRef<Texture2D> texture, const Vector2f gridSize, const Vector2f tileSize)
-        : m_Texture(texture), m_GridSize(gridSize), m_TileSize(tileSize), m_Layer(0)
+        : m_Texture(texture)
+        , m_GridSize(gridSize)
+        , m_TileSize(tileSize)
+        , m_Layer(0)
     {
     }
 

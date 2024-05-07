@@ -148,7 +148,7 @@ namespace codex::rf {
     private:
         std::optional<char>        CurrentChar() const noexcept;
         std::optional<char>        Consume() noexcept;
-        i64                        ConsumeNumber() noexcept;
+        std::optional<i64>         ConsumeNumber() noexcept;
         std::string                ConsumeIdentifier() noexcept;
         TokenType                  ConsumeOperator() noexcept;
         std::optional<std::string> ConsumeString() noexcept;

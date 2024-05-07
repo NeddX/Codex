@@ -31,9 +31,9 @@ for i in range(0, len(args)):
         for preset in presets:
             print(preset)
         action = Action.Nope
-    elif larg == 'build':
+    elif larg == '--build':
         action = Action.Build
-    elif larg.startswith('preset='):
+    elif larg.startswith('--preset='):
         action = Action.Build
         preset = arg.split('=')[1]
     elif larg == '--no-out':
@@ -82,7 +82,7 @@ if action == Action.Build:
     com.log('CMake generation finished. Took: ' + '{:.2f}ms'.format(elapsed))
 
     com.Chrono.begin()
-    res = com.run(f'cmake --build builds/{preset}' + (' --parallel' if parallel else ''), stdout=stdoutput)
+    res = com.run(f'cmake --build builds/{preset}' + (' --parallel 8' if parallel else ''), stdout=stdoutput)
     if res.returncode != 0:
         com.panic('Build failed for unknown reason(s).')
 
@@ -97,7 +97,12 @@ if action == Action.Build:
         if platform.system() in ['Linux', 'Darwin']:
             res = com.run(f'sudo cmake --install builds/{preset}', stdout=stdoutput)
         elif platform.system() == 'Windows':
-            com.panic("I haven't figured out how to ask for admin privileges on python for windows yet")
+            #if com.win32_is_admin():
+            #    res = com.run(f'cmake --install builds{preset}', stdout=stdoutput)
+            #else:
+            #    com.win32_request_admin()
+            #    com.panic("Don't worry, this is not a real panic.")
+            com.run(f'cmake --install builds/{preset}', stdout=stdoutput)
 
         if res.returncode != 0:
             com.panic('CMake install unexpectedly failed.')

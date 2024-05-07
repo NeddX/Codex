@@ -85,11 +85,15 @@ namespace codex::events {
         Event& m_Event;
 
     public:
-        EventDispatcher(Event& event) : m_Event(event) {}
+        EventDispatcher(Event& event)
+            : m_Event(event)
+        {
+        }
 
     public:
-        template <typename T, typename F>
-        bool Dispatch(const F& delegate)
+        template <typename T, typename Fn>
+            requires(std::is_base_of_v<Event, T>)
+        bool Dispatch(const Fn& delegate)
         {
             if (m_Event.GetType() == T::GetStaticType())
             {

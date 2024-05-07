@@ -8,8 +8,8 @@
 namespace codex {
     // Forward declerations.
     class Serializer;
-    class SpriteRendererComponent;
     class NativeBehaviour;
+    class SpriteRendererComponent;
 
     class CODEX_API Entity
     {

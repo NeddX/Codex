@@ -68,13 +68,12 @@ namespace codex::editor {
 
                             for (const auto& script : file.GetClasses())
                             {
-                                const auto script_name = script.name;
+                                const auto  script_name = script.name;
                                 const auto& behaviours  = c.GetBehaviours();
 
                                 const auto it =
                                     std::find_if(behaviours.cbegin(), behaviours.cend(),
-                                                 [&script_name](const auto& e)
-                                                 { return e.first == script_name; });
+                                                 [&script_name](const auto& e) { return e.first == script_name; });
                                 if (it == behaviours.cend())
                                 {
                                     if (ImGui::Selectable(script_name.c_str(), false))
@@ -92,7 +91,7 @@ namespace codex::editor {
                     ImGui::Columns(1);
 
                     // Display attached scripts and their serialized fields.
-                    auto& behaviours = c.GetBehaviours();
+                    auto&                       behaviours = c.GetBehaviours();
                     std::list<std::string_view> possible_scripts_to_detach;
                     for (auto it = behaviours.begin(); it != behaviours.end(); ++it)
                     {
@@ -116,8 +115,8 @@ namespace codex::editor {
                             {
                                 for (const auto& field : klass.value()["Fields"].items())
                                 {
-                                    const std::string&    field_name = field.key();
-                                    const rf::RFType field_type = field.value().at("Type");
+                                    const std::string& field_name = field.key();
+                                    const rf::RFType   field_type = field.value().at("Type");
 
                                     ImGui::Columns(2);
                                     ImGui::SetColumnWidth(0, d->columnWidth);
@@ -140,9 +139,6 @@ namespace codex::editor {
                                             ImGui::DragFloat("##dragger", (f32*)field_ptr);
                                             break;
                                         }
-                                        case CString: {
-                                            break;
-                                        }
                                         case StdString: {
                                             ImGui::InputText("##input", (std::string*)field_ptr);
                                             break;
@@ -152,17 +148,16 @@ namespace codex::editor {
                                             break;
                                         }
                                         case Vector2f: {
-                                            SceneEditorView::DrawVec2Control("##t", *(codex::Vector2f*)field_ptr,
+                                            SceneEditorView::DrawVec2Control("##t", *(math::Vector2f*)field_ptr,
                                                                              d->columnWidth);
                                             break;
                                         }
                                         case Vector3f: {
-                                            SceneEditorView::DrawVec3Control("##t", *(codex::Vector3f*)field_ptr,
+                                            SceneEditorView::DrawVec3Control("##t", *(math::Vector3f*)field_ptr,
                                                                              d->columnWidth);
                                             break;
                                         }
-                                        default:
-                                            break; // cx_throw(CodexException, "Should not happen."); break;
+                                        default: break; // cx_throw(CodexException, "Should not happen."); break;
                                     }
                                     ImGui::Columns(1);
                                 }

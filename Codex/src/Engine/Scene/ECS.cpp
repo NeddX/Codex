@@ -78,7 +78,7 @@ namespace codex {
                 auto& nc = entity.AddComponent<NativeBehaviourComponent>();
                 for (const auto& e : cj.at("AttachedScripts"))
                 {
-                    const auto class_name = e.get<std::string>();
+                    const auto class_name     = e.get<std::string>();
                     auto*      class_instance = entity.m_Scene->CreateBehaviour(class_name.c_str());
                     class_instance->SetOwner(entity);
                     nc.Attach(std::move(class_instance));

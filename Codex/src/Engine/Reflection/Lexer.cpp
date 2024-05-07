@@ -71,7 +71,7 @@ namespace codex::rf {
 
         auto  c             = CurrentChar();
         usize start         = m_CurrentPos;
-        auto  current_token = Token{};
+        auto  current_token = Token();
 
         // Skip whitespace and friends
         while (c.has_value() && (*c == ' ' || *c == '\t' || *c == '\n' || *c == '\r'))
@@ -95,7 +95,10 @@ namespace codex::rf {
             if (std::isdigit(*c))
             {
                 // Consume the number and set the type.
-                current_token.num  = ConsumeNumber();
+                auto result = ConsumeNumber();
+                if (result) // If ConsumeNumber() returned a nullopt then the number literal is in a different number
+                            // system. This parses only decimals.
+                    current_token.num = *result;
                 current_token.type = TokenType::NumberLiteral;
             }
             else if (IsIdentifierStart(*c)) // Else if it's a possible identifier.
@@ -288,7 +291,7 @@ namespace codex::rf {
         return c;
     }
 
-    i64 Lexer::ConsumeNumber() noexcept
+    std::optional<i64> Lexer::ConsumeNumber() noexcept
     {
         // Consume the number digit by digit until we hit a non-digit character.
         i64 num = 0;
@@ -301,9 +304,23 @@ namespace codex::rf {
                 num = num * 10 + (*c - '0');
             }
             else
-                break;
+            {
+                const char lc = std::tolower(*c);
+                switch (lc)
+                {
+                    case 'f':
+                    case 'l':
+                    case 'u':
+                    case 'x':
+                    case '.':
+                    case 'b': Consume(); break;
+                    default: goto lb_01;
+                }
+            }
         }
         return num;
+lb_01:
+        return std::nullopt;
     }
 
     std::string Lexer::ConsumeIdentifier() noexcept

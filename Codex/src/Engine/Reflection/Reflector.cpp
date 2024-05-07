@@ -7,11 +7,14 @@ namespace codex::rf {
     namespace fs = std::filesystem;
 
     RFTypeInfo::RFTypeInfo(const RFType type, const std::string_view name, const std::string_view qualifiers)
-        : type(type), name(name), qualifiers(qualifiers)
+        : type(type)
+        , name(name)
+        , qualifiers(qualifiers)
     {
     }
 
-    RFScript::RFScript(fs::path sourceFile) : m_SourceFile(std::move(sourceFile))
+    RFScript::RFScript(fs::path sourceFile)
+        : m_SourceFile(std::move(sourceFile))
     {
         std::ifstream fs(m_SourceFile);
         if (fs.is_open())
@@ -55,7 +58,7 @@ namespace codex::rf {
         if (!fs::exists(m_OutputPath))
             cx_throw(DirectoryNotFoundException, "Provided directory at: {} does not exist.", m_OutputPath.string());
 
-        bool       generate_includes = true;
+        bool          generate_includes = true;
         const auto    file_path = m_OutputPath / (m_SourceFile.filename().replace_extension().string() + ".cxr.cpp");
         std::ofstream fs(file_path, std::ios::in | std::ios::trunc);
         if (fs.is_open())
@@ -224,13 +227,13 @@ namespace codex::rf {
             RFFieldInfo field;
 
             // Get the field name.
-            while (m_CurrentToken->IsValid() && m_CurrentToken->type != TokenType::Identifier)
-                Consume();
-
             Token ident;
-
-            while (m_CurrentToken->type == TokenType::Identifier)
-                ident = *Consume();
+            while (m_CurrentToken->type != TokenType::SemiColon)
+            {
+                if (m_CurrentToken->type == TokenType::Identifier)
+                    ident = *m_CurrentToken;
+                Consume();
+            }
 
             field.name = std::move(ident.span.text);
             return field;

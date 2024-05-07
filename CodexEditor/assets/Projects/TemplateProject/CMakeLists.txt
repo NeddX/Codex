@@ -104,7 +104,7 @@ message("")
 add_custom_command(
   TARGET NBMan
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy_directory $<TARGET_FILE_DIR:NBMan>
+  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:NBMan>
           "${CMAKE_SOURCE_DIR}/lib/")
 
 # Expose Codex's dependencies.
