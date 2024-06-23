@@ -174,11 +174,11 @@ namespace codex::editor {
                             d->scene.Reset(new Scene);
                             d->scriptModulePath = d->currentProjectPath / stdfs::path("lib/libNBMan.dll");
                             d->scene->LoadScriptModule(d->scriptModulePath);
+                            CompileProject(); // NOTE
                             Serializer::DeserializeScene(file, *d->scene);
 
                             // FIXME: Cannot unload the script module while we have attached scripts, invalidates the
                             // vptr of our class effetively invalidating the whole thing really.
-                            CompileProject(); // NOTE
                         }
                     }
                     if (ImGui::MenuItem("Compile project"))
@@ -207,7 +207,7 @@ namespace codex::editor {
 #elif defined(CX_PLATFORM_LINUX)
                         p_info.command = "./build.py --preset=linux-x86_64-debug --clear";
 #elif defined(CX_PLATFORM_OSX)
-                        p_info.command = "./build.py --preset=linux-x86_64-debug --clear";
+                        p_info.command = "./build.py --preset=osx-x86_64-debug --clear";
 #endif
                         p_info.onExit = [this](i32 exitCode)
                         {
@@ -414,7 +414,7 @@ namespace codex::editor {
 #elif defined(CX_PLATFORM_LINUX)
         p_info.command = "python3 Scripts/build.py --preset=linux-x86_64-debug --build";
 #elif defined(CX_PLATFORM_OSX)
-        p_info.command = "python3 Scripts/build.py --preset=linux-x86_64-debug --build";
+        p_info.command = "python3 Scripts/build.py --preset=osx-x86_64-debug --build";
 #endif
         p_info.onExit = [this](i32 exitCode)
         {

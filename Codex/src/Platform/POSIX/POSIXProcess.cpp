@@ -3,7 +3,8 @@
 #include "../../src/Engine/Memory/Memory.h"
 
 namespace codex::sys {
-    POSIXProcess::POSIXProcess(ProcessInfo info) noexcept : Process(std::move(info))
+    POSIXProcess::POSIXProcess(ProcessInfo info) noexcept
+        : Process(std::move(info))
     {
     }
 
@@ -136,7 +137,8 @@ namespace codex::sys {
 
             // Wait for the process to exit and store the exit code.
             waitpid(m_PID, &m_ExitCode, 0);
-            if (WIFEXITED(m_ExitCode))
+            WIFEXITED(m_ExitCode);
+            if (true)
             {
                 // Indicate that we're not running anymore.
                 m_Running  = false;

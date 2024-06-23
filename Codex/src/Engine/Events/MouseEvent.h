@@ -14,7 +14,11 @@ namespace codex::events {
         i32 m_MousePosY;
 
     public:
-        MouseMoveEvent(const i32 x, const i32 y) : m_MousePosX(x), m_MousePosY(y) {}
+        MouseMoveEvent(const i32 x, const i32 y)
+            : m_MousePosX(x)
+            , m_MousePosY(y)
+        {
+        }
 
     public:
         inline i32 GetX() const noexcept { return m_MousePosX; }
@@ -39,7 +43,9 @@ namespace codex::events {
 
     protected:
         MouseButtonEvent(const Mouse button, const i32 mouseX, const i32 mouseY)
-            : m_Button(button), m_MouseX(mouseX), m_MouseY(mouseY)
+            : m_Button(button)
+            , m_MouseX(mouseX)
+            , m_MouseY(mouseY)
         {
         }
 
@@ -48,6 +54,7 @@ namespace codex::events {
         inline i32   GetMouseX() const noexcept { return m_MouseX; }
         inline i32   GetMouseY() const noexcept { return m_MouseY; }
 
+        EVENT_CLASS_TYPE(MouseButton)
         EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput | EventCategoryMouseButton)
     };
 
@@ -59,7 +66,9 @@ namespace codex::events {
 
     public:
         MouseScrollEvent(const Mouse button, const i32 mouseX, const i32 mouseY, const i32 offsetX, const i32 offsetY)
-            : MouseButtonEvent(button, mouseX, mouseY), m_OffsetX(offsetX), m_OffsetY(offsetY)
+            : MouseButtonEvent(button, mouseX, mouseY)
+            , m_OffsetX(offsetX)
+            , m_OffsetY(offsetY)
         {
         }
 
@@ -92,12 +101,14 @@ namespace codex::events {
         }
 
         EVENT_CLASS_TYPE(MouseDown)
+        EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
     };
 
     class CODEX_API MouseUpEvent : public MouseButtonEvent
     {
     public:
-        MouseUpEvent(const Mouse button, const i32 mouseX, const i32 mouseY) : MouseButtonEvent(button, mouseX, mouseY)
+        MouseUpEvent(const Mouse button, const i32 mouseX, const i32 mouseY)
+            : MouseButtonEvent(button, mouseX, mouseY)
         {
         }
 
@@ -108,6 +119,7 @@ namespace codex::events {
         }
 
         EVENT_CLASS_TYPE(MouseUp)
+        EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
     };
 } // namespace codex::events
 

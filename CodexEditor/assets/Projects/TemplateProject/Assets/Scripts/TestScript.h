@@ -23,7 +23,6 @@ private:
 
 public:
     void OnInit() override;
-	void OnDispose() override;
     void OnUpdate(const f32 deltaTime) override;
 };
 

@@ -65,7 +65,7 @@ namespace codex {
     public:
         void OnEditorInit(scene::EditorCamera& camera);
         void OnRuntimeInit();
-        void OnEditorUpdate(const f32 deltaTime, scene::EditorCamera& camera);
+        void OnEditorUpdate(const f32 deltaTime);
         void OnRuntimeUpdate(const f32 deltaTime);
 
     public:

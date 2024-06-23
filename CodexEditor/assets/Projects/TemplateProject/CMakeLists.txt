@@ -13,10 +13,6 @@ file(GLOB_RECURSE CODGEN_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/int/*.cpp")
 add_library(NBMan SHARED ${HEADER_FILES} ${SOURCE_FILES} ${CODGEN_HEADERS}
                          ${CODGEN_SOURCES})
 
-if(DEFINED CX_PLATFORM_WINDOWS)
-
-endif()
-
 set_property(TARGET NBMan PROPERTY CXX_STANDARD 20)
 set(CMAKE_SHARED_LIBRARY_PREFIX "lib")
 set(CMAKE_STATIC_LIBRARY_PREFIX "lib")
@@ -77,6 +73,7 @@ elseif(DEFINED CX_PLATFORM_WINDOWS)
 else()
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNKNOWN)
 endif()
+
 
 if(DEFINED CX_COMPILER_GNUC)
   target_compile_definitions(NBMan PUBLIC CX_COMPILER_GNUC)
@@ -139,3 +136,6 @@ if(NOT CMAKE_GENERATOR MATCHES "Visual Studio")
   add_custom_target(copy_compile_commands ALL
                     DEPENDS ${CMAKE_SOURCE_DIR}/compile_commands.json)
 endif()
+
+# Link static codex?
+target_link_options(NBMan PUBLIC -dynamiclib -flat_namespace -undefined dynamic_lookup)

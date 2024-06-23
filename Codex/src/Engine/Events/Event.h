@@ -48,7 +48,8 @@ namespace codex::events {
         MouseDown,
         MouseUp,
         MouseMove,
-        MouseScroll
+        MouseScroll,
+        MouseButton
     };
 
     enum EventCategory : u32

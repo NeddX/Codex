@@ -2,16 +2,12 @@
 
 void MienScripten::OnInit()
 {
-    std::cout << "Initialized baby!\n";
 }
 
-void MienScripten::OnDispose() 
-{
-	std::cout << "Dead :(" << std::endl;
-}
 
 void MienScripten::OnUpdate(const f32 deltaTime)
 {
+    
     if (m_Move)
     {
         static float count     = 0;
