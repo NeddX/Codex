@@ -5,85 +5,86 @@
 #include "../SceneEditorView.h"
 
 namespace codex::editor {
-
-    SceneHierarchyView::SceneHierarchyView(const mem::Ref<SceneEditorDescriptor>& editorDesc) : m_EditorDesc(editorDesc)
+    void SceneHierarchyView::OnInit()
     {
     }
 
     void SceneHierarchyView::OnImGuiRender()
     {
         {
-            auto d = m_EditorDesc.Lock();
+            auto d     = this->GetDescriptor().Lock();
+            auto scene = d->activeScene.Lock();
 
             ImGui::Begin("Scene hierarchy");
             if (ImGui::Button("New entity"))
                 ImGui::OpenPopup("new_entity_popup");
-            if (ImGui::BeginPopup("new_entity_popup", ImGuiWindowFlags_MenuBar))
+            if (ImGui::BeginPopup("new_entity_popup"))
             {
-                std::string name = fmt::format("Entity {}", d->scene->GetEntityCount() + 1);
-                ImGui::Text("Entity Name: ");
+                auto name = fmt::format("Entity {}", scene->GetEntityCount() + 1);
+                ImGui::Text("Entity Name");
+                ImGui::SameLine();
                 ImGui::InputText("##entity_name", &name);
                 ImGui::SameLine();
-                if (ImGui::IsKeyPressed(ImGuiKey_Enter) || ImGui::Button("Add")) // Check for Enter key press
+                if (ImGui::IsKeyPressed(ImGuiKey_Escape) || ImGui::IsKeyPressed(ImGuiKey_Enter) ||
+                    ImGui::Button("Add")) // Check for Enter key press
                 {
                     // Close the popup
                     ImGui::CloseCurrentPopup();
-                    if (d->selectedEntity.entity)
-                    {
-                        if (d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
-                            d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
-                                d->selectedEntity.overlayColour;
-                    }
-                    d->selectedEntity.entity = d->scene->CreateEntity(name);
+                    d->selectedEntity.Select(scene->CreateEntity(name));
                 }
                 ImGui::EndPopup();
             }
 
-            ImGui::Text("Entities:");
-            auto entities = d->scene->GetAllEntitiesWithComponent<TagComponent>();
+            ImGui::Text("Entities");
+            static auto action_delete = false;
+            static auto action_rename = false;
+            auto entities = scene->GetAllEntitiesWithComponent<TagComponent>();
             for (auto& e : entities)
             {
                 auto& tag_component = e.GetComponent<TagComponent>();
-                if (ImGui::Selectable(tag_component.tag.c_str(), m_EditorDesc.Lock()->selectedEntity.entity == e))
+                if (ImGui::Selectable((tag_component.tag + "##entity").c_str(), d->selectedEntity.entity == e,
+                                      ImGuiSelectableFlags_DontClosePopups))
                 {
-                    if (d->selectedEntity.entity)
-                    {
-                        if (d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
-                        {
-                            auto& s = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
-                            s.GetColour() = d->selectedEntity.overlayColour;
-                        }
-                    }
+                    d->selectedEntity.Select(e);
+                }
 
-                    d->selectedEntity.entity = e;
+                if (ImGui::BeginPopupContextItem())
+                {
+                    d->selectedEntity.Select(e);
 
-                    if (d->selectedEntity.entity)
-                    {
-                        if (d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
-                        {
-                            auto& s = d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite();
-                            d->selectedEntity.overlayColour = s.GetColour();
-                            s.GetColour()                   = d->selectColour;
-                        }
-                    }
+                    if (ImGui::MenuItem("Rename"))
+                        action_rename = true;
+                    if (ImGui::MenuItem("Delete"))
+                        action_delete = true;
 
-                    if (ImGui::IsMouseDoubleClicked(0))
-                    {
-                        auto& t = e.GetComponent<TagComponent>();
-                        ImGui::OpenPopup("new_name_popup");
-                        if (ImGui::BeginPopup("new_name_popup", ImGuiWindowFlags_MenuBar))
-                        {
-                            ImGui::Text("New Name: ");
-                            ImGui::SameLine();
-                            ImGui::InputText("##entity_name", &t.tag);
-                            ImGui::SameLine();
-                            if (ImGui::IsKeyPressed(ImGuiKey_Enter) || ImGui::Button("Enter")) // Check for Enter key
-                                ImGui::CloseCurrentPopup();
-                            ImGui::EndPopup();
-                        }
-                    }
+                    ImGui::EndPopup();
                 }
             }
+
+            if (action_rename)
+                ImGui::OpenPopup("rename_popup");
+            if (ImGui::BeginPopup("rename_popup"))
+            {
+                ImGui::Text("New Name");
+                ImGui::SameLine();
+                ImGui::InputText("##entity_name", &d->selectedEntity.entity.GetComponent<TagComponent>().tag);
+                ImGui::SameLine();
+                if (ImGui::IsKeyPressed(ImGuiKey_Escape) || ImGui::IsKeyPressed(ImGuiKey_Enter) ||
+                    ImGui::Button("Enter")) // Check for Enter key
+                {
+                    ImGui::CloseCurrentPopup();
+                    action_rename = false;
+                }
+                ImGui::EndPopup();
+            }
+            else if (action_delete)
+            {
+                d->selectedEntity.Deselect();
+                scene->RemoveEntity(d->selectedEntity.entity);
+                ImGui::CloseCurrentPopup();
+                action_delete = false;
+            }
+
             ImGui::End();
         }
     }

@@ -20,9 +20,11 @@
         },
         {
             "name": "vs2022",
+            "hidden": false,
             "generator": "Visual Studio 17",
             "binaryDir": "${sourceDir}/builds/${presetName}",
             "installDir": "C:/Program Files/Carbine/CEditor",
+            "displayName": "vs2022",
             "cacheVariables": {
                 "CMAKE_PRESET_NAME": "${presetName}",
                 "CX_ENABLE_CEDITOR": "on"
@@ -33,8 +35,8 @@
                 "rhs": "Windows"
             }
         },
-		{
-			"name": "windows-llvm",
+        {
+            "name": "windows-llvm",
             "hidden": true,
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/builds/${presetName}",
@@ -42,29 +44,15 @@
                 "CMAKE_C_COMPILER": "clang.exe",
                 "CMAKE_CXX_COMPILER": "clang++.exe",
                 "CMAKE_PRESET_NAME": "${presetName}",
-                "CX_ENABLE_CEDITOR": "on"
+                "CX_ENABLE_CEDITOR": "on",
+                "CMAKE_CXX_FLAGS": "-fuse-ld=link"
             },
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
             }
-		},
-		{
-			"name": "windows-vs2022",
-            "generator": "Visual Studio 17",
-            "binaryDir": "${sourceDir}/builds/${presetName}",
-            "installDir": "C:/Program Files/Carbine/CEditor",
-            "cacheVariables": {
-                "CMAKE_PRESET_NAME": "${presetName}",
-                "CX_ENABLE_CEDITOR": "on"
-            },
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Windows"
-            }
-		},
+        },
         {
             "name": "linux-base",
             "hidden": true,
@@ -100,8 +88,8 @@
             }
         },
         {
-            "name": "windows-msvc-x86_64-debug",
-            "displayName": "x86_64 Debug",
+            "name": "windows-msvc-any-debug",
+            "displayName": "any Debug",
             "installDir": "${sourceDir}/installs/${presetName}",
             "inherits": "windows-msvc",
             "architecture": {
@@ -113,26 +101,28 @@
             }
         },
         {
-            "name": "windows-msvc-x86_64-release",
-            "displayName": "x86_64 Release",
+            "name": "windows-msvc-any-release",
+            "displayName": "any Release",
             "installDir": "${sourceDir}/installs/${presetName}",
-            "inherits": "windows-msvc-x86_64-debug",
+            "inherits": "windows-msvc-any-debug",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_FLAGS": "/fsanitize=address",
+                "CMAKE_C_FLAGS": "/fsanitize=address"
             }
         },
         {
-            "name": "windows-msvc-x86_64-shipping",
-            "displayName": "x86_64 Shipping",
+            "name": "windows-msvc-any-shipping",
+            "displayName": "any Shipping",
             "installDir": "C:/Program Files/Carbine/Codex Editor",
-            "inherits": "windows-msvc-x86_64-debug",
+            "inherits": "windows-msvc-any-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Shipping"
             }
         },
-		{
-            "name": "windows-llvm-x86_64-debug",
-            "displayName": "x86_64 Debug",
+        {
+            "name": "windows-llvm-any-debug",
+            "displayName": "any Debug",
             "installDir": "${sourceDir}/installs/${presetName}",
             "inherits": "windows-llvm",
             "architecture": {
@@ -144,57 +134,28 @@
             }
         },
         {
-            "name": "windows-llvm-x86_64-release",
-            "displayName": "x86_64 Release",
+            "name": "windows-llvm-any-release",
+            "displayName": "any Release",
             "installDir": "${sourceDir}/installs/${presetName}",
-            "inherits": "windows-llvm-x86_64-debug",
+            "inherits": "windows-llvm-any-debug",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined",
+                "CMAKE_C_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined"
             }
         },
         {
-            "name": "windows-llvm-x86_64-shipping",
-            "displayName": "x86_64 Shipping",
+            "name": "windows-llvm-any-shipping",
+            "displayName": "any Shipping",
             "installDir": "C:/Program Files/Carbine/CEditor",
-            "inherits": "windows-llvm-x86_64-debug",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Shipping"
-            }
-        },
-		{
-            "name": "windows-vs2022-x86_64-debug",
-            "displayName": "x86_64 Debug",
-            "installDir": "${sourceDir}/installs/${presetName}",
-            "inherits": "windows-vs2022",
-            "architecture": {
-                "value": "x64",
-                "strategy": "external"
-            },
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "windows-vs2022-x86_64-release",
-            "displayName": "x86_64 Release",
-            "installDir": "${sourceDir}/installs/${presetName}",
-            "inherits": "windows-vs2022-x86_64-debug",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            }
-        },
-        {
-            "name": "windows-vs2022-x86_64-shipping",
-            "displayName": "x86_64 Shipping",
-            "installDir": "C:/Program Files/Carbine/CEditor",
-            "inherits": "windows-vs2022-x86_64-debug",
+            "inherits": "windows-llvm-any-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Shipping"
             }
         },
         {
-            "name": "linux-x86_64-debug",
-            "displayName": "x86_64 Debug",
+            "name": "linux-any-debug",
+            "displayName": "any Debug",
             "installDir": "${sourceDir}/installs/${presetName}",
             "inherits": "linux-base",
             "architecture": {
@@ -206,26 +167,28 @@
             }
         },
         {
-            "name": "linux-x86_64-release",
-            "displayName": "x86_64 Release",
+            "name": "linux-any-release",
+            "displayName": "any Release",
             "installDir": "${sourceDir}/installs/${presetName}",
-            "inherits": "linux-x86_64-debug",
+            "inherits": "linux-any-debug",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined",
+                "CMAKE_C_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined"
             }
         },
         {
-            "name": "linux-x86_64-shipping",
-            "displayName": "x86_64 Shipping",
+            "name": "linux-any-shipping",
+            "displayName": "any Shipping",
             "installDir": "/usr/local",
-            "inherits": "linux-x86_64-debug",
+            "inherits": "linux-any-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Shipping"
             }
         },
         {
-            "name": "osx-x86_64-debug",
-            "displayName": "x86_64 Debug",
+            "name": "osx-any-debug",
+            "displayName": "any Debug",
             "installDir": "${sourceDir}/installs/${presetName}",
             "inherits": "osx-base",
             "architecture": {
@@ -237,19 +200,21 @@
             }
         },
         {
-            "name": "osx-x86_64-release",
-            "displayName": "x86_64 Release",
+            "name": "osx-any-release",
+            "displayName": "any Release",
             "installDir": "${sourceDir}/installs/${presetName}",
-            "inherits": "osx-x86_64-debug",
+            "inherits": "osx-any-debug",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined",
+                "CMAKE_C_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined"
             }
         },
         {
-            "name": "osx-x86_64-shipping",
-            "displayName": "x86_64 Shipping",
+            "name": "osx-any-shipping",
+            "displayName": "any Shipping",
             "installDir": "/usr/local",
-            "inherits": "osx-x86_64-debug",
+            "inherits": "osx-any-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Shipping"
             }

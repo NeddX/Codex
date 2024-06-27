@@ -37,6 +37,7 @@ def create_folder_structure(src_path):
         os.makedirs(src_path)
 
 def copy_files(src_folder, dest_folder, ext_list = None):
+    com.log(f'Copying files from: {src_folder} to: {dest_folder} with extensions: {ext_list}')
     for root, dirs, files in os.walk(src_folder):
         for directory in dirs:
             dest_dir = os.path.join(dest_folder, os.path.relpath(os.path.join(root, directory), src_folder))

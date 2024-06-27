@@ -108,6 +108,7 @@ add_custom_command(
           "${CMAKE_SOURCE_DIR}/lib/")
 
 # Expose Codex's dependencies.
+# TODO: Automate this please cause we have to add an entry here everytime we add a new library.
 target_include_directories(NBMan PUBLIC Engine/vendor/SDL/include)
 target_include_directories(NBMan PUBLIC Engine/vendor/MGL/include)
 target_include_directories(NBMan PUBLIC Engine/vendor/json/include)
@@ -116,7 +117,11 @@ target_include_directories(NBMan PUBLIC Engine/vendor/glm)
 target_include_directories(NBMan PUBLIC Engine/vendor/fmt/include)
 target_include_directories(NBMan PUBLIC Engine/vendor/entt)
 target_include_directories(NBMan PUBLIC Engine/vendor/glad)
+target_include_directories(NBMan PUBLIC Engine/vendor/box2d/include)
 target_include_directories(NBMan PUBLIC Engine/src/PCH)
+
+# For ease of use.
+target_include_directories(NBMan PUBLIC Engine/src)
 
 # Reflector
 target_include_directories(NBMan PRIVATE int/)

@@ -1,25 +1,32 @@
 #include "SceneEditorView.h"
 
-#include <CEditor.h>
 #include <ConsoleMan.h>
-#include <EditorLayer.h>
+#include <Editor.h>
+#include <EditorApplication.h>
 #include <tinyfiledialogs.h>
+
+#include "Panels/ProjectSettingsView.h"
+#include "Panels/PropertiesView.h"
+#include "Panels/SceneHierarchyView.h"
+#include "Panels/ToolbarView.h"
 
 namespace codex::editor {
     namespace stdfs = std::filesystem;
 
     void SceneEditorView::OnAttach()
     {
+        // TODO: Fix Process stdout not working on Linux.
         /*
         sys::ProcessInfo inf;
         inf.command        = "ls";
         inf.redirectStdOut = true;
-        //    inf.redirectStdErr = true;
+        inf.redirectStdErr = true;
         inf.onExit = [](i32) { ConsoleMan::AppendMessage("Exited."); };
 
         const auto ldb = [](const char* buffer, usize len) { ConsoleMan::AppendMessage(std::string(buffer, len)); };
 
         auto handle                     = sys::Process::New(inf);
+        handle->Event_OnOutDataReceived = ldb;
         handle->Event_OnOutDataReceived = ldb;
         handle->Event_OnErrDataReceived = ldb;
 
@@ -27,14 +34,17 @@ namespace codex::editor {
         handle->Launch();
         */
 
-        m_Descriptor =
-            mem::Shared<SceneEditorDescriptor>::From(new SceneEditorDescriptor{ .scene = mem::Box<Scene>::New() });
+        m_Descriptor = mem::Shared<SceneEditorDescriptor>::From(
+            new SceneEditorDescriptor{ .editorScene = mem::Shared<Scene>::New() });
+        m_Descriptor->activeScene = m_Descriptor->editorScene;
 
-        m_SceneHierarchyView = mem::Box<SceneHierarchyView>::New(m_Descriptor.AsRef());
-        m_PropertiesView     = mem::Box<PropertiesView>::New(m_Descriptor.AsRef());
+        // Panels
+        this->AttachPanel<SceneHierarchyView>();
+        this->AttachPanel<PropertiesView>();
+        this->AttachPanel<ToolbarView>();
 
-        mgl::FrameBufferProperties props;
-        props.attachments = { mgl::TextureFormat::RGBA8, mgl::TextureFormat::RedInt32 };
+        gfx::FrameBufferProperties props;
+        props.attachments = { { .format = gfx::TextureFormat::RGBA8 }, { .format = gfx::TextureFormat::RedInt32 } };
 
         // TODO: This is the scene render resolution so you should not hard code this.
         props.width   = 1920;
@@ -43,6 +53,8 @@ namespace codex::editor {
 
         // EditorLayer::GetCamera().SetProjectionType(scene::Camera::ProjectionType::Perspective);
 
+        // TODO: We should z-index using the depth buffer in the future so that we can also have 3d elements
+        // instead of disabling the depth buffer and z-index'ing by sorting our render batches.
         // glEnable(GL_DEPTH_TEST);
         // glDepthFunc(GL_LESS);
     }
@@ -50,20 +62,55 @@ namespace codex::editor {
     void SceneEditorView::OnDetach()
     {
         auto& d = m_Descriptor;
-        d->scene.Reset();
+        d->activeScene.Reset();
     }
 
     void SceneEditorView::OnUpdate(const f32 deltaTime)
     {
-        auto& d = m_Descriptor;
+        auto& d     = m_Descriptor;
+        auto  scene = d->activeScene.Lock();
 
         m_Framebuffer->Bind();
+
+        // Viewport resize
+        {
+            auto& camera = Editor::GetViewportCamera();
+            camera.SetWidth(m_ViewportSize.x);
+            camera.SetHeight(m_ViewportSize.y);
+            m_Framebuffer->Resize((u32)m_ViewportSize.x, (u32)m_ViewportSize.y);
+        }
+
         gfx::Renderer::SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
         gfx::Renderer::Clear();
 
-        gfx::BatchRenderer2D::Begin();
-        m_Descriptor->scene->OnEditorUpdate(deltaTime);
-        gfx::BatchRenderer2D::End();
+        m_DebugDraw.Begin(Editor::GetViewportCamera());
+
+        switch (scene->GetState())
+        {
+            case Scene::State::Edit: {
+                if (d->selectedEntity.entity)
+                {
+                    if (d->selectedEntity.entity.HasComponent<GridRendererComponent>())
+                    {
+                        RenderGrid(m_DebugDraw, Editor::GetViewportCamera(),
+                                   d->selectedEntity.entity.GetComponent<GridRendererComponent>());
+                    }
+                }
+
+                VisualizeColliders();
+                scene->OnEditorUpdate(deltaTime, Editor::GetViewportCamera());
+                break;
+            }
+            case Scene::State::Play: {
+                scene->OnRuntimeUpdate(deltaTime);
+                break;
+            }
+            case Scene::State::Simulate: {
+                VisualizeColliders();
+                scene->OnSimulationUpdate(deltaTime, Editor::GetViewportCamera());
+                break;
+            }
+        }
 
         auto [mx, my] = ImGui::GetMousePos();
         mx -= m_ViewportBounds[0].x;
@@ -72,54 +119,30 @@ namespace codex::editor {
         const i32      mouse_x       = (i32)mx;
         const i32      mouse_y       = (i32)my;
 
-        // TODO: Remove.
-        if (Input::IsKeyDown(Key::Left))
-            --EditorLayer::GetCamera().position.x;
-        if (Input::IsKeyDown(Key::Right))
-            ++EditorLayer::GetCamera().position.x;
-        if (Input::IsKeyDown(Key::Up))
-            --EditorLayer::GetCamera().position.y;
-        if (Input::IsKeyDown(Key::Down))
-            ++EditorLayer::GetCamera().position.y;
-        if (Input::IsKeyDown(Key::RightShift))
-        {
-            using enum scene::Camera::ProjectionType;
-            static auto proj = Perspective;
-            EditorLayer::GetCamera().SetProjectionType(proj);
-            proj = (proj == Perspective) ? Orthographic : Perspective;
-        }
-
         if (Input::IsMouseDown(Mouse::LeftMouse) && mouse_x >= 0 && mouse_y >= 0 && mouse_x <= (i32)viewport_size.x &&
             mouse_y <= (i32)viewport_size.y && !m_GizmoActive)
         {
-            Vector2f scale = { m_Framebuffer->GetProperties().width / viewport_size.x,
-                               m_Framebuffer->GetProperties().height / viewport_size.y };
-            Vector2f pos   = { mouse_x, viewport_size.y - mouse_y };
-            pos *= scale;
-            pos          = glm::round(pos);
-            const i32 id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y);
-            auto      e  = Entity((entt::entity)id, d->scene.Get());
-            if (e)
+            if (!d->selectedEntity.entity || !d->selectedEntity.entity.HasComponent<TilemapComponent>())
             {
-                if (d->selectedEntity.entity)
-                {
-                    if (d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
-                    {
-                        d->selectedEntity.entity.GetComponent<SpriteRendererComponent>().GetSprite().GetColour() =
-                            d->selectedEntity.overlayColour;
-                    }
-                }
-
-                d->selectedEntity.entity = e;
-                if (e.HasComponent<SpriteRendererComponent>())
-                {
-                    auto& s                         = e.GetComponent<SpriteRendererComponent>().GetSprite();
-                    d->selectedEntity.overlayColour = s.GetColour();
-                    s.GetColour()                   = d->selectColour;
-                }
+                Vector2f scale = { m_Framebuffer->GetProperties().width / viewport_size.x,
+                                   m_Framebuffer->GetProperties().height / viewport_size.y };
+                Vector2f pos   = { mouse_x, viewport_size.y - mouse_y };
+                pos *= scale;
+                pos          = glm::round(pos);
+                const i32 id = m_Framebuffer->ReadPixel(1, (i32)pos.x, (i32)pos.y);
+                auto      e  = Entity((entt::entity)id, d->activeScene.Get());
+                if (e)
+                    d->selectedEntity.Select(e);
             }
         }
+
+        m_DebugDraw.End();
+
         m_Framebuffer->Unbind();
+
+        // Update our panels.
+        for (auto& panel : m_ViewPanels)
+            panel->OnPreUpdate(deltaTime);
     }
 
     void SceneEditorView::OnImGuiRender()
@@ -127,16 +150,50 @@ namespace codex::editor {
         auto& d  = m_Descriptor;
         auto& io = ImGui::GetIO();
 
-        ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Always);
+        // Dockspace, viewport and gizmo.
+        {
+            static auto dockspace_open  = true;
+            static auto dockspace_flags = ImGuiDockNodeFlags_None;
+            static auto fullscreen      = true;
+            auto        window_flags    = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+            if (fullscreen)
+            {
+                auto* viewport = ImGui::GetMainViewport();
+                ImGui::SetNextWindowPos(viewport->Pos);
+                ImGui::SetNextWindowSize(viewport->Size);
+                ImGui::SetNextWindowViewport(viewport->ID);
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+                window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+                                ImGuiWindowFlags_NoMove;
+                window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+            }
+            if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+                window_flags |= ImGuiWindowFlags_NoBackground;
 
-        // ImGuizmo
-        ImGuizmo::BeginFrame();
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+            ImGui::Begin("Dockspace Demo", &dockspace_open, window_flags);
+            ImGui::PopStyleVar();
+            if (fullscreen)
+                ImGui::PopStyleVar(2);
 
-        // Enable docking on the main window.
-        ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+            if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+            {
+                auto dockspace_id = ImGui::GetID("MyDockSpace");
+                ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+            }
 
-        static bool show_demo_window = true;
-        ImGui::ShowDemoWindow(&show_demo_window);
+            ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Always);
+
+            // ImGuizmo
+            ImGuizmo::BeginFrame();
+
+            // Enable docking on the main window.
+            ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+
+            static bool show_demo_window = true;
+            ImGui::ShowDemoWindow(&show_demo_window);
+        }
 
         // File menu
         {
@@ -152,33 +209,7 @@ namespace codex::editor {
                         const char* file = tinyfd_openFileDialog("Load a Project.", nullptr, 1, filters, nullptr, 0);
                         if (file)
                         {
-                            if (d->selectedEntity.entity &&
-                                d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
-                            {
-                                d->selectedEntity.entity.GetComponent<SpriteRendererComponent>()
-                                    .GetSprite()
-                                    .GetColour()         = d->selectedEntity.overlayColour;
-                                d->selectedEntity.entity = Entity::None();
-                            }
-                            d->currentProjectPath = stdfs::path(file);
-                            d->currentProjectPath = d->currentProjectPath.parent_path();
-
-                            // NOTE: I do not like this.
-                            stdfs::current_path(d->currentProjectPath);
-
-                            // TODO: Regarding to UnloadScriptModule(), LoadScriptModule() and CompileProject() here:
-                            // Some projects might just not use C++ for scripting (in the future when add C#
-                            // support) so make sure to not always force load the C++ script module. For now I will
-                            // leave this as is because there's only C++ support.
-
-                            d->scene.Reset(new Scene);
-                            d->scriptModulePath = d->currentProjectPath / stdfs::path("lib/libNBMan.dll");
-                            d->scene->LoadScriptModule(d->scriptModulePath);
-                            Serializer::DeserializeScene(file, *d->scene);
-
-                            // FIXME: Cannot unload the script module while we have attached scripts, invalidates the
-                            // vptr of our class effetively invalidating the whole thing really.
-                            CompileProject(); // NOTE
+                            LoadProject(stdfs::path(file));
                         }
                     }
                     if (ImGui::MenuItem("Compile project"))
@@ -188,7 +219,7 @@ namespace codex::editor {
                     if (ImGui::MenuItem("Clear build files"))
                     {
                         auto& d = m_Descriptor;
-                        d->scene->UnloadScriptModule();
+                        d->activeScene.Lock()->UnloadScriptModule();
 
                         const auto files =
                             fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
@@ -203,16 +234,16 @@ namespace codex::editor {
                         sys::ProcessInfo p_info;
 
 #ifdef CX_PLATFORM_WINDOWS
-                        p_info.command = "cmake --preset=windows-llvm-x86_64-debug --clear";
+                        p_info.command = "cmake --preset=windows-llvm-any-debug --clear";
 #elif defined(CX_PLATFORM_LINUX)
-                        p_info.command = "./build.py --preset=linux-x86_64-debug --clear";
+                        p_info.command = "./build.py --preset=linux-any-debug --clear";
 #elif defined(CX_PLATFORM_OSX)
-                        p_info.command = "./build.py --preset=linux-x86_64-debug --clear";
+                        p_info.command = "./build.py --preset=linux-any-debug --clear";
 #endif
                         p_info.onExit = [this](i32 exitCode)
                         {
                             auto& d = m_Descriptor;
-                            d->scene->LoadScriptModule(d->scriptModulePath); // COME BACK
+                            d->activeScene.Lock()->LoadScriptModule(d->scriptModulePath); // COME BACK
                             ConsoleMan::AppendMessage("-- Clear finished.");
                         };
                         p_info.redirectStdOut = true;
@@ -238,28 +269,14 @@ namespace codex::editor {
                                 tinyfd_saveFileDialog("Save Project", "default.cxproj", 1, filter_patterns, NULL);
                             if (save_dir)
                             {
-                                if (d->selectedEntity.entity &&
-                                    d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
-                                {
-                                    d->selectedEntity.entity.GetComponent<SpriteRendererComponent>()
-                                        .GetSprite()
-                                        .GetColour()         = d->selectedEntity.overlayColour;
-                                    d->selectedEntity.entity = Entity::None();
-                                }
-                                Serializer::SerializeScene(save_dir, *d->scene);
+                                d->selectedEntity.Deselect();
+                                Serializer::SerializeScene(save_dir, *d->activeScene.Lock());
                             }
                         }
                         else
                         {
-                            if (d->selectedEntity.entity &&
-                                d->selectedEntity.entity.HasComponent<SpriteRendererComponent>())
-                            {
-                                d->selectedEntity.entity.GetComponent<SpriteRendererComponent>()
-                                    .GetSprite()
-                                    .GetColour()         = d->selectedEntity.overlayColour;
-                                d->selectedEntity.entity = Entity::None();
-                            }
-                            Serializer::SerializeScene(save_dir, *d->scene);
+                            d->selectedEntity.Deselect();
+                            Serializer::SerializeScene(save_dir, *d->activeScene.Lock());
                         }
                     }
                     if (ImGui::MenuItem("Exit", "Alt+F4"))
@@ -269,13 +286,21 @@ namespace codex::editor {
 
                     ImGui::EndMenu();
                 }
+                if (ImGui::BeginMenu("Edit"))
+                {
+                    if (ImGui::MenuItem("Project Settings"))
+                    {
+                        this->AttachPanel<ProjectSettingsView>();
+                    }
+                    ImGui::EndMenu();
+                }
                 ImGui::EndMainMenuBar();
             }
         }
 
         // Engine viewport
         {
-            auto& camera = EditorLayer::GetCamera();
+            auto& camera = Editor::GetViewportCamera();
 
             ImGui::Begin("Viewport");
             const auto viewport_min_region = ImGui::GetWindowContentRegionMin();
@@ -286,17 +311,15 @@ namespace codex::editor {
             m_ViewportBounds[1]            = { viewport_max_region.x + viewport_offset.x,
                                                viewport_max_region.y + viewport_offset.y };
 
-            static ImVec2 viewport_window_size;
-            ImVec2        current_viewport_window_size = ImGui::GetContentRegionAvail();
-            if (viewport_window_size.x != current_viewport_window_size.x ||
-                viewport_window_size.y != current_viewport_window_size.y)
-            {
-                viewport_window_size = current_viewport_window_size;
-                camera.SetWidth((i32)viewport_window_size.x);
-                camera.SetHeight((i32)viewport_window_size.y);
-            }
+            auto current_viewport_window_size = ImGui::GetContentRegionAvail();
+            m_ViewportSize = Vector2f{ current_viewport_window_size.x, current_viewport_window_size.y };
             ImGui::Image((void*)(intptr)m_Framebuffer->GetColourAttachmentIdAt(0), current_viewport_window_size,
                          { 0, 1 }, { 1, 0 });
+
+            m_ViewportFocused = ImGui::IsWindowFocused();
+            m_ViewportHovered = ImGui::IsWindowHovered();
+
+            // Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused);
 
             // Guizmo
             {
@@ -305,25 +328,26 @@ namespace codex::editor {
                     ImGuizmo::SetOrthographic(true);
                     ImGuizmo::SetDrawlist();
 
-                    Vector2f window_size = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
-                    ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, window_size.x, window_size.y);
+                    ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y,
+                                      m_ViewportBounds[1].x - m_ViewportBounds[0].x,
+                                      m_ViewportBounds[1].y - m_ViewportBounds[0].y);
 
-                    // Camera stuff?
+                    // Camera
                     auto proj_mat = camera.GetProjectionMatrix();
                     auto view_mat = camera.GetViewMatrix();
 
-                    auto& c     = d->selectedEntity.entity.GetComponent<TransformComponent>();
-                    auto  trans = c.GetTransform();
+                    auto& tc        = d->selectedEntity.entity.GetComponent<TransformComponent>();
+                    auto  transform = tc.ToMatrix();
 
                     ImGuizmo::Manipulate(glm::value_ptr(view_mat), glm::value_ptr(proj_mat),
                                          (ImGuizmo::OPERATION)m_GizmoMode, ImGuizmo::MODE::LOCAL,
-                                         glm::value_ptr(trans));
+                                         glm::value_ptr(transform));
 
                     if (ImGuizmo::IsUsing())
                     {
-                        Vector3f rot;
-                        codex::math::TransformDecompose(trans, c.position, rot, c.scale);
-                        c.rotation += rot;
+                        Vector3f rotation;
+                        codex::math::TransformDecompose(transform, tc.position, rotation, tc.scale);
+                        tc.rotation += glm::degrees(rotation) - tc.rotation;
                         m_GizmoActive = true;
                     }
                     else
@@ -345,18 +369,45 @@ namespace codex::editor {
             ImGui::End();
         }
 
-        // Scene hierarchy panel
-        m_SceneHierarchyView->OnImGuiRender();
-        m_PropertiesView->OnImGuiRender();
+        auto block_events = !m_ViewportFocused;
+
+        // Render our panels.
+        {
+            auto it = m_ViewPanels.begin();
+            while (it != m_ViewPanels.end())
+            {
+                auto& panel = *it;
+                if (!panel->m_Show)
+                    it = m_ViewPanels.erase(it);
+                else
+                {
+                    block_events = block_events && panel->GetImGuiBlockEvents();
+                    panel->OnPreImGuiRender();
+                    ++it;
+                }
+            }
+        }
+
+        Application::Get().GetImGuiLayer()->BlockEvents(block_events);
+
+        ImGui::End();
     }
 
     void SceneEditorView::OnEvent(events::Event& e)
     {
+        // Child panel events should be handled first because of painter's rule.
+        for (auto& panel : m_ViewPanels)
+        {
+            if (e.handled)
+                return;
+            panel->OnPreEvent(e);
+        }
+
         events::EventDispatcher d{ e };
         d.Dispatch<events::KeyDownEvent>(BindEventDelegate(this, &SceneEditorView::OnKeyDown_Event));
         d.Dispatch<events::MouseDownEvent>(BindEventDelegate(this, &SceneEditorView::OnMouseDown_Event));
-        d.Dispatch<events::MouseButtonEvent>(BindEventDelegate(this, &SceneEditorView::OnMouseButton_Event));
         d.Dispatch<events::MouseMoveEvent>(BindEventDelegate(this, &SceneEditorView::OnMouseMove_Event));
+        d.Dispatch<events::MouseScrollEvent>(BindEventDelegate(this, &SceneEditorView::OnMouseScroll_Event));
     }
 
     bool SceneEditorView::OnKeyDown_Event(events::KeyDownEvent& e)
@@ -376,17 +427,102 @@ namespace codex::editor {
 
     bool SceneEditorView::OnMouseDown_Event(events::MouseDownEvent& e)
     {
-        return true;
-    }
+        auto mouse_pos = Vector2{ ImGui::GetMousePos().x, ImGui::GetMousePos().y };
+        mouse_pos.x -= m_ViewportBounds[0].x;
+        mouse_pos.y -= m_ViewportBounds[0].y;
+        mouse_pos.y = (m_ViewportBounds[1] - m_ViewportBounds[0]).y - mouse_pos.y;
+        if (mouse_pos.x >= 0 && mouse_pos.y >= 0 && mouse_pos.x <= m_ViewportSize.x && mouse_pos.y <= m_ViewportSize.y)
+        {
+            auto& d = m_Descriptor;
+            if (d->selectedEntity.entity && d->selectedEntity.entity.HasComponent<TilemapComponent>())
+            {
+                if (Input::IsMouseDown(Mouse::LeftMouse))
+                {
+                    auto& tmc    = d->selectedEntity.entity.GetComponent<TilemapComponent>();
+                    auto& camera = Editor::GetViewportCamera();
 
-    bool SceneEditorView::OnMouseButton_Event(events::MouseButtonEvent& e)
-    {
-        return true;
+                    // Vector conversion fiesta
+                    const auto camera_dim =
+                        Vector3f{ camera.GetWidth() * camera.GetPan(), camera.GetHeight() * camera.GetPan(), 0.0f };
+                    auto tile_pos = scene::Camera::ScreenCoordinatesToWorld(camera, mouse_pos, camera.GetPos());
+                    tile_pos =
+                        utils::Snap(tile_pos, Vector3f{ tmc.gridSize, 1.0f }) + Vector3f{ tmc.gridSize / 2.0f, 0.0f };
+                    if (tmc.currentState == TilemapComponent::State::Brush)
+                    {
+                        tmc.AddTile(tile_pos, tmc.currentTile);
+                    }
+                    else if (tmc.currentState == TilemapComponent::State::Erase)
+                    {
+                        tmc.RemoveTile(tile_pos);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     bool SceneEditorView::OnMouseMove_Event(events::MouseMoveEvent& e)
     {
-        return true;
+        auto mouse_pos = Vector2{ ImGui::GetMousePos().x, ImGui::GetMousePos().y };
+        mouse_pos.x -= m_ViewportBounds[0].x;
+        mouse_pos.y -= m_ViewportBounds[0].y;
+        mouse_pos.y = (m_ViewportBounds[1] - m_ViewportBounds[0]).y - mouse_pos.y;
+        if (mouse_pos.x >= 0 && mouse_pos.y >= 0 && mouse_pos.x <= m_ViewportSize.x && mouse_pos.y <= m_ViewportSize.y)
+        {
+            auto& d = m_Descriptor;
+
+            if (Input::IsMouseDown(Mouse::RightMouse))
+            {
+                if (Input::IsMouseDragging())
+                {
+                    auto&      camera = Editor::GetViewportCamera();
+                    const auto vec    = Vector2f{ Input::GetMouseDeltaX(), Input::GetMouseDeltaY() * -1.0f };
+                    camera.SetPos(camera.GetPos() + utils::ToVec3f(vec) * camera.GetPan());
+                    return true;
+                }
+            }
+            else if (d->selectedEntity.entity && d->selectedEntity.entity.HasComponent<TilemapComponent>())
+            {
+                if (Input::IsMouseDown(Mouse::LeftMouse))
+                {
+                    auto& tmc    = d->selectedEntity.entity.GetComponent<TilemapComponent>();
+                    auto& camera = Editor::GetViewportCamera();
+
+                    // Vector conversion fiesta
+                    const auto camera_dim =
+                        Vector3f{ camera.GetWidth() * camera.GetPan(), camera.GetHeight() * camera.GetPan(), 0.0f };
+                    auto tile_pos = scene::Camera::ScreenCoordinatesToWorld(camera, mouse_pos, camera.GetPos());
+                    tile_pos =
+                        utils::Snap(tile_pos, Vector3f{ tmc.gridSize, 1.0f }) + Vector3f{ tmc.gridSize / 2.0f, 0.0f };
+                    if (tmc.currentState == TilemapComponent::State::Brush)
+                    {
+                        tmc.AddTile(tile_pos, tmc.currentTile);
+                    }
+                    else if (tmc.currentState == TilemapComponent::State::Erase)
+                    {
+                        tmc.RemoveTile(tile_pos);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool SceneEditorView::OnMouseScroll_Event(events::MouseScrollEvent& e)
+    {
+        auto mouse_pos = Vector2{ ImGui::GetMousePos().x, ImGui::GetMousePos().y };
+        mouse_pos.x -= m_ViewportBounds[0].x;
+        mouse_pos.y -= m_ViewportBounds[0].y;
+        mouse_pos.y = (m_ViewportBounds[1] - m_ViewportBounds[0]).y - mouse_pos.y;
+        if (mouse_pos.x >= 0 && mouse_pos.y >= 0 && mouse_pos.x <= m_ViewportSize.x && mouse_pos.y <= m_ViewportSize.y)
+        {
+            auto& camera = Editor::GetViewportCamera();
+            camera.SetPan(camera.GetPan() + e.GetOffsetY() * -0.05f);
+            return true;
+        }
+        return false;
     }
 
     void SceneEditorView::CompileProject()
@@ -394,7 +530,7 @@ namespace codex::editor {
         auto& d = m_Descriptor;
 
         d->scripts.clear();
-        d->scene->UnloadScriptModule();
+        d->activeScene.Lock()->UnloadScriptModule();
         const auto files = fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
         d->scripts.reserve(files.size());
 
@@ -410,18 +546,18 @@ namespace codex::editor {
 
 #ifdef CX_PLATFORM_WINDOWS
         // p_info.command = "cmake ./ -G \"Visual Studio 17\" -B builds/vs2022 && cmake --build builds/vs2022";
-        p_info.command = "python3 Scripts/build.py --preset=windows-llvm-x86_64-debug --build";
+        p_info.command = "python3 Scripts/build.py --preset=windows-llvm-any-debug --build";
 #elif defined(CX_PLATFORM_LINUX)
-        p_info.command = "python3 Scripts/build.py --preset=linux-x86_64-debug --build";
+        p_info.command = "python3 Scripts/build.py --preset=linux-any-debug --build";
 #elif defined(CX_PLATFORM_OSX)
-        p_info.command = "python3 Scripts/build.py --preset=linux-x86_64-debug --build";
+        p_info.command = "python3 Scripts/build.py --preset=linux-any-debug --build";
 #endif
         p_info.onExit = [this](i32 exitCode)
         {
             try
             {
                 auto& d = m_Descriptor;
-                d->scene->LoadScriptModule(d->scriptModulePath);
+                d->activeScene.Lock()->LoadScriptModule(d->scriptModulePath);
             }
             catch (...)
             {
@@ -442,6 +578,141 @@ namespace codex::editor {
         proc->Event_OnOutDataReceived = redirector;
         proc->Event_OnErrDataReceived = redirector;
         proc->Launch();
+    }
+
+    void SceneEditorView::OnScenePlay() noexcept
+    {
+        auto& d = m_Descriptor;
+        d->selectedEntity.Deselect();
+        d->runtimeScene = mem::Shared<Scene>::New();
+        d->editorScene->CopyTo(*d->runtimeScene);
+        d->activeScene = d->runtimeScene;
+        d->activeScene.Lock()->SetState(Scene::State::Play);
+        d->activeScene.Lock()->OnRuntimeStart();
+    }
+
+    void SceneEditorView::OnSceneSimulate() noexcept
+    {
+        auto& d = m_Descriptor;
+        d->selectedEntity.Deselect();
+        d->runtimeScene = mem::Shared<Scene>::New();
+        d->editorScene->CopyTo(*d->runtimeScene);
+        d->activeScene = d->runtimeScene;
+        d->activeScene.Lock()->SetState(Scene::State::Simulate);
+        d->activeScene.Lock()->OnSimulationStart();
+    }
+
+    void SceneEditorView::OnSceneStop() noexcept
+    {
+        auto& d     = m_Descriptor;
+        auto  scene = d->activeScene.Lock();
+        if (scene->GetState() == Scene::State::Play)
+            d->activeScene.Lock()->OnRuntimeStop();
+        else
+            scene->OnSimulationStop();
+        d->runtimeScene.Reset();
+        d->activeScene = d->editorScene;
+
+        // Just in case when we select an entity during runtime.
+        d->selectedEntity.entity = Entity::None();
+    }
+
+    void SceneEditorView::InitializePanel(EditorPanel& panel) const noexcept
+    {
+        panel.OnInit();
+    }
+
+    void SceneEditorView::VisualizeColliders() const noexcept
+    {
+        const auto& d = m_Descriptor;
+
+        const auto box_colliders = d->activeScene.Lock()->GetAllEntitiesWithComponent<BoxCollider2DComponent>();
+        for (const auto& e : box_colliders)
+        {
+            const auto& bc = e.GetComponent<BoxCollider2DComponent>();
+            const auto& tc = e.GetComponent<TransformComponent>();
+            m_DebugDraw.DrawRect2D(
+                { tc.position.x, tc.position.y, bc.size.x * tc.scale.x * 2.0f, bc.size.y * tc.scale.y * 2.0f },
+                tc.rotation.z);
+        }
+
+        const auto circle_colliders = d->activeScene.Lock()->GetAllEntitiesWithComponent<CircleCollider2DComponent>();
+        for (const auto& e : circle_colliders)
+        {
+            const auto& cc = e.GetComponent<CircleCollider2DComponent>();
+            const auto& tc = e.GetComponent<TransformComponent>();
+            m_DebugDraw.DrawCircle2D(tc.position, cc.radius * tc.scale.x * tc.scale.y, tc.rotation.z);
+        }
+    }
+
+    void SceneEditorView::LoadProject(const std::filesystem::path cxproj)
+    {
+        auto& d = m_Descriptor;
+
+        UnloadProject();
+
+        d->currentProjectPath = cxproj;
+        d->currentProjectPath = d->currentProjectPath.parent_path();
+
+        // NOTE: I do not like this.
+        stdfs::current_path(d->currentProjectPath);
+
+        // TODO: Regarding to UnloadScriptModule(), LoadScriptModule() and CompileProject() here:
+        // Some projects might just not use C++ for scripting (in the future when add C#
+        // support) so make sure to not always force load the C++ script module. For now I will
+        // leave this as is because there's only C++ support.
+
+        d->editorScene.Reset(new Scene);
+        d->scriptModulePath = d->currentProjectPath / stdfs::path("lib/libNBMan.dll");
+        d->activeScene      = d->editorScene;
+        Scene::LoadScriptModule(d->scriptModulePath);
+
+        d->scripts.clear();
+        const auto files = fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
+        d->scripts.reserve(files.size());
+
+        const auto output_path = stdfs::absolute(d->currentProjectPath / "int/");
+        if (!stdfs::exists(output_path))
+            stdfs::create_directories(output_path);
+
+        for (const auto& f : files)
+            d->scripts.emplace_back(f).Parse().EmitMetadata(output_path);
+        rf::RFScript::EmitBaseClass(output_path, d->scripts);
+
+        Serializer::DeserializeScene(cxproj, *d->editorScene);
+
+        // FIXME: Cannot unload the script module while we have attached scripts, invalidates the
+        // vptr of our class effetively invalidating the whole thing really.
+        // CompileProject(); // NOTE
+    }
+
+    void SceneEditorView::UnloadProject()
+    {
+        auto& d = m_Descriptor;
+        d->selectedEntity.Deselect();
+
+        Scene::UnloadScriptModule();
+    }
+
+    void SceneEditorView::RenderGrid(gfx::DebugDraw& renderer, const scene::EditorCamera& camera,
+                                     const GridRendererComponent& c) noexcept
+    {
+        const auto camera_dim = Vector2{ camera.GetWidth() * camera.GetPan(), camera.GetHeight() * camera.GetPan() };
+        const auto camera_pos = camera.GetPos() - Vector3f{ camera_dim / 2, 0.0f };
+        const auto start_pos  = glm::ceil(camera_pos / Vector3f{ c.cellSize, 1.0f }) * Vector3f{ c.cellSize, 0.0f };
+        const auto count      = camera_dim / Vector2{ c.cellSize } + 1;
+
+        for (auto i = 0; i < count.x; ++i)
+        {
+            renderer.DrawLine2D({ start_pos.x + i * c.cellSize.x, camera_pos.y },
+                                { start_pos.x + i * c.cellSize.x, camera_pos.y + camera_dim.y }, c.colour);
+        }
+
+        for (auto i = 0; i < count.y; ++i)
+        {
+            renderer.DrawLine2D({ camera_pos.x, start_pos.y + i * c.cellSize.y },
+                                { camera_pos.x + camera_dim.x, start_pos.y + i * c.cellSize.y }, c.colour);
+        }
     }
 
     void SceneEditorView::DrawVec3Control(const char* label, Vector3f& values, const f32 columnWidth, const f32 speed,

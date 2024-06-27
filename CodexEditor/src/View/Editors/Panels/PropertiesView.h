@@ -2,19 +2,19 @@
 
 #include <Codex.h>
 
+#include "EditorPanel.h"
+
 namespace codex::editor {
-    // Forward declarations.
-    struct SceneEditorDescriptor;
-
-    class PropertiesView
+    class PropertiesView : public EditorPanel
     {
+    public:
+        using EditorPanel::EditorPanel;
+
+    protected:
+        void OnInit() override;
+        void OnImGuiRender() override;
+
     private:
-        mem::Ref<SceneEditorDescriptor> m_EditorDesc{};
-
-    public:
-        explicit PropertiesView(const mem::Ref<SceneEditorDescriptor>& editorDesc);
-
-    public:
-        void OnImGuiRender();
+        static void DrawPhysicsMaterial2DControl(phys::PhysicsMaterial2D& mat, const f32 columnWidth) noexcept;
     };
 } // namespace codex::editor

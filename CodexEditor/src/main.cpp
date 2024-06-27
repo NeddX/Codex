@@ -1,11 +1,11 @@
 #include <Codex.h>
 #include <Engine/Core/EntryPoint.h>
 
-#include "CEditor.h"
+#include "EditorApplication.h"
 
 codex::Application* codex::CreateApplication(codex::ApplicationCLIArgs args)
 {
-    return new codex::editor::CEditor(
+    return new codex::editor::EditorApplication(
         codex::ApplicationProperties{ .name             = "CodexEditor",
                                       .cwd              = "./",
                                       .args             = std::move(args),

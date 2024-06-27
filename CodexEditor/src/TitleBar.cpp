@@ -1,36 +1,13 @@
 #include "TitleBar.h"
 
-#include <CEditor.h>
+#include <EditorApplication.h>
 
 namespace codex::editor {
-    Icon::Icon(gfx::Texture2D texture, const mgl::FrameBufferProperties props) : m_Texture(std::move(texture))
-    {
-        m_Fb = mem::Box<mgl::FrameBuffer>::New(props);
-
-        m_TransformMat = glm::identity<Matrix4f>();
-        m_TransformMat = glm::translate(m_TransformMat, Vector3f(0.0f, 0.0f, 0.0f));
-    }
-
-    void Icon::Render()
-    {
-        m_Fb->Bind();
-        gfx::Renderer::Clear();
-        gfx::BatchRenderer2D::RenderRect(&m_Texture,
-                                         { 0.0f, 0.0f, (f32)m_Texture.GetWidth(), (f32)m_Texture.GetHeight() },
-                                         m_TransformMat, { 1.0f, 1.0f, 1.0f, 1.0f });
-        m_Fb->Unbind();
-    }
-
     TitleBar::TitleBar()
     {
-        mgl::FrameBufferProperties props;
-        props.attachments = { mgl::TextureFormat::RGBA8 };
-        props.width       = 16;
-        props.height      = 16;
-
-        m_TitleBarIcons[0] = Icon(gfx::Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_minimize.png"), props);
-        m_TitleBarIcons[1] = Icon(gfx::Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_maximize.png"), props);
-        m_TitleBarIcons[2] = Icon(gfx::Texture2D(CEditor::GetAppDataPath() / "UI/titlebar_close.png"), props);
+        m_TitleBarIcons[0] = gfx::Texture2D(EditorApplication::GetAppDataPath() / "UI/titlebar_minimize.png");
+        m_TitleBarIcons[1] = gfx::Texture2D(EditorApplication::GetAppDataPath() / "UI/titlebar_maximize.png");
+        m_TitleBarIcons[2] = gfx::Texture2D(EditorApplication::GetAppDataPath() / "UI/titlebar_close.png");
     }
 
     TitleBar::~TitleBar()
@@ -129,17 +106,6 @@ namespace codex::editor {
             prev_cursor = cursor;
             win.SetCursor(cursor);
         }
-
-        // Render our icons ONCE, I know, It's bad.
-        static bool icons_rendered = false;
-        if (!icons_rendered)
-        {
-            gfx::BatchRenderer2D::Begin();
-            for (auto& icon : m_TitleBarIcons)
-                icon.Render();
-            gfx::BatchRenderer2D::End();
-            icons_rendered = true;
-        }
     }
 
     void TitleBar::OnImGuiRender()
@@ -218,17 +184,17 @@ namespace codex::editor {
 
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
         ImGui::SetCursorPosX(pos);
-        if (ImGui::ImageButton((void*)(intptr)m_TitleBarIcons[0].GetGLId(), image_size, { 0, 1 }, { 1, 0 }))
+        if (ImGui::ImageButton((void*)(intptr)m_TitleBarIcons[0].GetGlId(), image_size, { 0, 1 }, { 1, 0 }))
             win.Minimize();
         ImGui::SameLine();
 
         ImGui::SetCursorPosX(pos + image_size.x + spacing);
-        if (ImGui::ImageButton((void*)(intptr)m_TitleBarIcons[1].GetGLId(), image_size, { 0, 1 }, { 1, 0 }))
+        if (ImGui::ImageButton((void*)(intptr)m_TitleBarIcons[1].GetGlId(), image_size, { 0, 1 }, { 1, 0 }))
             win.Maximize();
         ImGui::SameLine();
 
         ImGui::SetCursorPosX(pos + 2 * (image_size.x + spacing));
-        if (ImGui::ImageButton((void*)(intptr)m_TitleBarIcons[2].GetGLId(), image_size, { 0, 1 }, { 1, 0 }))
+        if (ImGui::ImageButton((void*)(intptr)m_TitleBarIcons[2].GetGlId(), image_size, { 0, 1 }, { 1, 0 }))
             Application::Get().Stop();
         ImGui::SameLine();
         ImGui::PopStyleColor(1);

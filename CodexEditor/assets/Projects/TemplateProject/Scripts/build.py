@@ -20,12 +20,13 @@ auxiliary_action = Action.Nope
 preset = None
 stdoutput = None
 parallel = True
+run = False
 
 args = sys.argv[1:]
 for i in range(0, len(args)):
     arg = args[i]
     larg = arg.lower()
-    if larg == 'list':
+    if larg == '--list':
         com.log('Listing available presets')
         presets = com.get_cmake_presets()
         for preset in presets:
@@ -44,6 +45,8 @@ for i in range(0, len(args)):
         action = Action.Clear
     elif larg == '--install':
         auxiliary_action = Action.Install
+    elif larg == '--run':
+        run = True
 
 if action == Action.Build:
     cmake_gen = True

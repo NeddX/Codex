@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project("Codex2D")
+project("Codex")
 
 # ==================================================== #
 #   Export macros that describe the current platform   #
@@ -65,7 +65,7 @@ else()
 endif()
 
 # Add sub projects.
-add_subdirectory("Codex")
+add_subdirectory("CodexEngine")
 
 if (DEFINED CX_ENABLE_NETNT)
     add_subdirectory("NetNT")

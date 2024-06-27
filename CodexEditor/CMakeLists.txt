@@ -23,6 +23,14 @@ get_target_property(CODEX_BUILD_DIR CodexEngine BINARY_DIR)
 
 get_target_property(CODEX_CMAKE_SOURCE_DIR CodexEngine SOURCE_DIR)
 
+if (DEFINED CX_BUILD_TYPE_RELEASE OR DEFINED CX_BUILD_TYPE_SHIPPING)
+  if (DEFINED CX_COMPILER_CLANG OR DEFINED CX_COMPILER_GNUC)
+    target_compile_options(CodexEngine PRIVATE -Wall -Wextra -Werror -pedantic)
+    target_compile_options(CodexEngine-static PRIVATE -Wall -Wextra -Werror -pedantic)
+  elseif(DEFINED CX_COMPILER_MSVC)
+  endif()
+endif()
+
 # tinyfiledialogs
 set(TFDS_INCLUDE_DIRS vendor/tinyfiledialogs)
 set(TFDS_SOURCE_FILES vendor/tinyfiledialogs/tinyfiledialogs.c)
@@ -60,14 +68,14 @@ add_custom_target(
   generate_template_project
   COMMAND
     ${Python3_EXECUTABLE} "${CX_ROOT_DIR}/Scripts/generate-template-project.py"
-    "--src-dir=${CX_ROOT_DIR}/Codex"
+    "--src-dir=${CX_ENGINE_ROOT_DIR}"
     "--dest-dir=${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject"
     "--root-dir=${CX_ROOT_DIR}"
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
   COMMENT "Generating Template Project...")
 
-# If we're on MSVC then we also need to copy the symbol libraries for linkage.
-if(DEFINED CX_COMPILER_MSVC)
+# If we're on Windows then we also need to copy the symbol libraries for linkage.
+if(DEFINED CX_PLATFORM_WINDOWS)
   add_custom_command(
     TARGET generate_template_project
     POST_BUILD

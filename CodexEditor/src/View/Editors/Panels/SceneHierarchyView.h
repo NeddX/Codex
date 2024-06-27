@@ -2,18 +2,16 @@
 
 #include <Codex.h>
 
+#include "EditorPanel.h"
+
 namespace codex::editor {
-    // Forward declarations.
-    struct SceneEditorDescriptor;
-
-    class SceneHierarchyView
+    class SceneHierarchyView : public EditorPanel
     {
-    private:
-        mem::Ref<SceneEditorDescriptor> m_EditorDesc{};
-
     public:
-        explicit SceneHierarchyView(const mem::Ref<SceneEditorDescriptor>& editorDesc);
+        using EditorPanel::EditorPanel;
 
-        void OnImGuiRender();
+    protected:
+        void OnInit() override;
+        void OnImGuiRender() override;
     };
 } // namespace codex::editor

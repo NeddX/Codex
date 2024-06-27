@@ -19,3 +19,6 @@
 [submodule "Codex/vendor/MGL"]
 	path = Codex/vendor/MGL
 	url = https://github.com/NeddX/MGL
+[submodule "CodexEngine/vendor/box2d"]
+	path = CodexEngine/vendor/box2d
+	url = https://github.com/erincatto/box2d
