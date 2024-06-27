@@ -1,0 +1,19 @@
+[submodule "CodexEngine/vendor/box2d"]
+	path = CodexEngine/vendor/box2d
+	url = https://github.com/erincatto/box2d
+[submodule "CodexEngine/vendor/SDL"]
+	path = CodexEngine/vendor/SDL
+	url = https://github.com/libsdl-org/SDL
+	branch = release-2.30.x
+[submodule "CodexEngine/vendor/MGL"]
+	path = CodexEngine/vendor/MGL
+	url = https://github.com/NeddX/MGL
+[submodule "CodexEngine/vendor/fmt"]
+	path = CodexEngine/vendor/fmt
+	url = https://github.com/fmtlib/fmt
+[submodule "CodexEngine/vendor/imgui"]
+	path = CodexEngine/vendor/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "CodexEngine/vendor/json"]
+	path = CodexEngine/vendor/json
+	url = https://github.com/nlohmann/json
