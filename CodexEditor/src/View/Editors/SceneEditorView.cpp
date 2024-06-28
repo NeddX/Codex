@@ -9,6 +9,7 @@
 #include "Panels/PropertiesView.h"
 #include "Panels/SceneHierarchyView.h"
 #include "Panels/ToolbarView.h"
+#include "imgui.h"
 
 namespace codex::editor {
     namespace stdfs = std::filesystem;
@@ -189,7 +190,7 @@ namespace codex::editor {
             ImGuizmo::BeginFrame();
 
             // Enable docking on the main window.
-            ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+            ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
 
             static bool show_demo_window = true;
             ImGui::ShowDemoWindow(&show_demo_window);

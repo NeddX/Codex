@@ -14,6 +14,10 @@
 [submodule "CodexEngine/vendor/imgui"]
 	path = CodexEngine/vendor/imgui
 	url = https://github.com/ocornut/imgui
+	branch = docking
 [submodule "CodexEngine/vendor/json"]
 	path = CodexEngine/vendor/json
 	url = https://github.com/nlohmann/json
+[submodule "CodexEditor/vendor/ImGuizmo"]
+	path = CodexEditor/vendor/ImGuizmo
+	url = https://github.com/CedricGuillemet/ImGuizmo
