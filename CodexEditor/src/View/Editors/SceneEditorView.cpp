@@ -239,7 +239,7 @@ namespace codex::editor {
 #elif defined(CX_PLATFORM_LINUX)
                         p_info.command = "./build.py --preset=linux-any-debug --clear";
 #elif defined(CX_PLATFORM_OSX)
-                        p_info.command = "./build.py --preset=linux-any-debug --clear";
+                        p_info.command = "./build.py --preset=osx-any-debug --clear";
 #endif
                         p_info.onExit = [this](i32 exitCode)
                         {
@@ -551,7 +551,7 @@ namespace codex::editor {
 #elif defined(CX_PLATFORM_LINUX)
         p_info.command = "python3 Scripts/build.py --preset=linux-any-debug --build";
 #elif defined(CX_PLATFORM_OSX)
-        p_info.command = "python3 Scripts/build.py --preset=linux-any-debug --build";
+        p_info.command = "python3 Scripts/build.py --preset=osx-any-debug --build";
 #endif
         p_info.onExit = [this](i32 exitCode)
         {
@@ -633,7 +633,7 @@ namespace codex::editor {
             const auto& bc = e.GetComponent<BoxCollider2DComponent>();
             const auto& tc = e.GetComponent<TransformComponent>();
             m_DebugDraw.DrawRect2D(
-                { tc.position.x, tc.position.y, bc.size.x * tc.scale.x * 2.0f, bc.size.y * tc.scale.y * 2.0f },
+                { bc.offset.x + tc.position.x, bc.offset.y + tc.position.y, bc.size.x * tc.scale.x * 2.0f, bc.size.y * tc.scale.y * 2.0f },
                 tc.rotation.z);
         }
 
@@ -642,7 +642,7 @@ namespace codex::editor {
         {
             const auto& cc = e.GetComponent<CircleCollider2DComponent>();
             const auto& tc = e.GetComponent<TransformComponent>();
-            m_DebugDraw.DrawCircle2D(tc.position, cc.radius * tc.scale.x * tc.scale.y, tc.rotation.z);
+            m_DebugDraw.DrawCircle2D(Vector3f{cc.offset, 0.0f} + tc.position, cc.radius * tc.scale.x * tc.scale.y, tc.rotation.z);
         }
     }
 

@@ -288,7 +288,7 @@ namespace codex {
     // when adding a new component!
     using AllComponents =
         ComponentGroup<IDComponent, TransformComponent, TagComponent, SpriteRendererComponent, NativeBehaviourComponent,
-                       CameraComponent, RigidBody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent>;
+                       CameraComponent, RigidBody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent, GridRendererComponent, TilemapComponent>;
 } // namespace codex
 
 #endif // CODEX_SCENE_COMPONENTS_H

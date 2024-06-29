@@ -68,6 +68,7 @@ if(DEFINED CX_PLATFORM_LINUX)
 elseif(DEFINED CX_PLATFORM_OSX)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_OSX)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNIX)
+  target_link_options(NBMan PUBLIC -dynamiclib -flat_namespace -undefined dynamic_lookup)
 elseif(DEFINED CX_PLATFORM_WINDOWS)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_WINDOWS)
   target_link_libraries(NBMan PRIVATE

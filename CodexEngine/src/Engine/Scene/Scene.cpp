@@ -152,6 +152,8 @@ namespace codex {
     template std::vector<Entity> Scene::GetAllEntitiesWithComponent<RigidBody2DComponent>() noexcept;
     template std::vector<Entity> Scene::GetAllEntitiesWithComponent<BoxCollider2DComponent>() noexcept;
     template std::vector<Entity> Scene::GetAllEntitiesWithComponent<CircleCollider2DComponent>() noexcept;
+	template std::vector<Entity> Scene::GetAllEntitiesWithComponent<GridRendererComponent>() noexcept;
+	template std::vector<Entity> Scene::GetAllEntitiesWithComponent<TilemapComponent>() noexcept;
 
     [[nodiscard]] std::vector<Entity> Scene::GetAllEntitesWithTag(const std::string_view tag)
     {
@@ -304,7 +306,7 @@ namespace codex {
 
                 b2PolygonShape shape;
                 shape.SetAsBox(collider.size.x * trans.scale.x * m_PhysicsProperties.scalingFactor,
-                               collider.size.y * trans.scale.y * m_PhysicsProperties.scalingFactor);
+                               collider.size.y * trans.scale.y * m_PhysicsProperties.scalingFactor, utils::ToB2Vec2(collider.offset * m_PhysicsProperties.scalingFactor), 0.0f);
 
                 b2FixtureDef fixture_def;
                 fixture_def.shape                = &shape;
@@ -330,7 +332,7 @@ namespace codex {
                 const auto& trans    = circle_collider_view.get<TransformComponent>(e);
 
                 b2CircleShape shape;
-                shape.m_p.Set(collider.offset.x, collider.offset.y);
+                shape.m_p.Set(collider.offset.x * m_PhysicsProperties.scalingFactor, collider.offset.y * m_PhysicsProperties.scalingFactor);
                 shape.m_radius = collider.radius * m_PhysicsProperties.scalingFactor;
 
                 b2FixtureDef fixture_def;
