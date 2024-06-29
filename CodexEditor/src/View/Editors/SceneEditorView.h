@@ -85,7 +85,7 @@ namespace codex::editor {
         bool OnMouseScroll_Event(events::MouseScrollEvent& e);
 
     public:
-        void CompileProject();
+        i32 CompileProject(const bool wait = false);
         void OnScenePlay() noexcept;
         void OnSceneSimulate() noexcept;
         void OnSceneStop() noexcept;

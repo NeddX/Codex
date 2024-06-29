@@ -61,10 +61,6 @@ endif()
 if(DEFINED CX_PLATFORM_LINUX)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_LINUX)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNIX)
-  #target_link_libraries(NBMan PRIVATE
-  #${CMAKE_CURRENT_SOURCE_DIR}/lib/libCodexEngine-static.a
-  #${CMAKE_CURRENT_SOURCE_DIR}/lib/libMGL.a
-  #${CMAKE_CURRENT_SOURCE_DIR}/lib/libfmtd.a )
 elseif(DEFINED CX_PLATFORM_OSX)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_OSX)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNIX)
@@ -72,9 +68,9 @@ elseif(DEFINED CX_PLATFORM_OSX)
 elseif(DEFINED CX_PLATFORM_WINDOWS)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_WINDOWS)
   target_link_libraries(NBMan PRIVATE
-  ${CMAKE_CURRENT_SOURCE_DIR}/lib/CodexEngine.lib
-  ${CMAKE_CURRENT_SOURCE_DIR}/lib/MGL.lib
-  ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmtd.lib )
+	${CMAKE_CURRENT_SOURCE_DIR}/lib/CodexEngine.lib
+	${CMAKE_CURRENT_SOURCE_DIR}/lib/MGL.lib
+	${CMAKE_CURRENT_SOURCE_DIR}/lib/fmtd.lib )
 else()
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNKNOWN)
 endif()
@@ -105,6 +101,7 @@ message("")
 add_custom_command(
   TARGET NBMan
   POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_SOURCE_DIR}/lib/"
   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:NBMan>
           "${CMAKE_SOURCE_DIR}/lib/")
 

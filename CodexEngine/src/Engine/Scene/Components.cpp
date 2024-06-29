@@ -85,7 +85,7 @@ namespace codex {
         {
             cx_throw(ScriptException,
                      "Tried to detach a behaviour ({}) that is not attached "
-                     "on first place.",
+                     "on the first place.",
                      className);
         }
         return nullptr;

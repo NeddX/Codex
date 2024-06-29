@@ -49,5 +49,8 @@ namespace codex::sys {
 #endif
         m_Handle   = (DLibInstance) nullptr;
         m_FilePath = std::filesystem::path{};
+
+        // TODO: Log to an actual logger.
+        fmt::println("~DLib(): {}", m_FilePath.string());
     }
 } // namespace codex::sys

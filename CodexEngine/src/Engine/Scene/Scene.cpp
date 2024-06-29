@@ -234,6 +234,93 @@ namespace codex {
         }
     }
 
+    void Scene::ConstructPhysicsBodies()
+    {
+        // Rigid body 2d construction.
+        {
+            auto registry = m_Registry.Lock();
+
+            const auto rb2d_view = registry->view<TransformComponent, RigidBody2DComponent>();
+            for (const auto& e : rb2d_view)
+            {
+                const auto& trans = rb2d_view.get<TransformComponent>(e);
+                auto&       rb2d  = rb2d_view.get<RigidBody2DComponent>(e);
+
+                b2BodyDef body_def;
+                body_def.position.Set(trans.position.x * m_PhysicsProperties.scalingFactor,
+                                      trans.position.y * m_PhysicsProperties.scalingFactor);
+                body_def.type           = utils::ToB2Type(rb2d.bodyType);
+                body_def.angle          = trans.rotation.z;
+                body_def.angularDamping = rb2d.angularDamping;
+                body_def.linearDamping  = rb2d.linearDamping;
+                body_def.bullet         = rb2d.highVelocity;
+                body_def.fixedRotation  = rb2d.fixedRotation;
+                body_def.gravityScale   = rb2d.gravityScale;
+                body_def.enabled        = rb2d.enabled;
+                body_def.angle          = math::ToRadf(trans.rotation.z);
+                auto* b2_body           = m_PhysicsWorld->CreateBody(&body_def);
+
+                rb2d.runtimeBody = b2_body;
+            }
+        }
+
+        // Box collider 2d construction.
+        {
+            auto registry = m_Registry.Lock();
+
+            const auto box_collider_view =
+                registry->view<TransformComponent, RigidBody2DComponent, BoxCollider2DComponent>();
+            for (const auto& e : box_collider_view)
+            {
+                const auto& body     = box_collider_view.get<RigidBody2DComponent>(e);
+                const auto& collider = box_collider_view.get<BoxCollider2DComponent>(e);
+                const auto& trans    = box_collider_view.get<TransformComponent>(e);
+
+                b2PolygonShape shape;
+                shape.SetAsBox(collider.size.x * trans.scale.x * m_PhysicsProperties.scalingFactor,
+                               collider.size.y * trans.scale.y * m_PhysicsProperties.scalingFactor,
+                               utils::ToB2Vec2(collider.offset * m_PhysicsProperties.scalingFactor), 0.0f);
+
+                b2FixtureDef fixture_def;
+                fixture_def.shape                = &shape;
+                fixture_def.density              = collider.physicsMaterial.density;
+                fixture_def.friction             = collider.physicsMaterial.friction;
+                fixture_def.restitution          = collider.physicsMaterial.restitution;
+                fixture_def.restitutionThreshold = collider.physicsMaterial.restitutionThreshold;
+
+                reinterpret_cast<b2Body*>(body.runtimeBody)->CreateFixture(&fixture_def);
+            }
+        }
+
+        // Cirlce collider 2d.
+        {
+            auto registry = m_Registry.Lock();
+
+            const auto circle_collider_view =
+                registry->view<TransformComponent, RigidBody2DComponent, CircleCollider2DComponent>();
+            for (const auto& e : circle_collider_view)
+            {
+                const auto& body     = circle_collider_view.get<RigidBody2DComponent>(e);
+                const auto& collider = circle_collider_view.get<CircleCollider2DComponent>(e);
+                const auto& trans    = circle_collider_view.get<TransformComponent>(e);
+
+                b2CircleShape shape;
+                shape.m_p.Set(collider.offset.x * m_PhysicsProperties.scalingFactor,
+                              collider.offset.y * m_PhysicsProperties.scalingFactor);
+                shape.m_radius = collider.radius * m_PhysicsProperties.scalingFactor;
+
+                b2FixtureDef fixture_def;
+                fixture_def.shape                = &shape;
+                fixture_def.density              = collider.physicsMaterial.density;
+                fixture_def.friction             = collider.physicsMaterial.friction;
+                fixture_def.restitution          = collider.physicsMaterial.restitution;
+                fixture_def.restitutionThreshold = collider.physicsMaterial.restitutionThreshold;
+
+                reinterpret_cast<b2Body*>(body.runtimeBody)->CreateFixture(&fixture_def);
+            }
+        }
+    }
+
     void Scene::OnEditorInit(scene::EditorCamera& camera)
     {
     }
@@ -264,87 +351,7 @@ namespace codex {
             }
         }
 
-        // Rigid body 2d construction.
-        {
-            auto registry = m_Registry.Lock();
-
-            const auto rb2d_view = registry->view<TransformComponent, RigidBody2DComponent>();
-            for (const auto& e : rb2d_view)
-            {
-                const auto& trans = rb2d_view.get<TransformComponent>(e);
-                auto&       rb2d  = rb2d_view.get<RigidBody2DComponent>(e);
-
-                b2BodyDef body_def;
-                body_def.position.Set(trans.position.x * m_PhysicsProperties.scalingFactor,
-                                      trans.position.y * m_PhysicsProperties.scalingFactor);
-                body_def.type           = utils::ToB2Type(rb2d.bodyType);
-                body_def.angle          = trans.rotation.z;
-                body_def.angularDamping = rb2d.angularDamping;
-                body_def.linearDamping  = rb2d.linearDamping;
-                body_def.bullet         = rb2d.highVelocity;
-                body_def.fixedRotation  = rb2d.fixedRotation;
-                body_def.gravityScale   = rb2d.gravityScale;
-                body_def.enabled        = rb2d.enabled;
-                body_def.angle          = math::ToRadf(trans.rotation.z);
-                auto* b2_body           = m_PhysicsWorld->CreateBody(&body_def);
-
-                rb2d.runtimeBody = b2_body;
-            }
-        }
-
-        // Box collider 2d construction.
-        {
-            auto registry = m_Registry.Lock();
-
-            const auto box_collider_view =
-                registry->view<TransformComponent, RigidBody2DComponent, BoxCollider2DComponent>();
-            for (const auto& e : box_collider_view)
-            {
-                const auto& body     = box_collider_view.get<RigidBody2DComponent>(e);
-                const auto& collider = box_collider_view.get<BoxCollider2DComponent>(e);
-                const auto& trans    = box_collider_view.get<TransformComponent>(e);
-
-                b2PolygonShape shape;
-                shape.SetAsBox(collider.size.x * trans.scale.x * m_PhysicsProperties.scalingFactor,
-                               collider.size.y * trans.scale.y * m_PhysicsProperties.scalingFactor, utils::ToB2Vec2(collider.offset * m_PhysicsProperties.scalingFactor), 0.0f);
-
-                b2FixtureDef fixture_def;
-                fixture_def.shape                = &shape;
-                fixture_def.density              = collider.physicsMaterial.density;
-                fixture_def.friction             = collider.physicsMaterial.friction;
-                fixture_def.restitution          = collider.physicsMaterial.restitution;
-                fixture_def.restitutionThreshold = collider.physicsMaterial.restitutionThreshold;
-
-                reinterpret_cast<b2Body*>(body.runtimeBody)->CreateFixture(&fixture_def);
-            }
-        }
-
-        // Cirlce collider 2d.
-        {
-            auto registry = m_Registry.Lock();
-
-            const auto circle_collider_view =
-                registry->view<TransformComponent, RigidBody2DComponent, CircleCollider2DComponent>();
-            for (const auto& e : circle_collider_view)
-            {
-                const auto& body     = circle_collider_view.get<RigidBody2DComponent>(e);
-                const auto& collider = circle_collider_view.get<CircleCollider2DComponent>(e);
-                const auto& trans    = circle_collider_view.get<TransformComponent>(e);
-
-                b2CircleShape shape;
-                shape.m_p.Set(collider.offset.x * m_PhysicsProperties.scalingFactor, collider.offset.y * m_PhysicsProperties.scalingFactor);
-                shape.m_radius = collider.radius * m_PhysicsProperties.scalingFactor;
-
-                b2FixtureDef fixture_def;
-                fixture_def.shape                = &shape;
-                fixture_def.density              = collider.physicsMaterial.density;
-                fixture_def.friction             = collider.physicsMaterial.friction;
-                fixture_def.restitution          = collider.physicsMaterial.restitution;
-                fixture_def.restitutionThreshold = collider.physicsMaterial.restitutionThreshold;
-
-                reinterpret_cast<b2Body*>(body.runtimeBody)->CreateFixture(&fixture_def);
-            }
-        }
+        ConstructPhysicsBodies();
 
         // Native behaviour instantiation.
         {
@@ -370,87 +377,7 @@ namespace codex {
 
         m_State.store(State::Simulate);
 
-        // Rigid body 2d construction.
-        {
-            auto registry = m_Registry.Lock();
-
-            const auto rb2d_view = registry->view<TransformComponent, RigidBody2DComponent>();
-            for (const auto& e : rb2d_view)
-            {
-                const auto& trans = rb2d_view.get<TransformComponent>(e);
-                auto&       rb2d  = rb2d_view.get<RigidBody2DComponent>(e);
-
-                b2BodyDef body_def;
-                body_def.position.Set(trans.position.x * m_PhysicsProperties.scalingFactor,
-                                      trans.position.y * m_PhysicsProperties.scalingFactor);
-                body_def.type           = utils::ToB2Type(rb2d.bodyType);
-                body_def.angle          = trans.rotation.z;
-                body_def.angularDamping = rb2d.angularDamping;
-                body_def.linearDamping  = rb2d.linearDamping;
-                body_def.bullet         = rb2d.highVelocity;
-                body_def.fixedRotation  = rb2d.fixedRotation;
-                body_def.gravityScale   = rb2d.gravityScale;
-                body_def.enabled        = rb2d.enabled;
-                body_def.angle          = math::ToRadf(trans.rotation.z);
-                auto* b2_body           = m_PhysicsWorld->CreateBody(&body_def);
-
-                rb2d.runtimeBody = b2_body;
-            }
-        }
-
-        // Box collider 2d construction.
-        {
-            auto registry = m_Registry.Lock();
-
-            const auto box_collider_view =
-                registry->view<TransformComponent, RigidBody2DComponent, BoxCollider2DComponent>();
-            for (const auto& e : box_collider_view)
-            {
-                const auto& body     = box_collider_view.get<RigidBody2DComponent>(e);
-                const auto& collider = box_collider_view.get<BoxCollider2DComponent>(e);
-                const auto& trans    = box_collider_view.get<TransformComponent>(e);
-
-                b2PolygonShape shape;
-                shape.SetAsBox(collider.size.x * trans.scale.x * m_PhysicsProperties.scalingFactor,
-                               collider.size.y * trans.scale.y * m_PhysicsProperties.scalingFactor);
-
-                b2FixtureDef fixture_def;
-                fixture_def.shape                = &shape;
-                fixture_def.density              = collider.physicsMaterial.density;
-                fixture_def.friction             = collider.physicsMaterial.friction;
-                fixture_def.restitution          = collider.physicsMaterial.restitution;
-                fixture_def.restitutionThreshold = collider.physicsMaterial.restitutionThreshold;
-
-                reinterpret_cast<b2Body*>(body.runtimeBody)->CreateFixture(&fixture_def);
-            }
-        }
-
-        // Cirlce collider 2d.
-        {
-            auto registry = m_Registry.Lock();
-
-            const auto circle_collider_view =
-                registry->view<TransformComponent, RigidBody2DComponent, CircleCollider2DComponent>();
-            for (const auto& e : circle_collider_view)
-            {
-                const auto& body     = circle_collider_view.get<RigidBody2DComponent>(e);
-                const auto& collider = circle_collider_view.get<CircleCollider2DComponent>(e);
-                const auto& trans    = circle_collider_view.get<TransformComponent>(e);
-
-                b2CircleShape shape;
-                shape.m_p.Set(collider.offset.x, collider.offset.y);
-                shape.m_radius = collider.radius * m_PhysicsProperties.scalingFactor;
-
-                b2FixtureDef fixture_def;
-                fixture_def.shape                = &shape;
-                fixture_def.density              = collider.physicsMaterial.density;
-                fixture_def.friction             = collider.physicsMaterial.friction;
-                fixture_def.restitution          = collider.physicsMaterial.restitution;
-                fixture_def.restitutionThreshold = collider.physicsMaterial.restitutionThreshold;
-
-                reinterpret_cast<b2Body*>(body.runtimeBody)->CreateFixture(&fixture_def);
-            }
-        }
+        ConstructPhysicsBodies();
 
         m_FixedUpdateThread = std::thread(Scene::OnFixedUpdate, std::ref(*this));
     }
@@ -589,7 +516,8 @@ namespace codex {
         for (auto& [entity, name] : s_PossibleAttachedScripts)
         {
             auto& nbc = const_cast<NativeBehaviourComponent&>(entity.GetComponent<NativeBehaviourComponent>());
-            nbc.Detach(name);
+            if (nbc.m_Behaviours.contains(name))
+                nbc.Detach(name);
         }
         /*
         for (auto& e : view)

@@ -17,8 +17,6 @@ void PlayerController::OnFixedUpdate(const f32 deltaTime)
     auto& tc        = GetTransform();
     auto  lerp_pos  = glm::mix(tc.position, cam_tc.position, m_Lerp);
     cam_tc.position = lerp_pos - m_Sub;
-     cam_tc.position =
-         Vector3f{ lerp_pos.x - camera.camera.GetWidth() / 2, lerp_pos.y - camera.camera.GetHeight() / 2, 0.0f };
 
     m_CurrentVelocity = { 0.0f, 0.0f };
     if (Input::IsKeyDown(Key::W))

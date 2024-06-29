@@ -101,6 +101,7 @@ namespace codex {
 
     private:
         void RenderSprites();
+        void ConstructPhysicsBodies();
 
     public:
         void OnEditorInit(scene::EditorCamera& camera);

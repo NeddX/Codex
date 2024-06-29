@@ -123,7 +123,8 @@ namespace codex::editor {
         if (Input::IsMouseDown(Mouse::LeftMouse) && mouse_x >= 0 && mouse_y >= 0 && mouse_x <= (i32)viewport_size.x &&
             mouse_y <= (i32)viewport_size.y && !m_GizmoActive)
         {
-            if (!d->selectedEntity.entity || !d->selectedEntity.entity.HasComponent<TilemapComponent>())
+            if (d->activeScene.Lock()->GetState() != Scene::State::Play && !m_GizmoActive &&
+                (!d->selectedEntity.entity || !d->selectedEntity.entity.HasComponent<TilemapComponent>()))
             {
                 Vector2f scale = { m_Framebuffer->GetProperties().width / viewport_size.x,
                                    m_Framebuffer->GetProperties().height / viewport_size.y };
@@ -344,15 +345,14 @@ namespace codex::editor {
                                          (ImGuizmo::OPERATION)m_GizmoMode, ImGuizmo::MODE::LOCAL,
                                          glm::value_ptr(transform));
 
-                    if (ImGuizmo::IsUsing())
+                    m_GizmoActive = ImGuizmo::IsOver();
+
+                    if (m_GizmoActive && ImGuizmo::IsUsing())
                     {
                         Vector3f rotation;
                         codex::math::TransformDecompose(transform, tc.position, rotation, tc.scale);
                         tc.rotation += glm::degrees(rotation) - tc.rotation;
-                        m_GizmoActive = true;
                     }
-                    else
-                        m_GizmoActive = false;
                 }
             }
 
@@ -526,7 +526,7 @@ namespace codex::editor {
         return false;
     }
 
-    void SceneEditorView::CompileProject()
+    i32 SceneEditorView::CompileProject(const bool wait)
     {
         auto& d = m_Descriptor;
 
@@ -579,6 +579,10 @@ namespace codex::editor {
         proc->Event_OnOutDataReceived = redirector;
         proc->Event_OnErrDataReceived = redirector;
         proc->Launch();
+
+        if (wait)
+            return proc->WaitForExit();
+        return 0;
     }
 
     void SceneEditorView::OnScenePlay() noexcept
@@ -632,9 +636,9 @@ namespace codex::editor {
         {
             const auto& bc = e.GetComponent<BoxCollider2DComponent>();
             const auto& tc = e.GetComponent<TransformComponent>();
-            m_DebugDraw.DrawRect2D(
-                { bc.offset.x + tc.position.x, bc.offset.y + tc.position.y, bc.size.x * tc.scale.x * 2.0f, bc.size.y * tc.scale.y * 2.0f },
-                tc.rotation.z);
+            m_DebugDraw.DrawRect2D({ bc.offset.x + tc.position.x, bc.offset.y + tc.position.y,
+                                     bc.size.x * tc.scale.x * 2.0f, bc.size.y * tc.scale.y * 2.0f },
+                                   tc.rotation.z);
         }
 
         const auto circle_colliders = d->activeScene.Lock()->GetAllEntitiesWithComponent<CircleCollider2DComponent>();
@@ -642,7 +646,8 @@ namespace codex::editor {
         {
             const auto& cc = e.GetComponent<CircleCollider2DComponent>();
             const auto& tc = e.GetComponent<TransformComponent>();
-            m_DebugDraw.DrawCircle2D(Vector3f{cc.offset, 0.0f} + tc.position, cc.radius * tc.scale.x * tc.scale.y, tc.rotation.z);
+            m_DebugDraw.DrawCircle2D(Vector3f{ cc.offset, 0.0f } + tc.position, cc.radius * tc.scale.x * tc.scale.y,
+                                     tc.rotation.z);
         }
     }
 
@@ -666,7 +671,8 @@ namespace codex::editor {
         d->editorScene.Reset(new Scene);
         d->scriptModulePath = d->currentProjectPath / stdfs::path("lib/libNBMan.dll");
         d->activeScene      = d->editorScene;
-        Scene::LoadScriptModule(d->scriptModulePath);
+
+        CompileProject();
 
         d->scripts.clear();
         const auto files = fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
