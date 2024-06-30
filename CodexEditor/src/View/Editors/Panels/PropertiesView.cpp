@@ -60,11 +60,17 @@ namespace codex::editor {
                     entity.AddComponent<GridRendererComponent>();
                     ImGui::CloseCurrentPopup();
                 }
-                else if (!entity.HasComponent<TilemapComponent>() && ImGui::MenuItem("Tile Map Component"))
+                else if (!entity.HasComponent<TilemapComponent>() && ImGui::MenuItem("Tilemap Component"))
                 {
                     entity.AddComponent<TilemapComponent>();
                     if (!entity.HasComponent<GridRendererComponent>())
                         entity.AddComponent<GridRendererComponent>();
+                    ImGui::CloseCurrentPopup();
+                }
+                else if (
+                    !entity.HasComponent<TilesetAnimationComponent>() && ImGui::MenuItem("Tileset Animation Component"))
+                {
+                    entity.AddComponent<TilesetAnimationComponent>();
                     ImGui::CloseCurrentPopup();
                 }
                 ImGui::EndPopup();
@@ -618,77 +624,80 @@ namespace codex::editor {
                     ImGui::Dummy(ImVec2(0.0f, 10.0f));
                     auto& c = d->selectedEntity.entity.GetComponent<TilemapComponent>();
 
-                    // Texture prewview image
+                    // Sprite preview
                     {
-                        ImGui::Columns(2);
-                        ImGui::SetColumnWidth(0, d->columnWidth);
-                        ImGui::Text("Texture: ");
-                        ImGui::NextColumn();
+                        // Texture prewview image
+                        {
+                            ImGui::Columns(2);
+                            ImGui::SetColumnWidth(0, d->columnWidth);
+                            ImGui::Text("Texture: ");
+                            ImGui::NextColumn();
 
-                        ImGui::BeginGroup();
+                            ImGui::BeginGroup();
+                            if (c.sprite)
+                                ImGui::Image((void*)(intptr)c.sprite.GetTexture()->GetGlId(), { 100.0f, 100.0f },
+                                             { 0, 1 }, { 1, 0 });
+                            else
+                                ImGui::Text("No bound texture.");
+
+                            if (ImGui::Button("Load texture", { 100, 0 }))
+                            {
+                                const char* filters[] = { "*.png", "*.jpg" };
+                                const char* file =
+                                    tinyfd_openFileDialog("Load texture file.", nullptr, 2, filters, nullptr, 0);
+                                if (file)
+                                {
+                                    std::filesystem::path relative_path =
+                                        std::filesystem::relative(file, std::filesystem::current_path());
+                                    c.sprite.SetTexture(Resources::Load<gfx::Texture2D>(relative_path));
+                                }
+                            }
+                            ImGui::EndGroup();
+                            ImGui::Columns(1);
+                            ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                        }
+
+                        // Texture filter mode
                         if (c.sprite)
-                            ImGui::Image((void*)(intptr)c.sprite.GetTexture()->GetGlId(), { 100.0f, 100.0f }, { 0, 1 },
-                                         { 1, 0 });
-                        else
-                            ImGui::Text("No bound texture.");
-
-                        if (ImGui::Button("Load texture", { 100, 0 }))
                         {
-                            const char* filters[] = { "*.png", "*.jpg" };
-                            const char* file =
-                                tinyfd_openFileDialog("Load texture file.", nullptr, 2, filters, nullptr, 0);
-                            if (file)
+                            ImGui::Columns(2);
+                            ImGui::SetColumnWidth(0, d->columnWidth);
+                            ImGui::Text("Filter mode");
+                            ImGui::NextColumn();
+
+                            auto        texture      = c.sprite.GetTexture();
+                            const char* preview_item = nullptr;
+                            const auto& props        = texture->GetProperties();
+                            switch (props.filterMode)
                             {
-                                std::filesystem::path relative_path =
-                                    std::filesystem::relative(file, std::filesystem::current_path());
-                                c.sprite.SetTexture(Resources::Load<gfx::Texture2D>(relative_path));
+                                case gfx::TextureFilterMode::Linear: preview_item = "Linear"; break;
+                                case gfx::TextureFilterMode::Nearest: preview_item = "Nearest"; break;
                             }
-                        }
-                        ImGui::EndGroup();
-                        ImGui::Columns(1);
-                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
-                    }
-
-                    // Texture filter mode
-                    if (c.sprite)
-                    {
-                        ImGui::Columns(2);
-                        ImGui::SetColumnWidth(0, d->columnWidth);
-                        ImGui::Text("Filter mode");
-                        ImGui::NextColumn();
-
-                        auto        texture      = c.sprite.GetTexture();
-                        const char* preview_item = nullptr;
-                        const auto& props        = texture->GetProperties();
-                        switch (props.filterMode)
-                        {
-                            case gfx::TextureFilterMode::Linear: preview_item = "Linear"; break;
-                            case gfx::TextureFilterMode::Nearest: preview_item = "Nearest"; break;
-                        }
-                        if (ImGui::BeginCombo("##texture_filter_mode", preview_item))
-                        {
-                            if (ImGui::Selectable("Nearest", props.filterMode == gfx::TextureFilterMode::Nearest))
+                            if (ImGui::BeginCombo("##texture_filter_mode", preview_item))
                             {
-                                if (props.filterMode != gfx::TextureFilterMode::Nearest)
+                                if (ImGui::Selectable("Nearest", props.filterMode == gfx::TextureFilterMode::Nearest))
                                 {
-                                    auto new_props       = props;
-                                    new_props.filterMode = gfx::TextureFilterMode::Nearest;
-                                    texture->New(texture->GetFilePath(), new_props);
+                                    if (props.filterMode != gfx::TextureFilterMode::Nearest)
+                                    {
+                                        auto new_props       = props;
+                                        new_props.filterMode = gfx::TextureFilterMode::Nearest;
+                                        texture->New(texture->GetFilePath(), new_props);
+                                    }
                                 }
-                            }
-                            if (ImGui::Selectable("Linear", props.filterMode == gfx::TextureFilterMode::Linear))
-                            {
-                                if (props.filterMode != gfx::TextureFilterMode::Linear)
+                                if (ImGui::Selectable("Linear", props.filterMode == gfx::TextureFilterMode::Linear))
                                 {
-                                    auto new_props       = props;
-                                    new_props.filterMode = gfx::TextureFilterMode::Linear;
-                                    texture->New(texture->GetFilePath(), new_props);
+                                    if (props.filterMode != gfx::TextureFilterMode::Linear)
+                                    {
+                                        auto new_props       = props;
+                                        new_props.filterMode = gfx::TextureFilterMode::Linear;
+                                        texture->New(texture->GetFilePath(), new_props);
+                                    }
                                 }
+                                ImGui::EndCombo();
                             }
-                            ImGui::EndCombo();
-                        }
 
-                        ImGui::Columns(1);
+                            ImGui::Columns(1);
+                        }
                     }
 
                     ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -726,6 +735,150 @@ namespace codex::editor {
                         auto& panel = this->AttachPanel<TilePalleteView>();
                         panel.SetEntity(d->selectedEntity.entity);
                         panel.Focus();
+                    }
+                }
+            }
+            if (d->selectedEntity.entity.HasComponent<TilesetAnimationComponent>())
+            {
+                auto& c = d->selectedEntity.entity.GetComponent<TilesetAnimationComponent>();
+                if (ImGui::CollapsingHeader("Tileset Animation Componnet", ImGuiTreeNodeFlags_DefaultOpen))
+                {
+                    // Sprite preview
+                    {
+                        // Texture prewview image
+                        {
+                            ImGui::Columns(2);
+                            ImGui::SetColumnWidth(0, d->columnWidth);
+                            ImGui::Text("Texture: ");
+                            ImGui::NextColumn();
+
+                            ImGui::BeginGroup();
+                            if (c.sprite)
+                                ImGui::Image((void*)(intptr)c.sprite.GetTexture()->GetGlId(), { 100.0f, 100.0f },
+                                             { 0, 1 }, { 1, 0 });
+                            else
+                                ImGui::Text("No bound texture.");
+
+                            if (ImGui::Button("Load texture", { 100, 0 }))
+                            {
+                                const char* filters[] = { "*.png", "*.jpg" };
+                                const char* file =
+                                    tinyfd_openFileDialog("Load texture file.", nullptr, 2, filters, nullptr, 0);
+                                if (file)
+                                {
+                                    std::filesystem::path relative_path =
+                                        std::filesystem::relative(file, std::filesystem::current_path());
+                                    c.sprite.SetTexture(Resources::Load<gfx::Texture2D>(relative_path));
+                                }
+                            }
+                            ImGui::EndGroup();
+                            ImGui::Columns(1);
+                            ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                        }
+
+                        // Texture filter mode
+                        if (c.sprite)
+                        {
+                            ImGui::Columns(2);
+                            ImGui::SetColumnWidth(0, d->columnWidth);
+                            ImGui::Text("Filter mode");
+                            ImGui::NextColumn();
+
+                            auto        texture      = c.sprite.GetTexture();
+                            const char* preview_item = nullptr;
+                            const auto& props        = texture->GetProperties();
+                            switch (props.filterMode)
+                            {
+                                case gfx::TextureFilterMode::Linear: preview_item = "Linear"; break;
+                                case gfx::TextureFilterMode::Nearest: preview_item = "Nearest"; break;
+                            }
+                            if (ImGui::BeginCombo("##texture_filter_mode", preview_item))
+                            {
+                                if (ImGui::Selectable("Nearest", props.filterMode == gfx::TextureFilterMode::Nearest))
+                                {
+                                    if (props.filterMode != gfx::TextureFilterMode::Nearest)
+                                    {
+                                        auto new_props       = props;
+                                        new_props.filterMode = gfx::TextureFilterMode::Nearest;
+                                        texture->New(texture->GetFilePath(), new_props);
+                                    }
+                                }
+                                if (ImGui::Selectable("Linear", props.filterMode == gfx::TextureFilterMode::Linear))
+                                {
+                                    if (props.filterMode != gfx::TextureFilterMode::Linear)
+                                    {
+                                        auto new_props       = props;
+                                        new_props.filterMode = gfx::TextureFilterMode::Linear;
+                                        texture->New(texture->GetFilePath(), new_props);
+                                    }
+                                }
+                                ImGui::EndCombo();
+                            }
+
+                            ImGui::Columns(1);
+                        }
+
+                        // Add animation button
+                        {
+                            if (ImGui::Button("Add an animation"))
+                            {
+                                c.animations["animation #" + std::to_string(c.animations.size())] =
+                                    TilesetAnimationComponent::Animation{};
+                            }
+                        }
+                    }
+
+                    for (auto& [name, anim] : c.animations)
+                    {
+                        if (ImGui::TreeNodeEx((name + "##tile_set_anim_" + name).c_str()))
+                        {
+                            // Starting tile
+                            {
+                                SceneEditorView::DrawVec2Control("Starting tile", anim.startingTile, d->columnWidth);
+                            }
+
+                            // Frame count
+                            {
+                                ImGui::Columns(2);
+                                ImGui::SetColumnWidth(0, d->columnWidth);
+                                ImGui::Text("Frame count");
+                                ImGui::NextColumn();
+                                ImGui::DragInt(("###drag_int_" + name).c_str(),
+                                               reinterpret_cast<i32*>(&anim.frameCount), 1.0f, 0);
+                                ImGui::Columns(1);
+                            }
+
+                            // Frame rate
+                            {
+                                ImGui::Columns(2);
+                                ImGui::SetColumnWidth(0, d->columnWidth);
+                                ImGui::Text("Frame rate");
+                                ImGui::NextColumn();
+                                ImGui::DragFloat(("###drag_f32_" + name).c_str(), &anim.frameRate, 1.0f, 0);
+                                ImGui::Columns(1);
+                            }
+
+                            // Animation preview
+                            {
+                                ImGui::Columns(2);
+                                ImGui::SetColumnWidth(0, d->columnWidth);
+                                ImGui::Text("Texture: ");
+                                ImGui::NextColumn();
+
+                                ImGui::BeginGroup();
+                                if (c.sprite)
+                                    ImGui::Image((void*)(intptr)c.sprite.GetTexture()->GetGlId(), { 100.0f, 100.0f },
+                                                 { 0, 1 }, { 1, 0 });
+                                else
+                                    ImGui::Text("No bound texture.");
+
+                                ImGui::EndGroup();
+                                ImGui::Columns(1);
+                                ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                            }
+
+                            ImGui::TreePop();
+                        }
                     }
                 }
             }

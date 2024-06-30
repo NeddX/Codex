@@ -753,7 +753,7 @@
                         "m_Sprite": {
                             "m_Texture": {
                                 "m_Id": 0,
-                                "m_FilePath": "Assets\\Super Mario Bros - Codex\\enemies.png",
+                                "m_FilePath": "Assets/Super Mario Bros - Codex/enemies.png",
                                 "filterMode": 9728,
                                 "wrapMode": 33648,
                                 "format": -1

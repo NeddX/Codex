@@ -279,6 +279,23 @@ namespace codex {
         void RemoveTile(const Vector2f pos);
     };
 
+    struct TilesetAnimationComponent : public Component
+    {
+        CX_COMPONENT
+
+    public:
+        struct Animation
+        {
+            Vector2f startingTile = { 0.0f, 0.0f };
+            u32      frameCount   = 0;
+            f32      frameRate    = 24.0f;
+        };
+
+    public:
+        Sprite                                     sprite;
+        std::unordered_map<std::string, Animation> animations;
+    };
+
     template <typename... Components>
     struct ComponentGroup
     {
@@ -288,7 +305,8 @@ namespace codex {
     // when adding a new component!
     using AllComponents =
         ComponentGroup<IDComponent, TransformComponent, TagComponent, SpriteRendererComponent, NativeBehaviourComponent,
-                       CameraComponent, RigidBody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent, GridRendererComponent, TilemapComponent>;
+                       CameraComponent, RigidBody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent,
+                       GridRendererComponent, TilemapComponent, TilesetAnimationComponent>;
 } // namespace codex
 
 #endif // CODEX_SCENE_COMPONENTS_H
