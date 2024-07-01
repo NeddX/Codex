@@ -7,7 +7,7 @@ namespace codex::gfx {
     {
         m_MaxTextureSlotCount = mgl::GraphicsCapabilities::GetMaxTextureSlotCount();
 
-        m_Verticies = new QuadVertex[maxQuadCount];
+        m_Verticies = new QuadVertex[maxQuadCount * QUAD2D_VERTEX_COUNT];
         m_VertexPtr = m_Verticies;
         m_TextureList.resize(m_MaxTextureSlotCount);
 

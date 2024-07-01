@@ -152,8 +152,8 @@ namespace codex {
     template std::vector<Entity> Scene::GetAllEntitiesWithComponent<RigidBody2DComponent>() noexcept;
     template std::vector<Entity> Scene::GetAllEntitiesWithComponent<BoxCollider2DComponent>() noexcept;
     template std::vector<Entity> Scene::GetAllEntitiesWithComponent<CircleCollider2DComponent>() noexcept;
-	template std::vector<Entity> Scene::GetAllEntitiesWithComponent<GridRendererComponent>() noexcept;
-	template std::vector<Entity> Scene::GetAllEntitiesWithComponent<TilemapComponent>() noexcept;
+    template std::vector<Entity> Scene::GetAllEntitiesWithComponent<GridRendererComponent>() noexcept;
+    template std::vector<Entity> Scene::GetAllEntitiesWithComponent<TilemapComponent>() noexcept;
 
     [[nodiscard]] std::vector<Entity> Scene::GetAllEntitesWithTag(const std::string_view tag)
     {

@@ -13,7 +13,7 @@ codex::Application* codex::CreateApplication(codex::ApplicationCLIArgs args)
                                           .title    = "Codex Editor",
                                           .width    = 1280,
                                           .height   = 720,
-                                          .frameCap = 60,
+                                          .frameCap = 300,
                                           .flags    = codex::WindowFlags::Visible | codex::WindowFlags::Resizable |
                                                    codex::WindowFlags::PositionCentre | codex::WindowFlags::Maximized,
                                           .vsync = false,

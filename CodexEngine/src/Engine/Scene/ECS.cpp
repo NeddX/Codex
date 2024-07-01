@@ -7,7 +7,6 @@ namespace codex {
         return GetComponent<IDComponent>().uuid;
     }
 
-    /*
     [[nodiscard]] TransformComponent& Entity::GetTransform() noexcept
     {
         return GetComponent<TransformComponent>();
@@ -16,7 +15,7 @@ namespace codex {
     [[nodiscard]] const TransformComponent& Entity::GetTransform() const noexcept
     {
         return GetComponent<TransformComponent>();
-    }*/
+    }
 
     void to_json(nlohmann::ordered_json& j, const Entity& entity)
     {
@@ -122,10 +121,10 @@ namespace codex {
             auto&                  c = entity.GetComponent<TilemapComponent>();
             nlohmann::ordered_json jc;
 
-            jc["TilemapComponent"]["Sprite"]   = c.sprite;
-            jc["TilemapComponent"]["Tiles"]    = c.tiles;
-            jc["TilemapComponent"]["GridSize"] = c.gridSize;
-            jc["TilemapComponent"]["TileSize"] = c.tileSize;
+            jc["TilemapComponent"]["Sprite"]       = c.sprite;
+            jc["TilemapComponent"]["Tiles"]        = c.tiles;
+            jc["TilemapComponent"]["GridSize"]     = c.gridSize;
+            jc["TilemapComponent"]["TileSize"]     = c.tileSize;
             jc["TilemapComponent"]["CurrentLayer"] = c.currentLayer;
 
             jentity["Components"].push_back(jc);

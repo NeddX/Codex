@@ -11,7 +11,7 @@ namespace codex {
     class NativeBehaviour;
     class SpriteRendererComponent;
     class Component;
-    struct CODEX_API TransformComponent;
+    struct TransformComponent;
     struct IDComponent;
 
     class CODEX_API Entity
@@ -54,9 +54,9 @@ namespace codex {
         [[nodiscard]] bool operator==(const Entity& other) const noexcept { return other.m_Handle == m_Handle; }
 
     public:
-        [[nodiscard]] UUID GetUUID() const noexcept;
-        //[[nodiscard]] TransformComponent&       GetTransform() noexcept;
-        //[[nodiscard]] const TransformComponent& GetTransform() const noexcept;
+        [[nodiscard]] UUID                      GetUUID() const noexcept;
+        [[nodiscard]] TransformComponent&       GetTransform() noexcept;
+        [[nodiscard]] const TransformComponent& GetTransform() const noexcept;
 
     public:
         template <typename T, typename... TArgs>

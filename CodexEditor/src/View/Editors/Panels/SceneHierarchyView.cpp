@@ -38,7 +38,7 @@ namespace codex::editor {
             ImGui::Text("Entities");
             static auto action_delete = false;
             static auto action_rename = false;
-            auto entities = scene->GetAllEntitiesWithComponent<TagComponent>();
+            auto        entities      = scene->GetAllEntitiesWithComponent<TagComponent>();
             for (auto& e : entities)
             {
                 auto& tag_component = e.GetComponent<TagComponent>();
@@ -79,8 +79,8 @@ namespace codex::editor {
             }
             else if (action_delete)
             {
-                d->selectedEntity.Deselect();
                 scene->RemoveEntity(d->selectedEntity.entity);
+                d->selectedEntity.Deselect();
                 ImGui::CloseCurrentPopup();
                 action_delete = false;
             }
