@@ -30,12 +30,12 @@ namespace codex::gfx {
         friend class Renderer;
 
     private:
-        static i32                       s_Capacity;
-        static i32                       s_MaxQuadCountPerBatch;
-        static Shader*                   s_QuadShader;
-        static const scene::Camera*      s_CurrentCamera;
-        static Matrix4f                  s_CurrentCameraViewMatrix;
-        static std::vector<RenderBatch*> s_Batches;
+        static i32                      s_Capacity;
+        static i32                      s_MaxQuadCountPerBatch;
+        static Shader*                  s_QuadShader;
+        static const scene::Camera*     s_CurrentCamera;
+        static Matrix4f                 s_CurrentCameraViewMatrix;
+        static std::vector<RenderBatch> s_Batches;
 
     private:
         BatchRenderer2D()                                            = default;
@@ -46,10 +46,10 @@ namespace codex::gfx {
         ~BatchRenderer2D()                                           = default;
 
     public:
-        static Shader*                    GetShader() noexcept;
-        static usize                      GeBatchCount() noexcept;
-        static usize                      GetQuadCount() noexcept;
-        static std::vector<RenderBatch*>& GetBatches() noexcept;
+        static Shader*                   GetShader() noexcept;
+        static usize                     GeBatchCount() noexcept;
+        static usize                     GetQuadCount() noexcept;
+        static std::vector<RenderBatch>& GetBatches() noexcept;
 
     public:
         static void Init(std::filesystem::path shaderPath);

@@ -134,30 +134,36 @@ namespace codex {
                                  true);
     }
 
-    void RigidBody2DComponent::ApplyLinearImpulse(const f32 torque)
+    void RigidBody2DComponent::ApplyAngularImpulse(const f32 torque)
     {
         auto* body = reinterpret_cast<b2Body*>(runtimeBody);
         body->ApplyAngularImpulse(torque, true);
     }
 
-    void TilemapComponent::AddTile(const Vector2f pos, const i32 tileId)
+    void TilemapComponent::AddTile(const Vector3f pos, const i32 tileId)
     {
     }
 
-    void TilemapComponent::AddTile(const Vector2f pos, const Vector2f atlas)
+    void TilemapComponent::AddTile(const Vector3f pos, const Vector2f atlas)
     {
-        tiles[currentLayer][pos] = atlas;
-    }
-
-    void TilemapComponent::RemoveTile(const Vector2f pos)
-    {
-        if (tiles.contains(currentLayer))
+        if (auto it = std::find_if(tiles.begin(), tiles.end(),
+                                   [&](auto& tile) { return tile.pos == pos && tile.layer == currentLayer; });
+            it != tiles.end())
         {
-            auto it = tiles.at(currentLayer).find(pos);
-            if (it != tiles.at(currentLayer).end())
-            {
-                tiles.at(currentLayer).erase(it);
-            }
+            it->atlas = atlas;
+            it->pos   = pos;
+        }
+        else
+            tiles.push_back({ .pos = pos, .atlas = atlas, .layer = currentLayer });
+    }
+
+    void TilemapComponent::RemoveTile(const Vector3f pos)
+    {
+        if (auto it = std::find_if(tiles.begin(), tiles.end(),
+                                   [&](auto& tile) { return tile.pos == pos && tile.layer == currentLayer; });
+            it != tiles.end())
+        {
+            tiles.erase(it);
         }
     }
 } // namespace codex

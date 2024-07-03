@@ -45,6 +45,36 @@ namespace codex::gfx {
         std::fill(m_TextureList.begin(), m_TextureList.end(), nullptr);
     }
 
+    RenderBatch::RenderBatch(RenderBatch&& other) noexcept
+        : m_QuadCount(std::move(other.m_QuadCount))
+        , m_MaxTextureSlotCount(std::move(other.m_MaxTextureSlotCount))
+        , m_MaxQuadCount(std::move(other.m_MaxQuadCount))
+        , m_ZIndex(std::move(other.m_ZIndex))
+        , m_HasRoom(std::move(other.m_HasRoom))
+        , m_Verticies(std::move(other.m_Verticies))
+        , m_VertexPtr(std::move(other.m_VertexPtr))
+        , m_Vao(std::move(other.m_Vao))
+        , m_Vbo(std::move(other.m_Vbo))
+        , m_Ebo(std::move(other.m_Ebo))
+        , m_Layout(std::move(other.m_Layout))
+        , m_Shader(std::move(other.m_Shader))
+        , m_TextureList(std::move(other.m_TextureList))
+        , m_CurrentTexIndex(std::move(other.m_CurrentTexIndex))
+    {
+        other.m_QuadCount       = 0;
+        other.m_ZIndex          = 0;
+        other.m_HasRoom         = true;
+        other.m_Verticies       = nullptr;
+        other.m_VertexPtr       = nullptr;
+        other.m_CurrentTexIndex = 0;
+    }
+
+    RenderBatch& RenderBatch::operator=(RenderBatch&& other) noexcept
+    {
+        RenderBatch{ std::move(other) }.Swap(*this);
+        return *this;
+    }
+
     RenderBatch::~RenderBatch()
     {
         if (m_Verticies)

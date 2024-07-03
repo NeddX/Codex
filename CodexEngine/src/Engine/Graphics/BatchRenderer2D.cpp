@@ -7,12 +7,12 @@
 namespace codex::gfx {
     namespace stdfs = std::filesystem;
 
-    i32                       BatchRenderer2D::s_Capacity             = BATCH_RENDERER_INITIAL_CAPACITY;
-    i32                       BatchRenderer2D::s_MaxQuadCountPerBatch = BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH;
-    Shader*                   BatchRenderer2D::s_QuadShader           = nullptr;
-    const scene::Camera*      BatchRenderer2D::s_CurrentCamera        = nullptr;
-    Matrix4f                  BatchRenderer2D::s_CurrentCameraViewMatrix;
-    std::vector<RenderBatch*> BatchRenderer2D::s_Batches;
+    i32                      BatchRenderer2D::s_Capacity             = BATCH_RENDERER_INITIAL_CAPACITY;
+    i32                      BatchRenderer2D::s_MaxQuadCountPerBatch = BATCH_RENDERER_MAX_QUAD_COUNT_PER_BATCH;
+    Shader*                  BatchRenderer2D::s_QuadShader           = nullptr;
+    const scene::Camera*     BatchRenderer2D::s_CurrentCamera        = nullptr;
+    Matrix4f                 BatchRenderer2D::s_CurrentCameraViewMatrix;
+    std::vector<RenderBatch> BatchRenderer2D::s_Batches;
 
     Shader* BatchRenderer2D::GetShader() noexcept
     {
@@ -27,12 +27,12 @@ namespace codex::gfx {
     usize BatchRenderer2D::GetQuadCount() noexcept
     {
         usize quad_count = 0;
-        for (const auto b : s_Batches)
-            quad_count += b->GetCount();
+        for (const auto& b : s_Batches)
+            quad_count += b.GetCount();
         return quad_count;
     }
 
-    std::vector<RenderBatch*>& BatchRenderer2D::GetBatches() noexcept
+    std::vector<RenderBatch>& BatchRenderer2D::GetBatches() noexcept
     {
         return s_Batches;
     }
@@ -48,10 +48,10 @@ namespace codex::gfx {
 
             s_Batches.reserve(s_Capacity);
             for (usize i = 0; i < s_Capacity; ++i)
-                s_Batches.push_back(new RenderBatch(s_MaxQuadCountPerBatch, s_QuadShader));
+                s_Batches.emplace_back(s_MaxQuadCountPerBatch, s_QuadShader);
 
-            for (auto* batch : s_Batches)
-                batch->BindShader(s_QuadShader);
+            for (auto& batch : s_Batches)
+                batch.BindShader(s_QuadShader);
         }
     }
 
@@ -59,8 +59,6 @@ namespace codex::gfx {
     {
         if (s_QuadShader)
         {
-            for (const auto& b : s_Batches)
-                delete b;
             delete s_QuadShader;
 
             s_QuadShader    = nullptr;
@@ -73,10 +71,10 @@ namespace codex::gfx {
         s_CurrentCamera           = &camera;
         s_CurrentCameraViewMatrix = glm::inverse(transform.ToMatrix());
         std::for_each(s_Batches.begin(), s_Batches.end(),
-                      [](auto* b)
+                      [](auto& b)
                       {
-                          if (b->GetCount() > 0)
-                              b->Flush();
+                          if (b.GetCount() > 0)
+                              b.Flush();
                       });
     }
 
@@ -85,65 +83,41 @@ namespace codex::gfx {
         s_CurrentCamera           = &camera;
         s_CurrentCameraViewMatrix = camera.GetViewMatrix();
         std::for_each(s_Batches.begin(), s_Batches.end(),
-                      [](auto* b)
+                      [](auto& b)
                       {
-                          if (b->GetCount() > 0)
-                              b->Flush();
+                          if (b.GetCount() > 0)
+                              b.Flush();
                       });
     }
 
     void BatchRenderer2D::End()
     {
-        std::vector<RenderBatch*> sorted_batch = s_Batches;
-        std::sort(sorted_batch.begin(), sorted_batch.end(), std::less());
+        // std::vector<RenderBatch*> sorted_batch = s_Batches;
+        // std::sort(sorted_batch.begin(), sorted_batch.end(), std::less{});
 
         s_QuadShader->Bind();
         s_QuadShader->SetUniformMat4f("u_View", s_CurrentCameraViewMatrix);
         s_QuadShader->SetUniformMat4f("u_Proj", s_CurrentCamera->GetProjectionMatrix());
         s_QuadShader->Unbind();
 
-        std::for_each(sorted_batch.begin(), sorted_batch.end(),
-                      [](auto* b)
+        std::for_each(s_Batches.begin(), s_Batches.end(),
+                      [](auto& b)
                       {
-                          if (b->GetCount() > 0)
-                              b->Render();
+                          if (b.GetCount() > 0)
+                              b.Render();
                       });
 
         s_CurrentCamera = nullptr;
     }
 
-    /*
-    void BatchRenderer2D::RenderRect(Texture2D* texture, const Rectf& srcRect, const Rectf& destRect,
-                                     const Vector4f& colour, const i32 zIndex, const i32 entityId)
-    {
-        for (auto* batch : m_Batches)
-        {
-            if (batch->HasRoom() && batch->GetZIndex() == zIndex)
-            {
-                if (batch->UploadQuad(texture, srcRect, destRect, colour, entityId))
-                    return;
-                else
-                    std::cout << "failed to upload quad\n";
-            }
-        }
-
-        // If there was no space then create a new batch
-        auto* new_batch = new RenderBatch(m_MaxQuadCountPerBatch, m_Shader);
-        new_batch->SetZIndex(zIndex);
-        new_batch->Flush();
-        new_batch->UploadQuad(texture, srcRect, destRect, colour, entityId);
-        m_Batches.push_back(new_batch);
-    }
-    */
-
     void BatchRenderer2D::RenderRect(Texture2D* texture, const Rectf& srcRect, const Matrix4f& transform,
                                      const Vector4f& colour, const i32 zIndex, const i32 entityId)
     {
-        for (auto* batch : s_Batches)
+        for (auto& batch : s_Batches)
         {
-            if (batch->HasRoom() && batch->GetZIndex() == zIndex)
+            if (batch.HasRoom() && batch.GetZIndex() == zIndex)
             {
-                if (batch->UploadQuad(texture, srcRect, transform, colour, entityId))
+                if (batch.UploadQuad(texture, srcRect, transform, colour, entityId))
                     return;
                 else
                     std::cerr << "failed to upload quad\n";
@@ -151,10 +125,12 @@ namespace codex::gfx {
         }
 
         // If there was no space then create a new batch
-        auto* new_batch = new RenderBatch(s_MaxQuadCountPerBatch, s_QuadShader);
-        new_batch->SetZIndex(zIndex);
-        new_batch->Flush();
-        new_batch->UploadQuad(texture, srcRect, transform, colour, entityId);
-        s_Batches.push_back(new_batch);
+        auto new_batch = RenderBatch{ s_MaxQuadCountPerBatch, s_QuadShader };
+        new_batch.SetZIndex(zIndex);
+        new_batch.Flush();
+        new_batch.UploadQuad(texture, srcRect, transform, colour, entityId);
+        s_Batches.emplace_back(std::move(new_batch));
+        std::sort(s_Batches.begin(), s_Batches.end(),
+                  [](RenderBatch& a, RenderBatch& b) { return a.GetZIndex() < b.GetZIndex(); });
     }
 } // namespace codex::gfx

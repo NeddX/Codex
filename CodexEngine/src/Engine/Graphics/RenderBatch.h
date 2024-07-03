@@ -33,16 +33,19 @@ namespace codex::gfx {
         bool                                     m_HasRoom             = true;
         QuadVertex*                              m_Verticies           = nullptr;
         QuadVertex*                              m_VertexPtr           = nullptr;
-        std::unique_ptr<mgl::VertexArray>        m_Vao;
-        std::unique_ptr<mgl::VertexBuffer>       m_Vbo;
-        std::unique_ptr<mgl::IndexBuffer>        m_Ebo;
-        std::unique_ptr<mgl::VertexBufferLayout> m_Layout;
-        Shader*                                  m_Shader;
+        std::unique_ptr<mgl::VertexArray>        m_Vao                 = nullptr;
+        std::unique_ptr<mgl::VertexBuffer>       m_Vbo                 = nullptr;
+        std::unique_ptr<mgl::IndexBuffer>        m_Ebo                 = nullptr;
+        std::unique_ptr<mgl::VertexBufferLayout> m_Layout              = nullptr;
+        Shader*                                  m_Shader              = nullptr;
         std::vector<Texture2D*>                  m_TextureList;
-        u16                                      m_CurrentTexIndex;
+        u16                                      m_CurrentTexIndex = 0;
 
     public:
+        RenderBatch() = default;
         RenderBatch(const i32 maxQuadCount, Shader* shader);
+        RenderBatch(RenderBatch&& other) noexcept;
+        RenderBatch& operator=(RenderBatch&& other) noexcept;
         ~RenderBatch();
 
     public:
@@ -52,6 +55,23 @@ namespace codex::gfx {
         void        SetZIndex(i32 newIndex) { m_ZIndex = newIndex; }
         void        BindShader(Shader* shader) { m_Shader = shader; }
         QuadVertex* GetQuads() noexcept { return m_Verticies; }
+        void        Swap(RenderBatch& other) noexcept 
+        { 
+            std::swap(m_QuadCount, other.m_QuadCount);
+            std::swap(m_MaxTextureSlotCount, other.m_MaxQuadCount);
+            std::swap(m_MaxQuadCount, other.m_MaxQuadCount);
+            std::swap(m_ZIndex, other.m_ZIndex);
+            std::swap(m_HasRoom, other.m_HasRoom);
+            std::swap(m_Verticies, other.m_Verticies);
+            std::swap(m_VertexPtr, other.m_VertexPtr);
+            std::swap(m_Vao, other.m_Vao);
+            std::swap(m_Vbo, other.m_Vbo);
+            std::swap(m_Ebo, other.m_Ebo);
+            std::swap(m_Layout, other.m_Layout);
+            std::swap(m_Shader, other.m_Shader);
+            std::swap(m_TextureList, other.m_TextureList);
+            std::swap(m_CurrentTexIndex, other.m_CurrentTexIndex);
+        }
 
     public:
         void Flush();

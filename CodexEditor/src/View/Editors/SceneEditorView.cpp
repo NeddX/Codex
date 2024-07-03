@@ -672,7 +672,7 @@ namespace codex::editor {
         d->scriptModulePath = d->currentProjectPath / stdfs::path("lib/libNBMan.dll");
         d->activeScene      = d->editorScene;
 
-        CompileProject();
+        CompileProject(true);
 
         d->scripts.clear();
         const auto files = fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });

@@ -215,7 +215,7 @@ namespace codex {
         void ApplyForce(const Vector2f& force, const std::optional<Vector2f> point = std::nullopt) noexcept;
         void ApplyTorque(const f32 torque) noexcept;
         void ApplyLinearImpulse(const Vector2f& impulse, const std::optional<Vector2f> point = std::nullopt);
-        void ApplyLinearImpulse(const f32 torque);
+        void ApplyAngularImpulse(const f32 torque);
     };
 
     struct BoxCollider2DComponent : public Component
@@ -263,20 +263,26 @@ namespace codex {
             Brush,
             Erase
         };
+        struct Tile
+        {
+            Vector3f pos   = { 0.0f, 0.0f, 0.0f };
+            Vector2f atlas = { 0.0f, 0.0f };
+            i32      layer = 0;
+        };
 
     public:
-        Sprite                                                sprite;
-        std::map<i32, std::unordered_map<Vector2f, Vector2f>> tiles;
-        Vector2f                                              gridSize = { 64.0f, 64.0f };
-        Vector2f                                              tileSize = { 64.0f, 64.0f };
-        Vector2f                                              currentTile{};
-        State                                                 currentState = State::Brush;
-        i32                                                   currentLayer = 0;
+        Sprite            sprite;
+        std::vector<Tile> tiles;
+        Vector2f          gridSize = { 64.0f, 64.0f };
+        Vector2f          tileSize = { 64.0f, 64.0f };
+        Vector2f          currentTile{};
+        State             currentState = State::Brush;
+        i32               currentLayer = 0;
 
     public:
-        void AddTile(const Vector2f pos, const i32 tileId);
-        void AddTile(const Vector2f pos, const Vector2f atlas);
-        void RemoveTile(const Vector2f pos);
+        void AddTile(const Vector3f pos, const i32 tileId);
+        void AddTile(const Vector3f pos, const Vector2f atlas);
+        void RemoveTile(const Vector3f pos);
     };
 
     struct TilesetAnimationComponent : public Component
@@ -308,5 +314,22 @@ namespace codex {
                        CameraComponent, RigidBody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent,
                        GridRendererComponent, TilemapComponent, TilesetAnimationComponent>;
 } // namespace codex
+
+namespace nlohmann {
+    template <>
+    struct adl_serializer<codex::TilemapComponent::Tile>
+    {
+        static void to_json(ordered_json& j, const codex::TilemapComponent::Tile& tile)
+        {
+            j = ordered_json{ { "Position", tile.pos }, { "Atlas", tile.atlas }, { "Layer", tile.layer } };
+        }
+        static void from_json(const ordered_json& j, codex::TilemapComponent::Tile& tile)
+        {
+            j.at("Position").get_to(tile.pos);
+            j.at("Atlas").get_to(tile.atlas);
+            j.at("Layer").get_to(tile.layer);
+        }
+    };
+}; // namespace nlohmann
 
 #endif // CODEX_SCENE_COMPONENTS_H

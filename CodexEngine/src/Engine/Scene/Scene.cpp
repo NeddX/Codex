@@ -215,20 +215,18 @@ namespace codex {
             {
                 auto& tilemap_component   = view.get<TilemapComponent>(e);
                 auto& transform_component = view.get<TransformComponent>(e);
-                for (const auto& [_, layer] : tilemap_component.tiles)
+                for (const auto& tile : tilemap_component.tiles)
                 {
-                    for (const auto& tile : layer)
-                    {
-                        auto sprite = tilemap_component.sprite;
-                        sprite.SetSize(tilemap_component.gridSize);
-                        sprite.SetTextureCoords(
-                            utils::ToRectf(tile.second, tilemap_component.tileSize.x, tilemap_component.tileSize.y));
+                    auto sprite = tilemap_component.sprite;
+                    sprite.SetSize(tilemap_component.gridSize);
+                    sprite.SetTextureCoords(
+                        utils::ToRectf(tile.atlas, tilemap_component.tileSize.x, tilemap_component.tileSize.y));
+                    sprite.SetZIndex(tile.layer);
 
-                        auto transform = Matrix4f{ 1.0f };
-                        transform      = glm::translate(transform, utils::ToVec3f(tile.first));
-                        transform = glm::scale(transform, Vector3f{ sprite.GetSize().x, sprite.GetSize().y, 1.0f });
-                        gfx::BatchRenderer2D::RenderSprite(sprite, transform, static_cast<i32>(e));
-                    }
+                    auto transform = Matrix4f{ 1.0f };
+                    transform      = glm::translate(transform, tile.pos);
+                    transform      = glm::scale(transform, Vector3f{ sprite.GetSize().x, sprite.GetSize().y, 1.0f });
+                    gfx::BatchRenderer2D::RenderSprite(sprite, transform, static_cast<i32>(e));
                 }
             }
         }
