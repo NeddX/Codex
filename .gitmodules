@@ -18,3 +18,6 @@
 [submodule "CodexEditor/vendor/ImGuizmo"]
 	path = CodexEditor/vendor/ImGuizmo
 	url = https://github.com/CedricGuillemet/ImGuizmo
+[submodule "Logger/vendor/Logex"]
+	path = Logger/vendor/Logex
+	url = https://github.com/NeddX/Logex
