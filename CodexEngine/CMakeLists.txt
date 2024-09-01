@@ -73,6 +73,10 @@ elseif(DEFINED CX_COMPILER_CLANG)
   endif()
   target_compile_definitions(CodexEngine PUBLIC CX_COMPILER_CLANG)
   target_compile_definitions(CodexEngine-static PUBLIC CX_COMPILER_CLANG)
+  #target_compile_options(CodexEngine PUBLIC -fsanitize=address -fno-omit-frame-pointer)
+  #target_link_options(CodexEngine PUBLIC -fsanitize=address)
+  #target_compile_options(CodexEngine-static PUBLIC -fsanitize=address -fno-omit-frame-pointer)
+  #target_link_options(CodexEngine-static PUBLIC -fsanitize=address)
 elseif(DEFINED CX_COMPILER_MSVC)
   if (DEFINED CX_BUILD_TYPE_RELEASE OR DEFINED CX_BUILD_TYPE_SHIPPING)
     target_compile_options(CodexEngine PRIVATE /Wall /W4 /WX)
@@ -150,6 +154,7 @@ target_link_libraries(CodexEngine ${FMT_LIBRARIES})
 
 target_include_directories(CodexEngine-static PRIVATE ${FMT_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${FMT_LIBRARIES})
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_DLL -D_DISABLE_VECTOR_ANNOTATION -D_DISABLE_STRING_ANNOTATION")
 
 # nlohmann json
 add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json EXCLUDE_FROM_ALL)

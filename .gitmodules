@@ -8,9 +8,6 @@
 [submodule "CodexEngine/vendor/MGL"]
 	path = CodexEngine/vendor/MGL
 	url = https://github.com/NeddX/MGL
-[submodule "CodexEngine/vendor/fmt"]
-	path = CodexEngine/vendor/fmt
-	url = https://github.com/fmtlib/fmt
 [submodule "CodexEngine/vendor/imgui"]
 	path = CodexEngine/vendor/imgui
 	url = https://github.com/ocornut/imgui
