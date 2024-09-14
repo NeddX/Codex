@@ -36,7 +36,7 @@
 #include <cstdlib>
 #include <cstring>
 
-// STL Containers
+// Collections
 #include <array>
 #include <bitset>
 #include <initializer_list>
@@ -85,7 +85,12 @@
 #include "../Engine/Math/Math.h"
 
 // Library specific
+#include <Logger.h>
+#include <fmt/core.h>
 #include <fmt/format.h>
+#include <fmt/color.h>
+#include <fmt/args.h>
+#include <fmt/chrono.h>
 #define SDL_MAIN_HANDLED
 #include <MGL.h>
 #include <SDL.h>

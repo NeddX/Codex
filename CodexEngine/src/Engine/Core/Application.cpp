@@ -20,6 +20,16 @@ namespace codex {
     Application::Application(ApplicationProperties args)
         : m_Properties(std::move(args))
     {
+        // Create the engine logger.
+        m_Logger = &lgx::New(
+            "engine",
+            lgx::Logger::Properties{
+                .defaultPrefix = "CodexEngine",
+                .defaultStyle  = { .defaultInfoStyle  = fmt::fg(fmt::color::light_sky_blue),
+                                   .defaultWarnStyle  = fmt::fg(fmt::color::yellow),
+                                   .defaultErrorStyle = fmt::fg(fmt::color::red) | fmt::emphasis::italic,
+                                   .defaultFatalStyle = fmt::fg(fmt::color::dark_red) | fmt::emphasis::italic } });
+
         try
         {
             if (stdfs::exists(m_Properties.cwd) && stdfs::is_directory(m_Properties.cwd))
@@ -46,7 +56,8 @@ namespace codex {
         }
         catch (const CodexException& ex)
         {
-            std::cerr << ex << std::endl;
+            lgx::Get("engine").Log(lgx::Level::Fatal, ex.to_string());
+            // std::cerr << ex << std::endl;
             std::exit(EXIT_FAILURE);
         }
     }
@@ -58,37 +69,43 @@ namespace codex {
         s_Instance = nullptr;
     }
 
-    Window& Application::GetWindow() noexcept
+    // FIXME: Throw a NullReferenceException when an Application instance hasn't yet been created.
+    auto Application::GetLogger() noexcept -> lgx::Logger&
+    {
+        return *s_Instance->m_Logger;
+    }
+
+    auto Application::GetWindow() noexcept -> Window&
     {
         return *s_Instance->m_Window;
     }
 
-    Application& Application::Get() noexcept
+    auto Application::Get() noexcept -> Application&
     {
         return *s_Instance;
     }
 
-    u32 Application::GetFps() noexcept
+    auto Application::GetFps() noexcept -> u32
     {
         return static_cast<u32>(1.0f / s_Instance->m_DeltaTime);
     }
 
-    u32 Application::GetFrameCap() noexcept
+    auto Application::GetFrameCap() noexcept -> u32
     {
         return s_Instance->m_Properties.windowProperties.frameCap;
     }
 
-    f32 Application::GetDelta() noexcept
+    auto Application::GetDelta() noexcept -> f32
     {
         return s_Instance->m_DeltaTime;
     }
 
-    ImGuiLayer* Application::GetImGuiLayer() noexcept
+    auto Application::GetImGuiLayer() noexcept -> ImGuiLayer*
     {
         return s_Instance->m_ImGuiLayer;
     }
 
-    stdfs::path Application::GetCurrentWorkingDirectory() noexcept
+    auto Application::GetCurrentWorkingDirectory() noexcept -> stdfs::path
     {
         return stdfs::current_path();
     }
@@ -107,7 +124,7 @@ namespace codex {
         }
     }
 
-    bool Application::OnWindowResize_Event(const WindowResizeEvent& event)
+    auto Application::OnWindowResize_Event(const WindowResizeEvent& event) -> bool
     {
         const auto x = event.GetWidth();
         const auto y = event.GetHeight();

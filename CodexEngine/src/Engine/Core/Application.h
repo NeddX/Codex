@@ -29,7 +29,7 @@ namespace codex {
         char** args  = nullptr;
 
     public:
-        const char* operator[](const usize index) const noexcept
+        auto operator[](const usize index) const noexcept -> const char*
         {
             CX_ASSERT(index > count, "Index out of bounds.");
             return args[index];
@@ -58,6 +58,7 @@ namespace codex {
         f32                   m_DeltaTime  = 0.0f;
         imgui::ImGuiLayer*    m_ImGuiLayer = nullptr;
         Input*                m_Input      = nullptr;
+        lgx::Logger*          m_Logger     = nullptr;
 
     private:
         static Application* s_Instance;
@@ -68,20 +69,21 @@ namespace codex {
         virtual ~Application();
 
     public:
-        static Window&               GetWindow() noexcept;
-        static Application&          Get() noexcept;
-        static u32                   GetFps() noexcept;
-        static u32                   GetFrameCap() noexcept;
-        static f32                   GetDelta() noexcept;
-        static imgui::ImGuiLayer*    GetImGuiLayer() noexcept;
-        static std::filesystem::path GetCurrentWorkingDirectory() noexcept;
-        static void                  SetCurrentWorkingDirectory(const std::filesystem::path& newCwd);
+        static auto GetLogger() noexcept -> lgx::Logger&;
+        static auto GetWindow() noexcept -> Window&;
+        static auto Get() noexcept -> Application&;
+        static auto GetFps() noexcept -> u32;
+        static auto GetFrameCap() noexcept -> u32;
+        static auto GetDelta() noexcept -> f32;
+        static auto GetImGuiLayer() noexcept -> imgui::ImGuiLayer*;
+        static auto GetCurrentWorkingDirectory() noexcept -> std::filesystem::path;
+        static void SetCurrentWorkingDirectory(const std::filesystem::path& newCwd);
 
     public:
-        bool OnWindowResize_Event(const events::WindowResizeEvent& event);
+        auto OnWindowResize_Event(const events::WindowResizeEvent& event) -> bool;
 
     public:
-        virtual void OnInit() {};
+        virtual void OnInit(){};
 
     public:
         void Run();

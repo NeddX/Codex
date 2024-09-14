@@ -13,8 +13,7 @@ namespace codex {
         {
             m_Instance = new Resources();
 
-            // TODO: Add proper logging system.
-            fmt::println("ResourceHandler subsystem initialized.");
+            lgx::Get("engine").Log(lgx::Level::Info, "ResourceHandler subsystem initialized.");
         }
     }
 
@@ -25,8 +24,7 @@ namespace codex {
             delete m_Instance;
             m_Instance = nullptr;
 
-            // TODO: Add proper logging system.
-            fmt::println("ResourceHandler subsystem disposed.");
+            lgx::Get("engine").Log(lgx::Level::Info, "ResourceHandler subsystem disposed.");
         }
     }
 
@@ -46,7 +44,7 @@ namespace codex {
             ResRef<Texture2D> texture   = mem::Shared<Texture2D>::New(filePath, props);
             m_Instance->m_Resources[id] = texture;
             fs.close();
-            fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath.string(), id);
+            lgx::Get("engine").Log(lgx::Level::Info, "[ResourceHandler] >> File: '{}' Id: {}", filePath.string(), id);
             return texture;
         }
         else
@@ -70,7 +68,7 @@ namespace codex {
             ResRef<Shader> shader       = mem::Shared<Shader>::New(filePath, version);
             m_Instance->m_Resources[id] = shader;
             fs.close();
-            fmt::println("[ResourceHandler] >> File: '{}' Id: {}", filePath.string(), id);
+            lgx::Get("engine").Log(lgx::Level::Info, "[ResourceHandler] >> File: '{}' Id: {}", filePath.string(), id);
             return shader;
         }
         else

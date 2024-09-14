@@ -141,7 +141,7 @@ namespace codex {
         {
             gladLoadGL();
             gladLoadGLLoader(SDL_GL_GetProcAddress);
-            fmt::println("GLad loaded.\nVendor:\t\t{}\nRenderer:\t{}\nVersion:\tP{}",
+            lgx::Get("engine").Log(lgx::Level::Info, "GLad loaded.\nVendor:\t\t{}\nRenderer:\t{}\nVersion:\tP{}",
                          (const char*)glGetString(GL_VENDOR), (const char*)glGetString(GL_RENDERER),
                          (const char*)glGetString(GL_VERSION));
         }
@@ -151,7 +151,7 @@ namespace codex {
         }
 
         // TODO: Write a logging library.
-        fmt::println("Window subsystem initialized.");
+        lgx::Get("engine").Log(lgx::Level::Info, "Window subsystem initialized.");
     }
 
     void Window::SDLCheckError(const i32 line)
@@ -160,9 +160,9 @@ namespace codex {
         const char* error = SDL_GetError();
         if (*error != 0)
         {
-            fmt::println("SDL ERROR @ LINE {}: {}", line, error);
+            lgx::Get("engine").Log(lgx::Level::Fatal, "SDL ERROR @ LINE {}: {}", line, error);
             if (line != -1)
-                fmt::println(" + line: {}", line);
+                lgx::Get("engine").Log(lgx::Level::Fatal, " + line: {}", line);
             SDL_ClearError();
         }
 #endif
@@ -170,7 +170,7 @@ namespace codex {
 
     void Window::SDLThrowError(const i32 line, const std::string_view errorMessage)
     {
-        fmt::println("SDL ERROR @ LINE {}: {} -> {}", line, errorMessage, SDL_GetError());
+        lgx::Get("engine").Log(lgx::Level::Fatal, "SDL ERROR @ LINE {}: {} -> {}", line, errorMessage, SDL_GetError());
         SDL_Quit();
         exit(-1);
     }

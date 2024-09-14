@@ -504,7 +504,7 @@ namespace codex {
             s_PossibleAttachedScripts.clear();
         }
 
-        fmt::println("Script module loaded."); // TODO: Log to a logger!
+        lgx::Get("engine").Log(lgx::Level::Info, "Script module loaded.");
     }
 
     void Scene::UnloadScriptModule()
@@ -537,7 +537,7 @@ namespace codex {
         */
 
         s_ScriptModule.Reset();
-        fmt::println("Script module unloaded."); // TODO: Log using an actual logger!
+        lgx::Get("engine").Log(lgx::Level::Info, "Script module unloaded.");
     }
 
     void Scene::OnFixedUpdate(Scene& self) noexcept

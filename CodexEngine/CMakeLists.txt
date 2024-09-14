@@ -144,17 +144,16 @@ else()
   target_link_libraries(CodexEngine-static ${SDL2_LIBRARIES})
 endif()
 
-# fmt
-add_subdirectory(vendor/fmt ${PROJECT_BINARY_DIR}/fmt EXCLUDE_FROM_ALL)
-set(FMT_INCLUDE_DIRS vendor/fmt/include)
-set(FMT_LIBRARIES fmt)
+# Logex
+add_subdirectory(vendor/Logex ${PROJECT_BINARY_DIR}/Logex EXCLUDE_FROM_ALL)
+set(LOGEX_INCLUDE_DIRS vendor/Logex/Logger)
+set(LOGEX_LIBRARIES Logex)
 
-target_include_directories(CodexEngine PRIVATE ${FMT_INCLUDE_DIRS})
-target_link_libraries(CodexEngine ${FMT_LIBRARIES})
+target_include_directories(CodexEngine PRIVATE ${LOGEX_INCLUDE_DIRS})
+target_link_libraries(CodexEngine ${LOGEX_LIBRARIES})
 
-target_include_directories(CodexEngine-static PRIVATE ${FMT_INCLUDE_DIRS})
-target_link_libraries(CodexEngine-static ${FMT_LIBRARIES})
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_DLL -D_DISABLE_VECTOR_ANNOTATION -D_DISABLE_STRING_ANNOTATION")
+target_include_directories(CodexEngine-static PRIVATE ${LOGEX_INCLUDE_DIRS})
+target_link_libraries(CodexEngine-static ${LOGEX_LIBRARIES})
 
 # nlohmann json
 add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json EXCLUDE_FROM_ALL)

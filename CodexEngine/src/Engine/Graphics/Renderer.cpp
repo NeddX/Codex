@@ -11,7 +11,7 @@ namespace codex::gfx {
         m_Height           = height;
         m_InternalRenderer = new mgl::Renderer(width, height);
         GL_Call(glBindFramebuffer(GL_FRAMEBUFFER, 0));
-        fmt::println("Renderer subsystem initialized.");
+        lgx::Get("engine").Log(lgx::Level::Info, "Renderer subsystem initialized.");
     }
 
     void Renderer::Dispose()
@@ -20,7 +20,7 @@ namespace codex::gfx {
         m_InternalRenderer = nullptr;
         m_Width            = 0;
         m_Height           = 0;
-        fmt::println("Renderer subsystem disposed.");
+        lgx::Get("engine").Log(lgx::Level::Info, "Renderer subsystem disposed.");
     }
 
     void Renderer::Clear()

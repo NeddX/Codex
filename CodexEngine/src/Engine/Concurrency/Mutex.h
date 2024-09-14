@@ -113,7 +113,8 @@ namespace codex::cc {
             this->file = file;
             this->line = line;
             yes        = true;
-            fmt::println("Mutex locked. \n\tFile: {}\n\tFunc: {}\n\tLine: {}", file, func, line);
+            lgx::Get("engine").Log(lgx::Level::Info, "Mutex locked. \n\tFile: {}\n\tFunc: {}\n\tLine: {}", file, func,
+                                   line);
         }
         constexpr ScopedGuard(Mutex<T>& mutex) noexcept
             : m_Mutex(mutex)
@@ -127,7 +128,8 @@ namespace codex::cc {
             m_Mutex.Unlock();
             if (yes)
             {
-                fmt::println("Mutex unlocked. \n\tFile: {}\n\tFunc: {}\n\tLine: {}", file, func, line);
+                lgx::Get("engine").Log(lgx::Level::Info, "Mutex unlocked. \n\tFile: {}\n\tFunc: {}\n\tLine: {}", file,
+                                       func, line);
             }
         }
 

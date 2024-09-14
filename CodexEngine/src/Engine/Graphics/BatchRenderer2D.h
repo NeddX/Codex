@@ -34,7 +34,8 @@ namespace codex::gfx {
         static i32                      s_MaxQuadCountPerBatch;
         static Shader*                  s_QuadShader;
         static const scene::Camera*     s_CurrentCamera;
-        static Matrix4f                 s_CurrentCameraViewMatrix;
+        static Matrix4f                 s_CurrentCameraViewMat;
+        static Vector3f                 s_CurrentCameraPos;
         static std::vector<RenderBatch> s_Batches;
 
     private:

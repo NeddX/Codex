@@ -272,7 +272,7 @@ namespace codex {
         if (!m_Instance)
         {
             m_Instance = new Input();
-            fmt::println("Input subsystem initialized.");
+            lgx::Get("engine").Log(lgx::Level::Info, "Input subsystem initialized.");
         }
         return m_Instance;
     }
@@ -283,7 +283,7 @@ namespace codex {
         {
             delete m_Instance;
             m_Instance = nullptr;
-            fmt::println("Input subsystem disposed.");
+            lgx::Get("engine").Log(lgx::Level::Info, "Input subsystem disposed.");
         }
     }
 

@@ -68,11 +68,16 @@ namespace codex {
         }
 
     public:
-        const char* what() const noexcept override;
-        std::string backtrace() const noexcept;
+        [[nodiscard]] auto what() const noexcept -> const char* override;
+        [[nodiscard]] auto backtrace() const noexcept -> std::string;
+        [[nodiscard]] auto to_string() const noexcept -> std::string
+        {
+            return fmt::format("An exception was caught: {}: {}\n\t{}",
+                               codex::CodexException::TypeNameDemangle(typeid(*this).name()), what(), backtrace());
+        }
 
     public:
-        friend std::ostream& operator<<(std::ostream& stream, const codex::CodexException& ex) noexcept
+        friend auto operator<<(std::ostream& stream, const codex::CodexException& ex) noexcept -> std::ostream&
         {
             stream << fmt::format("An exception was caught: {}: {}\n\t{}",
                                   codex::CodexException::TypeNameDemangle(typeid(ex).name()), ex.what(),
