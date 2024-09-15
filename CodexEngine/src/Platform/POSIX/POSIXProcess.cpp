@@ -9,7 +9,7 @@ namespace codex::sys {
 
     POSIXProcess::~POSIXProcess() noexcept
     {
-        std::cout << "~POSIX()" << std::endl;
+        lgx::Get("engine").Log(lgx::Level::Info, "~POSIX()");
 
         if (m_Info.redirectStdOut)
             close(m_StdOutPipe[0]);

@@ -35,8 +35,8 @@ namespace codex::editor {
         m_Camera = scene::EditorCamera{ 1280, 720 };
 
         gfx::FrameBufferProperties props;
-        props.width       = 1920;
-        props.height      = 1080;
+        props.width       = 1280;
+        props.height      = 720;
         props.attachments = { { .format = gfx::TextureFormat::RGBA8 } };
 
         // FIXME: Fix mgl::FrameBuffer's copy and move operators.

@@ -65,6 +65,9 @@ namespace codex {
         m_State.store(State::Edit);
         if (m_FixedUpdateThread.joinable())
             m_FixedUpdateThread.join();
+
+        if (s_ScriptModule)
+            s_ScriptModule = nullptr;
     }
 
     void Scene::CopyTo(Scene& other) const noexcept
@@ -199,7 +202,8 @@ namespace codex {
                 const auto& renderer_component  = view.get<SpriteRendererComponent>(e);
                 if (const auto& s = renderer_component.GetSprite(); s)
                 {
-                    const auto size      = s.GetSize();
+                    const auto size = s.GetSize();
+                    // The scaling we do here is the Sprite's size.
                     const auto transform = transform_component.ToMatrix() *
                                            glm::scale(glm::identity<Matrix4f>(), { size.x, size.y, 1.0f });
                     gfx::BatchRenderer2D::RenderSprite(renderer_component.GetSprite(), transform, static_cast<i32>(e));

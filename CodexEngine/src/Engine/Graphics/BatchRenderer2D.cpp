@@ -117,16 +117,17 @@ namespace codex::gfx {
                                      const Vector4f& colour, const i32 zIndex, const i32 entityId)
     {
         // Check if we're in the camera viewport.
-        Vector2f translation = transform[3];
-        Vector2f scale;
-        scale.x = glm::length(glm::vec3(transform[0]));
-        scale.y = glm::length(glm::vec3(transform[1]));
-        translation.x *= scale.x;
-        translation.y *= scale.y;
-        if (translation.x < s_CurrentCameraPos.x + s_CurrentCamera->GetWidth() &&
-            translation.x + srcRect.w > s_CurrentCameraPos.x &&
-            translation.y < s_CurrentCameraPos.y + s_CurrentCamera->GetHeight() &&
-            translation.y + srcRect.h > s_CurrentCameraPos.y)
+        const Vector2f translation = transform[3];
+        const Vector2  size{ glm::length(glm::vec3(transform[0])), glm::length(glm::vec3(transform[1])) };
+        // Add ten extra pixels so fix the bug where there's a slight gap between the camera edge and the last
+        // sprite inside the viewport of the camera.
+        const auto     camera_dim = Vector3{ s_CurrentCamera->GetWidth() * s_CurrentCamera->GetPan(),
+                                         s_CurrentCamera->GetHeight() * s_CurrentCamera->GetPan(), 0 } +
+                                100;
+        const auto current_cam_pos = s_CurrentCameraPos - Vector3f{ camera_dim / 2 };
+
+        if (translation.x < current_cam_pos.x + camera_dim.x && translation.x + size.x > current_cam_pos.x &&
+            translation.y < current_cam_pos.y + camera_dim.y && translation.y + size.y > current_cam_pos.y)
         {
             for (auto& batch : s_Batches)
             {

@@ -142,7 +142,6 @@ namespace codex {
         {
             m_Behaviours.clear();
             m_BehaviourList.clear();
-            std::cout << "DEAD AS FUCK DUDE\n";
         }
         inline void OnUpdate(const f32 deltaTime)
         {

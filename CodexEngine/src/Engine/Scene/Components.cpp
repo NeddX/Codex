@@ -60,7 +60,6 @@ namespace codex {
         // that will be called during attachment.
         // bh->OnInit();
 
-        std::cout << bh.Get() << std::endl;
         bh->Serialize();
         // bh->m_Parent             = this->GetParent();
         const std::string& name = bh->m_SerializedData.begin().key();
