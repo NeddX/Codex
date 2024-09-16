@@ -204,6 +204,8 @@ namespace codex {
                 {
                     const auto size = s.GetSize();
                     // The scaling we do here is the Sprite's size.
+
+                    // TODO: Get rid of this and optimize this?
                     const auto transform = transform_component.ToMatrix() *
                                            glm::scale(glm::identity<Matrix4f>(), { size.x, size.y, 1.0f });
                     gfx::BatchRenderer2D::RenderSprite(renderer_component.GetSprite(), transform, static_cast<i32>(e));

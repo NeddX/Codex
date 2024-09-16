@@ -74,10 +74,15 @@ namespace codex::editor {
         m_Framebuffer->Bind();
 
         // Viewport resize
+        auto& camera = Editor::GetViewportCamera();
+        static auto prev_viewport = m_ViewportSize;
+        static auto prev_camera_pan = camera.GetPan();
+        if (m_ViewportSize != prev_viewport || camera.GetPan() != prev_camera_pan) 
         {
-            auto& camera = Editor::GetViewportCamera();
             camera.SetWidth(m_ViewportSize.x);
             camera.SetHeight(m_ViewportSize.y);
+            prev_viewport = m_ViewportSize;
+            prev_camera_pan = camera.GetPan();
             m_Framebuffer->Resize((u32)m_ViewportSize.x, (u32)m_ViewportSize.y);
         }
 

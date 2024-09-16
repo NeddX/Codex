@@ -139,11 +139,13 @@ namespace codex {
         // Initialize GLAD
         if (gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
         {
+            const auto& logger = lgx::Get("engine");
             gladLoadGL();
             gladLoadGLLoader(SDL_GL_GetProcAddress);
-            lgx::Get("engine").Log(lgx::Level::Info, "GLad loaded.\nVendor:\t\t{}\nRenderer:\t{}\nVersion:\tP{}",
-                         (const char*)glGetString(GL_VENDOR), (const char*)glGetString(GL_RENDERER),
-                         (const char*)glGetString(GL_VERSION));
+            logger.Log(lgx::Level::Info, "GLad loaded");
+            logger.Log(lgx::Level::Info, "Vendor:\t\t{}", (const char*)glGetString(GL_VENDOR)); 
+            logger.Log(lgx::Level::Info, "Renderer:\t\t{}", (const char*)glGetString(GL_RENDERER));
+            logger.Log(lgx::Level::Info, "Version:\t\t{}", (const char*)glGetString(GL_VERSION));
         }
         else
         {

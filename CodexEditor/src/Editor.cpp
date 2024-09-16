@@ -7,12 +7,7 @@
 namespace codex::editor {
     namespace stdfs = std::filesystem;
 
-    std::optional<scene::EditorCamera> Editor::m_Camera = std::nullopt;
-
-    scene::EditorCamera& Editor::GetViewportCamera() noexcept
-    {
-        return *m_Camera;
-    }
+    std::optional<scene::EditorCamera> Editor::s_Camera = std::nullopt;
 
     void Editor::OnAttach()
     {
@@ -50,7 +45,7 @@ namespace codex::editor {
         gfx::BatchRenderer2D::Init(EditorApplication::GetAppDataPath() / "GL Shaders/BatchRenderer2D_Quad.glsl");
         gfx::DebugDraw::Init(EditorApplication::GetAppDataPath() / "GL Shaders/DebugDraw_Line2D.glsl");
 
-        m_Camera = scene::EditorCamera(1920, 1080);
+        s_Camera = scene::EditorCamera(1920, 1080);
 
         m_SceneEditorView = mem::Box<SceneEditorView>::New();
         m_SceneEditorView->OnAttach();
@@ -60,7 +55,7 @@ namespace codex::editor {
     {
         m_SceneEditorView->OnDetach();
 
-        m_Camera = std::nullopt;
+        s_Camera = std::nullopt;
 
         gfx::BatchRenderer2D::Dispose();
         gfx::Renderer::Dispose();

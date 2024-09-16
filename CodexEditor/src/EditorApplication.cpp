@@ -29,7 +29,7 @@ namespace codex::editor {
         lgx::New("editor",
                  lgx::Logger::Properties{
                      .defaultPrefix = "CodexEditor",
-                     .defaultStyle  = { .defaultInfoStyle  = fmt::fg(fmt::color::light_sky_blue),
+                     .defaultStyle  = { .defaultInfoStyle  = fmt::fg(fmt::color::lime_green),
                                         .defaultWarnStyle  = fmt::fg(fmt::color::yellow),
                                         .defaultErrorStyle = fmt::fg(fmt::color::red) | fmt::emphasis::italic,
                                         .defaultFatalStyle = fmt::fg(fmt::color::dark_red) | fmt::emphasis::italic } });

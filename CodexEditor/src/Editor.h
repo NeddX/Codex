@@ -12,10 +12,10 @@ namespace codex::editor {
         mem::Box<SceneEditorView> m_SceneEditorView = nullptr;
 
     private:
-        static std::optional<scene::EditorCamera> m_Camera;
+        static std::optional<scene::EditorCamera> s_Camera;
 
     public:
-        static scene::EditorCamera& GetViewportCamera() noexcept;
+        [[nodiscard]] static inline scene::EditorCamera& GetViewportCamera() noexcept { return *s_Camera; }
 
     public:
         void OnAttach() override;
