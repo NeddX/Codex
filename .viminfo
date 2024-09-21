@@ -11,195 +11,26 @@
 # hlsearch on (H) or off (h):
 ~h
 # Last Search Pattern:
-~MSle0~/input_ite
-
-# Last Substitute Search Pattern:
-~MSle0&CMAKE_CURRENT_DIR
+~MSle0~/Shell_Des
 
 # Last Substitute String:
 $
 
 # Command Line History (newest to oldest):
 :wq
-|2,0,1711700200,,"wq"
+|2,0,1726914845,,"wq"
 :q!
-|2,0,1711537820,,"q!"
+|2,0,1726910305,,"q!"
 :w
-|2,0,1709742579,,"w"
-:qw!
-|2,0,1709741436,,"qw!"
-:q
-|2,0,1709553510,,"q"
-:w1q
-|2,0,1705521274,,"w1q"
-:'<,'>%y*
-|2,0,1705424470,,"'<,'>%y*"
-:q1
-|2,0,1705267640,,"q1"
-:w!
-|2,0,1705265700,,"w!"
-:wq!
-|2,0,1705244616,,"wq!"
-:we
-|2,0,1704661082,,"we"
-:'<,'>y%*
-|2,0,1702680836,,"'<,'>y%*"
-:%s/CMAKE_CURRENT_DIR/CMAKE_CURRENT_SOURCE_DIR
-|2,0,1700228863,,"%s/CMAKE_CURRENT_DIR/CMAKE_CURRENT_SOURCE_DIR"
-:!
-|2,0,1698284408,,"!"
-:%s/%F{red}/\[\033[31m\]
-|2,0,1695212221,,"%s/%F{red}/\\[\\033[31m\\]"
-:q!@
-|2,0,1694430297,,"q!@"
-:syntax on
-|2,0,1694115508,,"syntax on"
-:w\
-|2,0,1693830371,,"w\\"
-:w3
-|2,0,1693232917,,"w3"
-:%s/Release/Debug
-|2,0,1692113650,,"%s/Release/Debug"
-:qw
-|2,0,1692025337,,"qw"
-:wq2
-|2,0,1691767659,,"wq2"
-:Lw
-|2,0,1691315200,,"Lw"
-:W
-|2,0,1691089794,,"W"
-:%s/mylib/mlib
-|2,0,1691071571,,"%s/mylib/mlib"
-:%s/.end/.thats_it
-|2,0,1690700370,,"%s/.end/.thats_it"
-:w1
-|2,0,1690663669,,"w1"
-:Q!
-|2,0,1689935557,,"Q!"
-:weq
-|2,0,1689934968,,"weq"
-:exit
-|2,0,1689705785,,"exit"
-:x
-|2,0,1689422491,,"x"
-:%s/RLA
-|2,0,1689422482,,"%s/RLA"
-:%s/RVM/RLVM
-|2,0,1689262014,,"%s/RVM/RLVM"
-:%s/RVM_/RLVM_
-|2,0,1689262005,,"%s/RVM_/RLVM_"
-:%s/TRC_/RLVM_
-|2,0,1689256542,,"%s/TRC_/RLVM_"
-:%s/TChess/RLVM
-|2,0,1689256478,,"%s/TChess/RLVM"
-:s%/TRC_
-|2,0,1689256448,,"s%/TRC_"
-:WQ
-|2,0,1689256345,,"WQ"
-:set nu
-|2,0,1689191638,,"set nu"
+|2,0,1722100562,,"w"
 
 # Search String History (newest to oldest):
-?/input_ite
-|2,1,1709742542,47,"input_ite"
-?/Return
-|2,1,1705521250,47,"Return"
-?/TERMINAL
-|2,1,1705521239,47,"TERMINAL"
-?/alias
-|2,1,1705425069,47,"alias"
-?/cust
-|2,1,1705424449,47,"cust"
-?/shippig
-|2,1,1705344773,47,"shippig"
-?/CE_INSTALL
-|2,1,1705316894,47,"CE_INSTALL"
+?/Shell_Des
+|2,1,1722100627,47,"Shell_Des"
 ? @$
-|2,1,1705265811,,"@$"
-? \<enabled\>
-|2,1,1705264543,,"\\<enabled\\>"
-?/exec
-|2,1,1705244315,47,"exec"
-?/bindsym $mod
-|2,1,1705244122,47,"bindsym $mod"
-?/bindsym $mod+Return
-|2,1,1705244045,47,"bindsym $mod+Return"
-?/mod+d
-|2,1,1705243804,47,"mod+d"
-?/mod+R
-|2,1,1705243736,47,"mod+R"
-?/dmenu
-|2,1,1705243368,47,"dmenu"
-?/dmenu_run
-|2,1,1705243147,47,"dmenu_run"
-?/install
-|2,1,1705180635,47,"install"
-?/pwd
-|2,1,1703962478,47,"pwd"
-?/obj
-|2,1,1702718567,47,"obj"
-?/begin
-|2,1,1701781373,47,"begin"
-?/JetB
-|2,1,1701126352,47,"JetB"
-? CMAKE_CURRENT_DIR
-|2,1,1700228863,,"CMAKE_CURRENT_DIR"
-?/blur
-|2,1,1699665037,47,"blur"
-?/g
-|2,1,1699664945,47,"g"
-?/Codex
-|2,1,1698159696,47,"Codex"
-? %F{red}
-|2,1,1695212221,,"%F{red}"
-?/doom
-|2,1,1695174405,47,"doom"
-?/all-the-icons
-|2,1,1695166749,47,"all-the-icons"
-?/call-inter
-|2,1,1694612734,47,"call-inter"
-?/MAP_SIZE
-|2,1,1694138062,47,"MAP_SIZE"
-?/pstr
-|2,1,1694112509,47,"pstr"
-?/autotab
-|2,1,1693931828,47,"autotab"
-?/hlsearch
-|2,1,1693931807,47,"hlsearch"
-?/incsearch
-|2,1,1693931803,47,"incsearch"
-?/expandtab
-|2,1,1693931696,47,"expandtab"
-?/cident
-|2,1,1693931673,47,"cident"
-?/nospell
-|2,1,1693931662,47,"nospell"
-?/ret
-|2,1,1693252246,47,"ret"
-?/persp
-|2,1,1693244508,47,"persp"
-??w
-|2,1,1693224037,63,"w"
-?/div %r4
-|2,1,1692315701,47,"div %r4"
-?/div
-|2,1,1692315640,47,"div"
-? Release
-|2,1,1692113650,,"Release"
-?/ENET_CALLBACK
-|2,1,1692025393,47,"ENET_CALLBACK"
-?/PREFIX
-|2,1,1691869271,47,"PREFIX"
-?/Meta
-|2,1,1691423419,47,"Meta"
-?/printf
-|2,1,1691254032,47,"printf"
-?/vcs
-|2,1,1691223469,47,"vcs"
-?/pow
-|2,1,1691071739,47,"pow"
-? mylib
-|2,1,1691071571,,"mylib"
+|2,1,1722100622,,"@$"
+?/Assets
+|2,1,1719511196,47,"Assets"
 
 # Expression History (newest to oldest):
 
@@ -208,1547 +39,380 @@ $
 # Debug Line History (newest to oldest):
 
 # Registers:
-"0	LINE	0
-	# Create a custom build command and a dummy target for it to copy
-	# compile_commands.json to the source directory for LSPs.
-	add_custom_command(
-	  OUTPUT ${CMAKE_SOURCE_DIR}/compile_commands.json
-	  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/compile_commands.json
-	          ${CMAKE_SOURCE_DIR}/compile_commands.json
-	  DEPENDS ${CMAKE_BINARY_DIR}/compile_commands.json
-	  COMMENT "Copying compile_commands.json...")
-	
-	add_custom_target(copy_compile_commands ALL
-	                  DEPENDS ${CMAKE_SOURCE_DIR}/compile_commands.json)
-|3,0,0,1,11,0,1705424463,"# Create a custom build command and a dummy target for it to copy","# compile_commands.json to the source directory for LSPs.","add_custom_command(","  OUTPUT ${CMAKE_SOURCE_DIR}/compile_commands.json","  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/compile_commands.json","          ${CMAKE_SOURCE_DIR}/compile_commands.json","  DEPENDS ${CMAKE_BINARY_DIR}/compile_commands.json",>49
-|<"  COMMENT \"Copying compile_commands.json...\")","","add_custom_target(copy_compile_commands ALL","                  DEPENDS ${CMAKE_SOURCE_DIR}/compile_commands.json)"
-""1	LINE	0
-	+------+
-	|      |
-	|      |
-	+------+
-|3,1,1,1,4,0,1711446525,"+------+","|      |","|      |","+------+"
+""0	CHAR	0
+	n
+|3,1,0,0,1,0,1722100625,"n"
+"1	LINE	0
+	   printstr("\n");
+|3,0,1,1,1,0,1722100178,"   printstr(\"\\n\");"
 "2	LINE	0
-	
-|3,0,2,1,1,0,1711446098,""
+	   printi64(c);
+|3,0,2,1,1,0,1722100177,"   printi64(c);"
 "3	LINE	0
-	#############
-	#   #   #   #
-	#############
-	#   #   #   #
-	#############
-	#   #   #   #
-	#############
-|3,0,3,1,7,0,1711446098,"#############","#   #   #   #","#############","#   #   #   #","#############","#   #   #   #","#############"
+	   printstr("1337 + 420 / 2 is: ");
+|3,0,3,1,1,0,1722100177,"   printstr(\"1337 + 420 / 2 is: \");"
 "4	LINE	0
-	dd};
-|3,0,4,1,1,0,1709744663,"dd};"
+	   let c: i64 = a;
+|3,0,4,1,1,0,1722100175,"   let c: i64 = a;"
 "5	LINE	0
-	figlet 'Welcome back' | lolcat
-|3,0,5,1,1,0,1709459807,"figlet 'Welcome back' | lolcat"
+	   let a: i64 = 1337 + 420 / 2;
+|3,0,5,1,1,0,1722100175,"   let a: i64 = 1337 + 420 / 2;"
 "6	LINE	0
-	
-|3,0,6,1,1,0,1709456638,""
+	   printi64(c);
+|3,0,6,1,1,0,1722100131,"   printi64(c);"
 "7	LINE	0
-	    // gay party :))))
-|3,0,7,1,1,0,1709456637,"    // gay party :))))"
+	   let cstr: string = str;
+|3,0,7,1,1,0,1722100063,"   let cstr: string = str;"
 "8	LINE	0
 	
-|3,0,8,1,1,0,1705424265,""
+|3,0,8,1,1,0,1719580241,""
 "9	LINE	0
-	message(":: BRUH :: ${SUB_DIRS}")
-|3,0,9,1,1,0,1705424265,"message(\":: BRUH :: ${SUB_DIRS}\")"
+	;; CAT
+	(use-package nyan-mode
+	  :ensure t
+	  :init
+	  (nyan-start-animation)
+	  (nyan-toggle-wavy-trail)
+	  (setq nyan-animate-nyancat t)
+	  (setq nyan-wavy-trail t))
+|3,0,9,1,8,0,1719580241,";; CAT","(use-package nyan-mode","  :ensure t","  :init","  (nyan-start-animation)","  (nyan-toggle-wavy-trail)","  (setq nyan-animate-nyancat t)","  (setq nyan-wavy-trail t))"
 "-	CHAR	0
-	+
-|3,0,36,0,1,0,1709803749,"+"
+	n
+|3,0,36,0,1,0,1722100190,"n"
 
 # File marks:
-'0  3  4  ~/dev/ClutterJunk/.gitignore
-|4,48,3,4,1711700200,"~/dev/ClutterJunk/.gitignore"
-'1  2  6  ~/dev/ClutterJunk/.gitignore
-|4,49,2,6,1711700138,"~/dev/ClutterJunk/.gitignore"
-'2  2  6  ~/dev/ClutterJunk/.gitignore
-|4,50,2,6,1711700138,"~/dev/ClutterJunk/.gitignore"
-'3  1  0  ~/dev/SCalc/CMakeLists.txt
-|4,51,1,0,1711537820,"~/dev/SCalc/CMakeLists.txt"
-'4  1  0  ~/dev/TicTacToe/main.cpp
-|4,52,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
-'5  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,53,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
-'6  22  12  ~/dev/FrankList/test.cpp
-|4,54,22,12,1709744692,"~/dev/FrankList/test.cpp"
-'7  1  0  ~/dev/FrankList/test.cpp
-|4,55,1,0,1709744633,"~/dev/FrankList/test.cpp"
-'8  1  0  ~/dev/FrankList/test.cpp
-|4,56,1,0,1709744633,"~/dev/FrankList/test.cpp"
-'9  4  0  ~/dev/FrankList/CMakeLists.txt
-|4,57,4,0,1709744431,"~/dev/FrankList/CMakeLists.txt"
+'0  3  0  ~/.zshrc
+|4,48,3,0,1726914845,"~/.zshrc"
+'1  82  0  /etc/pacman.conf
+|4,49,82,0,1726910305,"/etc/pacman.conf"
+'2  6  17  ~/.zshrc
+|4,50,6,17,1726906218,"~/.zshrc"
+'3  6  17  ~/.zshrc
+|4,51,6,17,1726906218,"~/.zshrc"
+'4  317  17  ~/dev/bsh/src/shell_interface.c
+|4,52,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
+'5  8  16  ~/dev/bsh/src/main.c
+|4,53,8,16,1722100563,"~/dev/bsh/src/main.c"
+'6  31  0  ~/dev/bsh/src/shell_interface.h
+|4,54,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+'7  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,55,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+'8  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,56,1,0,1722100257,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+'9  10  20  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,57,10,20,1722100251,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
 
 # Jumplist (newest first):
--'  3  4  ~/dev/ClutterJunk/.gitignore
-|4,39,3,4,1711700200,"~/dev/ClutterJunk/.gitignore"
--'  1  0  ~/dev/ClutterJunk/.gitignore
-|4,39,1,0,1711700194,"~/dev/ClutterJunk/.gitignore"
--'  2  6  ~/dev/ClutterJunk/.gitignore
-|4,39,2,6,1711700138,"~/dev/ClutterJunk/.gitignore"
--'  2  6  ~/dev/ClutterJunk/.gitignore
-|4,39,2,6,1711700138,"~/dev/ClutterJunk/.gitignore"
--'  1  0  ~/dev/ClutterJunk/.gitignore
-|4,39,1,0,1711700119,"~/dev/ClutterJunk/.gitignore"
--'  1  0  ~/dev/SCalc/CMakeLists.txt
-|4,39,1,0,1711537820,"~/dev/SCalc/CMakeLists.txt"
--'  1  0  ~/dev/SCalc/CMakeLists.txt
-|4,39,1,0,1711537820,"~/dev/SCalc/CMakeLists.txt"
--'  1  0  ~/dev/SCalc/CMakeLists.txt
-|4,39,1,0,1711537820,"~/dev/SCalc/CMakeLists.txt"
--'  1  0  ~/dev/SCalc/CMakeLists.txt
-|4,39,1,0,1711537820,"~/dev/SCalc/CMakeLists.txt"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  1  0  ~/dev/TicTacToe/main.cpp
-|4,39,1,0,1711300151,"~/dev/TicTacToe/main.cpp"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  5  23  ~/dev/FrankList/CMakeLists.txt
-|4,39,5,23,1709803757,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  1  0  ~/dev/FrankList/CMakeLists.txt
-|4,39,1,0,1709803745,"~/dev/FrankList/CMakeLists.txt"
--'  22  12  ~/dev/FrankList/test.cpp
-|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
--'  22  12  ~/dev/FrankList/test.cpp
-|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
--'  22  12  ~/dev/FrankList/test.cpp
-|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
--'  22  12  ~/dev/FrankList/test.cpp
-|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
--'  22  12  ~/dev/FrankList/test.cpp
-|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
--'  22  12  ~/dev/FrankList/test.cpp
-|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
--'  22  12  ~/dev/FrankList/test.cpp
-|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
--'  22  12  ~/dev/FrankList/test.cpp
-|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
--'  22  12  ~/dev/FrankList/test.cpp
-|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
--'  22  12  ~/dev/FrankList/test.cpp
-|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
--'  22  12  ~/dev/FrankList/test.cpp
-|4,39,22,12,1709744692,"~/dev/FrankList/test.cpp"
+-'  3  0  ~/.zshrc
+|4,39,3,0,1726914845,"~/.zshrc"
+-'  1  0  ~/.zshrc
+|4,39,1,0,1726914841,"~/.zshrc"
+-'  82  0  /etc/pacman.conf
+|4,39,82,0,1726910305,"/etc/pacman.conf"
+-'  82  0  /etc/pacman.conf
+|4,39,82,0,1726910305,"/etc/pacman.conf"
+-'  1  0  /etc/pacman.conf
+|4,39,1,0,1726910282,"/etc/pacman.conf"
+-'  1  0  /etc/pacman.conf
+|4,39,1,0,1726910282,"/etc/pacman.conf"
+-'  6  17  ~/.zshrc
+|4,39,6,17,1726906218,"~/.zshrc"
+-'  6  17  ~/.zshrc
+|4,39,6,17,1726906218,"~/.zshrc"
+-'  6  17  ~/.zshrc
+|4,39,6,17,1726906218,"~/.zshrc"
+-'  1  0  ~/.zshrc
+|4,39,1,0,1726906207,"~/.zshrc"
+-'  1  0  ~/.zshrc
+|4,39,1,0,1726906207,"~/.zshrc"
+-'  317  17  ~/dev/bsh/src/shell_interface.c
+|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
+-'  317  17  ~/dev/bsh/src/shell_interface.c
+|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
+-'  317  17  ~/dev/bsh/src/shell_interface.c
+|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
+-'  317  17  ~/dev/bsh/src/shell_interface.c
+|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
+-'  317  17  ~/dev/bsh/src/shell_interface.c
+|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
+-'  317  17  ~/dev/bsh/src/shell_interface.c
+|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
+-'  317  17  ~/dev/bsh/src/shell_interface.c
+|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
+-'  317  17  ~/dev/bsh/src/shell_interface.c
+|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
+-'  1  0  ~/dev/bsh/src/shell_interface.c
+|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
+-'  1  0  ~/dev/bsh/src/shell_interface.c
+|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
+-'  1  0  ~/dev/bsh/src/shell_interface.c
+|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
+-'  1  0  ~/dev/bsh/src/shell_interface.c
+|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
+-'  1  0  ~/dev/bsh/src/shell_interface.c
+|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
+-'  1  0  ~/dev/bsh/src/shell_interface.c
+|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
+-'  1  0  ~/dev/bsh/src/shell_interface.c
+|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
+-'  1  0  ~/dev/bsh/src/shell_interface.c
+|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  8  16  ~/dev/bsh/src/main.c
+|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  31  0  ~/dev/bsh/src/shell_interface.h
+|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+-'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
 
 # History of marks within files (newest to oldest):
 
-> ~/dev/ClutterJunk/.gitignore
-	*	1711700200	0
-	"	3	4
-	^	3	5
-	.	3	4
-	+	2	6
-	+	3	4
-
-> ~/dev/SCalc/CMakeLists.txt
-	*	1711537820	0
-	"	1	0
-
-> ~/dev/TicTacToe/main.cpp
-	*	1711300150	0
-	"	1	0
-
-> ~/dev/FrankList/CMakeLists.txt
-	*	1709803757	0
-	"	5	23
-	^	5	24
-	.	5	23
-	+	4	27
-	+	5	24
-	+	4	27
-	+	5	25
-	+	4	25
-	+	5	23
-
-> ~/dev/FrankList/test.cpp
-	*	1709744692	0
-	"	22	12
-	^	22	13
-	.	22	12
-	+	1	22
-	+	18	6
-	+	18	7
-	+	25	0
-	+	18	4
-	+	10	1
-	+	9	3
-	+	10	3
-	+	11	0
-	+	25	0
-	+	13	0
-	+	14	0
-	+	14	21
-	+	15	0
-	+	16	0
-	+	17	4
-	+	18	0
-	+	24	0
-	+	21	0
-	+	24	0
-	+	23	12
-	+	22	12
-
-> ~/dev/CMakeLists.txt
-	*	1709744411	0
-	"	1	0
-
-> ~/dev/FrankList/.ignore/FrankenshteinList/CMakeLists.txt
-	*	1709744401	0
-	"	1	0
-
-> ~/dev/FrankList/.ignore/FrankenshteinList/FList.hpp
-	*	1709742581	0
-	"	47	42
-	^	47	43
-	.	47	42
-	+	49	1
-	+	52	0
-	+	51	0
-	+	50	29
-	+	48	78
-	+	47	42
-
-> ~/dev/FrankList/.ignore/FrankenshteinList/FList.h
-	*	1709742566	0
-	"	5	21
-	^	5	22
-	.	5	21
-	+	291	113
-	+	5	21
-
-> ~/dev/FrankList/.ignore/FrankenshteinList/main.cpp
-	*	1709741824	0
-	"	5	32
-	^	5	33
-	.	5	32
-	+	7	0
-	+	4	0
-	+	7	0
-	+	6	12
-	+	5	32
-
-> ~/dev/FrankList/out/build/Debug/CMakeLists.txt
-	*	1709741482	0
-	"	1	0
-
-> ~/dev/FrankList/CMake
-	*	1709741437	0
-	"	1	0
-
 > ~/.zshrc
-	*	1709740419	0
-	"	3	38
-	^	3	39
-	.	3	38
-	+	196	28
-	+	199	0
-	+	171	0
-	+	165	54
-	+	199	0
-	+	172	19
-	+	253	0
-	+	218	0
-	+	216	0
-	+	128	36
-	+	9	38
-	+	11	0
-	+	16	0
-	+	15	0
-	+	14	0
-	+	13	14
-	+	14	29
-	+	17	0
-	+	39	0
-	+	17	19
-	+	18	27
-	+	20	51
-	+	26	5
-	+	22	36
-	+	23	14
-	+	22	11
-	+	23	47
-	+	25	42
-	+	28	0
-	+	39	0
-	+	38	60
-	+	39	0
-	+	18	21
-	+	19	21
-	+	20	22
-	+	19	22
-	+	28	0
-	+	31	70
-	+	12	23
-	+	35	0
-	+	38	0
-	+	35	0
-	+	1	0
-	+	253	0
-	+	216	0
-	+	220	0
-	+	157	0
-	+	32	40
-	+	40	14
-	+	41	32
-	+	42	0
-	+	47	0
-	+	44	4
-	+	45	4
-	+	46	4
-	+	43	14
-	+	42	0
-	+	211	16
-	+	168	9
-	+	167	14
-	+	165	14
-	+	169	45
-	+	199	0
-	+	176	13
-	+	174	90
-	+	174	16
-	+	175	8
-	+	175	0
-	+	199	0
-	+	200	19
-	+	203	14
-	+	207	1
-	+	205	3
-	+	203	15
-	+	206	3
-	+	209	0
-	+	206	3
-	+	207	0
-	+	205	3
-	+	205	0
-	+	205	239
-	+	203	7
-	+	205	201
-	+	205	0
-	+	205	5
-	+	205	0
-	+	205	218
-	+	204	0
-	+	204	237
-	+	203	6
-	+	62	41
-	+	63	47
-	+	66	53
-	+	72	9
-	+	76	18
-	+	73	41
-	+	82	22
-	+	71	8
-	+	4	0
-	+	3	38
-
-> ~/dev/FrankList/.gitignore
-	*	1709622241	0
-	"	15	4
-	^	15	5
-	.	15	4
-	+	15	4
-
-> ~/dev/aarch64/main.c
-	*	1709553511	0
-	"	1	9
-	^	1	8
-	.	1	7
-	+	7	0
-	+	6	12
-	+	5	56
-	+	1	7
-
-> ~/dev/Codex/Codex/CMakeLists.txt
-	*	1709467232	0
-	"	27	0
-	^	248	23
-	.	251	22
-	+	251	22
-
-> ~/dev/ShitList/main.cpp
-	*	1709456666	0
-	"	7	74
-	^	7	75
-	.	7	74
-	+	13	0
-	+	7	74
-
-> ~/.config/sway/config
-	*	1705521275	0
-	"	54	34
-	^	54	35
-	.	54	34
-	+	15	24
-	+	10	4
-	+	11	4
-	+	12	4
-	+	13	4
-	+	14	4
-	+	15	0
-	+	8	0
-	+	7	4
-	+	6	4
-	+	5	4
-	+	4	4
-	+	3	4
-	+	2	4
-	+	1	34
-	+	17	16
-	+	33	47
-	+	10	12
-	+	33	17
-	+	213	0
-	+	195	23
-	+	196	0
-	+	195	35
-	+	196	21
-	+	197	0
-	+	207	0
-	+	202	4
-	+	203	4
-	+	204	4
-	+	205	4
-	+	206	4
-	+	201	35
-	+	202	0
-	+	206	21
-	+	201	44
-	+	206	20
-	+	200	54
-	+	198	0
-	+	199	0
-	+	198	54
-	+	206	20
-	+	209	6
-	+	209	46
-	+	210	17
-	+	210	25
-	+	211	25
-	+	210	0
-	+	212	0
-	+	211	4
-	+	210	10
-	+	211	10
-	+	210	16
-	+	211	18
-	+	210	17
-	+	209	34
-	+	210	17
-	+	12	12
-	+	54	34
-
-> ~/dev/MyContainers/CMakeLists.txt
-	*	1705520942	0
-	"	1	0
-	^	38	30
-	.	41	4
-	+	5	25
-	+	20	43
-	+	21	8
-	+	20	8
-	+	22	42
-	+	13	1
-	+	4	13
-	+	1	0
-	+	1	60
-	+	14	79
-	+	19	75
-	+	25	25
-	+	5	14
-	+	25	58
-	+	28	65
-	+	28	20
-	+	24	27
-	+	5	29
-	+	22	0
-	+	24	20
-	+	24	15
-	+	20	18
-	+	21	18
-	+	22	27
-	+	21	27
-	+	20	27
-	+	24	0
-	+	8	32
-	+	10	49
-	+	7	17
-	+	11	105
-	+	11	14
-	+	43	0
-	+	43	26
-	+	28	52
-	+	43	0
-	+	28	0
-	+	27	54
-	+	38	22
-	+	43	0
-	+	27	20
-	+	43	0
-	+	38	33
-	+	38	0
-	+	27	13
-	+	38	0
-	+	40	48
-	+	38	28
-	+	42	0
-	+	41	4
-
-> ~/dev/Codex/CMakeLists.txt
-	*	1705424477	0
-	"	54	3
-	^	1	0
-	.	18	0
-	+	18	0
-
-> ~/dev/MyContainers/CMake
-	*	1705424032	0
-	"	1	0
-
-> ~/dev/MyContainers/.gitignore
-	*	1705348382	0
-	"	5	9
-	^	5	10
-	.	5	9
-	+	3	14
-	+	6	0
-	+	1	0
-	+	2	0
-	+	5	9
-
-> ~/dev/MyContainers/build.sh
-	*	1705348164	0
-	"	3	29
-	^	3	30
-	.	3	29
-	+	4	0
-	+	1	9
-	+	3	24
-	+	3	10
-	+	3	29
-
-> ~/dev/MyContainers/src/sdafx.cpp
-	*	1705347738	0
-	"	7	18
-	^	7	19
-	.	7	18
-	+	2	24
+	*	1726914844	0
+	"	3	0
+	^	3	1
+	.	3	0
 	+	6	17
-	+	6	18
-	+	7	18
-
-> ~/dev/MyContainers/CMakePresets.json
-	*	1705347184	0
-	"	10	8
-	.	54	0
-	+	74	0
-	+	69	0
-	+	57	0
-	+	54	0
-	+	49	0
-	+	37	0
-	+	74	0
-	+	73	9
-	+	54	0
-
-> ~/dev/MyContainers/Tests/main.cpp
-	*	1705347039	0
-	"	8	17
-	^	8	18
-	.	8	17
-	+	14	0
-	+	11	0
-	+	14	0
-	+	13	12
-	+	12	26
-	+	1	19
-	+	8	17
-
-> ~/dev/Codex/CMakePresets.json
-	*	1705344784	0
-	"	88	40
-	^	88	41
-	.	88	40
-	+	20	0
-	+	21	25
-	+	23	39
-	+	27	41
-	+	28	45
-	+	33	26
-	+	64	0
-	+	63	9
-	+	65	25
-	+	67	29
-	+	77	25
-	+	79	29
-	+	85	25
-	+	87	29
-	+	89	43
-	+	61	42
-	+	57	42
-	+	88	40
-
-> ~/dev/Codex/builds/linux-x86_64-debug/CodexEditor/CMakeFiles/CodexEditor.dir/flags.make
-	*	1705317581	0
-	"	7	0
-
-> ~/dev/Codex/builds/linux-x86_64-debug/CodexEditor/Makefile
-	*	1705316922	0
-	"	439	0
-
-> ~/dev/Codex/.gitignore
-	*	1705279264	0
-	"	8	8
-	^	8	9
-	.	8	8
-	+	11	8
-	+	12	3
-	+	13	3
-	+	14	0
-	+	8	8
-
-> ~/.gitignore
-	*	1705266991	0
-	"	38	11
-	^	38	12
-	.	38	11
-	+	36	44
-	+	36	36
-	+	36	32
-	+	36	33
-	+	36	34
-	+	36	33
-	+	36	36
-	+	36	33
-	+	36	32
-	+	36	35
-	+	36	24
-	+	36	48
-	+	36	44
-	+	36	46
-	+	36	43
-	+	36	49
-	+	36	48
-	+	36	44
-	+	36	46
-	+	36	44
-	+	36	39
-	+	36	41
-	+	36	43
-	+	36	45
-	+	36	41
-	+	36	45
-	+	36	46
-	+	36	40
-	+	36	43
-	+	36	41
-	+	36	45
-	+	24	9
-	+	24	20
-	+	26	19
-	+	36	24
-	+	26	20
-	+	27	0
-	+	24	9
-	+	26	0
-	+	24	9
-	+	26	1
-	+	25	0
-	+	24	1
-	+	26	1
-	+	36	24
-	+	36	25
-	+	36	26
-	+	36	25
-	+	36	24
-	+	1	2
-	+	3	11
-	+	36	24
-	+	27	16
-	+	26	20
-	+	27	15
-	+	28	20
-	+	29	21
-	+	36	24
-	+	31	24
-	+	32	20
-	+	33	19
-	+	34	18
-	+	35	21
-	+	36	16
-	+	32	0
-	+	30	21
-	+	36	24
-	+	20	0
-	+	39	0
-	+	36	24
-	+	20	0
-	+	21	0
-	+	39	0
-	+	22	0
-	+	21	1
-	+	13	11
-	+	38	11
-
-> /etc/sway/config
-	*	1705266855	0
-	"	26	0
-
-> ~/.config/sway
-	*	1705265608	0
-	"	1	0
-
-> ~/.config/i3/config
-	*	1705265604	0
-	"	1	0
-	^	49	20
-	.	50	19
-	+	60	0
-	+	62	1
-	+	63	1
-	+	65	0
-	+	62	0
-	+	60	0
-	+	53	0
-	+	54	31
-	+	25	0
-	+	195	81
-	+	195	0
-	+	49	0
-	+	50	19
-
-> ~/.Xresources
-	*	1705245997	0
-	"	1	10
-	^	1	11
-	.	1	10
-	+	1	10
-
-> /etc/NetworkManager/NetworkManager.conf
-	*	1705244618	0
-	"	5	28
-	^	5	29
-	.	5	28
-	+	5	28
-
-> ~/.config/hypr/hyprland.conf
-	*	1705242128	0
-	"	179	18
-	^	28	19
-	.	28	18
-	+	28	18
-
-> ~/dev/Codex/builds/linux-x86_64-debug/install_manifest.txt
-	*	1705181083	0
-	"	85	0
-
-> ~/dev/Codex/builds/linux-x86_64-debug/Codex/cmake_install.cmake
-	*	1705181073	0
-	"	1	0
-
-> ~/dev/Codex/grassar.h
-	*	1705158217	0
-	"	1	0
-
-> ~/dev/Codex/.ignore/main.cpp
-	*	1705156554	0
-	"	6	20
-	^	6	21
-	.	6	20
-	+	8	0
-	+	4	0
-	+	8	0
-	+	7	12
-	+	5	11
-	+	6	20
-
-> ~/dev/Codex/.ignore/Hdr.h
-	*	1705156497	0
-	"	10	14
-	^	3	8
-	.	3	7
-	+	6	14
-	+	8	21
-	+	12	9
-	+	11	12
-	+	7	31
-	+	3	7
-
-> ~/dev/Codex/.ignore/grassar.h
-	*	1705156452	0
-	"	4	22
-	^	4	23
-	.	4	22
-	+	4	22
-
-> ~/dev/Codex/build.sh
-	*	1703964081	0
-	"	64	33
-	^	67	37
-	.	67	36
-	+	9	0
-	+	68	25
-	+	68	35
-	+	68	28
-	+	68	12
-	+	37	8
-	+	38	8
-	+	39	8
-	+	40	8
-	+	41	8
-	+	42	8
-	+	43	8
-	+	47	12
-	+	50	12
-	+	72	8
-	+	56	8
-	+	68	0
-	+	71	49
-	+	68	15
-	+	68	3
-	+	71	0
-	+	68	61
-	+	69	28
-	+	70	36
-	+	68	21
-	+	68	0
-	+	71	0
-	+	68	0
-	+	69	0
-	+	70	0
-	+	64	33
-	+	65	0
-	+	71	22
-	+	14	60
-	+	9	0
-	+	36	0
-	+	9	0
-	+	36	39
-	+	14	29
-	+	69	23
-	+	71	0
-	+	68	29
-	+	69	0
-	+	70	30
-	+	66	20
-	+	67	46
-	+	15	37
-	+	54	31
-	+	27	0
-	+	25	0
-	+	26	35
-	+	67	36
-
-> ~/dev/Codex/CodexEditor/assets/Projects/TestProj/build.sh
-	*	1703964015	0
-	"	31	6
-	^	31	7
-	.	31	6
-	+	1	37
-	+	11	0
-	+	11	10
-	+	11	46
 	+	3	0
-	+	1	47
-	+	25	0
-	+	11	72
-	+	13	23
-	+	14	12
-	+	17	30
-	+	19	30
-	+	4	23
-	+	5	12
-	+	1	8
-	+	7	34
-	+	8	10
-	+	11	0
-	+	20	31
-	+	17	12
-	+	21	1
-	+	24	8
-	+	25	30
-	+	27	37
-	+	28	19
-	+	26	32
-	+	27	11
-	+	28	24
-	+	29	4
-	+	34	53
-	+	35	2
-	+	47	23
-	+	7	34
-	+	41	0
-	+	39	0
-	+	36	59
-	+	38	1
-	+	41	0
-	+	42	30
-	+	43	10
-	+	35	6
-	+	41	6
-	+	34	34
-	+	25	11
-	+	19	32
-	+	1	49
-	+	25	32
-	+	1	4
-	+	23	6
-	+	32	23
-	+	33	6
-	+	46	6
-	+	11	59
-	+	31	6
 
-> /etc/default/grub
-	*	1703761508	0
-	"	63	27
+> /etc/pacman.conf
+	*	1726910304	0
+	"	82	0
 
-> ~/dev/GraphImpl/.gitignore
-	*	1703584774	0
-	"	4	0
-	^	4	0
-	.	3	9
-	+	3	9
+> ~/dev/bsh/src/shell_interface.c
+	*	1722100633	0
+	"	317	17
+	^	317	18
+	.	317	17
+	+	317	17
 
-> /init
-	*	1703418635	0
-	"	1	0
+> ~/dev/bsh/src/main.c
+	*	1722100563	0
+	"	8	16
+	^	8	17
+	.	8	16
+	+	8	16
 
-> ~/dev/emacs-git/PKGBUILD
-	*	1703157114	0
-	"	25	6
-	^	151	0
-	.	25	6
-	+	25	8
-	+	27	5
-	+	25	10
-	+	43	8
-	+	54	9
-	+	75	13
-	+	25	6
-
-> ~/dev/emacs/INSTALL.REPO
-	*	1703156692	0
-	"	116	9
-
-> ~/dev/tests/AutoPtr.cpp
-	*	1702680841	0
-	"	17	0
-
-> ~/dev/LameAssCalculator/main.cpp
-	*	1702680774	0
-	"	1	0
-
-> ~/dev/VectorImpl/main.cpp
-	*	1701782204	0
-	"	182	25
-
-> ~/.doom.d/config.el
-	*	1701126910	0
-	"	84	57
-	^	84	41
-	.	84	40
-	+	323	0
-	+	97	1
-	+	237	15
-	+	238	15
-	+	239	15
-	+	240	15
-	+	241	15
-	+	592	1
-	+	85	0
-	+	84	40
-
-> ~/dev/Codex/build
-	*	1701043351	0
-	"	1	0
-	^	20	70
-	.	20	69
-	+	28	0
-	+	29	90
-	+	29	0
-	+	32	0
-	+	33	0
-	+	34	0
-	+	29	0
-	+	30	33
-	+	34	79
-	+	37	31
-	+	38	20
-	+	40	12
-	+	41	15
-	+	44	0
-	+	28	4
-	+	30	4
-	+	31	4
-	+	18	31
-	+	18	41
-	+	20	38
-	+	19	37
-	+	20	43
-	+	21	6
-	+	22	25
-	+	22	0
-	+	20	57
-	+	54	43
-	+	25	40
-	+	20	69
-
-> ~/dev/Codex/CodexEditor/assets/Projects/TestProj/CMakeLists.txt
-	*	1700228969	0
-	"	13	80
-	.	13	80
-	+	9	44
-	+	10	45
-	+	13	0
-	+	11	52
-	+	12	53
-	+	13	92
-	+	12	27
-	+	11	21
-	+	12	21
-	+	9	52
-	+	10	51
-	+	11	53
-	+	12	54
-	+	11	54
-	+	10	52
-	+	13	0
-	+	9	0
-	+	13	0
-	+	13	80
-
-> ~/dev/Codex/CodexEditor/assets/Projects/TestProj/CMakeLists.txt.bak
-	*	1700228761	0
-	"	1	0
-
-> ~/dev/Codex/CMakeLists.txt.bak
-	*	1700227394	0
-	"	1	0
-
-> ~/.config/picom/picom.conf
-	*	1699665075	0
-	"	294	0
-	^	277	15
-	.	262	14
-	+	262	14
-
-> ~/LameAssCalculator/mainwindow.ui
-	*	1699616795	0
-	"	1	0
-
-> ~/dev/tests/sad.cpp
-	*	1699403435	0
-	"	4	17
-	^	4	18
-	.	4	17
-	+	1	55
-	+	3	23
-	+	4	17
-
-> ~/dev/Codex/builds/linux-x86_64-debug/CodexEditor/asd
-	*	1698833754	0
-	"	4	8
-
-> ~/dev/Codex/builds/linux-x86_64/CodexEditor/GLShaders/batchRenderer.glsl
-	*	1698691052	0
-	"	1	0
-
-> ~/dev/Codex/builds/linux-x86_64/CodexEditor/imgui.ini
-	*	1698631504	0
-	"	47	0
-
-> ~/dev/Codex.bak/Codex/CMakeLists.txt.bak
-	*	1698266730	0
-	"	36	0
-
-> ~/.emacs.d/.local/etc/workspaces/_workspaces
-	*	1698159744	0
-	"	809	12
-	.	819	0
-	+	819	0
-
-> ~/dev/Codex/builds/linux-x86_64/TestGame/GLShaders/batchRenderer.glsl
-	*	1698110931	0
-	"	66	0
-	^	41	40
-	.	41	39
-	+	41	39
-
-> ~/dev/Codex/Codex/assets/GLShaders/texture2d.glsl
-	*	1698092314	0
-	"	46	22
-
-> ~/dev/Codex/.gitmodules
-	*	1698067855	0
-	"	1	0
-	.	1	0
-	+	1	0
-
-> ~/dev/Codex/.git/config
-	*	1698067840	0
-	"	1	0
-
-> ~/common_conf
-	*	1695929746	0
-	"	133	0
-	^	120	28
-	.	57	35
-	+	49	0
-	+	41	4
-	+	42	4
-	+	43	4
-	+	43	72
-	+	49	4
-	+	49	1
-	+	50	0
-	+	51	42
-	+	55	17
-	+	56	0
-	+	60	0
-	+	56	55
-	+	55	55
-	+	60	0
-	+	53	41
-	+	52	22
-	+	54	19
-	+	107	20
-	+	62	31
-	+	55	61
-	+	42	59
-	+	63	22
-	+	64	8
-	+	53	14
-	+	40	12
-	+	64	55
-	+	65	74
-	+	66	31
-	+	65	3
-	+	66	35
-	+	67	32
-	+	68	0
-	+	65	76
-	+	66	0
-	+	64	36
-	+	103	21
-	+	105	0
-	+	113	42
-	+	114	25
-	+	76	30
-	+	120	26
-	+	86	18
-	+	87	20
-	+	88	66
-	+	88	0
-	+	88	62
-	+	89	3
-	+	88	3
-	+	91	0
-	+	89	9
-	+	90	61
-	+	98	20
-	+	104	23
-	+	108	23
-	+	33	39
-	+	35	5
-	+	34	7
-	+	45	0
-	+	49	0
-	+	46	7
-	+	47	7
-	+	48	0
-	+	45	8
-	+	33	8
-	+	57	0
-	+	57	8
-	+	60	0
-	+	58	0
-	+	33	35
-	+	57	35
-
-> ~/.git/MERGE_MSG
-	*	1695929603	0
-	"	6	0
-
-> ~/dev/BitHunt-Node/public/scripts/worldgen_script.js
-	*	1695926362	0
-	"	267	26
-
-> ~/dev/BitHunt-Node/public/html/game.html
-	*	1695926277	0
+> ~/dev/bsh/src/shell_interface.h
+	*	1722100553	0
 	"	31	0
 
-> ~/Downloads/main.cpp
-	*	1695608858	0
-	"	30	13
-
-> ~/dev/tests/cpp_playground/.projectile
-	*	1695571929	0
+> ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
+	*	1722100261	0
 	"	1	0
+	^	10	21
+	.	10	20
+	+	5	32
+	+	6	0
+	+	6	12
+	+	5	56
+	+	5	29
+	+	6	0
+	+	11	14
+	+	11	34
+	+	5	59
+	+	11	17
+	+	5	0
+	+	11	0
+	+	5	58
+	+	10	20
 
-> ~/dev/tests/csharp_playground/csharp_playground.csproj
-	*	1695244060	0
-	"	2	0
-	^	2	0
-	.	2	0
-	+	3	0
-	+	2	0
-
-> ~/dev/tests/csharp_playground/Program.cs
-	*	1695243942	0
-	"	21	11
-	^	21	12
-	.	21	11
-	+	33	0
-	+	32	0
-	+	31	4
-	+	30	8
-	+	29	11
-	+	34	0
-	+	29	11
-	+	2	36
-	+	26	12
-	+	26	5
-	+	27	0
-	+	7	24
-	+	23	4
-	+	9	40
-	+	17	8
-	+	10	8
-	+	11	8
-	+	12	8
-	+	13	8
-	+	14	8
-	+	15	8
-	+	16	8
-	+	6	40
-	+	19	32
-	+	19	23
-	+	22	8
-	+	21	11
-
-> ~/dev/emacs/config.bat
-	*	1695236039	0
-	"	66	0
-
-> ~/.cache/yay/emacs-git/PKGBUILD
-	*	1695234521	0
-	"	50	0
-	^	98	9
-	.	43	8
-	+	43	8
-	+	54	9
-	+	27	9
-	+	43	8
-	+	54	9
-	+	27	9
-	+	25	6
-	+	27	9
-	+	43	8
-
-> ~/.bashrc
-	*	1695173729	0
-	"	1	0
-
-> ~/install_fonts
-	*	1695173569	0
-	"	70	1
-	^	33	15
-	.	33	14
-	+	145	0
-	+	2	0
-	+	3	44
-	+	5	16
-	+	9	5
-	+	5	26
-	+	14	98
-	+	16	0
-	+	12	36
-	+	19	42
-	+	26	29
-	+	30	28
-	+	41	105
-	+	42	97
-	+	45	36
-	+	46	40
-	+	47	61
-	+	51	39
-	+	50	20
-	+	52	17
-	+	57	0
-	+	56	29
-	+	57	29
-	+	60	39
-	+	66	48
-	+	67	5
-	+	71	0
-	+	69	30
+> ~/.emacs.d/init.el
+	*	1719585921	0
+	"	180	130
+	^	180	131
+	.	180	130
+	+	6	19
+	+	37	20
 	+	37	0
-	+	33	14
+	+	8	17
+	+	1	32
+	+	11	80
+	+	13	23
+	+	31	33
+	+	32	0
+	+	19	33
+	+	20	33
+	+	10	10
+	+	36	29
+	+	48	2
+	+	51	16
+	+	52	13
+	+	67	16
+	+	96	0
+	+	82	0
+	+	48	2
+	+	49	0
+	+	33	2
+	+	34	54
+	+	70	37
+	+	73	60
+	+	70	37
+	+	74	74
+	+	75	68
+	+	79	50
+	+	80	62
+	+	82	20
+	+	83	32
+	+	84	11
+	+	83	11
+	+	95	30
+	+	91	45
+	+	101	0
+	+	162	36
+	+	180	130
 
-> ~/dev/tests/rproj/src/main.rs
-	*	1695062180	0
-	"	4	10
-	^	4	11
-	.	2	8
-	+	3	0
-	+	2	8
+> ~/.emacs.d/init.el~
+	*	1719581848	0
+	"	99	0
 
-> ~/dev/tests/rproj/src/graphics.rs
-	*	1695062124	0
-	"	1	16
-	^	1	17
-	.	1	16
-	+	1	16
+> /usr/share/vim/vim91/doc/help.txt
+	*	1719575281	0
+	"	56	0
 
-> ~/dev/tests/rproj/src/graphics/renderer.rs
-	*	1695062041	0
-	"	11	0
-	^	8	22
-	.	8	21
-	+	2	15
-	+	6	34
-	+	7	25
-	+	8	21
-
-> ~/dev/tests/rproj/src/game/vector2d.rs
-	*	1695062024	0
-	"	14	48
-	^	14	49
-	.	14	48
-	+	4	9
-	+	5	9
-	+	10	36
-	+	11	24
-	+	12	17
-	+	13	15
-	+	2	0
-	+	1	22
-	+	6	17
-	+	14	48
-
-> ~/dev/tests/rproj/src/game.rs
-	*	1695061551	0
-	"	1	15
-	^	1	16
-	.	1	16
-	+	1	16
-
-> ~/dev/terminal-command/src/tcmd/scene2d.rs
-	*	1694948061	0
-	"	1	0
-
-> ~/dev/terminal-command/README.org
-	*	1694787586	0
-	"	1	0
-
-> ~/dev/tests/main.rs
-	*	1694460138	0
-	"	2	19
-	^	2	20
-	.	2	19
-	+	2	19
-
-> ~/dev/tests/Linger/build
-	*	1694431882	0
-	"	1	0
-	.	38	0
-	+	38	0
-
-> ~/scripts/ccpinit
-	*	1694430297	0
-	"	18	0
-
-> ~/dev/tests/level0-test/level0-test/src/main.cpp
-	*	1694288699	0
-	"	7	7
-	^	7	8
-	.	7	7
-	+	3	26
-	+	10	0
-	+	9	12
-	+	8	4
-	+	7	7
-
-> ~/dev/tests/MienProj/MienProj/src/main.cpp
-	*	1694218302	0
-	"	7	0
-
-> ~/dev/tests/MienProj/MienProj/CMakeLists.txt
-	*	1694218285	0
-	"	1	0
-
-> ~/dev/tests/MienProj/CMakeLists.txt
-	*	1694218273	0
-	"	24	0
-
-> ~/dev/tests/MienProj/build
-	*	1694218256	0
-	"	44	0
-
-> ~/dev/tests/ARDELIEN/build
-	*	1694217386	0
-	"	43	0
-
-> ~/dev/tests/ARDELIEN/ARDELIEN/CMakeLists.txt
-	*	1694217233	0
-	"	5	0
-
-> ~/dev/tests/ARDELIEN/CMakeLists.txt
-	*	1694217225	0
-	"	23	0
+> ~/dev/Codex/CodexEditor/assets/Projects/MarioClone/default.cxproj
+	*	1719511206	0
+	"	2147	47
+	^	2147	62
+	.	2147	61
+	+	50	78
+	+	2147	61

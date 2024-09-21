@@ -1,6 +1,9 @@
 # My stuff
 
-cowsay -f tux "The talking penguin." | lolcat
+#cowsay -f tux "The talking penguin." | lolcat
+
+export CC=clang
+export CXX=clang++
 
 export PLATFORM_LOGO="?"
 export PLATFORM_OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
