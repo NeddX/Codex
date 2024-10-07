@@ -85,7 +85,7 @@
 #include "../Engine/Math/Math.h"
 
 // Library specific
-#include <Logger.h>
+#include <Logex.h>
 #include <fmt/core.h>
 #include <fmt/format.h>
 #include <fmt/color.h>

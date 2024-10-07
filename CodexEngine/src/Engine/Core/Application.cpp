@@ -174,7 +174,7 @@ namespace codex {
             }
             catch (const CodexException& ex)
             {
-                std::cerr << ex << std::endl;
+				lgx::Get("engine").Log(lgx::Level::Fatal, ex.to_string());
                 std::exit(EXIT_FAILURE);
             }
 

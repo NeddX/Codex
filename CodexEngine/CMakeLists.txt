@@ -146,10 +146,10 @@ endif()
 
 # Logex
 add_subdirectory(vendor/Logex ${PROJECT_BINARY_DIR}/Logex EXCLUDE_FROM_ALL)
-set(LOGEX_INCLUDE_DIRS vendor/Logex/Logger)
+set(LOGEX_INCLUDE_DIRS vendor/Logex/include)
 set(LOGEX_LIBRARIES Logex)
 
-target_include_directories(CodexEngine PRIVATE ${LOGEX_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${LOGEX_INCLUDE_DIRS})
 target_link_libraries(CodexEngine ${LOGEX_LIBRARIES})
 
 target_include_directories(CodexEngine-static PRIVATE ${LOGEX_INCLUDE_DIRS})

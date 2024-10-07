@@ -116,6 +116,7 @@ target_include_directories(NBMan PUBLIC Engine/vendor/fmt/include)
 target_include_directories(NBMan PUBLIC Engine/vendor/entt)
 target_include_directories(NBMan PUBLIC Engine/vendor/glad)
 target_include_directories(NBMan PUBLIC Engine/vendor/box2d/include)
+target_include_directories(NBMan PUBLIC Engine/vendor/Logex/include)
 target_include_directories(NBMan PUBLIC Engine/src/PCH)
 
 # For ease of use.
