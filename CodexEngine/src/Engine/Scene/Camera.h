@@ -23,18 +23,19 @@ namespace codex::scene {
         f32            m_FarClip;
         ProjectionType m_ProjectionType;
         Matrix4f       m_Projection;
-        f32            m_Pan = 1.0f;
+        f32            m_Pan;
 
     public:
         Camera(const i32 width = 1280, const i32 height = 720, const f32 nearClip = 0.0f, const f32 farClip = 100.0f,
                const ProjectionType projectionType = ProjectionType::Orthographic, const f32 fov = 90.0f) noexcept
             : m_Width(width)
             , m_Height(height)
-            , m_ProjectionType(projectionType)
             , m_Fov(fov)
             , m_NearClip(nearClip)
             , m_FarClip(farClip)
+            , m_ProjectionType(projectionType)
             , m_Projection(Matrix4f(1.0f))
+            , m_Pan(1.0f)
         {
             UpdateProjectionMatrix();
         }

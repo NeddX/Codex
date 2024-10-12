@@ -32,7 +32,7 @@ namespace codex::mem {
             m_Ptr       = other.m_Ptr;
             other.m_Ptr = nullptr;
         }
-        ~Box() { Drop(true); }
+        ~Box() { Drop(); }
 
     public:
         template <typename U>
@@ -44,7 +44,7 @@ namespace codex::mem {
         }
 
     private:
-        inline void Drop(const bool destructing = false)
+        inline void Drop()
         {
             if (m_Ptr)
             {

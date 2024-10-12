@@ -146,7 +146,7 @@ namespace codex::gfx {
                 }
             }
 
-            for (auto i = 1; i < ArrayLength(lines); ++i)
+            for (usize i = 1; i < ArrayLength(lines); ++i)
                 m_Lines.emplace_back(lines[i - 1], lines[i], colour, lifeTime);
             m_Lines.emplace_back(lines[3], lines[0], colour, lifeTime);
         }

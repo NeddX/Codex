@@ -78,7 +78,7 @@ namespace codex {
             auto ptr = std::move(it->second);
             m_Behaviours.erase(it);
             m_BehaviourList.erase(std::remove(m_BehaviourList.begin(), m_BehaviourList.end(), ptr.Get()));
-            return std::move(ptr);
+            return ptr;
         }
         else
         {
@@ -139,7 +139,7 @@ namespace codex {
         body->ApplyAngularImpulse(torque, true);
     }
 
-    void TilemapComponent::AddTile(const Vector3f pos, const i32 tileId)
+    void TilemapComponent::AddTile([[maybe_unused]] const Vector3f pos, [[maybe_unused]] const i32 tileId)
     {
     }
 

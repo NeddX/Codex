@@ -9,8 +9,8 @@ namespace codex {
     // Forward declerations.
     class Serializer;
     class NativeBehaviour;
-    class SpriteRendererComponent;
-    class Component;
+    struct SpriteRendererComponent;
+    struct Component;
     struct TransformComponent;
     struct IDComponent;
 
@@ -18,7 +18,7 @@ namespace codex {
     {
         friend class Serializer;
         friend class Scene;
-        friend class SpriteRendererComponent;
+        friend struct SpriteRendererComponent;
         friend class NativeBehaviour;
 
     public:

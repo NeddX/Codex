@@ -48,7 +48,7 @@ namespace codex::gfx {
                 { { "CX_MAX_SLOT_COUNT", std::to_string(mgl::GraphicsCapabilities::GetMaxTextureSlotCount()) } });
 
             s_Batches.reserve(s_Capacity);
-            for (usize i = 0; i < s_Capacity; ++i)
+            for (i32 i = 0; i < s_Capacity; ++i)
                 s_Batches.emplace_back(s_MaxQuadCountPerBatch, s_QuadShader);
 
             for (auto& batch : s_Batches)
@@ -121,7 +121,7 @@ namespace codex::gfx {
         const Vector2  size{ glm::length(glm::vec3(transform[0])), glm::length(glm::vec3(transform[1])) };
         // Add ten extra pixels so fix the bug where there's a slight gap between the camera edge and the last
         // sprite inside the viewport of the camera.
-        const auto     camera_dim = Vector3{ s_CurrentCamera->GetWidth() * s_CurrentCamera->GetPan(),
+        const auto camera_dim = Vector3{ s_CurrentCamera->GetWidth() * s_CurrentCamera->GetPan(),
                                          s_CurrentCamera->GetHeight() * s_CurrentCamera->GetPan(), 0 } +
                                 100;
         const auto current_cam_pos = s_CurrentCameraPos - Vector3f{ camera_dim / 2 };

@@ -91,6 +91,8 @@ if(DEFINED CX_PLATFORM_WINDOWS)
     COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:MGL>"
             "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/"
     COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:fmt>"
+            "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/"
+    COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:Logex>"
             "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/")
 endif()
 

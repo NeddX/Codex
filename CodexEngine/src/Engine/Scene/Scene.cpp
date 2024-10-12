@@ -219,8 +219,7 @@ namespace codex {
             const auto view     = registry->view<TilemapComponent, TransformComponent>();
             for (const auto& e : view)
             {
-                auto& tilemap_component   = view.get<TilemapComponent>(e);
-                auto& transform_component = view.get<TransformComponent>(e);
+                auto& tilemap_component = view.get<TilemapComponent>(e);
                 for (const auto& tile : tilemap_component.tiles)
                 {
                     auto sprite = tilemap_component.sprite;
@@ -306,7 +305,6 @@ namespace codex {
             {
                 const auto& body     = circle_collider_view.get<RigidBody2DComponent>(e);
                 const auto& collider = circle_collider_view.get<CircleCollider2DComponent>(e);
-                const auto& trans    = circle_collider_view.get<TransformComponent>(e);
 
                 b2CircleShape shape;
                 shape.m_p.Set(collider.offset.x * m_PhysicsProperties.scalingFactor,
@@ -325,7 +323,7 @@ namespace codex {
         }
     }
 
-    void Scene::OnEditorInit(scene::EditorCamera& camera)
+    void Scene::OnEditorInit([[maybe_unused]] scene::EditorCamera& camera)
     {
     }
 
@@ -406,7 +404,7 @@ namespace codex {
         m_PhysicsWorld.Reset();
     }
 
-    void Scene::OnEditorUpdate(const f32 deltaTime, scene::EditorCamera& camera)
+    void Scene::OnEditorUpdate([[maybe_unused]] const f32 deltaTime, scene::EditorCamera& camera)
     {
         // Render
         {
@@ -416,7 +414,7 @@ namespace codex {
         }
     }
 
-    void Scene::OnSimulationUpdate(const f32 deltaTime, scene::EditorCamera& camera)
+    void Scene::OnSimulationUpdate([[maybe_unused]] const f32 deltaTime, scene::EditorCamera& camera)
     {
         // Render
         {

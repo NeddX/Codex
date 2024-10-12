@@ -10,6 +10,7 @@ file(GLOB_RECURSE HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Assets/*.h")
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Assets/*.cpp")
 file(GLOB_RECURSE CODGEN_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/int/*.h")
 file(GLOB_RECURSE CODGEN_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/int/*.cpp")
+file(GLOB_RECURSE STATIC_LIBS "${CMAKE_CURRENT_SOURCE_DIR}/lib/*.lib")
 add_library(NBMan SHARED ${HEADER_FILES} ${SOURCE_FILES} ${CODGEN_HEADERS}
                          ${CODGEN_SOURCES})
 
@@ -67,10 +68,7 @@ elseif(DEFINED CX_PLATFORM_OSX)
   target_link_options(NBMan PUBLIC -dynamiclib -flat_namespace -undefined dynamic_lookup)
 elseif(DEFINED CX_PLATFORM_WINDOWS)
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_WINDOWS)
-  target_link_libraries(NBMan PRIVATE
-	${CMAKE_CURRENT_SOURCE_DIR}/lib/CodexEngine.lib
-	${CMAKE_CURRENT_SOURCE_DIR}/lib/MGL.lib
-	${CMAKE_CURRENT_SOURCE_DIR}/lib/fmtd.lib )
+  target_link_libraries(NBMan PUBLIC ${STATIC_LIBS})
 else()
   target_compile_definitions(NBMan PUBLIC CX_PLATFORM_UNKNOWN)
 endif()
@@ -101,7 +99,6 @@ message("")
 add_custom_command(
   TARGET NBMan
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_SOURCE_DIR}/lib/"
   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:NBMan>
           "${CMAKE_SOURCE_DIR}/lib/")
 
@@ -117,6 +114,7 @@ target_include_directories(NBMan PUBLIC Engine/vendor/entt)
 target_include_directories(NBMan PUBLIC Engine/vendor/glad)
 target_include_directories(NBMan PUBLIC Engine/vendor/box2d/include)
 target_include_directories(NBMan PUBLIC Engine/vendor/Logex/include)
+target_include_directories(NBMan PUBLIC Engine/vendor/Logex/Logger/vendor/fmt/include)
 target_include_directories(NBMan PUBLIC Engine/src/PCH)
 
 # For ease of use.

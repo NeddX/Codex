@@ -15,7 +15,7 @@
 
 namespace codex {
     // Forward decelerations
-    class TransformComponent;
+    struct TransformComponent;
 } // namespace codex
 
 namespace codex::gfx {

@@ -88,7 +88,6 @@ namespace codex::rf {
 
     std::optional<std::string> RFScript::ExpectNamespace() noexcept
     {
-        auto        prev_state = m_Lexer;
         std::string namespaceName;
 
         if (m_CurrentToken->type != TokenType::KeywordNamespace)

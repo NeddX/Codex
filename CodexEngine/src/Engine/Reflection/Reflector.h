@@ -31,7 +31,7 @@ extern "C" CODEX_EXPORT void                    Rf_Dummy() noexcept;
 
 namespace codex::rf {
     // Forward declarations.
-    class RFFieldInfo;
+    struct RFFieldInfo;
 
     struct RFAttributeInfo
     {

@@ -20,9 +20,9 @@ namespace codex::imgui {
     void ImGuiLayer::OnAttach()
     {
         auto& app           = Application::Get();
-        auto& window        = Application::Get().GetWindow();
-        auto* native_window = Application::Get().GetWindow().GetNativeWindow();
-        auto* gl_context    = Application::Get().GetWindow().GetGlContext();
+        auto& window        = app.GetWindow();
+        auto* native_window = app.GetWindow().GetNativeWindow();
+        auto* gl_context    = app.GetWindow().GetGlContext();
 
         IMGUI_CHECKVERSION();
         if (!ImGui::CreateContext())
@@ -34,7 +34,7 @@ namespace codex::imgui {
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         // NOTE: Viewports are very buggy when docking as of now and they
         // crash on OSX so I am disabling them for now.
-        //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
         m_CurrentContext = ImGui::GetCurrentContext();
 
         ImGui::StyleColorsDark();

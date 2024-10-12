@@ -143,7 +143,7 @@ namespace codex {
             gladLoadGL();
             gladLoadGLLoader(SDL_GL_GetProcAddress);
             logger.Log(lgx::Level::Info, "GLad loaded");
-            logger.Log(lgx::Level::Info, "Vendor:\t\t{}", (const char*)glGetString(GL_VENDOR)); 
+            logger.Log(lgx::Level::Info, "Vendor:\t\t{}", (const char*)glGetString(GL_VENDOR));
             logger.Log(lgx::Level::Info, "Renderer:\t\t{}", (const char*)glGetString(GL_RENDERER));
             logger.Log(lgx::Level::Info, "Version:\t\t{}", (const char*)glGetString(GL_VERSION));
         }
@@ -156,7 +156,7 @@ namespace codex {
         lgx::Get("engine").Log(lgx::Level::Info, "Window subsystem initialized.");
     }
 
-    void Window::SDLCheckError(const i32 line)
+    void Window::SDLCheckError([[maybe_unused]] const i32 line)
     {
 #ifdef CX_CONFIG_DEBUG
         const char* error = SDL_GetError();
@@ -266,7 +266,7 @@ namespace codex {
     }
 
     // TODO: Remove, legacy code.
-    void Window::OnUpdate(const f32 delta_time)
+    void Window::OnUpdate([[maybe_unused]] const f32 delta_time)
     {
         // static mgl::FrameBufferProperties props(GetWidth(), GetHeight(), {
         // mgl::TextureFormat::RGBA8, mgl::TextureFormat::RedInt32 }); static

@@ -56,8 +56,10 @@ elseif(DEFINED CX_PLATFORM_OSX)
   target_sources(CodexEngine PRIVATE ${PLATFORM_POSIX_SOURCES})
   target_sources(CodexEngine-static PRIVATE ${PLATFORM_POSIX_SOURCES})
 elseif(DEFINED CX_PLATFORM_WINDOWS)
-  target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_WINDOWS)
-  target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_WINDOWS)
+  target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_WINDOWS
+        _CRT_SECURE_NO_WARNINGS)
+  target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_WINDOWS
+        _CRT_SECURE_NO_WARNINGS) 
   target_sources(CodexEngine PRIVATE ${PLATFORM_WINDOWS_SOURCES})
   target_sources(CodexEngine-static PRIVATE ${PLATFORM_WINDOWS_SOURCES})
 else()
@@ -158,7 +160,7 @@ set(LOGEX_LIBRARIES Logex)
 target_include_directories(CodexEngine PUBLIC ${LOGEX_INCLUDE_DIRS})
 target_link_libraries(CodexEngine ${LOGEX_LIBRARIES})
 
-target_include_directories(CodexEngine-static PRIVATE ${LOGEX_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${LOGEX_INCLUDE_DIRS})
 target_link_libraries(CodexEngine-static ${LOGEX_LIBRARIES})
 
 # nlohmann json

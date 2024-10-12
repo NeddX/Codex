@@ -8,12 +8,12 @@
 namespace codex {
     // Forward declarations.
     class Scene;
-    class NativeBehaviourComponent;
+    struct NativeBehaviourComponent;
 
     class CODEX_API NativeBehaviour
     {
         friend class Scene;
-        friend class NativeBehaviourComponent;
+        friend struct NativeBehaviourComponent;
 
     protected:
         Entity                         m_Parent;
@@ -76,12 +76,12 @@ namespace codex {
         // protected:
     public:
         virtual void OnInit() = 0;
-        virtual void OnUpdate(const f32 deltaTime) {}
-        virtual void OnFixedUpdate(const f32 deltaTime) {}
+        virtual void OnUpdate([[maybe_unused]] const f32 deltaTime) {}
+        virtual void OnFixedUpdate([[maybe_unused]] const f32 deltaTime) {}
         virtual void OnDispose() {}
         virtual void Serialize() const noexcept { m_SerializedData[typeid(*this).name()]["Id"] = -1; };
         [[nodiscard]] virtual mem::Box<NativeBehaviour> Clone() const = 0;
-        [[nodiscard]] virtual object GetField(const std::string_view name) noexcept { return nullobj; }
+        [[nodiscard]] virtual object GetField([[maybe_unused]] const std::string_view name) noexcept { return nullobj; }
     };
 } // namespace codex
 

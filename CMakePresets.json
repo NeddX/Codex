@@ -139,9 +139,7 @@
             "installDir": "${sourceDir}/installs/${presetName}",
             "inherits": "windows-llvm-any-debug",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CXX_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined",
-                "CMAKE_C_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined"
+                "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {

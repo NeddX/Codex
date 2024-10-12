@@ -13,8 +13,8 @@ namespace codex::cc {
         class ScopedGuard;
 
     private:
-        std::atomic<bool> m_Locked = false;
         T                 m_Object;
+        std::atomic<bool> m_Locked = false;
 
     public:
         template <typename... TArgs>

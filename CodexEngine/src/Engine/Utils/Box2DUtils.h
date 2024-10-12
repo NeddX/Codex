@@ -4,11 +4,6 @@
 #include <Engine/Core/CommonDef.h>
 #include <Engine/Scene/Components.h>
 
-// Forward declarations.
-enum b2BodyType;
-struct b2Vec3;
-struct b2Vec2;
-
 namespace codex::utils {
     [[nodiscard]] b2BodyType ToB2Type(const RigidBody2DComponent::BodyType& type) noexcept;
 
