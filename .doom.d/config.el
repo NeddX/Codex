@@ -163,11 +163,6 @@
             (add-hook 'minibuffer-setup-hook #'gc-minibuffer-setup-hook)
             (add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook)))
 
-;; Rainbow-mode
-(use-package rainbow-mode
-  :init
-  (rainbow-mode t))
-
 ;; Beacon mode
 (use-package beacon
   :init
@@ -246,7 +241,7 @@
     :merge t
     :checkbox      "[ ]"
     :pending       "[-]"
-    :checkedbox    "[X]"
+    :checkedbox    "[x]"
     :list_property "::"
     :em_dash       "---"
     :ellipsis      "..."
@@ -688,7 +683,7 @@
          lsp-clients-clangd-args '("--header-insertion=never" "--background-index=false" "--clang-tidy"))
   :custom
   (lsp-eldoc-render-all nil)
-  (lsp-idle-delay 0.6)
+  (lsp-idle-delay 0.3)
   (lsp-inlay-hint-enable t)
   ;; These are optional configurations. See https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer/#lsp-rust-analyzer-display-chaining-hints for a full list
   (lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -701,6 +696,9 @@
   :config
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
+;; Projectile
+(after! projectile
+  (setq projectile-project-search-path '("~/projects/" "~/work/" "~/dev" "~")))
 
 ;; Company(use-package! company
 (add-hook 'after-init-hook 'global-company-mode)
@@ -709,8 +707,8 @@
   :commands (company-mode global-company-mode company-complete
                           company-complete-common company-manual-begin company-grab-line)
   :config
-  (setq! company-idle-delay 0.5
-         company-tooltip-limit 10
+  (setq! company-idle-delay 0.3
+         company-tooltip-limit 20
          company-dabbrev-downcase nil
          company-dabbrev-ignore-case nil
          company-minimum-prefix-length 1))

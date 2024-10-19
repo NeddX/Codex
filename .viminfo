@@ -11,20 +11,30 @@
 # hlsearch on (H) or off (h):
 ~h
 # Last Search Pattern:
-~MSle0~/Shell_Des
+~MSle0~/export PATH
 
 # Last Substitute String:
 $
 
 # Command Line History (newest to oldest):
-:wq
-|2,0,1726914845,,"wq"
 :q!
-|2,0,1726910305,,"q!"
+|2,0,1729354224,,"q!"
+:wq
+|2,0,1729346124,,"wq"
 :w
-|2,0,1722100562,,"w"
+|2,0,1726929844,,"w"
 
 # Search String History (newest to oldest):
+?/export PATH
+|2,1,1729345943,47,"export PATH"
+?/lsp-mode
+|2,1,1726929496,47,"lsp-mode"
+?/lsp
+|2,1,1726929487,47,"lsp"
+?/rainbow-mode
+|2,1,1726929478,47,"rainbow-mode"
+?/projectile
+|2,1,1726929467,47,"projectile"
 ?/Shell_Des
 |2,1,1722100627,47,"Shell_Des"
 ? @$
@@ -39,280 +49,339 @@ $
 # Debug Line History (newest to oldest):
 
 # Registers:
-""0	CHAR	0
+"0	CHAR	0
 	n
-|3,1,0,0,1,0,1722100625,"n"
-"1	LINE	0
-	   printstr("\n");
-|3,0,1,1,1,0,1722100178,"   printstr(\"\\n\");"
+|3,0,0,0,1,0,1722100625,"n"
+""1	LINE	0
+	lvim.plugins = {
+	  { "lunarvim/colorschemes" },
+	    {
+	        "stevearc/dressing.nvim",
+	            config = function()
+	                  require("dressing").setup({
+	                          input = { enabled = false },
+	                                })
+	                                    end,
+	                                      },
+	                                        {
+	                                            "nvim-neorg/neorg",
+	                                                ft = "norg", -- lazy-load on filetype
+	                                                    config = true, -- run require("neorg").setup()
+	                                                      },
+	                                                      }
+|3,1,1,1,16,0,1729346119,"lvim.plugins = {","  { \"lunarvim/colorschemes\" },","    {","        \"stevearc/dressing.nvim\",","            config = function()","                  require(\"dressing\").setup({","                          input = { enabled = false },","                                })","                                    end,","                                      },","                                        {",>67
+|<"                                            \"nvim-neorg/neorg\",","                                                ft = \"norg\", -- lazy-load on filetype","                                                    config = true, -- run require(\"neorg\").setup()","                                                      },","                                                      }"
 "2	LINE	0
-	   printi64(c);
-|3,0,2,1,1,0,1722100177,"   printi64(c);"
-"3	LINE	0
-	   printstr("1337 + 420 / 2 is: ");
-|3,0,3,1,1,0,1722100177,"   printstr(\"1337 + 420 / 2 is: \");"
-"4	LINE	0
-	   let c: i64 = a;
-|3,0,4,1,1,0,1722100175,"   let c: i64 = a;"
-"5	LINE	0
-	   let a: i64 = 1337 + 420 / 2;
-|3,0,5,1,1,0,1722100175,"   let a: i64 = 1337 + 420 / 2;"
-"6	LINE	0
-	   printi64(c);
-|3,0,6,1,1,0,1722100131,"   printi64(c);"
-"7	LINE	0
-	   let cstr: string = str;
-|3,0,7,1,1,0,1722100063,"   let cstr: string = str;"
-"8	LINE	0
 	
-|3,0,8,1,1,0,1719580241,""
-"9	LINE	0
-	;; CAT
-	(use-package nyan-mode
-	  :ensure t
+|3,0,2,1,1,0,1726929829,""
+"3	LINE	0
+	  (setq! projectile-project-search-path 
+|3,0,3,1,1,0,1726929568,"  (setq! projectile-project-search-path "
+"4	LINE	0
+	
+|3,0,4,1,1,0,1726929481,""
+"5	LINE	0
+	;; Rainbow-mode
+|3,0,5,1,1,0,1726929480,";; Rainbow-mode"
+"6	LINE	0
+	(use-package rainbow-mode
 	  :init
-	  (nyan-start-animation)
-	  (nyan-toggle-wavy-trail)
-	  (setq nyan-animate-nyancat t)
-	  (setq nyan-wavy-trail t))
-|3,0,9,1,8,0,1719580241,";; CAT","(use-package nyan-mode","  :ensure t","  :init","  (nyan-start-animation)","  (nyan-toggle-wavy-trail)","  (setq nyan-animate-nyancat t)","  (setq nyan-wavy-trail t))"
+	  (rainbow-mode t))
+|3,0,6,1,3,0,1726929480,"(use-package rainbow-mode","  :init","  (rainbow-mode t))"
+"7	LINE	0
+	   printstr("\n");
+|3,0,7,1,1,0,1722100178,"   printstr(\"\\n\");"
+"8	LINE	0
+	   printi64(c);
+|3,0,8,1,1,0,1722100177,"   printi64(c);"
+"9	LINE	0
+	   printstr("1337 + 420 / 2 is: ");
+|3,0,9,1,1,0,1722100177,"   printstr(\"1337 + 420 / 2 is: \");"
 "-	CHAR	0
 	n
 |3,0,36,0,1,0,1722100190,"n"
 
 # File marks:
-'0  3  0  ~/.zshrc
-|4,48,3,0,1726914845,"~/.zshrc"
-'1  82  0  /etc/pacman.conf
-|4,49,82,0,1726910305,"/etc/pacman.conf"
-'2  6  17  ~/.zshrc
-|4,50,6,17,1726906218,"~/.zshrc"
-'3  6  17  ~/.zshrc
-|4,51,6,17,1726906218,"~/.zshrc"
-'4  317  17  ~/dev/bsh/src/shell_interface.c
-|4,52,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
-'5  8  16  ~/dev/bsh/src/main.c
-|4,53,8,16,1722100563,"~/dev/bsh/src/main.c"
-'6  31  0  ~/dev/bsh/src/shell_interface.h
-|4,54,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
-'7  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,55,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
-'8  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,56,1,0,1722100257,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
-'9  10  20  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,57,10,20,1722100251,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+'0  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,48,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+'1  7  29  ~/.config/lvim/config.lua
+|4,49,7,29,1729346124,"~/.config/lvim/config.lua"
+'2  86  68  ~/.zshrc
+|4,50,86,68,1729345966,"~/.zshrc"
+'3  1  19  ~/.xinitrc
+|4,51,1,19,1728916507,"~/.xinitrc"
+'4  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,52,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+'5  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,53,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+'6  701  74  ~/.doom.d/config.el
+|4,54,701,74,1726929848,"~/.doom.d/config.el"
+'7  3  0  ~/.zshrc
+|4,55,3,0,1726914845,"~/.zshrc"
+'8  3  0  ~/.zshrc
+|4,56,3,0,1726914845,"~/.zshrc"
+'9  82  0  /etc/pacman.conf
+|4,57,82,0,1726910305,"/etc/pacman.conf"
 
 # Jumplist (newest first):
--'  3  0  ~/.zshrc
-|4,39,3,0,1726914845,"~/.zshrc"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  7  29  ~/.config/lvim/config.lua
+|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
+-'  7  29  ~/.config/lvim/config.lua
+|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
+-'  5  0  ~/.config/lvim/config.lua
+|4,39,5,0,1729346113,"~/.config/lvim/config.lua"
+-'  5  0  ~/.config/lvim/config.lua
+|4,39,5,0,1729346113,"~/.config/lvim/config.lua"
+-'  8  54  ~/.config/lvim/config.lua
+|4,39,8,54,1729346110,"~/.config/lvim/config.lua"
+-'  8  54  ~/.config/lvim/config.lua
+|4,39,8,54,1729346110,"~/.config/lvim/config.lua"
+-'  1  0  ~/.config/lvim/config.lua
+|4,39,1,0,1729346007,"~/.config/lvim/config.lua"
+-'  1  0  ~/.config/lvim/config.lua
+|4,39,1,0,1729346007,"~/.config/lvim/config.lua"
+-'  86  68  ~/.zshrc
+|4,39,86,68,1729345966,"~/.zshrc"
+-'  86  68  ~/.zshrc
+|4,39,86,68,1729345966,"~/.zshrc"
+-'  86  68  ~/.zshrc
+|4,39,86,68,1729345966,"~/.zshrc"
+-'  86  68  ~/.zshrc
+|4,39,86,68,1729345966,"~/.zshrc"
+-'  66  4  ~/.zshrc
+|4,39,66,4,1729345944,"~/.zshrc"
+-'  66  4  ~/.zshrc
+|4,39,66,4,1729345944,"~/.zshrc"
+-'  66  4  ~/.zshrc
+|4,39,66,4,1729345944,"~/.zshrc"
+-'  66  4  ~/.zshrc
+|4,39,66,4,1729345944,"~/.zshrc"
+-'  8  0  ~/.zshrc
+|4,39,8,0,1729345943,"~/.zshrc"
+-'  8  0  ~/.zshrc
+|4,39,8,0,1729345943,"~/.zshrc"
+-'  8  0  ~/.zshrc
+|4,39,8,0,1729345943,"~/.zshrc"
+-'  8  0  ~/.zshrc
+|4,39,8,0,1729345943,"~/.zshrc"
 -'  1  0  ~/.zshrc
-|4,39,1,0,1726914841,"~/.zshrc"
--'  82  0  /etc/pacman.conf
-|4,39,82,0,1726910305,"/etc/pacman.conf"
--'  82  0  /etc/pacman.conf
-|4,39,82,0,1726910305,"/etc/pacman.conf"
--'  1  0  /etc/pacman.conf
-|4,39,1,0,1726910282,"/etc/pacman.conf"
--'  1  0  /etc/pacman.conf
-|4,39,1,0,1726910282,"/etc/pacman.conf"
--'  6  17  ~/.zshrc
-|4,39,6,17,1726906218,"~/.zshrc"
--'  6  17  ~/.zshrc
-|4,39,6,17,1726906218,"~/.zshrc"
--'  6  17  ~/.zshrc
-|4,39,6,17,1726906218,"~/.zshrc"
+|4,39,1,0,1729345938,"~/.zshrc"
 -'  1  0  ~/.zshrc
-|4,39,1,0,1726906207,"~/.zshrc"
+|4,39,1,0,1729345938,"~/.zshrc"
 -'  1  0  ~/.zshrc
-|4,39,1,0,1726906207,"~/.zshrc"
--'  317  17  ~/dev/bsh/src/shell_interface.c
-|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
--'  317  17  ~/dev/bsh/src/shell_interface.c
-|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
--'  317  17  ~/dev/bsh/src/shell_interface.c
-|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
--'  317  17  ~/dev/bsh/src/shell_interface.c
-|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
--'  317  17  ~/dev/bsh/src/shell_interface.c
-|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
--'  317  17  ~/dev/bsh/src/shell_interface.c
-|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
--'  317  17  ~/dev/bsh/src/shell_interface.c
-|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
--'  317  17  ~/dev/bsh/src/shell_interface.c
-|4,39,317,17,1722100633,"~/dev/bsh/src/shell_interface.c"
--'  1  0  ~/dev/bsh/src/shell_interface.c
-|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
--'  1  0  ~/dev/bsh/src/shell_interface.c
-|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
--'  1  0  ~/dev/bsh/src/shell_interface.c
-|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
--'  1  0  ~/dev/bsh/src/shell_interface.c
-|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
--'  1  0  ~/dev/bsh/src/shell_interface.c
-|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
--'  1  0  ~/dev/bsh/src/shell_interface.c
-|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
--'  1  0  ~/dev/bsh/src/shell_interface.c
-|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
--'  1  0  ~/dev/bsh/src/shell_interface.c
-|4,39,1,0,1722100627,"~/dev/bsh/src/shell_interface.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  8  16  ~/dev/bsh/src/main.c
-|4,39,8,16,1722100563,"~/dev/bsh/src/main.c"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  31  0  ~/dev/bsh/src/shell_interface.h
-|4,39,31,0,1722100554,"~/dev/bsh/src/shell_interface.h"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
--'  1  0  ~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl
-|4,39,1,0,1722100261,"~/dev/Relang/installs/linux-x86_64-debug/bin/test.rl"
+|4,39,1,0,1729345938,"~/.zshrc"
+-'  1  0  ~/.zshrc
+|4,39,1,0,1729345938,"~/.zshrc"
+-'  1  19  ~/.xinitrc
+|4,39,1,19,1728916507,"~/.xinitrc"
+-'  1  19  ~/.xinitrc
+|4,39,1,19,1728916507,"~/.xinitrc"
+-'  1  19  ~/.xinitrc
+|4,39,1,19,1728916507,"~/.xinitrc"
+-'  1  19  ~/.xinitrc
+|4,39,1,19,1728916507,"~/.xinitrc"
+-'  1  19  ~/.xinitrc
+|4,39,1,19,1728916507,"~/.xinitrc"
+-'  1  19  ~/.xinitrc
+|4,39,1,19,1728916507,"~/.xinitrc"
+-'  1  19  ~/.xinitrc
+|4,39,1,19,1728916507,"~/.xinitrc"
+-'  1  19  ~/.xinitrc
+|4,39,1,19,1728916507,"~/.xinitrc"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  115  1  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,115,1,1728144159,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  3  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,3,0,1728144154,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  1  0  ~/dev/tests/leet_cpp/stdc++.h
+|4,39,1,0,1728144153,"~/dev/tests/leet_cpp/stdc++.h"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
+-'  31  1  ~/.config/nvim/lua/dnvc/editor.lua
+|4,39,31,1,1726933547,"~/.config/nvim/lua/dnvc/editor.lua"
 
 # History of marks within files (newest to oldest):
 
+> ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+	*	1729354224	0
+	"	49	1
+	^	49	2
+	.	49	1
+	+	49	1
+
+> ~/.config/lvim/config.lua
+	*	1729346123	0
+	"	7	29
+	^	7	30
+	.	8	0
+	+	6	0
+	+	8	0
+
 > ~/.zshrc
-	*	1726914844	0
-	"	3	0
-	^	3	1
-	.	3	0
+	*	1729345965	0
+	"	86	68
+	^	86	69
+	.	86	68
 	+	6	17
 	+	3	0
+	+	86	68
+
+> ~/.xinitrc
+	*	1728916506	0
+	"	1	19
+	^	1	20
+	.	1	19
+	+	1	19
+
+> ~/dev/tests/leet_cpp/stdc++.h
+	*	1728144158	0
+	"	115	1
+	^	115	2
+	.	115	1
+	+	115	1
+
+> ~/.config/nvim/lua/dnvc/editor.lua
+	*	1726933547	0
+	"	31	1
+	^	31	2
+	.	31	1
+	+	31	1
+
+> ~/.doom.d/config.el
+	*	1726929848	0
+	"	701	74
+	^	701	75
+	.	701	74
+	+	166	0
+	+	684	0
+	+	699	13
+	+	702	0
+	+	701	74
 
 > /etc/pacman.conf
 	*	1726910304	0

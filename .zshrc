@@ -83,7 +83,7 @@ export EDITOR=vim
 export LD_LIBRARY_PATH=./:./lib:$LD_LIBRARY_PATH
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:~/scripts:$PATH
+export PATH=$HOME/bin:/usr/local/bin:~/scripts:$PATH:$HOME/.local/bin
 export TERMINAL=konsole
 
 # Path to your oh-my-zsh installation.

@@ -1,0 +1,35 @@
+vim.o.guicursor = ""
+vim.o.guicursor = "n-v-c:block-Cursor"
+vim.o.wrap = false
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.undodir = (os.getenv("OS") == "Windows_NT") and os.getenv("LOCALAPPDATA") .. "/nvim/undodir" or os.getenv("HOME") .. "/.config/nvim/undodir" 
+vim.o.undofile = true
+vim.o.hlsearch = false
+vim.o.incsearch = true
+vim.o.termguicolors = true -- Disable to get that retro looking like colour theme
+vim.o.scrolloff = 12
+vim.o.signcolumn = "yes"
+--vim.o.isfname:append("@-@")
+vim.o.updatetime = 50
+--vim.o.colorcolumn = "80"
+vim.g.mapleader = " "
+vim.o.paste = true
+vim.o.number = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.mouse = 'a'
+vim.o.softtabstop = 4
+vim.o.smarttab = true
+vim.o.autoindent = true
+vim.o.encoding = 'UTF8'
+vim.o.completeopt = 'menuone,longest'
+vim.o.cursorline = true
+vim.o.wildmenu = true
+vim.o.clipboard = 'unnamedplus'
+--vim.o.syntax = true
+--vim.o.t_Co = 256
+--vim.o.filetype = true
+--vim.o.indent = true
+vim.g.NERDTreeDirArrowExpandable = ""
+vim.g.NERDTreeDirArrowCollapsible = ""
