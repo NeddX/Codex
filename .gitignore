@@ -26,6 +26,8 @@
 /.config/**
 !/.config/autostart**/**
 !/.config/nvim**/**
+!/.config/lvim**/**
+!/.config/tmux**/**
 !/.config/conky**/**
 !/.config/gtk-3.0**/**
 !/.config/gtk-4.0**/**
