@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq! user-full-name "John Doe"
-       user-mail-address "john@doe.com")
+(setq! user-full-name "Neddiendrohu"
+       user-mail-address "donskinler@gmail.com")
 
 ;;
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
@@ -82,9 +82,10 @@
 (setq! fancy-splash-image (concat doom-user-dir "assets/splash.png"))
                                         ;(setq! doom-font (font-spec :family "Hack Nerd Font Mono" :size 16))
 (setq! doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16))
+(setq! scroll-step 1)
 (setq! scroll-margin 8)
+(setq! scroll-conservatively 10000)
 (setq! inhibit-compacting-font-caches t)
-(setq! scroll-conservatively 101)
 (setq! evil-shift-width 4)
 (setq! evil-indent-convert-tabs nil)
 (setq! indent-tabs-mode nil)
@@ -94,9 +95,10 @@
   (setq! doom-themes-enable-bold t
          doom-themes-enable-italic t))
 ;;(setq! all-the-icons-completion-mode t)
-(setq! better-gc-cons-threshold (* 300 1024 1024))
-                                        ; Set the GC threshold to 300 MB (becasue garbage collected languages first need to collect themselves out of this world)
+(setq! better-gc-cons-threshold (* 700 1024 1024))
+                                        ; Set the GC threshold to 700 MB (becasue garbage collected languages first need to collect themselves out of this world)
 (setq! gc-cons-threshold better-gc-cons-threshold)
+(setq! read-process-output-max (* 2 1024 1024)) ;; 2mb
 (setq! evil-want-fine-undo t)
 (setq! display-line-numbers-type 't)
 (setq! display-line-numbers-widen t)
@@ -165,7 +167,8 @@
 
 ;; Beacon mode
 (use-package beacon
-  :init
+  :defer t
+  :config
   (beacon-mode t))
 
 ;; Centaur
@@ -187,7 +190,7 @@
    centaur-tabs-height 32
    centaur-tabs-set-icons t
    centaur-tabs-gray-out-icons 'buffer
-   centaur-tabs-set-bar 'left)
+   centaur-tabs-set-bar 'over) ;; 'left doesn't work with emacsclient for some fucking reason
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
@@ -207,12 +210,6 @@
     (centaur-tabs-mode 1))) ; Enable centaur-tabs
 
 ;;(add-hook 'buffer-list-update-hook 'toggle-centaur-tabs)
-
-;; Rustic
-(use-package rustic)
-
-;; nerd icons
-(use-package! nerd-icons)
 
 ;; Org
 (after! org-mode
@@ -304,6 +301,7 @@
 
 ;; dashboard
 (use-package dashboard
+  :ensure t
   :bind (:map dashboard-mode-map
               ;; ("j" . nil)
               ;; ("k" . nil)
@@ -371,61 +369,9 @@
   :custom-face
   (dashboard-heading ((t (:foreground nil :weight bold))))) ; "#f1fa8c"
 
-;; Dashboard
-;; (use-package! dashboard
-;;   :custom-face
-;;   (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
-;;   (dashboard-banner ((t (:inherit default))))
-;;   :hook
-;;   (dashboard-mode . (lambda ()
-;;                       ;; Enable `page-break-lines-mode'
-;;                       (when (fboundp 'page-break-lines-mode)
-;;                         (page-break-lines-mode 1))))
-;;   :init
-;;   ;; Format: "(icon title help action face prefix suffix)"
-;;   (setq! dashboard-display-icons-p t)
-;;   (setq! dashboard-navigator-buttons
-;;         `(;; line 1
-;;           ((,(all-the-icons-octicon "mark-github" :height 1.0 :v-adjust 0.0)
-;;             "GitHub"
-;;             "Browse GitHub"
-;;             (lambda (&rest _) (browse-url "https://github.com/NeddX"))))
-;;           (;; line 2
-;;            (,(all-the-icons-faicon "calendar" :height 1.0 :v-adjust 0.0)
-;;             "Agenda"
-;;             "View org-agenda"
-;;             (lambda (&rest _) (org-agenda)) warning)
-;;            (,(all-the-icons-octicon "book" :height 1.0 :v-adjust 0.0)
-;;             "Docs"
-;;             "Show documentation"
-;;             (lambda (&rest _) (doom/help)) warning))))
-;;   :config
-;;   (setq! dashboard-items '((recents . 4)
-;;                           (projects . 3)
-;;                           (bookmarks . 5))
-;;         dashboard-show-shortcuts t
-;;         dashboard-center-content t
-;;         dashboard-startup-banner 'official
-;;         dashboard-startup-banner (concat doom-user-dir "assets/splash.png")
-;;         dashboard-banner-logo-title "Welcome back to the EMACS Operating System."
-;;         dashboard-page-separator "\n\f\n"
-;;         dashboard-display-icons-p t
-;;         dashboard-set-file-icons t
-;;         dashboard-set-heading-icons t
-;;         dashboard-set-navigator t
-;;         doom-fallback-buffer-name "*dashboard*"
-;;         initial-buffer-choice "*dashboard*")
-;;   (dashboard-setup-startup-hook))
-
-;; (add-to-list 'recentf-exclude "~/.emacs.d/elpa")
-;; (add-to-list 'recentf-exclude "~/.emacs.d/.local/etc/workspaces/autosave")
-;; (add-to-list 'recentf-exclude "~/.emacs.d/bookmarks")
-;; (add-to-list 'recentf-exclude "~/.emacs.d/recentf")
-;; (add-to-list 'recentf-exclude "~/.emacs.d/ido.last")
-;; (add-to-list 'recentf-exclude "~/.cache/treemacs-persist")
-
 ;; info-colors
 (use-package info-colors
+  :defer t
   :commands (info-colors-fontify-node))
 
 (add-hook 'Info-selection-hook
@@ -433,11 +379,12 @@
 
 ;; Emojify
 (use-package emojify
+  :defer t
   :hook (after-init . global-emojify-mode))
 
 ;; Nyan mode
 (use-package nyan-mode
-  :ensure t ; most definetly ensure the cat (-50% chance of smashing your keyboard when debugging)
+  :ensure t ; most definetly ensure the cat
   :init
   (if (window-system)
       (nyan-mode))
@@ -459,6 +406,7 @@
 
 ;; Info colors
 (use-package info-colors
+  :defer t
   :commands (info-colors-fontify-node))
 
 (add-hook 'Info-selection-hook
@@ -467,17 +415,9 @@
 ;;class
 ;; Syntax highlighting if doom-meltbus
 
-;; Yasnippet
-(use-package yasnippet
-  :init
-  (yas-global-mode 1)
-  :config
-  (yas-reload-all)
-  (add-hook 'prog-mode-hook 'yas-minor-mode)
-  (add-hook 'text-mode-hook 'yas-minor-mode))
-
 ;; Multiedit
 (use-package evil-multiedit
+  :defer t
   :config
   (evil-multiedit-default-keybinds))
 
@@ -536,7 +476,7 @@
          (lsp-mode 0)
          (flycheck-mode 0)
          (company-mode 0)
-         (elcord-mode 0)
+         ;;(elcord-mode 0)
          )
  )
 (map!
@@ -599,6 +539,7 @@
 
 ;; Treesitter
 (use-package tree-sitter
+  :defer t
   :hook (prog-mode . turn-on-tree-sitter-mode)
   :hook (tree-sitter-after-on . tree-sitter-hl-mode)
   :config
@@ -611,12 +552,14 @@
 
 ;; Treemacs
 (use-package treemacs
+  :defer t
   :config
   (setq! doom-themes-treemacs-theme "doom-colors")
   (treemacs-project-follow-mode 1))
 
                                         ; Dap
 (use-package dap-mode
+  :defer t
   :init
   (dap-mode 0)
   :config
@@ -648,20 +591,21 @@
 
 ;; Elcord
 (use-package elcord
-  :init
+  :defer t
+  :config
   (elcord-mode 0)) ; no discord for now.
 
-(use-package fast-scroll
-  :init
-  (add-hook 'fast-scroll-start-hook (lambda () (flycheck-mode -1)))
-  (add-hook 'fast-scroll-end-hook (lambda () (flycheck-mode 1)))
-  :config
-  (fast-scroll-config)
-  (fast-scroll-mode 1))
+;;(use-package fast-scroll
+;; :init
+;; (add-hook 'fast-scroll-start-hook (lambda () (flycheck-mode -1)))
+;; (add-hook 'fast-scroll-end-hook (lambda () (flycheck-mode 1)))
+;; :config
+;; (fast-scroll-config)
+;; (fast-scroll-mode 1))
 
 ;; lsp-ui
 (use-package lsp-ui
-  :ensure t
+  :defer t
   :commands lsp-ui-mode
   :config
   (setq! lsp-ui-sideline-enable t)
@@ -672,6 +616,7 @@
 
 ;; lsp-mode
 (use-package lsp-mode
+  :defer t
   :init
   (setq! lsp-enable-symbol-highlighting t
          lsp-lens-enable t
@@ -680,10 +625,11 @@
          lsp-diagnostics-provider :flycheck
          lsp-completion-show-detail t
          lsp-completion-show-kind t
+         lsp-log-io nil ;; You might consider commenting this line if LSP log is required.
          lsp-clients-clangd-args '("--header-insertion=never" "--background-index=false" "--clang-tidy"))
   :custom
   (lsp-eldoc-render-all nil)
-  (lsp-idle-delay 0.3)
+  (lsp-idle-delay 0.500)
   (lsp-inlay-hint-enable t)
   ;; These are optional configurations. See https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer/#lsp-rust-analyzer-display-chaining-hints for a full list
   (lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -704,6 +650,7 @@
 (add-hook 'after-init-hook 'global-company-mode)
 ;; from modules/completion/company/config.el
 (use-package company
+  :defer t
   :commands (company-mode global-company-mode company-complete
                           company-complete-common company-manual-begin company-grab-line)
   :config
@@ -713,5 +660,21 @@
          company-dabbrev-ignore-case nil
          company-minimum-prefix-length 1))
 
-;; flycheck
-(use-package flycheck)
+;; Drag stuff up/down
+(use-package drag-stuff
+  :defer t
+  :config
+  (drag-stuff-mode 1))
+
+(map! "M-<down>" (lambda () (interactive) (drag-stuff-down 1)))
+(map! "M-<up>" (lambda () (interactive) (drag-stuff-up 1)))
+
+;; Because my $HOME is a git repo.
+(after! projectile (setq projectile-project-root-files-bottom-up (remove ".git"
+                                                                         projectile-project-root-files-bottom-up)))
+
+
+;; Useful stuff
+;; SPC-h-k: Describe key.
+;; SPC-h-f: Describe function.
+;; SPC-h-d-h: Doom documentation.

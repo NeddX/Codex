@@ -71,13 +71,13 @@ fi
 
 # Im env varery
 #alias emacs="emacsclient -c -a emacs"
-alias ed=emacsclient -nw -c
-alias icpy=xsel --clipboard --input
+alias ed='emacsclient -nw -c'
+alias icpy='xsel --clipboard --input'
 alias logoff='sudo systemctl restart sddm'
 alias doom="$HOME/.emacs.d/bin/doom"
 alias remotedekstop='x0vncserver -PasswordFile=/home/loghost/.vnc/passwd -AlwaysShared -AcceptPointerEvents=false AcceptKeyEvents=false SecurityTypes=None'
 alias open=xdg-open
-export EDITOR=vim
+export EDITOR=lvim
 
 # Tell ld to also look into ./ or ./lib for when dynamically linking.
 export LD_LIBRARY_PATH=./:./lib:$LD_LIBRARY_PATH

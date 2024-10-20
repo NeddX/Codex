@@ -17,10 +17,10 @@
 $
 
 # Command Line History (newest to oldest):
+:q!
+|2,0,1729440533,,"q!"
 :wq
 |2,0,1729412092,,"wq"
-:q!
-|2,0,1729354224,,"q!"
 :w
 |2,0,1726929844,,"w"
 
@@ -101,46 +101,70 @@ $
 |3,0,36,0,1,0,1722100190,"n"
 
 # File marks:
-'0  29  0  ~/.config/nvim/lua/options.lua
-|4,48,29,0,1729412092,"~/.config/nvim/lua/options.lua"
-'1  30  0  ~/.config/nvim/lua/options.lua
-|4,49,30,0,1729412080,"~/.config/nvim/lua/options.lua"
+'0  6  0  ~/.zshrc
+|4,48,6,0,1729440533,"~/.zshrc"
+'1  29  0  ~/.config/nvim/lua/options.lua
+|4,49,29,0,1729412092,"~/.config/nvim/lua/options.lua"
 '2  30  0  ~/.config/nvim/lua/options.lua
 |4,50,30,0,1729412080,"~/.config/nvim/lua/options.lua"
 '3  30  0  ~/.config/nvim/lua/options.lua
-|4,51,30,0,1729412066,"~/.config/nvim/lua/options.lua"
+|4,51,30,0,1729412080,"~/.config/nvim/lua/options.lua"
 '4  30  0  ~/.config/nvim/lua/options.lua
 |4,52,30,0,1729412066,"~/.config/nvim/lua/options.lua"
-'5  31  0  ~/.config/nvim/lua/options.lua
-|4,53,31,0,1729412066,"~/.config/nvim/lua/options.lua"
-'6  32  0  ~/.config/nvim/lua/options.lua
-|4,54,32,0,1729412066,"~/.config/nvim/lua/options.lua"
-'7  30  0  ~/.config/nvim/lua/options.lua
-|4,55,30,0,1729412046,"~/.config/nvim/lua/options.lua"
-'8  31  0  ~/.config/nvim/lua/options.lua
-|4,56,31,0,1729412046,"~/.config/nvim/lua/options.lua"
-'9  32  0  ~/.config/nvim/lua/options.lua
-|4,57,32,0,1729412046,"~/.config/nvim/lua/options.lua"
+'5  30  0  ~/.config/nvim/lua/options.lua
+|4,53,30,0,1729412066,"~/.config/nvim/lua/options.lua"
+'6  31  0  ~/.config/nvim/lua/options.lua
+|4,54,31,0,1729412066,"~/.config/nvim/lua/options.lua"
+'7  32  0  ~/.config/nvim/lua/options.lua
+|4,55,32,0,1729412066,"~/.config/nvim/lua/options.lua"
+'8  30  0  ~/.config/nvim/lua/options.lua
+|4,56,30,0,1729412046,"~/.config/nvim/lua/options.lua"
+'9  31  0  ~/.config/nvim/lua/options.lua
+|4,57,31,0,1729412046,"~/.config/nvim/lua/options.lua"
 
 # Jumplist (newest first):
+-'  6  0  ~/.zshrc
+|4,39,6,0,1729440533,"~/.zshrc"
+-'  1  0  ~/.zshrc
+|4,39,1,0,1729440532,"~/.zshrc"
+-'  29  0  ~/.config/nvim/lua/options.lua
+|4,39,29,0,1729412092,"~/.config/nvim/lua/options.lua"
 -'  29  0  ~/.config/nvim/lua/options.lua
 |4,39,29,0,1729412092,"~/.config/nvim/lua/options.lua"
 -'  28  0  ~/.config/nvim/lua/options.lua
 |4,39,28,0,1729412091,"~/.config/nvim/lua/options.lua"
+-'  28  0  ~/.config/nvim/lua/options.lua
+|4,39,28,0,1729412091,"~/.config/nvim/lua/options.lua"
 -'  1  0  ~/.config/nvim/lua/options.lua
 |4,39,1,0,1729412088,"~/.config/nvim/lua/options.lua"
+-'  1  0  ~/.config/nvim/lua/options.lua
+|4,39,1,0,1729412088,"~/.config/nvim/lua/options.lua"
+-'  11  0  ~/.config/nvim
+|4,39,11,0,1729412086,"~/.config/nvim"
 -'  11  0  ~/.config/nvim
 |4,39,11,0,1729412086,"~/.config/nvim"
 -'  30  0  ~/.config/nvim/lua/options.lua
 |4,39,30,0,1729412080,"~/.config/nvim/lua/options.lua"
 -'  30  0  ~/.config/nvim/lua/options.lua
 |4,39,30,0,1729412080,"~/.config/nvim/lua/options.lua"
+-'  30  0  ~/.config/nvim/lua/options.lua
+|4,39,30,0,1729412080,"~/.config/nvim/lua/options.lua"
+-'  30  0  ~/.config/nvim/lua/options.lua
+|4,39,30,0,1729412080,"~/.config/nvim/lua/options.lua"
+-'  11  0  ~/.config/nvim
+|4,39,11,0,1729412075,"~/.config/nvim"
 -'  11  0  ~/.config/nvim
 |4,39,11,0,1729412075,"~/.config/nvim"
 -'  31  0  ~/.config/nvim/lua/options.lua
 |4,39,31,0,1729412066,"~/.config/nvim/lua/options.lua"
 -'  32  0  ~/.config/nvim/lua/options.lua
 |4,39,32,0,1729412066,"~/.config/nvim/lua/options.lua"
+-'  31  0  ~/.config/nvim/lua/options.lua
+|4,39,31,0,1729412066,"~/.config/nvim/lua/options.lua"
+-'  32  0  ~/.config/nvim/lua/options.lua
+|4,39,32,0,1729412066,"~/.config/nvim/lua/options.lua"
+-'  11  0  ~/.config/nvim
+|4,39,11,0,1729412056,"~/.config/nvim"
 -'  11  0  ~/.config/nvim
 |4,39,11,0,1729412056,"~/.config/nvim"
 -'  31  0  ~/.config/nvim/lua/options.lua
@@ -149,6 +173,14 @@ $
 |4,39,32,0,1729412046,"~/.config/nvim/lua/options.lua"
 -'  33  0  ~/.config/nvim/lua/options.lua
 |4,39,33,0,1729412046,"~/.config/nvim/lua/options.lua"
+-'  31  0  ~/.config/nvim/lua/options.lua
+|4,39,31,0,1729412046,"~/.config/nvim/lua/options.lua"
+-'  32  0  ~/.config/nvim/lua/options.lua
+|4,39,32,0,1729412046,"~/.config/nvim/lua/options.lua"
+-'  33  0  ~/.config/nvim/lua/options.lua
+|4,39,33,0,1729412046,"~/.config/nvim/lua/options.lua"
+-'  11  0  ~/.config/nvim
+|4,39,11,0,1729412035,"~/.config/nvim"
 -'  11  0  ~/.config/nvim
 |4,39,11,0,1729412035,"~/.config/nvim"
 -'  1  13  ~/.config/nvim/lua/options.lua
@@ -159,6 +191,16 @@ $
 |4,39,1,13,1729412021,"~/.config/nvim/lua/options.lua"
 -'  1  13  ~/.config/nvim/lua/options.lua
 |4,39,1,13,1729412021,"~/.config/nvim/lua/options.lua"
+-'  1  13  ~/.config/nvim/lua/options.lua
+|4,39,1,13,1729412021,"~/.config/nvim/lua/options.lua"
+-'  1  13  ~/.config/nvim/lua/options.lua
+|4,39,1,13,1729412021,"~/.config/nvim/lua/options.lua"
+-'  1  13  ~/.config/nvim/lua/options.lua
+|4,39,1,13,1729412021,"~/.config/nvim/lua/options.lua"
+-'  1  13  ~/.config/nvim/lua/options.lua
+|4,39,1,13,1729412021,"~/.config/nvim/lua/options.lua"
+-'  11  0  ~/.config/nvim
+|4,39,11,0,1729412009,"~/.config/nvim"
 -'  11  0  ~/.config/nvim
 |4,39,11,0,1729412009,"~/.config/nvim"
 -'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
@@ -225,106 +267,73 @@ $
 |4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
 -'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
 |4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  1  0  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
-|4,39,1,0,1729353667,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
--'  7  29  ~/.config/lvim/config.lua
-|4,39,7,29,1729346124,"~/.config/lvim/config.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
+-'  49  1  ~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua
+|4,39,49,1,1729354224,"~/.local/share/lunarvim/site/pack/lazy/opt/cmake-tools.nvim/plugin/cmake-tools.lua"
 
 # History of marks within files (newest to oldest):
+
+> ~/.zshrc
+	*	1729440533	0
+	"	6	0
+	^	86	69
+	.	86	68
+	+	6	17
+	+	3	0
+	+	86	68
 
 > ~/.config/nvim/lua/options.lua
 	*	1729412092	0
@@ -351,15 +360,6 @@ $
 	.	8	0
 	+	6	0
 	+	8	0
-
-> ~/.zshrc
-	*	1729345965	0
-	"	86	68
-	^	86	69
-	.	86	68
-	+	6	17
-	+	3	0
-	+	86	68
 
 > ~/.xinitrc
 	*	1728916506	0
