@@ -3,8 +3,8 @@
 
 #include <sdafx.h>
 
-#include "../Core/Layer.h"
-#include "../Events/Event.h"
+#include <Engine/Core/Layer.h>
+#include <Engine/Events/Event.h>
 
 namespace codex::imgui {
     class CODEX_API ImGuiLayer : public Layer
@@ -18,19 +18,19 @@ namespace codex::imgui {
         ~ImGuiLayer();
 
     public:
-        inline void          BlockEvents(const bool block) noexcept { m_Blocking = block; }
-        inline ImGuiContext* GetImGuiContext() const noexcept { return m_CurrentContext; }
+        inline void               BlockEvents(const bool block) noexcept { m_Blocking = block; }
+        [[nodiscard]] inline auto GetImGuiContext() const noexcept -> ImGuiContext* { return m_CurrentContext; }
 
     public:
-        void OnAttach() override;
-        void OnDetach() override;
-        void OnEvent(events::Event& event) override;
+        auto OnAttach() -> void override;
+        auto OnDetach() -> void override;
+        auto OnEvent(events::Event& event) -> void override;
 
     public:
-        void Begin();
-        void End();
-        void SetDarkThemeColours();
-        u32  GetActiveWidgetID() const;
+        auto Begin() -> void;
+        auto End() -> void;
+        auto SetDarkThemeColours() -> void;
+        auto GetActiveWidgetID() const -> u32;
     };
 } // namespace codex::imgui
 

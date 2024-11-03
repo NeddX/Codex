@@ -42,6 +42,7 @@ target_sources(CodexEditor PRIVATE ${TFDS_SOURCE_FILES})
 set(IMGUIZMO_INCLUDE_DIRS vendor/ImGuizmo)
 set(IMGUIZMO_SOURCE_FILES vendor/ImGuizmo/ImGuizmo.cpp)
 
+# Export the installation path to the engine.
 if(DEFINED CX_COMPILER_GCC OR DEFINED CX_COMPILER_CLANG)
   add_definitions(-DCE_INSTALL_DIR="${CMAKE_INSTALL_PREFIX}")
 elseif(DEFINED CX_COMPILER_MSVC)
@@ -52,9 +53,12 @@ endif()
 if(DEFINED CX_PLATFORM_WINDOWS)
   install(TARGETS CodexEditor DESTINATION bin)
   install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
+  install(DIRECTORY "${CX_ASSETS_PATh}/" DESINTATION bin)
 elseif(DEFINED CX_PLATFORM_UNIX)
   install(TARGETS CodexEditor DESTINATION bin)
   install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/"
+          DESTINATION share/${PROJECT_NAME})
+  install(DIRECTORY "${CX_ENGINE_ASSET_PATh}/"
           DESTINATION share/${PROJECT_NAME})
 endif()
 

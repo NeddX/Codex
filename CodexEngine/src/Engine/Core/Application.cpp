@@ -2,7 +2,6 @@
 #include "../Events/ApplicationEvent.h"
 #include "../Events/KeyEvent.h"
 #include "../Events/MouseEvent.h"
-#include "../Graphics/DebugDraw.h"
 #include "../Scene/Scene.h"
 #include "Exception.h"
 #include "Input.h"
@@ -57,7 +56,6 @@ namespace codex {
         catch (const CodexException& ex)
         {
             lgx::Get("engine").Log(lgx::Level::Fatal, ex.to_string());
-            // std::cerr << ex << std::endl;
             std::exit(EXIT_FAILURE);
         }
     }
@@ -69,61 +67,6 @@ namespace codex {
         s_Instance = nullptr;
     }
 
-    // FIXME: Throw a NullReferenceException when an Application instance hasn't yet been created.
-    auto Application::GetLogger() noexcept -> lgx::Logger&
-    {
-        return *s_Instance->m_Logger;
-    }
-
-    auto Application::GetWindow() noexcept -> Window&
-    {
-        return *s_Instance->m_Window;
-    }
-
-    auto Application::Get() noexcept -> Application&
-    {
-        return *s_Instance;
-    }
-
-    auto Application::GetFps() noexcept -> u32
-    {
-        return static_cast<u32>(1.0f / s_Instance->m_DeltaTime);
-    }
-
-    auto Application::GetFrameCap() noexcept -> u32
-    {
-        return s_Instance->m_Properties.windowProperties.frameCap;
-    }
-
-    auto Application::GetDelta() noexcept -> f32
-    {
-        return s_Instance->m_DeltaTime;
-    }
-
-    auto Application::GetImGuiLayer() noexcept -> ImGuiLayer*
-    {
-        return s_Instance->m_ImGuiLayer;
-    }
-
-    auto Application::GetCurrentWorkingDirectory() noexcept -> stdfs::path
-    {
-        return stdfs::current_path();
-    }
-
-    void Application::SetCurrentWorkingDirectory(const stdfs::path& newCwd)
-    {
-        if (stdfs::exists(newCwd) && stdfs::is_directory(newCwd))
-        {
-            stdfs::current_path(newCwd);
-            s_Instance->m_Properties.cwd = newCwd;
-        }
-        else
-        {
-            cx_throw(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
-                     newCwd.string());
-        }
-    }
-
     auto Application::OnWindowResize_Event(const WindowResizeEvent& event) -> bool
     {
         const auto x = event.GetWidth();
@@ -131,9 +74,7 @@ namespace codex {
         glViewport(0, 0, x, y);
         if (m_ImGuiLayer)
         {
-            auto& io = ImGui::GetIO();
-            // m_Window->GetCurrentScene()->GetCamera()->SetWidth(x);
-            // m_Window->GetCurrentScene()->GetCamera()->SetHeight(y);
+            auto& io         = ImGui::GetIO();
             io.DisplaySize.x = (f32)x;
             io.DisplaySize.y = (f32)y;
         }
@@ -174,7 +115,7 @@ namespace codex {
             }
             catch (const CodexException& ex)
             {
-				lgx::Get("engine").Log(lgx::Level::Fatal, ex.to_string());
+                lgx::Get("engine").Log(lgx::Level::Fatal, ex.to_string());
                 std::exit(EXIT_FAILURE);
             }
 

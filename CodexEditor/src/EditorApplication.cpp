@@ -3,7 +3,7 @@
 #include <filesystem>
 
 #include "Editor.h"
-#include "TitleBar.h"
+// #include "TitleBar.h"
 
 #include <ConsoleMan.h>
 

@@ -3,9 +3,9 @@
 
 #include <sdafx.h>
 
-#include "../Events/Event.h"
-#include "../Graphics/Renderer.h"
-#include "../ImGui/ImGuiLayer.h"
+#include <Engine/Events/Event.h>
+#include <Engine/ImGui/ImGuiLayer.h>
+
 #include "CommonDef.h"
 #include "Exception.h"
 #include "LayerStack.h"
@@ -69,31 +69,56 @@ namespace codex {
         virtual ~Application();
 
     public:
-        static auto GetLogger() noexcept -> lgx::Logger&;
-        static auto GetWindow() noexcept -> Window&;
-        static auto Get() noexcept -> Application&;
-        static auto GetFps() noexcept -> u32;
-        static auto GetFrameCap() noexcept -> u32;
-        static auto GetDelta() noexcept -> f32;
-        static auto GetImGuiLayer() noexcept -> imgui::ImGuiLayer*;
-        static auto GetCurrentWorkingDirectory() noexcept -> std::filesystem::path;
-        static void SetCurrentWorkingDirectory(const std::filesystem::path& newCwd);
+        // FIXME: Throw a NullReferenceException when an Application instance hasn't yet been created.
+        [[nodiscard]] static inline auto GetLogger() noexcept -> lgx::Logger& { return *s_Instance->m_Logger; }
+        [[nodiscard]] static inline auto GetWindow() noexcept -> Window& { return *s_Instance->m_Window; }
+        [[nodiscard]] static inline auto Get() noexcept -> Application& { return *s_Instance; }
+        [[nodiscard]] static inline auto GetFps() noexcept -> u32
+        {
+            return static_cast<u32>(1.0f / s_Instance->m_DeltaTime);
+        }
+        [[nodiscard]] static inline auto GetFrameCap() noexcept -> u32
+        {
+            return s_Instance->m_Properties.windowProperties.frameCap;
+        }
+        [[nodiscard]] static inline auto GetDelta() noexcept -> f32 { return s_Instance->m_DeltaTime; }
+        [[nodiscard]] static inline auto GetImGuiLayer() noexcept -> imgui::ImGuiLayer*
+        {
+            return s_Instance->m_ImGuiLayer;
+        }
+        [[nodiscard]] static inline auto GetCurrentWorkingDirectory() noexcept -> std::filesystem::path
+        {
+            return std::filesystem::current_path();
+        }
+        static inline void SetCurrentWorkingDirectory(const std::filesystem::path& newCwd)
+        {
+            if (std::filesystem::exists(newCwd) && std::filesystem::is_directory(newCwd))
+            {
+                std::filesystem::current_path(newCwd);
+                s_Instance->m_Properties.cwd = newCwd;
+            }
+            else
+            {
+                cx_throw(InvalidPathException, "The path supplied '{}' as the current working directory is invalid.",
+                         newCwd.string());
+            }
+        }
 
     public:
         auto OnWindowResize_Event(const events::WindowResizeEvent& event) -> bool;
 
     public:
-        virtual void OnInit(){};
+        virtual auto OnInit() -> void {};
 
     public:
-        void Run();
-        void Stop();
-        void OnEvent(events::Event& e);
-        void PushLayer(Layer* layer);
-        void PushOverlay(Layer* overlay);
+        auto Run() -> void;
+        auto Stop() -> void;
+        auto OnEvent(events::Event& e) -> void;
+        auto PushLayer(Layer* layer) -> void;
+        auto PushOverlay(Layer* overlay) -> void;
     };
 
-    Application* CreateApplication(const ApplicationCLIArgs args);
+    auto CreateApplication(const ApplicationCLIArgs args) -> Application*;
 } // namespace codex
 
 #endif // CODEX_CORE_APPLICATION_H

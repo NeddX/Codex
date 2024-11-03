@@ -23,6 +23,12 @@ set_property(TARGET CodexEngine-static PROPERTY CXX_STANDARD 20)
 target_compile_definitions(CodexEngine PRIVATE CX_BUILD_SHARED)
 target_compile_definitions(CodexEngine-static PUBLIC CX_BUILD_STATIC)
 
+# Few things to export to the engine.
+target_compile_definitions(CodexEngine PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
+target_compile_definitions(CodexEngine-static PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
+target_compile_definitions(CodexEngine PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
+target_compile_definitions(CodexEngine-static PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
+
 # Position independent code for shared libraries.
 if(DEFINED CX_PLATFORM_UNIX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
@@ -306,14 +312,16 @@ elseif(DEFINED CX_PLATFORM_UNIX)
   # machine dependent data. /var/local/(lib, bin)/appname for modifiable data.
 endif()
 
-if(DEFINED CX_PLATFORM_WINDOWS)
-  install(TARGETS CodexEngine CodexEngine-static DESTINATION bin)
-  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
-elseif(DEFINED CX_PLATFORM_UNIX)
-  install(TARGETS CodexEngine CodexEngine-static DESTINATION bin)
-  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/"
-          DESTINATION share/${PROJECT_NAME})
-endif()
+# Export the asset path.
+set(CX_ENGINE_ASSET_PATh "${CMAKE_CURRENT_SOURCE_DIR}/assets" PARENT_SCOPE)
+#if(DEFINED CX_PLATFORM_WINDOWS)
+# install(TARGETS CodexEngine CodexEngine-static DESTINATION bin)
+# install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
+#elseif(DEFINED CX_PLATFORM_UNIX)
+# install(TARGETS CodexEngine CodexEngine-static DESTINATION bin)
+# install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/"
+#         DESTINATION share/${PROJECT_NAME})
+#endif()
 
 # =============== # MISC # =============== #
 
