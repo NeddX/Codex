@@ -10,6 +10,7 @@
 #include "ECS.h"
 
 namespace codex {
+    // TODO: NBMan is shared across all scenes, Scene being the owner of NBMan does not seem correct.
     mem::Box<sys::DLib>                     Scene::s_ScriptModule = nullptr;
     std::unordered_map<Entity, std::string> Scene::s_PossibleAttachedScripts;
 
@@ -65,9 +66,6 @@ namespace codex {
         m_State.store(State::Edit);
         if (m_FixedUpdateThread.joinable())
             m_FixedUpdateThread.join();
-
-        if (s_ScriptModule)
-            s_ScriptModule = nullptr;
     }
 
     void Scene::CopyTo(Scene& other) const noexcept

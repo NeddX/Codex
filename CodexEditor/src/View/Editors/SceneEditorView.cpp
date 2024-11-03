@@ -250,7 +250,7 @@ namespace codex::editor {
                         p_info.onExit = [this](i32 exitCode)
                         {
                             auto& d = m_Descriptor;
-                            d->activeScene.Lock()->LoadScriptModule(d->scriptModulePath); // COME BACK
+                            Scene::LoadScriptModule(d->scriptModulePath); // TODO: COME BACK
                             ConsoleMan::AppendMessage("-- Clear finished.");
                         };
                         p_info.redirectStdOut = true;
@@ -563,7 +563,7 @@ namespace codex::editor {
             try
             {
                 auto& d = m_Descriptor;
-                d->activeScene.Lock()->LoadScriptModule(d->scriptModulePath);
+                Scene::LoadScriptModule(d->scriptModulePath);
             }
             catch (...)
             {

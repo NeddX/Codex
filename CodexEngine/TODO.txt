@@ -1,0 +1,5 @@
+CEngine:
+	- [TODO]: Move NBMan to be owned by the Project, not the Scene.
+
+CEditor:
+	- [FIXME]: When loading a new project on top of an already existing one, the editor hangs waiting for a mutex idefinitely.
