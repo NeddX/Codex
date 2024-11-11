@@ -187,8 +187,8 @@ namespace codex {
 
     public:
         scene::Camera camera;
-        bool          primary    = true;
-        Vector3f      focalPoint = Vector3f(0.0f);
+        bool          primary = true;
+        Vector3f      focalPoint{ 0.0f };
     };
 
     struct CODEX_API RigidBody2DComponent : public Component
@@ -222,8 +222,8 @@ namespace codex {
         CX_COMPONENT
 
     public:
-        Vector2f offset = { 0.0f, 0.0f };
-        Vector2f size   = { 32.0f, 32.0f };
+        Vector2f offset{ 0.0f, 0.0f };
+        Vector2f size{ 32.0f, 32.0f };
 
         phys::PhysicsMaterial2D physicsMaterial;
 
@@ -235,7 +235,7 @@ namespace codex {
         CX_COMPONENT
 
     public:
-        Vector2f offset = { 0.0f, 0.0f };
+        Vector2f offset{ 0.0f, 0.0f };
         f32      radius = 32.0f;
 
         phys::PhysicsMaterial2D physicsMaterial;
@@ -248,8 +248,8 @@ namespace codex {
         CX_COMPONENT
 
     public:
-        Vector2f cellSize = { 64.0f, 64.0f };
-        Vector4f colour   = { 1.0f, 1.0f, 1.0f, 0.3f };
+        Vector2f cellSize{ 64.0f, 64.0f };
+        Vector4f colour{ 1.0f, 1.0f, 1.0f, 0.3f };
     };
 
     struct CODEX_API TilemapComponent : public Component
@@ -264,16 +264,16 @@ namespace codex {
         };
         struct Tile
         {
-            Vector3f pos   = { 0.0f, 0.0f, 0.0f };
-            Vector2f atlas = { 0.0f, 0.0f };
+            Vector3f pos{ 0.0f, 0.0f, 0.0f };
+            Vector2f atlas{ 0.0f, 0.0f };
             i32      layer = 0;
         };
 
     public:
         Sprite            sprite;
         std::vector<Tile> tiles;
-        Vector2f          gridSize = { 64.0f, 64.0f };
-        Vector2f          tileSize = { 64.0f, 64.0f };
+        Vector2f          gridSize{ 64.0f, 64.0f };
+        Vector2f          tileSize{ 64.0f, 64.0f };
         Vector2f          currentTile{};
         State             currentState = State::Brush;
         i32               currentLayer = 0;
@@ -291,9 +291,9 @@ namespace codex {
     public:
         struct Animation
         {
-            Vector2f startingTile = { 0.0f, 0.0f };
-            u32      frameCount   = 0;
-            f32      frameRate    = 24.0f;
+            Vector2f startingTile{ 0.0f, 0.0f };
+            u32      frameCount = 0;
+            f32      frameRate  = 24.0f;
         };
 
     public:

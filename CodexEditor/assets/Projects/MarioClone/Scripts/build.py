@@ -98,7 +98,7 @@ if action == Action.Build:
         com.Chrono.begin()
 
         if platform.system() in ['Linux', 'Darwin']:
-            res = com.run(f'sudo cmake --install builds/{preset}', stdout=stdoutput)
+            res = com.run(f'cmake --install builds/{preset}', stdout=stdoutput)
         elif platform.system() == 'Windows':
             #if com.win32_is_admin():
             #    res = com.run(f'cmake --install builds{preset}', stdout=stdoutput)

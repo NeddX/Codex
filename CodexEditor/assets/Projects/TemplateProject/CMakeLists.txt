@@ -103,8 +103,9 @@ message("")
 add_custom_command(
   TARGET NBMan
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:NBMan>
-          "${CMAKE_SOURCE_DIR}/lib/")
+  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_SOURCE_DIR}/lib"
+  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:NBMan> "${CMAKE_CURRENT_SOURCE_DIR}/lib/"
+)
 
 # Expose Codex's dependencies.
 # TODO: Automate this please cause we have to add an entry here everytime we add a new library.

@@ -66,37 +66,55 @@ target_include_directories(CodexEditor PUBLIC ${IMGUIZMO_INCLUDE_DIRS})
 target_sources(CodexEditor PRIVATE ${IMGUIZMO_SOURCE_FILES})
 
 # === Misc ===
-
-# Run the python script resonsible for creating the template project.
+# Run the python script responsible for creating the template project for all projects inside Projects/
 add_custom_target(
-  generate_template_project
-  COMMAND
-    ${Python3_EXECUTABLE} "${CX_ROOT_DIR}/Scripts/generate-template-project.py"
-    "--src-dir=${CX_ENGINE_ROOT_DIR}"
-    "--dest-dir=${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject"
-    "--root-dir=${CX_ROOT_DIR}"
-  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-  COMMENT "Generating Template Project...")
+  engine_header_gen
+  COMMENT ":: Generate engine headers for template projects."
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  VERBATIM
+)
 
-# If we're on Windows then we also need to copy the symbol libraries for linkage.
-if(DEFINED CX_PLATFORM_WINDOWS)
-  add_custom_command(
-    TARGET generate_template_project
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory
-            "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/"
-    COMMAND
-      ${CMAKE_COMMAND} -E copy "$<TARGET_FILE_DIR:CodexEngine>/CodexEngine.lib"
-      "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/CodexEngine.lib"
-    COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:MGL>"
-            "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/"
-    COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:fmt>"
-            "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/"
-    COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:Logex>"
-            "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/TemplateProject/lib/")
-endif()
+# Iterate over all subdirectories in assets/Projects and apply the generation and copying steps
+file(GLOB PROJECT_DIRS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects" "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/*")
 
-add_dependencies(CodexEditor generate_template_project)
+# Iterate over each project directory in Projects/
+foreach(PROJECT_DIR ${PROJECT_DIRS})
+  if(NOT PROJECT_DIR STREQUAL "*" AND IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/${PROJECT_DIR}")
+
+    # Run the python script for each project
+    add_custom_command(
+      TARGET engine_header_gen
+      POST_BUILD
+      COMMAND ${Python3_EXECUTABLE} "${CX_ROOT_DIR}/Scripts/generate-template-project.py"
+              "--src-dir=${CX_ENGINE_ROOT_DIR}"
+              "--dest-dir=${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/${PROJECT_DIR}"
+              "--root-dir=${CX_ROOT_DIR}"
+      COMMENT ":: Generating engine headers for ${PROJECT_DIR}..."
+    )
+
+    # If we're on Windows, copy the libraries for each project
+    if(DEFINED CX_PLATFORM_WINDOWS)
+      add_custom_command(
+        TARGET generate_all_projects_template
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory
+                "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/${PROJECT_DIR}/lib/"
+        COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE_DIR:CodexEngine>/CodexEngine.lib"
+                "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/${PROJECT_DIR}/lib/CodexEngine.lib"
+        COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:MGL>"
+                "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/${PROJECT_DIR}/lib/"
+        COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:fmt>"
+                "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/${PROJECT_DIR}/lib/"
+        COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:Logex>"
+                "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/${PROJECT_DIR}/lib/"
+        COMMENT ":: Copying object libraries to ${PROJECT_DIR}/lib/..."
+      )
+    endif()
+
+  endif()
+endforeach()
+
+add_dependencies(CodexEditor engine_header_gen)
 target_include_directories(CodexEditor PRIVATE "src/")
 
 # Multicore compilation for MSVC if CX_PARALLEL is not 0.
