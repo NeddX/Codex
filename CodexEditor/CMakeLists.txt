@@ -49,6 +49,12 @@ elseif(DEFINED CX_COMPILER_MSVC)
   add_definitions(/DCE_INSTALL_DIR="${CMAKE_INSTALL_PREFIX}")
 endif()
 
+# Export CEditor's install directory to the Environmennt for dap-mode.
+set(ENV{CE_INSTALL_DIR} "${CMAKE_INSTALL_PREFIX}")
+get_target_property(CE_BIN_NAME CodexEditor NAME)
+set(ENV{CE_BIN_NAME} "${CE_BIN_NAME}")
+message(":: CE_INSTALL_DIR: $ENV{CE_INSTALL_DIR}")
+
 # === Dependencies ===
 if(DEFINED CX_PLATFORM_WINDOWS)
   install(TARGETS CodexEditor DESTINATION bin)
@@ -123,4 +129,4 @@ if(DEFINED CX_COMPILER_MSVC AND NOT CX_PARALLEL EQUAL 0)
 endif()
 
 # Set default startup project to be this one when generating a VS Solution.
-set_target_properties(CodexEditor PROPERTIES VS_STARTUP_PROJECT CodexEditor)
+set_target_properties(CodexEditor PROPERTIES VS_STARTUP_PROJECT CEditor)
