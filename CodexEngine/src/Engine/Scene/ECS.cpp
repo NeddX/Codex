@@ -50,7 +50,8 @@ namespace codex {
             nlohmann::ordered_json jc;
 
             std::list<std::string_view> scripts;
-            std::ranges::for_each(c.GetBehaviours(), [&scripts](const auto& e) { scripts.push_back(e.first); });
+            std::for_each(c.GetBehaviours().begin(), c.GetBehaviours().end(),
+                          [&scripts](const auto& e) { scripts.push_back(e.first); });
             jc["NativeBehaviourComponent"]["AttachedScripts"] = scripts;
             jentity["Components"].push_back(jc);
         }

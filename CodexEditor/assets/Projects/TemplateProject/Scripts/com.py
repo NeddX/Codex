@@ -34,7 +34,7 @@ class CMakeInspector:
     def __init__(self, build_dir):
         self.cache_file = os.path.join(build_dir, "CMakeCache.txt")
         if not os.path.exists(self.cache_file):
-            raise RuntimeError(f"Invalid build directory.")
+            raise RuntimeError("Invalid build directory.")
 
     def get_var(self, var_name):
         with open(self.cache_file, "r") as fs:

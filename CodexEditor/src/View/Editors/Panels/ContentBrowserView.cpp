@@ -3,7 +3,7 @@
 namespace codex::editor {
     void ContentBrowserView::OnInit()
     {
-        auto& desc = GetDescriptor().Lock();
+        auto desc = GetDescriptor().Lock();
     }
 
     void ContentBrowserView::OnImGuiRender()

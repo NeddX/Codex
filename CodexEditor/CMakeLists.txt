@@ -101,7 +101,7 @@ foreach(PROJECT_DIR ${PROJECT_DIRS})
     # If we're on Windows, copy the libraries for each project
     if(DEFINED CX_PLATFORM_WINDOWS)
       add_custom_command(
-        TARGET generate_all_projects_template
+        TARGET engine_header_gen
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory
                 "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/${PROJECT_DIR}/lib/"

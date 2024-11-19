@@ -12,9 +12,9 @@ import json
 
 
 class Action:
-    Nope    = 0,
-    Build   = 1,
-    Clear   = 2,
+    Nope = (0,)
+    Build = (1,)
+    Clear = (2,)
     Install = 3
 
 
@@ -158,12 +158,24 @@ if action == Action.Build:
         com.log("CMake installation started.")
         com.Chrono.begin()
 
+<<<<<<< HEAD
         if platform.system() in ['Linux', 'Darwin']:
             res = com.run(f'cmake --install builds/{preset}', stdout=stdoutput)
         elif platform.system() == 'Windows':
             #if com.win32_is_admin():
             #    res = com.run(f'cmake --install builds{preset}', stdout=stdoutput)
             #else:
+=======
+        if platform.system() in ["Linux", "Darwin"]:
+            if preset.split("-")[2] == "shipping":
+                res = com.run(f"sudo cmake --install builds/{preset}", stdout=stdoutput)
+            else:
+                res = com.run(f"cmake --install builds/{preset}", stdout=stdoutput)
+        elif platform.system() == "Windows":
+            # if com.win32_is_admin():
+            #    res = com.run(f"cmake --install builds{preset}", stdout=stdoutput)
+            # else:
+>>>>>>> 074aa32d (Working on the build system to make it compatible with DAP)
             #    com.win32_request_admin()
             #    com.panic("Don"t worry, this is not a real panic.")
             com.run(f"cmake --install builds/{preset}", stdout=stdoutput)

@@ -326,6 +326,9 @@ set(CX_ENGINE_ASSET_PATH "${CMAKE_CURRENT_SOURCE_DIR}/assets" PARENT_SCOPE)
 #endif()
 
 # =============== # MISC # =============== #
+# Fix a dumb fucking linker bug on Ubuntu regarding dlopen.
+target_link_libraries(CodexEngine ${CMAKE_DL_LIBS})
+target_link_libraries(CodexEngine-static ${CMAKE_DL_LIBS})
 
 # Define standalone mode for the static library since the static version is
 # going to be used for shipping target_compile_definitions(CodexEngine-static

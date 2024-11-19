@@ -42,7 +42,7 @@ namespace codex::cc {
             Mutex<T>{ std::move(other) }.Swap(*this);
             return *this;
         }
-        constexpr ~Mutex() noexcept { TryLock(); }
+        constexpr ~Mutex() noexcept { Unlock(); }
 
     public:
         [[nodiscard]] constexpr ScopedGuard       operator->() noexcept { return ScopedGuard(*this); }
@@ -99,23 +99,9 @@ namespace codex::cc {
         friend class Mutex<T>;
 
     private:
-        Mutex<T>&   m_Mutex;
-        std::string func;
-        std::string file;
-        int         line;
-        bool        yes = false;
+        Mutex<T>& m_Mutex;
 
     private:
-        constexpr ScopedGuard(Mutex<T>& mutex, std::string func, std::string file, int line)
-            : m_Mutex(mutex)
-        {
-            this->func = func;
-            this->file = file;
-            this->line = line;
-            yes        = true;
-            lgx::Get("engine").Log(lgx::Level::Info, "Mutex locked. \n\tFile: {}\n\tFunc: {}\n\tLine: {}", file, func,
-                                   line);
-        }
         constexpr ScopedGuard(Mutex<T>& mutex) noexcept
             : m_Mutex(mutex)
         {
@@ -123,15 +109,7 @@ namespace codex::cc {
         }
 
     public:
-        constexpr ~ScopedGuard() noexcept
-        {
-            m_Mutex.Unlock();
-            if (yes)
-            {
-                lgx::Get("engine").Log(lgx::Level::Info, "Mutex unlocked. \n\tFile: {}\n\tFunc: {}\n\tLine: {}", file,
-                                       func, line);
-            }
-        }
+        constexpr ~ScopedGuard() noexcept { m_Mutex.Unlock(); }
 
     public:
         ScopedGuard(const ScopedGuard&) noexcept            = delete;
