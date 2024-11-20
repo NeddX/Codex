@@ -1,0 +1,100 @@
+#+title: Codex
+#+author: Neddiendrohu
+
+* Compilation
+** Ubuntu
+Because Ubuntu is a horrid distribution and I am forced to work with it, I will need to write this small guide to help me
+build Codex on Ubuntu machines.
+
+*** Prequisites
+- CMake 3.20+
+- GCC 13+ (for libstdc++13 used by clang)
+- Clang 17+
+- Ninja
+- Python 3.7+
+
+You're going to add extra repositories for APT so download the following:
+#+begin_src bash
+sudo apt install -y wget software-properties-common apt-transport-https gnupg lsb-release
+#+end_src
+
+And also update your system just in case.
+#+begin_src bash
+sudo apt update -y && sudo apt upgrade -y
+#+end_src
+
+*** CMake
+Add Kitware's APT repo for the latest CMake package.
+#+begin_src bash
+wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc | sudo apt-key add -
+#+end_src
+#+begin_src bash
+sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
+#+end_src
+
+Now refreh your repos and install CMake.
+#+begin_src bash
+sudo apt update -y && sudo apt install cmake
+#+end_src
+
+*** GCC
+Add Ubuntu toolchain test builds repository.
+#+begin-src bash
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+#+end_src
+
+Install GCC-13.
+#+begin_src bash
+sudo apt install gcc-13 g++13
+#+end_src
+
+*** Clang
+Download and run the following script.
+#+begin_src bash
+wget https://apt.llvm.org/llvm.sh
+#+end_src
+
+Add execution permission for the shell script.
+#+begin_src bash
+chmod +x llvm.sh
+#+end_src
+
+Run the script with the desired clang version.
+#+begin_src bash
+sudo ./llvm.sh 17
+#+end_src
+
+Now install clang with your desired version from apt.
+#+begin_src bash
+sudo apt install clang-17
+#+end_src
+
+(Optional) Set clang-17 as default.
+#+begin_src bash
+sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-17 100
+sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-17 100
+#+end_src
+
+(Optional) Switch the versions.
+#+begin_src bash
+sudo update-alternatives --config clang
+sudo update-alternatives --config clang++
+#+end_src
+
+*** Ninja
+Any version of ninja should work.
+#+begin_src bash
+sudo apt install ninja
+#+end_src
+
+*** Python
+Install python3.8 (or newer) from apt.
+#+begin_src bash
+sudo apt install python3.8
+#+end_src
+
+Make sure to run the script *WITH* the new python.
+#+begin_src bash
+cd Codex/
+python3.8 Scripts/build.py --config=debug --build --install
+#+end_src
