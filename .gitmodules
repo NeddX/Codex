@@ -21,3 +21,6 @@
 [submodule "CodexEngine/vendor/Logex"]
 	path = CodexEngine/vendor/Logex
 	url = https://github.com/NeddX/Logex
+[submodule "CodexEditor/assets/Projects/Umbra"]
+	path = CodexEditor/assets/Projects/Umbra
+	url = https://github.com/NeddX/Umbra
