@@ -13,7 +13,7 @@ build Codex on Ubuntu machines.
 - Ninja
 - Python 3.7+
 
-You're going to add extra repositories for APT so download the following:
+You're going to add extra repositories for APT so download the following.
 #+begin_src bash
 sudo apt install -y wget software-properties-common apt-transport-https gnupg lsb-release
 #+end_src
@@ -39,7 +39,7 @@ sudo apt update -y && sudo apt install cmake
 
 *** GCC
 Add Ubuntu toolchain test builds repository.
-#+begin-src bash
+#+begin_src bash
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 #+end_src
 
