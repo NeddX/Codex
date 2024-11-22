@@ -51,8 +51,8 @@ def gen_launch_file():
     )
     launch_data["configurations"][0]["cwd"] = install_dir
 
-    with open(".vscode/launch.json", "w+") as f:
-        json.dump(launch_data, f, indent=4)
+    #with open(".vscode/launch.json", "w+") as f:
+    #    json.dump(launch_data, f, indent=4)
 
 
 args = sys.argv[1:]
