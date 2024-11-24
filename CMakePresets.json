@@ -101,26 +101,6 @@
             }
         },
         {
-            "name": "windows-msvc-any-release",
-            "displayName": "any Release",
-            "installDir": "${sourceDir}/installs/${presetName}",
-            "inherits": "windows-msvc-any-debug",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CXX_FLAGS": "/fsanitize=address",
-                "CMAKE_C_FLAGS": "/fsanitize=address"
-            }
-        },
-        {
-            "name": "windows-msvc-any-shipping",
-            "displayName": "any Shipping",
-            "installDir": "C:/Program Files/Carbine/Codex Editor",
-            "inherits": "windows-msvc-any-debug",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Shipping"
-            }
-        },
-        {
             "name": "windows-llvm-any-debug",
             "displayName": "any Debug",
             "installDir": "${sourceDir}/installs/${presetName}",
@@ -147,6 +127,26 @@
             "displayName": "any Shipping",
             "installDir": "C:/Program Files/Carbine/CEditor",
             "inherits": "windows-llvm-any-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Shipping"
+            }
+        },
+        {
+            "name": "windows-msvc-any-release",
+            "displayName": "any Release",
+            "installDir": "${sourceDir}/installs/${presetName}",
+            "inherits": "windows-msvc-any-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_FLAGS": "/fsanitize=address",
+                "CMAKE_C_FLAGS": "/fsanitize=address"
+            }
+        },
+        {
+            "name": "windows-msvc-any-shipping",
+            "displayName": "any Shipping",
+            "installDir": "C:/Program Files/Carbine/Codex Editor",
+            "inherits": "windows-msvc-any-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Shipping"
             }
@@ -204,9 +204,7 @@
             "inherits": "osx-any-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_CXX_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined",
-                "CMAKE_C_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined"
-            }
+                "CMAKE_CXX_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined", "CMAKE_C_FLAGS": "-fsanitize=address -fno-omit-frame-pointer -fsanitize=undefined" }
         },
         {
             "name": "osx-any-shipping",
