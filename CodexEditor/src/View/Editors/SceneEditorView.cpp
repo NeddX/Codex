@@ -320,7 +320,7 @@ namespace codex::editor {
 
             auto current_viewport_window_size = ImGui::GetContentRegionAvail();
             m_ViewportSize = Vector2f{ current_viewport_window_size.x, current_viewport_window_size.y };
-            ImGui::Image((void*)(intptr)m_Framebuffer->GetColourAttachmentIdAt(0), current_viewport_window_size,
+            ImGui::Image(static_cast<ImTextureID>(m_Framebuffer->GetColourAttachmentIdAt(0)), current_viewport_window_size,
                          { 0, 1 }, { 1, 0 });
 
             m_ViewportFocused = ImGui::IsWindowFocused();

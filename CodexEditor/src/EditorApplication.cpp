@@ -60,7 +60,6 @@ namespace codex::editor {
         lgx::Get("editor").Log(lgx::Level::Info, "Variable application data path: '{}'",
                                m_VariableApplicationDataPath.string());
 
-        // PushLayer(new TitleBar); // Don't need a custom titlebar, for now.
         PushLayer(new Editor);
         PushLayer(new ConsoleMan);
     }

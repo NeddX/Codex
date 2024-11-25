@@ -36,7 +36,7 @@ namespace codex::editor {
 
         const auto  size      = ImGui::GetWindowHeight() - 15.0f;
         const auto& play_icon = (scene->GetState() == Scene::State::Play) ? m_StopIcon : m_PlayIcon;
-        if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(play_icon.GetGlId()), ImVec2(size, size)))
+        if (ImGui::ImageButton("#play", static_cast<ImTextureID>(play_icon.GetGlId()), ImVec2(size, size)))
         {
             if (scene->GetState() == Scene::State::Edit)
             {
@@ -57,7 +57,7 @@ namespace codex::editor {
             ImGui::BeginDisabled();
 
         const auto& simulate_icon = (scene->GetState() == Scene::State::Simulate) ? m_StopIcon : m_SimulateIcon;
-        if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(simulate_icon.GetGlId()), ImVec2(size, size)))
+        if (ImGui::ImageButton("#sim", static_cast<ImTextureID>(simulate_icon.GetGlId()), ImVec2(size, size)))
         {
             if (scene->GetState() == Scene::State::Edit)
             {

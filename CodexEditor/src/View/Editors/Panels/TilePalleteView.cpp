@@ -9,9 +9,7 @@ namespace codex::editor {
         {
             m_Entity            = std::move(newEntity);
             m_PositionedPallete = false;
-            m_Camera            = scene::EditorCamera{ 1280, 720 };
-
-            if (m_Entity.HasComponent<TilemapComponent>())
+            m_Camera            = scene::EditorCamera{ 1280, 720 }; if (m_Entity.HasComponent<TilemapComponent>())
             {
                 if (!m_PalleteEntity)
                 {
@@ -104,7 +102,7 @@ namespace codex::editor {
 
         if (ImGui::Begin("Tile pallete", &m_Show))
         {
-            if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_BrushIcon.GetGlId()), size, { 0, 1 }, { 1, 0 }))
+            if (ImGui::ImageButton("#brush", static_cast<ImTextureID>(m_BrushIcon.GetGlId()), size, { 0, 1 }, { 1, 0 }))
             {
                 if (m_Entity)
                 {
@@ -116,7 +114,7 @@ namespace codex::editor {
 
             ImGui::SameLine();
 
-            if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_EraseIcon.GetGlId()), size, { 0, 1 }, { 1, 0 }))
+            if (ImGui::ImageButton("#eraser", static_cast<ImTextureID>(m_EraseIcon.GetGlId()), size, { 0, 1 }, { 1, 0 }))
             {
                 if (m_Entity)
                 {
@@ -141,7 +139,7 @@ namespace codex::editor {
 
                     auto current_viewport_window_size = ImGui::GetContentRegionAvail();
                     m_ViewportSize = Vector2f{ current_viewport_window_size.x, current_viewport_window_size.y };
-                    ImGui::Image(reinterpret_cast<ImTextureID>(m_PalleteFb->GetColourAttachmentIdAt(0)),
+                    ImGui::Image(static_cast<ImTextureID>(m_PalleteFb->GetColourAttachmentIdAt(0)),
                                  current_viewport_window_size, { 0, 1 }, { 1, 0 });
 
                     m_ViewportFocused = ImGui::IsWindowFocused();
