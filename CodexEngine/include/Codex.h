@@ -12,7 +12,7 @@
 #include <Engine/Core/Window.h>
 
 // Concurrency
-#include <Engine/Concurrency/Mutex.h>
+#include <Engine/Concurrency/Sync.h>
 
 // Events
 #include <Engine/Events/Event.h>

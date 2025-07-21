@@ -104,7 +104,8 @@ namespace codex::editor {
 
         if (ImGui::Begin("Tile pallete", &m_Show))
         {
-            if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_BrushIcon.GetGlId()), size, { 0, 1 }, { 1, 0 }))
+            if (ImGui::ImageButton("#brush", reinterpret_cast<ImTextureID>(m_BrushIcon.GetGlId()), size, { 0, 1 },
+                                   { 1, 0 }))
             {
                 if (m_Entity)
                 {
@@ -116,7 +117,8 @@ namespace codex::editor {
 
             ImGui::SameLine();
 
-            if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_EraseIcon.GetGlId()), size, { 0, 1 }, { 1, 0 }))
+            if (ImGui::ImageButton("#eraser", reinterpret_cast<ImTextureID>(m_EraseIcon.GetGlId()), size, { 0, 1 },
+                                   { 1, 0 }))
             {
                 if (m_Entity)
                 {

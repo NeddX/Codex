@@ -43,9 +43,13 @@ namespace codex {
 
     Scene::Scene(Scene&& other) noexcept
     {
-        m_Registry     = std::move(other.m_Registry);
-        m_Name         = std::move(other.m_Name);
-        s_ScriptModule = std::move(other.s_ScriptModule);
+        // In case you're confused (to which I am sure you are because I was too) as to what this does: it
+        // simply locks the underlying object for this.m_Registry and then dereferences the locked object because
+        // locking returns a ScopedGuard, and then it does the same thing for other.m_Registry and simply moves the
+        // underlying object into the this.m_Registry mutex.
+        *m_Registry.Lock() = std::move(*other.m_Registry.Lock());
+        m_Name             = std::move(other.m_Name);
+        s_ScriptModule     = std::move(other.s_ScriptModule);
     }
 
     Scene& Scene::operator=(Scene&& other) noexcept

@@ -1,7 +1,7 @@
 #ifndef CODEX_SCENE_H
 #define CODEX_SCENE_H
 
-#include <Engine/Concurrency/Mutex.h>
+#include <Engine/Concurrency/Sync.h>
 #include <Engine/Core/Input.h>
 #include <Engine/Core/ResourceHandler.h>
 #include <Engine/Core/UUID.h>
@@ -42,7 +42,7 @@ namespace codex {
         };
 
     private:
-        cc::Mutex<entt::registry> m_Registry;
+        cc::Sync<entt::registry> m_Registry;
         std::string               m_Name         = "Default scene";
         mem::Box<b2World>         m_PhysicsWorld = nullptr;
         std::atomic<State>        m_State        = State::Edit;

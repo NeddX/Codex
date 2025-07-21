@@ -74,14 +74,14 @@ namespace codex::editor {
         m_Framebuffer->Bind();
 
         // Viewport resize
-        auto& camera = Editor::GetViewportCamera();
-        static auto prev_viewport = m_ViewportSize;
+        auto&       camera          = Editor::GetViewportCamera();
+        static auto prev_viewport   = m_ViewportSize;
         static auto prev_camera_pan = camera.GetPan();
-        if (m_ViewportSize != prev_viewport || camera.GetPan() != prev_camera_pan) 
+        if (m_ViewportSize != prev_viewport || camera.GetPan() != prev_camera_pan)
         {
             camera.SetWidth(m_ViewportSize.x);
             camera.SetHeight(m_ViewportSize.y);
-            prev_viewport = m_ViewportSize;
+            prev_viewport   = m_ViewportSize;
             prev_camera_pan = camera.GetPan();
             m_Framebuffer->Resize((u32)m_ViewportSize.x, (u32)m_ViewportSize.y);
         }
@@ -320,8 +320,8 @@ namespace codex::editor {
 
             auto current_viewport_window_size = ImGui::GetContentRegionAvail();
             m_ViewportSize = Vector2f{ current_viewport_window_size.x, current_viewport_window_size.y };
-            ImGui::Image((void*)(intptr)m_Framebuffer->GetColourAttachmentIdAt(0), current_viewport_window_size,
-                         { 0, 1 }, { 1, 0 });
+            ImGui::Image(reinterpret_cast<ImTextureID>(m_Framebuffer->GetColourAttachmentIdAt(0)),
+                         current_viewport_window_size, { 0, 1 }, { 1, 0 });
 
             m_ViewportFocused = ImGui::IsWindowFocused();
             m_ViewportHovered = ImGui::IsWindowHovered();
