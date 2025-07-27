@@ -16,8 +16,9 @@ namespace codex::gfx {
 
         m_Vbo = std::make_unique<mgl::VertexBuffer>();
         m_Vbo->Bind();
-        m_Vbo->SetBuffer<f32>(nullptr, QUAD2D_VERTEX_SIZE * sizeof(f32) * maxQuadCount,
-                              mgl::BufferUsage::DYNAMIC_DRAW); // you basically allocate space and then upload the data
+        m_Vbo->SetBuffer<QuadVertex>(nullptr, sizeof(QuadVertex) * QUAD2D_VERTEX_COUNT * m_MaxQuadCount,
+                                     mgl::BufferUsage::DYNAMIC_DRAW); // you basically allocate space and then upload
+                                                                      // the data
 
         m_Ebo = std::make_unique<mgl::IndexBuffer>();
         m_Ebo->Bind();
@@ -26,8 +27,12 @@ namespace codex::gfx {
         m_Ebo->SetBuffer(index_buffer_data.data(), size);
 
         m_Layout = std::make_unique<mgl::VertexBufferLayout>();
+        m_Layout->Push<f32>(4); // a_MatCol0
+        m_Layout->Push<f32>(4); // a_MatCol1
+        m_Layout->Push<f32>(4); // a_MatCol2
+        m_Layout->Push<f32>(4); // a_MatCol3
+        m_Layout->Push<f32>(4); // a_Vertex
         m_Layout->Push<f32>(4); // a_Colour
-        m_Layout->Push<f32>(3); // a_Position
         m_Layout->Push<f32>(2); // a_TexCoord
         m_Layout->Push<f32>(2); // a_TexDim
         m_Layout->Push<i32>(1); // a_TexId
@@ -129,7 +134,8 @@ namespace codex::gfx {
 
         for (usize i = 0; i < QUAD2D_VERTEX_COUNT; ++i)
         {
-            m_VertexPtr->vertex   = transform * quad_verticies[i];
+            m_VertexPtr->model    = transform;
+            m_VertexPtr->vertex   = quad_verticies[i];
             m_VertexPtr->colour   = colour;
             m_VertexPtr->texCoord = tex_coords[i];
             m_VertexPtr->texId    = tex_id;

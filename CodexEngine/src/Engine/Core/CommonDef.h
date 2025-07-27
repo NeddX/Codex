@@ -24,12 +24,15 @@
 #ifdef CX_COMPILER_GNUC
 #define CX_DEBUG_TRAP()    __builtin_trap()
 #define CX_PRETTY_FUNCTION __PRETTY_FUNCTION__
+#define CX_PACKED(x) x __attribute__((__packed__))
 #elif CX_COMPILER_MSVC
 #define CX_DEBUG_TRAP()    __debugbreak()
 #define CX_PRETTY_FUNCTION __FUNCSIG__
+#define CX_PACKED(x) __pragma(pack(push, 1)) cx __pragma(pack(pop))
 #elif CX_COMPILER_CLANG
 #define CX_DEBUG_TRAP()    __builtin_debugtrap()
 #define CX_PRETTY_FUNCTION __PRETTY_FUNCTION__
+#define CX_PACKED(x) x __attribute__((__packed__))
 #else
 #error "Unknown compiler"
 #endif

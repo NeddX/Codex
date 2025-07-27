@@ -8,20 +8,19 @@
 #include "Texture2D.h"
 
 namespace codex::gfx {
-    constexpr auto QUAD2D_VERTEX_COMPONENT_COUNT = 13; // How many components does a vertex have?
-    constexpr auto QUAD2D_VERTEX_COUNT           = 4;  // How many vertices does the buffer have?
-    constexpr auto QUAD2D_VERTEX_SIZE = QUAD2D_VERTEX_COUNT * QUAD2D_VERTEX_COMPONENT_COUNT; // The total count of the
-                                                                                             // elements in the buffer
+    constexpr auto QUAD2D_VERTEX_COUNT = 4; // How many vertices does the buffer have?
 
+    CX_PACKED(
     struct QuadVertex
     {
+        Matrix4f model;
+        Vector4f vertex;
         Vector4f colour;
-        Vector3f vertex;
         Vector2f texCoord;
         Vector2f texSize;
         i32      texId;
         i32      entityId;
-    };
+    });
 
     class CODEX_API RenderBatch
     {
@@ -55,8 +54,8 @@ namespace codex::gfx {
         void        SetZIndex(i32 newIndex) { m_ZIndex = newIndex; }
         void        BindShader(Shader* shader) { m_Shader = shader; }
         QuadVertex* GetQuads() noexcept { return m_Verticies; }
-        void        Swap(RenderBatch& other) noexcept 
-        { 
+        void        Swap(RenderBatch& other) noexcept
+        {
             std::swap(m_QuadCount, other.m_QuadCount);
             std::swap(m_MaxTextureSlotCount, other.m_MaxQuadCount);
             std::swap(m_MaxQuadCount, other.m_MaxQuadCount);

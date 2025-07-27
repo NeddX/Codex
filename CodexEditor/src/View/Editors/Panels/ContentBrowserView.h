@@ -79,7 +79,7 @@ namespace codex::editor {
         File(std::filesystem::path path, const Type type = Type::Auto);
 
     public:
-        [[nodiscard]] std::string GetName() const noexcept { return m_Path.filename(); }
-        [[nodiscard]] std::string GetExtension() const noexcept { return m_Path.extension(); }
+        [[nodiscard]] std::string GetName() const noexcept { return m_Path.filename().string(); }
+        [[nodiscard]] std::string GetExtension() const noexcept { return m_Path.extension().string(); }
     };
 } // namespace codex::editor
