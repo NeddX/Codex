@@ -272,18 +272,18 @@ namespace codex {
         if (!m_Instance)
         {
             m_Instance = new Input();
-            lgx::Get("engine").Log(lgx::Level::Info, "Input subsystem initialized.");
+            lgx::Get("engine").Log(lgx::Info, "Input subsystem initialized.");
         }
         return m_Instance;
     }
 
-    void Input::Destroy()
+    void Input::Dispose()
     {
         if (m_Instance)
         {
             delete m_Instance;
             m_Instance = nullptr;
-            lgx::Get("engine").Log(lgx::Level::Info, "Input subsystem disposed.");
+            lgx::Get("engine").Log(lgx::Info, "Input subsystem disposed.");
         }
     }
 

@@ -22,7 +22,7 @@ int main(int argc, char** argv)
     }
     catch (const codex::CodexException& ex)
     {
-		lgx::Log(lgx::Level::Fatal, ex.to_string());
+        lgx::Log(lgx::Fatal, ex.to_string());
         std::exit(EXIT_FAILURE);
     }
     return 0;

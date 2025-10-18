@@ -506,7 +506,7 @@ namespace codex {
             s_PossibleAttachedScripts.clear();
         }
 
-        lgx::Get("engine").Log(lgx::Level::Info, "Script module loaded.");
+        lgx::Get("engine").Log(lgx::Info, "Script module loaded.");
     }
 
     void Scene::UnloadScriptModule()
@@ -539,7 +539,7 @@ namespace codex {
         */
 
         s_ScriptModule.Reset();
-        lgx::Get("engine").Log(lgx::Level::Info, "Script module unloaded.");
+        lgx::Get("engine").Log(lgx::Info, "Script module unloaded.");
     }
 
     void Scene::OnFixedUpdate(Scene& self) noexcept

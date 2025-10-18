@@ -26,13 +26,13 @@ namespace codex::editor {
     void EditorApplication::OnInit()
     {
         // Create the editor logger.
-        lgx::New("editor",
+        lgx::Get("editor") =
                  lgx::Logger::Properties{
                      .defaultPrefix = "CodexEditor",
                      .defaultStyle  = { .defaultInfoStyle  = fmt::fg(fmt::color::lime_green),
                                         .defaultWarnStyle  = fmt::fg(fmt::color::yellow),
                                         .defaultErrorStyle = fmt::fg(fmt::color::red) | fmt::emphasis::italic,
-                                        .defaultFatalStyle = fmt::fg(fmt::color::dark_red) | fmt::emphasis::italic } });
+                                        .defaultFatalStyle = fmt::fg(fmt::color::dark_red) | fmt::emphasis::italic } };
 
 #ifdef CX_PLATFORM_UNIX
         m_ApplicationDataPath = stdfs::path(CE_INSTALL_DIR) / stdfs::path("share/CEditor");
@@ -52,12 +52,12 @@ namespace codex::editor {
             }
             catch (const std::exception& ex)
             {
-                lgx::Get("editor").Log(lgx::Level::Warn, "Failed to create application data folder!");
+                lgx::Get("editor").Log(lgx::Warn, "Failed to create application data folder!");
             }
         }
 
-        lgx::Get("editor").Log(lgx::Level::Info, "Application data path: '{}'", m_ApplicationDataPath.string());
-        lgx::Get("editor").Log(lgx::Level::Info, "Variable application data path: '{}'",
+        lgx::Get("editor").Log(lgx::Info, "Application data path: '{}'", m_ApplicationDataPath.string());
+        lgx::Get("editor").Log(lgx::Info, "Variable application data path: '{}'",
                                m_VariableApplicationDataPath.string());
 
         PushLayer(new Editor);

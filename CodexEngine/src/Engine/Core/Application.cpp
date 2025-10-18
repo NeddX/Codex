@@ -20,14 +20,13 @@ namespace codex {
         : m_Properties(std::move(args))
     {
         // Create the engine logger.
-        m_Logger = &lgx::New(
-            "engine",
-            lgx::Logger::Properties{
-                .defaultPrefix = "CodexEngine",
-                .defaultStyle  = { .defaultInfoStyle  = fmt::fg(fmt::color::light_sky_blue),
-                                   .defaultWarnStyle  = fmt::fg(fmt::color::yellow),
-                                   .defaultErrorStyle = fmt::fg(fmt::color::red) | fmt::emphasis::italic,
-                                   .defaultFatalStyle = fmt::fg(fmt::color::dark_red) | fmt::emphasis::italic } });
+        lgx::Get("engine") = lgx::Logger{ lgx::Logger::Properties{
+            .defaultPrefix = "CodexEngine",
+            .defaultStyle  = { .defaultInfoStyle  = fmt::fg(fmt::color::light_sky_blue),
+                               .defaultWarnStyle  = fmt::fg(fmt::color::yellow),
+                               .defaultErrorStyle = fmt::fg(fmt::color::red) | fmt::emphasis::italic,
+                               .defaultFatalStyle = fmt::fg(fmt::color::dark_red) | fmt::emphasis::italic } } };
+        m_Logger = &lgx::Get("engine");
 
         try
         {
@@ -55,7 +54,7 @@ namespace codex {
         }
         catch (const CodexException& ex)
         {
-            lgx::Get("engine").Log(lgx::Level::Fatal, ex.to_string());
+            m_Logger->Log(lgx::Fatal, ex.to_string());
             std::exit(EXIT_FAILURE);
         }
     }
@@ -63,7 +62,7 @@ namespace codex {
     Application::~Application()
     {
         Resources::Destroy();
-        Input::Destroy();
+        Input::Dispose();
         s_Instance = nullptr;
     }
 
@@ -115,7 +114,7 @@ namespace codex {
             }
             catch (const CodexException& ex)
             {
-                lgx::Get("engine").Log(lgx::Level::Fatal, ex.to_string());
+                m_Logger->Log(lgx::Fatal, ex.to_string());
                 std::exit(EXIT_FAILURE);
             }
 

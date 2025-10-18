@@ -276,6 +276,11 @@ set(ENTT_INCLUDE_DIRS vendor/entt)
 target_include_directories(CodexEngine PUBLIC ${ENTT_INCLUDE_DIRS})
 target_include_directories(CodexEngine-static PUBLIC ${ENTT_INCLUDE_DIRS})
 
+# Threads (for pthreads on Nix systems)
+find_package(Threads REQUIRED)
+target_link_libraries(CodexEngine Threads::Threads)
+target_link_libraries(CodexEngine-static Threads::Threads)
+
 # ================================= # Configuration specific macros   #
 # ================================= #
 target_compile_definitions(
