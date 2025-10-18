@@ -79,7 +79,12 @@ namespace codex {
         }
         inline void Swap(Scene& other) noexcept
         {
-            m_Registry.Swap(other.m_Registry);
+            {
+                auto reg       = m_Registry.Lock();
+                auto other_reg = other.m_Registry.Lock();
+                std::swap(*reg, *other_reg);
+            }
+
             std::swap(m_Name, other.m_Name);
             std::swap(s_ScriptModule, other.s_ScriptModule);
             std::swap(m_FixedUpdateThread, other.m_FixedUpdateThread);
