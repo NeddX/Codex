@@ -250,6 +250,7 @@ namespace codex::editor {
                         p_info.onExit = [this](i32 exitCode)
                         {
                             auto& d = m_Descriptor;
+                            // TODO: Scene should also be thread safe since this callback is being called from a different thread.
                             Scene::LoadScriptModule(d->scriptModulePath); // TODO: COME BACK
                             ConsoleMan::AppendMessage("-- Clear finished.");
                         };
