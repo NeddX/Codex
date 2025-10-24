@@ -179,9 +179,9 @@ target_link_libraries(CodexEngine-static ${JSON_LIBRARIES})
 # glad
 set(GLAD_INCLUDE_DIR vendor/glad)
 
-target_sources(CodexEngine PUBLIC "vendor/glad/glad.cpp")
+#target_sources(CodexEngine PUBLIC "vendor/glad/glad.cpp")
 target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIR})
-target_link_libraries(CodexEngine ${GLAD_LIBRARIES})
+#target_link_libraries(CodexEngine ${GLAD_LIBRARIES})
 
 target_sources(CodexEngine-static PUBLIC "vendor/glad/glad.cpp")
 target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIR})
