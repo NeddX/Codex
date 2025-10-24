@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include <Debug/Profiler.h>
+#include <Debug/TimeScope.h>
 #include <Engine/Graphics/Renderer.h>
 #include <Engine/NativeBehaviour/NativeBehaviour.h>
 #include <Engine/Reflection/Reflector.h>
@@ -192,6 +194,8 @@ namespace codex {
     {
         // Sprites
         {
+            CX_DEBUG_PROFILE_SCOPE("SpriteRender")
+
             const auto registry = m_Registry.Lock();
             const auto view     = registry->view<TransformComponent, SpriteRendererComponent>();
             for (auto& e : view)
@@ -213,6 +217,8 @@ namespace codex {
 
         // Tiles
         {
+            CX_DEBUG_PROFILE_SCOPE("TileRender")
+
             const auto registry = m_Registry.Lock();
             const auto view     = registry->view<TilemapComponent, TransformComponent>();
             for (const auto& e : view)
@@ -363,7 +369,23 @@ namespace codex {
             {
                 auto& nbc = nbc_view.get<NativeBehaviourComponent>(e);
                 nbc.SetParent(Entity{ e, this });
-                nbc.OnInit();
+
+                try
+                {
+                    nbc.OnInit();
+                }
+                catch (const NativeBehaviourException& ex)
+                {
+                    // If NBC fails to initialise all components then most likely one of the Behaviours threw an error
+                    // occured; revert state back to State::Edit and halt physics simulation.
+                    OnRuntimeStop();
+
+                    // TODO: We should stop calling lgx::Get for every log.
+                    // TODO: Review this inner exception thing for later.
+                    auto& exi = ex.InnerException();
+                    lgx::Get("engine").Error("A Behaviour threw an Error: {}", exi.to_string());
+                    return;
+                }
             }
         }
 
@@ -378,6 +400,36 @@ namespace codex {
         m_State.store(State::Simulate);
 
         ConstructPhysicsBodies();
+
+        // Native behaviour instantiation.
+        {
+            // Lock the registry only for one statement because user scripts can also possibly lock the registry
+            // for interactions (such as calls to GetComponent<T>, HasComponent<T> etc...) instead of
+            // locking for the entire scope.
+            auto nbc_view = m_Registry->view<NativeBehaviourComponent>();
+            for (auto& e : nbc_view)
+            {
+                auto& nbc = nbc_view.get<NativeBehaviourComponent>(e);
+                nbc.SetParent(Entity{ e, this });
+
+                try
+                {
+                    nbc.OnInit();
+                }
+                catch (const NativeBehaviourException& ex)
+                {
+                    // If NBC fails to initialise all components then most likely one of the Behaviours threw an error
+                    // occured; revert state back to State::Edit and halt physics simulation.
+                    OnRuntimeStop();
+
+                    // TODO: We should stop calling lgx::Get for every log.
+                    // TODO: Review this inner exception thing for later.
+                    auto& exi = ex.InnerException();
+                    lgx::Get("engine").Error("A Behaviour threw an Error: {}", exi.to_string());
+                    return;
+                }
+            }
+        }
 
         m_FixedUpdateThread = std::thread(Scene::OnFixedUpdate, std::ref(*this));
     }
@@ -466,7 +518,22 @@ namespace codex {
             for (auto& e : view)
             {
                 auto& nbc = view.get<NativeBehaviourComponent>(e);
-                nbc.OnUpdate(deltaTime);
+                try
+                {
+                    nbc.OnUpdate(deltaTime);
+                }
+                catch (const NativeBehaviourException& ex)
+                {
+                    // If NBC fails to update all components then most likely one of the Behaviours threw an error
+                    // occured; revert state back to State::Edit and halt physics simulation.
+                    OnRuntimeStop();
+
+                    // TODO: We should stop calling lgx::Get for every log.
+                    // TODO: Review this inner exception thing for later.
+                    auto& exi = ex.InnerException();
+                    lgx::Get("engine").Error("A Behaviour threw an Error: {}", exi.to_string());
+                    return;
+                }
             }
         }
     }

@@ -74,16 +74,20 @@ namespace codex::editor {
         m_Framebuffer->Bind();
 
         // Viewport resize
-        auto& camera = Editor::GetViewportCamera();
-        static auto prev_viewport = m_ViewportSize;
-        static auto prev_camera_pan = camera.GetPan();
-        if (m_ViewportSize != prev_viewport || camera.GetPan() != prev_camera_pan) 
         {
-            camera.SetWidth(m_ViewportSize.x);
-            camera.SetHeight(m_ViewportSize.y);
-            prev_viewport = m_ViewportSize;
-            prev_camera_pan = camera.GetPan();
-            m_Framebuffer->Resize((u32)m_ViewportSize.x, (u32)m_ViewportSize.y);
+            CX_DEBUG_PROFILE_SCOPE("OnUpdate::ViewportResize")
+
+            auto&       camera          = Editor::GetViewportCamera();
+            static auto prev_viewport   = m_ViewportSize;
+            static auto prev_camera_pan = camera.GetPan();
+            if (m_ViewportSize != prev_viewport || camera.GetPan() != prev_camera_pan)
+            {
+                camera.SetWidth(m_ViewportSize.x);
+                camera.SetHeight(m_ViewportSize.y);
+                prev_viewport   = m_ViewportSize;
+                prev_camera_pan = camera.GetPan();
+                m_Framebuffer->Resize((u32)m_ViewportSize.x, (u32)m_ViewportSize.y);
+            }
         }
 
         gfx::Renderer::SetClearColour(0.2f, 0.2f, 0.2f, 1.0f);
@@ -94,6 +98,8 @@ namespace codex::editor {
         switch (scene->GetState())
         {
             case Scene::State::Edit: {
+                CX_DEBUG_PROFILE_SCOPE("OnUpdate::OnEditorUpdate")
+
                 if (d->selectedEntity.entity)
                 {
                     if (d->selectedEntity.entity.HasComponent<GridRendererComponent>())
@@ -104,14 +110,17 @@ namespace codex::editor {
                 }
 
                 VisualizeColliders();
+
                 scene->OnEditorUpdate(deltaTime, Editor::GetViewportCamera());
                 break;
             }
             case Scene::State::Play: {
+                CX_DEBUG_PROFILE_SCOPE("OnUpdate::OnRuntimeUpdate")
                 scene->OnRuntimeUpdate(deltaTime);
                 break;
             }
             case Scene::State::Simulate: {
+                CX_DEBUG_PROFILE_SCOPE("OnUpdate::OnSimulationUpdate")
                 VisualizeColliders();
                 scene->OnSimulationUpdate(deltaTime, Editor::GetViewportCamera());
                 break;
@@ -154,6 +163,8 @@ namespace codex::editor {
 
     void SceneEditorView::OnImGuiRender()
     {
+        CX_DEBUG_PROFILE_SCOPE("OnImGuiRender")
+
         auto& d  = m_Descriptor;
         auto& io = ImGui::GetIO();
 
@@ -200,6 +211,18 @@ namespace codex::editor {
 
             static bool show_demo_window = true;
             ImGui::ShowDemoWindow(&show_demo_window);
+        }
+
+        // Profiler window.
+        {
+            ImGui::Begin("Profiler");
+            for (const auto& e : dbg::Profiler::GetProfilers())
+            {
+                const auto info = e.second.GetInfo();
+                const auto dur  = e.second.ElapsedAs<std::milli, f32>().count();
+                ImGui::Text("%s: %fms", info.name.c_str(), dur);
+            }
+            ImGui::End();
         }
 
         // File menu
@@ -320,8 +343,8 @@ namespace codex::editor {
 
             auto current_viewport_window_size = ImGui::GetContentRegionAvail();
             m_ViewportSize = Vector2f{ current_viewport_window_size.x, current_viewport_window_size.y };
-            ImGui::Image(static_cast<ImTextureID>(m_Framebuffer->GetColourAttachmentIdAt(0)), current_viewport_window_size,
-                         { 0, 1 }, { 1, 0 });
+            ImGui::Image(static_cast<ImTextureID>(m_Framebuffer->GetColourAttachmentIdAt(0)),
+                         current_viewport_window_size, { 0, 1 }, { 1, 0 });
 
             m_ViewportFocused = ImGui::IsWindowFocused();
             m_ViewportHovered = ImGui::IsWindowHovered();
@@ -379,6 +402,8 @@ namespace codex::editor {
 
         // Render our panels.
         {
+            CX_DEBUG_PROFILE_SCOPE("PanelRender")
+
             auto it = m_ViewPanels.begin();
             while (it != m_ViewPanels.end())
             {
@@ -634,6 +659,8 @@ namespace codex::editor {
 
     void SceneEditorView::VisualizeColliders() const noexcept
     {
+        CX_DEBUG_PROFILE_SCOPE("VisualizeColliders")
+
         const auto& d = m_Descriptor;
 
         const auto box_colliders = d->activeScene.Lock()->GetAllEntitiesWithComponent<BoxCollider2DComponent>();
@@ -709,6 +736,8 @@ namespace codex::editor {
     void SceneEditorView::RenderGrid(gfx::DebugDraw& renderer, const scene::EditorCamera& camera,
                                      const GridRendererComponent& c) noexcept
     {
+        CX_DEBUG_PROFILE_SCOPE("RenderGrid")
+
         const auto camera_dim = Vector2{ camera.GetWidth() * camera.GetPan(), camera.GetHeight() * camera.GetPan() };
         const auto camera_pos = camera.GetPos() - Vector3f{ camera_dim / 2, 0.0f };
         const auto start_pos  = glm::ceil(camera_pos / Vector3f{ c.cellSize, 1.0f }) * Vector3f{ c.cellSize, 0.0f };

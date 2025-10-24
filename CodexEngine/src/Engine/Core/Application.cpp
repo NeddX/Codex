@@ -5,6 +5,8 @@
 #include "../Scene/Scene.h"
 #include "Exception.h"
 #include "Input.h"
+#include <Debug/Profiler.h>
+#include <Debug/TimeScope.h>
 
 #include <sdafx.h>
 
@@ -96,10 +98,15 @@ namespace codex {
                 if (!m_Minimized)
                 {
                     for (Layer* layer : m_LayerStack)
+                    {
+                        CX_DEBUG_PROFILE_SCOPE("LayerUpdate")
                         layer->OnUpdate(m_DeltaTime);
+                    }
 
                     if (m_ImGuiLayer)
                     {
+                        CX_DEBUG_PROFILE_SCOPE("ImGuiLayerUpdate")
+
                         m_ImGuiLayer->Begin();
                         for (Layer* layer : m_LayerStack)
                             layer->OnImGuiRender();

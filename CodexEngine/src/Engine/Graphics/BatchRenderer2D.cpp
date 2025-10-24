@@ -2,6 +2,7 @@
 
 #include <Engine/Core/Application.h>
 #include <Engine/Core/ResourceHandler.h>
+#include <Engine/Debug/Debug.h>
 #include <Engine/Scene/Components.h>
 
 namespace codex::gfx {
@@ -103,12 +104,16 @@ namespace codex::gfx {
         s_QuadShader->SetUniformMat4f("u_Proj", s_CurrentCamera->GetProjectionMatrix());
         s_QuadShader->Unbind();
 
-        std::for_each(s_Batches.begin(), s_Batches.end(),
-                      [](auto& b)
-                      {
-                          if (b.GetCount() > 0)
-                              b.Render();
-                      });
+        {
+            CX_DEBUG_PROFILE_SCOPE("BatchRender")
+
+            std::for_each(s_Batches.begin(), s_Batches.end(),
+                          [](auto& b)
+                          {
+                              if (b.GetCount() > 0)
+                                  b.Render();
+                          });
+        }
 
         s_CurrentCamera = nullptr;
     }

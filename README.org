@@ -98,3 +98,7 @@ Make sure to run the script *WITH* the new python.
 cd Codex/
 python3.8 Scripts/build.py --config=debug --build --install
 #+end_src
+
+* Trademarks
+Codex uses FMOD as its audio engine. See the [[https://www.fmod.com/][fmod website]] for more information.
+[[file:./Logos/fmod.svg]]

@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-#ifndef CX_CONFIG_DEBUG // FIXME: Okay so CX_CONFIG_DEBUG is defined from CMake how does it not defined here?
+#ifndef CX_CONFIG_DEBUG // FIXME: Okay so CX_CONFIG_DEBUG is defined from CMake how is it not defined here?
 template <typename T, typename... TArgs>
 inline void cx_throw_trap(TArgs&&... args)
 {
@@ -16,6 +16,8 @@ inline void cx_throw_trap(TArgs&&... args)
 #define cx_throw(ex_type, ...) throw ex_type(fmt::format(__VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
 #define cx_throwd(ex_type)     throw ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
 #endif
+#define cx_except(ex_type, ...) ex_type(fmt::format(__VA_ARGS__), __FILE__, CX_PRETTY_FUNCTION, __LINE__)
+#define cx_exceptd(ex_type)     ex_type("", __FILE__, CX_PRETTY_FUNCTION, __LINE__)
 #define CX_CUSTOM_EXCEPTION(name, default_msg)                                                                         \
     class name : public CodexException                                                                                 \
     {                                                                                                                  \
@@ -41,11 +43,11 @@ namespace codex {
     class CODEX_API CodexException : public std::exception
     {
     protected:
-        const std::string m_Message;
-        const char*       m_File      = nullptr;
-        const char*       m_Function  = nullptr;
-        const char*       m_ClassName = nullptr;
-        const u32         m_Line      = 0;
+        std::string m_Message;
+        const char* m_File      = nullptr;
+        const char* m_Function  = nullptr;
+        const char* m_ClassName = nullptr;
+        u32         m_Line      = 0;
 
     public:
         CodexException() noexcept = default;
@@ -95,6 +97,21 @@ namespace codex {
     CX_CUSTOM_EXCEPTION(NotFoundException, "Item was not found.")
     CX_CUSTOM_EXCEPTION(InvalidArgumentException, "Provided argument was invalid.")
     CX_CUSTOM_EXCEPTION(InvalidOperationException, "Something somewhere went wrong, we're not sure why.")
+
+    class CODEX_API NativeBehaviourException : public CodexException
+    {
+        // friend class NativeBehaviour; // TODO: Might be redundant.
+        friend class NativeBehaviourComponent;
+
+    private:
+        CodexException m_InnerException;
+
+    public:
+        using CodexException::CodexException;
+
+    public:
+        const CodexException& InnerException() const noexcept { return m_InnerException; }
+    };
 } // namespace codex
 
 #endif // CODEX_CORE_EXCEPTION_H

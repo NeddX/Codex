@@ -45,11 +45,22 @@ namespace codex {
         return *this;
     }
 
+    // TODO: Should be noexcept since we're handling the exceptions here.
     void NativeBehaviourComponent::OnInit()
     {
         for (auto& [k, v] : m_Behaviours)
         {
-            v->OnInit();
+            try
+            {
+                v->OnInit();
+            }
+            catch (CodexException& ex)
+            {
+                // The behaviour threw an exception, wrap it inside a NativeBehaviourException and re-throw it.
+                auto exi             = cx_except(NativeBehaviourException, "NBC failed to initialise Behaviours.");
+                exi.m_InnerException = std::move(ex);
+                throw std::move(exi);
+            }
         }
     }
 
@@ -93,7 +104,19 @@ namespace codex {
     void NativeBehaviourComponent::InstantiateBehaviour(const std::string& className)
     {
         if (m_Behaviours.contains(className))
-            m_Behaviours.at(className)->OnInit();
+        {
+            try
+            {
+                m_Behaviours.at(className)->OnInit();
+            }
+            catch (CodexException& ex)
+            {
+                // The behaviour threw an exception, wrap it inside a NativeBehaviourException and re-throw it.
+                auto exi             = cx_except(NativeBehaviourException, "NBC failed to initialise Behaviours.");
+                exi.m_InnerException = std::move(ex);
+                throw std::move(exi);
+            }
+        }
         else
             cx_throw(ScriptException, "Tried to instantiate a non-existent behaviour class {}.", className);
     }

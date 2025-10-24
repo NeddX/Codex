@@ -67,6 +67,8 @@ else()
   target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_UNKNOWN)
 endif()
 
+#target_compile_definitions(CodexEngine PUBLIC CX_CPU_ARCH=\"${CX_CPU_ARCH}\")
+
 if(DEFINED CX_COMPILER_GNUC)
   if (DEFINED CX_BUILD_TYPE_RELEASE OR DEFINED CX_BUILD_TYPE_SHIPPING)
     target_compile_options(CodexEngine PRIVATE -Wall -Wextra -Werror -pedantic)
@@ -134,55 +136,55 @@ endif()
 # SDL
 if(ANDROID)
   find_package(SDL2 REQUIRED)
-  target_include_directories(CodexEngine PRIVATE ${SDL2_INCLUDE_DIRS})
+  target_include_directories(CodexEngine PRIVATE ${SDL2_INCLUDE_DIR})
   target_link_libraries(CodexEngine ${SDL2_LIBRARIES})
 
-  target_include_directories(CodexEngine-static PRIVATE ${SDL2_INCLUDE_DIRS})
+  target_include_directories(CodexEngine-static PRIVATE ${SDL2_INCLUDE_DIR})
   target_link_libraries(CodexEngine-static ${SDL2_LIBRARIES})
 else()
   add_subdirectory(vendor/SDL ${PROJECT_BINARY_DIR}/SDL EXCLUDE_FROM_ALL)
-  set(SDL2_INCLUDE_DIRS vendor/SDL/include)
+  set(SDL2_INCLUDE_DIR vendor/SDL/include)
   set(SDL2_LIBRARIES SDL2 SDL2main)
 
-  target_include_directories(CodexEngine PRIVATE ${SDL2_INCLUDE_DIRS})
+  target_include_directories(CodexEngine PRIVATE ${SDL2_INCLUDE_DIR})
   target_link_libraries(CodexEngine ${SDL2_LIBRARIES})
   add_dependencies(CodexEngine SDL2 SDL2main)
 
-  target_include_directories(CodexEngine-static PRIVATE ${SDL2_INCLUDE_DIRS})
+  target_include_directories(CodexEngine-static PRIVATE ${SDL2_INCLUDE_DIR})
   target_link_libraries(CodexEngine-static ${SDL2_LIBRARIES})
 endif()
 
 # Logex
 add_subdirectory(vendor/Logex ${PROJECT_BINARY_DIR}/Logex EXCLUDE_FROM_ALL)
-set(LOGEX_INCLUDE_DIRS vendor/Logex/include)
+set(LOGEX_INCLUDE_DIR vendor/Logex/include)
 set(LOGEX_LIBRARIES Logex)
 
-target_include_directories(CodexEngine PUBLIC ${LOGEX_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${LOGEX_INCLUDE_DIR})
 target_link_libraries(CodexEngine ${LOGEX_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${LOGEX_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${LOGEX_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static ${LOGEX_LIBRARIES})
 
 # nlohmann json
 add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json EXCLUDE_FROM_ALL)
-set(JSON_INCLUDE_DIRS vendor/json/include)
+set(JSON_INCLUDE_DIR vendor/json/include)
 set(JSON_LIBRARIES nlohmann_json)
 
-target_include_directories(CodexEngine PUBLIC ${JSON_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${JSON_INCLUDE_DIR})
 target_link_libraries(CodexEngine ${JSON_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static ${JSON_LIBRARIES})
 
 # glad
-add_subdirectory(vendor/glad ${PROJECT_BINARY_DIR}/glad EXCLUDE_FROM_ALL)
-set(GLAD_INCLUDE_DIRS vendor/glad)
-set(GLAD_LIBRARIES glad)
+set(GLAD_INCLUDE_DIR vendor/glad)
 
-target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIRS})
+target_sources(CodexEngine PUBLIC "vendor/glad/glad.cpp")
+target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIR})
 target_link_libraries(CodexEngine ${GLAD_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIRS})
+target_sources(CodexEngine-static PUBLIC "vendor/glad/glad.cpp")
+target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static ${GLAD_LIBRARIES})
 
 # ImGui
@@ -193,7 +195,7 @@ target_compile_definitions(CodexEngine PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
 target_compile_definitions(CodexEngine-static
                            PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
 
-set(IMGUI_INCLUDE_DIRS vendor/imgui vendor/imgui/backends vendor/imgui/examples
+set(IMGUI_INCLUDE_DIR vendor/imgui vendor/imgui/backends vendor/imgui/examples
                        vendor/imgui/misc)
 file(
   GLOB_RECURSE
@@ -218,29 +220,29 @@ target_sources(CodexEngine PUBLIC ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
 target_sources(CodexEngine-static PUBLIC ${IMGUI_HEADER_FILES}
                                          ${IMGUI_SOURCE_FILES})
 
-target_include_directories(CodexEngine PUBLIC ${IMGUI_INCLUDE_DIRS})
-target_include_directories(CodexEngine-static PUBLIC ${IMGUI_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${IMGUI_INCLUDE_DIR})
+target_include_directories(CodexEngine-static PUBLIC ${IMGUI_INCLUDE_DIR})
 
 # glm
 add_subdirectory(vendor/glm ${PROJECT_BINARY_DIR}/glm EXCLUDE_FROM_ALL)
-set(GLM_INCLUDE_DIRS vendor/glm/glm)
+set(GLM_INCLUDE_DIR vendor/glm/glm)
 set(GLM_LIBRARIES glm)
 
-target_include_directories(CodexEngine PUBLIC ${GLM_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${GLM_INCLUDE_DIR})
 target_link_libraries(CodexEngine ${GLM_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${GLM_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${GLM_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static ${GLM_LIBRARIES})
 
 # mgl
 add_subdirectory(vendor/MGL/MGL ${PROJECT_BINARY_DIR}/MGL EXCLUDE_FROM_ALL)
-set(MGL_INCLUDE_DIRS vendor/MGL/include)
+set(MGL_INCLUDE_DIR vendor/MGL/include)
 set(MGL_LIBRARIES MGL)
 
-target_include_directories(CodexEngine PUBLIC ${MGL_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${MGL_INCLUDE_DIR})
 target_link_libraries(CodexEngine ${MGL_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${MGL_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${MGL_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static ${MGL_LIBRARIES})
 
 # box2d
@@ -248,33 +250,51 @@ target_link_libraries(CodexEngine-static ${MGL_LIBRARIES})
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 set(BOX2D_BUILD_TESTBED OFF)
 add_subdirectory(vendor/box2d ${PROJECT_BINARY_DIR}/box2d EXCLUDE_FROM_ALL)
-set(BOX2D_INCLUDE_DIRS vendor/box2d/include)
+set(BOX2D_INCLUDE_DIR vendor/box2d/include)
 set(BOX2D_LIBRARIES box2d)
 
-target_include_directories(CodexEngine PUBLIC ${BOX2D_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${BOX2D_INCLUDE_DIR})
 target_link_libraries(CodexEngine ${BOX2D_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${BOX2D_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${BOX2D_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static ${BOX2D_LIBRARIES})
 
-# Net Native set(NETNT_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/NetNT/src)
-# target_include_directories(CodexEngine PUBLIC ${NETNT_INCLUDE_DIRS})
+# Net Native set(NETNT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/NetNT/src)
+# target_include_directories(CodexEngine PUBLIC ${NETNT_INCLUDE_DIR})
 # target_link_libraries(CodexEngine NetNT)
-# target_include_directories(CodexEngine-static PUBLIC ${NETNT_INCLUDE_DIRS})
+# target_include_directories(CodexEngine-static PUBLIC ${NETNT_INCLUDE_DIR})
 # target_link_libraries(CodexEngine-static NetNT)
 
 # Link OpenGL (IF UNIX LIKE)
 find_package(OpenGL REQUIRED)
-target_include_directories(CodexEngine PUBLIC ${OPENGL_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${OPENGL_INCLUDE_DIR})
 target_link_libraries(CodexEngine ${OPENGL_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${OPENGL_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${OPENGL_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static ${OPENGL_LIBRARIES})
 
 # entt
-set(ENTT_INCLUDE_DIRS vendor/entt)
-target_include_directories(CodexEngine PUBLIC ${ENTT_INCLUDE_DIRS})
-target_include_directories(CodexEngine-static PUBLIC ${ENTT_INCLUDE_DIRS})
+set(ENTT_INCLUDE_DIR vendor/entt)
+target_include_directories(CodexEngine PUBLIC ${ENTT_INCLUDE_DIR})
+target_include_directories(CodexEngine-static PUBLIC ${ENTT_INCLUDE_DIR})
+
+# FMOD 13.25
+set(FMOD_VER_MAJ "13")
+set(FMOD_VER_MIN "25")
+set(FMOD_DIR "${CMAKE_CURRENT_DIR}/vendor/fmod")
+set(FMOD_CORE_INCLUDE_DIR "${FMOD_DIR}/api/core/inc")
+set(FMOD_STUDIO_INCLUDE_DIR "${FMOD_DIR}/api/studio/inc")
+if(DEFINED CX_PLATFORM_LINUX)
+  set(FMOD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/fmodstudioapi20225linux")
+  set(FMOD_CORE_LIB "${FMOD_DIR}/api/core/lib/${CX_CPU_ARCH}/libfmod.so.${FMOD_VER_MAJ}.${FMOD_VER_MIN}")
+  set(FMOD_STUDIO_LIB "${FMOD_DIR}/api/studio/lib/${CX_CPU_ARCH}/libfmodstudio.so.${FMOD_VER_MAJ}.${FMOD_VER_MIN}")
+  set(FMOD_CORE_LIB_LN "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/")
+endif()
+
+target_include_directories(CodexEngine PUBLIC ${FMOD_CORE_INCLUDE_DIR} ${FMOD_STUDIO_INCLUDE_DIR})
+target_include_directories(CodexEngine-static PUBLIC ${FMOD_CORE_INCLUDE_DIR} ${FMOD_STUDIO_INCLUDE_DIR})
+target_link_libraries(CodexEngine ${FMOD_CORE_LIB} ${FMOD_STUDIO_LIB})
+target_link_libraries(CodexEngine-static ${FMOD_CORE_LIB} ${FMOD_STUDIO_LIB})
 
 # ================================= # Configuration specific macros   #
 # ================================= #
@@ -291,8 +311,11 @@ target_compile_definitions(
 
 # ======================= # INSTALLATION # ======================= #
 if(DEFINED CX_PLATFORM_WINDOWS)
-  install(TARGETS SDL2 SDL2main glm glad nlohmann_json CodexEngine
+    install(TARGETS SDL2 SDL2main glm nlohmann_json CodexEngine
           DESTINATION bin)
+    install(FILES ${FMOD_LIB} 
+        ${FMOD_STUDIO_LIB}
+        DESTINATION bin)
   install(TARGETS CodexEngine-static MGL DESTINATION "bin/Object Libraries")
 
   # Program Files (or same location as the binary) for unmodifiable file data.
@@ -302,12 +325,25 @@ elseif(DEFINED CX_PLATFORM_UNIX)
     TARGETS SDL2
             SDL2main
             glm
-            glad
             nlohmann_json
             MGL
             CodexEngine
             CodexEngine-static
     DESTINATION lib)
+
+  # Install fmod core separately because the version thing.
+  install(
+    FILES ${FMOD_CORE_LIB}
+    DESTINATION lib
+    RENAME "libfmod.so.${FMOD_VER_MAJ}"
+  )
+
+  # Same for fmod studio API.
+  install(
+    FILES ${FMOD_STUDIO_LIB}
+    DESTINATION lib
+    RENAME "libfmodstudio.so.${FMOD_VER_MAJ}"
+  )
 
   # /etc/appname for global configuration files. /usr/local/share/appname for
   # unmodifiable data. /usr/local/(lib, bin)/appname for unmodifiable and

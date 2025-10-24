@@ -129,6 +129,30 @@ namespace codex {
         {
             return const_cast<NativeBehaviourComponent*>(this)->GetBehaviours();
         }
+        template <typename T>
+        [[nodiscard]] inline T* GetBehaviour() noexcept
+        {
+            for (const auto e : m_BehaviourList)
+            {
+                if (typeid(T) == typeid(e))
+                {
+                    return reinterpret_cast<T*>(e);
+                }
+            }
+
+            return nullptr;
+        }
+        template <typename T>
+        [[nodiscard]] inline const T& GetBehaviour() const noexcept
+        {
+            for (const auto e : m_BehaviourList)
+            {
+                if (typeid(T) == typeid(e))
+                {
+                    return *e;
+                }
+            }
+        }
 
     public:
         void                      OnInit() override;
@@ -145,11 +169,13 @@ namespace codex {
         }
         inline void OnUpdate(const f32 deltaTime)
         {
+            // TODO: This guy should NOT be inline, it throws an exception?
             for (auto& e : m_BehaviourList)
                 e->OnUpdate(deltaTime);
         }
         inline void OnFixedUpdate(const f32 deltaTime)
         {
+            // TODO: This guy should NOT be inline, it throws an exception?
             for (auto& e : m_BehaviourList)
                 e->OnFixedUpdate(deltaTime);
         }
@@ -177,7 +203,7 @@ namespace codex {
             if (!m_Behaviours.contains(name))
                 m_Behaviours[name] = std::move(bh);
 
-            return *(T*)m_Behaviours[name].Get();
+            return *reinterpret_cast<T*>(m_Behaviours[name].Get());
         }
     };
 

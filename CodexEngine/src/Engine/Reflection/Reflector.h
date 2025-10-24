@@ -11,7 +11,7 @@
 #define RF_CLASS(...)
 #define RF_SERIALIZABLE(...)
 #define RF_INSTANCE_CREATE(dlib, name, parent)                                                                         \
-    dlib->Invoke<NativeBehaviour*(const char*, Entity)>("Rf_CreateInstance", name, parent)
+    dlib->Invoke<NativeBehaviour*(const char*, codex::Entity)>("Rf_CreateInstance", name, parent)
 #define RF_INSTANCE_CHECK(dlib, name) dlib->Invoke<bool(const char*)>("Rf_DoesInstanceExist", name)
 #define RF_GENERATE_BODY()                                                                                             \
 public:                                                                                                                \
@@ -21,7 +21,8 @@ public:                                                                         
     }                                                                                                                  \
                                                                                                                        \
 private:                                                                                                               \
-    friend CODEX_EXPORT codex::NativeBehaviour* Rf_CreateInstance(const char* className, Entity parent) noexcept;      \
+    friend CODEX_EXPORT codex::NativeBehaviour* Rf_CreateInstance(const char*   className,                             \
+                                                                  codex::Entity parent) noexcept;                      \
     void                                        Serialize() const noexcept override;                                   \
     codex::object                               GetField(const std::string_view fieldName) noexcept override;
 
@@ -87,6 +88,7 @@ namespace codex::rf {
         std::string value;
     };
 
+    // TODO: NativeBehaviour contain a RFScript reference instead of a JSON.
     class RFScript
     {
     private:

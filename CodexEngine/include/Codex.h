@@ -11,6 +11,10 @@
 #include <Engine/Core/Serializer.h>
 #include <Engine/Core/Window.h>
 
+// Debug
+#include <Engine/Debug/Profiler.h>
+#include <Engine/Debug/TimeScope.h>
+
 // Concurrency
 #include <Engine/Concurrency/Mutex.h>
 
@@ -41,12 +45,12 @@
 
 // Graphics
 #include <Engine/Graphics/BatchRenderer2D.h>
+#include <Engine/Graphics/DebugDraw.h>
 #include <Engine/Graphics/Image2D.h>
 #include <Engine/Graphics/RenderBatch.h>
 #include <Engine/Graphics/Renderer.h>
 #include <Engine/Graphics/Shader.h>
 #include <Engine/Graphics/Texture2D.h>
-#include <Engine/Graphics/DebugDraw.h>
 
 // System
 #include <Engine/System/DynamicLibrary.h>
