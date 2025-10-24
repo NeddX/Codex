@@ -296,6 +296,11 @@ target_include_directories(CodexEngine-static PUBLIC ${FMOD_CORE_INCLUDE_DIR} ${
 target_link_libraries(CodexEngine ${FMOD_CORE_LIB} ${FMOD_STUDIO_LIB})
 target_link_libraries(CodexEngine-static ${FMOD_CORE_LIB} ${FMOD_STUDIO_LIB})
 
+# Threads (for pthreads on Nix systems)
+find_package(Threads REQUIRED)
+target_link_libraries(CodexEngine Threads::Threads)
+target_link_libraries(CodexEngine-static Threads::Threads)
+
 # ================================= # Configuration specific macros   #
 # ================================= #
 target_compile_definitions(

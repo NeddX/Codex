@@ -22,7 +22,7 @@ namespace codex::gfx {
 
     public:
         static void Init(const i32 width, const i32 height);
-        static void Dispose();
+        static void Dispose() noexcept;
 
     public:
         static void Clear();

@@ -142,10 +142,10 @@ namespace codex {
             const auto& logger = lgx::Get("engine");
             gladLoadGL();
             gladLoadGLLoader(SDL_GL_GetProcAddress);
-            logger.Log(lgx::Level::Info, "GLad loaded");
-            logger.Log(lgx::Level::Info, "Vendor:\t\t{}", (const char*)glGetString(GL_VENDOR));
-            logger.Log(lgx::Level::Info, "Renderer:\t\t{}", (const char*)glGetString(GL_RENDERER));
-            logger.Log(lgx::Level::Info, "Version:\t\t{}", (const char*)glGetString(GL_VERSION));
+            logger.Log(lgx::Info, "GLad loaded");
+            logger.Log(lgx::Info, "Vendor:\t\t{}", (const char*)glGetString(GL_VENDOR));
+            logger.Log(lgx::Info, "Renderer:\t\t{}", (const char*)glGetString(GL_RENDERER));
+            logger.Log(lgx::Info, "Version:\t\t{}", (const char*)glGetString(GL_VERSION));
         }
         else
         {
@@ -153,7 +153,7 @@ namespace codex {
         }
 
         // TODO: Write a logging library.
-        lgx::Get("engine").Log(lgx::Level::Info, "Window subsystem initialized.");
+        lgx::Get("engine").Log(lgx::Info, "Window subsystem initialized.");
     }
 
     void Window::SDLCheckError([[maybe_unused]] const i32 line)
@@ -162,9 +162,9 @@ namespace codex {
         const char* error = SDL_GetError();
         if (*error != 0)
         {
-            lgx::Get("engine").Log(lgx::Level::Fatal, "SDL ERROR @ LINE {}: {}", line, error);
+            lgx::Get("engine").Log(lgx::Fatal, "SDL ERROR @ LINE {}: {}", line, error);
             if (line != -1)
-                lgx::Get("engine").Log(lgx::Level::Fatal, " + line: {}", line);
+                lgx::Get("engine").Log(lgx::Fatal, " + line: {}", line);
             SDL_ClearError();
         }
 #endif
@@ -172,7 +172,7 @@ namespace codex {
 
     void Window::SDLThrowError(const i32 line, const std::string_view errorMessage)
     {
-        lgx::Get("engine").Log(lgx::Level::Fatal, "SDL ERROR @ LINE {}: {} -> {}", line, errorMessage, SDL_GetError());
+        lgx::Get("engine").Log(lgx::Fatal, "SDL ERROR @ LINE {}: {} -> {}", line, errorMessage, SDL_GetError());
         SDL_Quit();
         exit(-1);
     }

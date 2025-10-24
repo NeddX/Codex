@@ -27,7 +27,7 @@ namespace codex::editor {
             }
             catch (const std::exception& ex)
             {
-                lgx::Get("editor").Log(lgx::Level::Warn,
+                lgx::Get("editor").Log(lgx::Warn,
                                        "Failed to create variable application data folder! Some data will be lost "
                              "after closing the application.\n\tInner Exception: {}",
                              ex.what());

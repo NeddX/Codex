@@ -311,7 +311,7 @@ namespace codex {
 
     public:
         static Input* Get();
-        static void   Destroy();
+        static void   Dispose();
         static bool   IsKeyDown(const Key key);
         static bool   IsMouseDown(const Mouse button);
 

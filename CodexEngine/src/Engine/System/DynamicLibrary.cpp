@@ -51,7 +51,7 @@ namespace codex::sys {
         // FIXME: There's a bug where a DLib instance might have static storage and
         // might get freed after lgx's registry so this line right here will cause a
         // crash.
-        lgx::Get("engine").Log(lgx::Level::Info, "~DLib(): {}", m_FilePath.string());
+        lgx::Get("engine").Log(lgx::Info, "~DLib(): {}", m_FilePath.string());
 
         m_Handle   = (DLibInstance) nullptr;
         m_FilePath = std::filesystem::path{};

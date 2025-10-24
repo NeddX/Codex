@@ -273,6 +273,8 @@ namespace codex::editor {
                         p_info.onExit = [this](i32 exitCode)
                         {
                             auto& d = m_Descriptor;
+                            // TODO: Scene should also be thread safe since this callback is being called from a
+                            // different thread.
                             Scene::LoadScriptModule(d->scriptModulePath); // TODO: COME BACK
                             ConsoleMan::AppendMessage("-- Clear finished.");
                         };
@@ -343,7 +345,7 @@ namespace codex::editor {
 
             auto current_viewport_window_size = ImGui::GetContentRegionAvail();
             m_ViewportSize = Vector2f{ current_viewport_window_size.x, current_viewport_window_size.y };
-            ImGui::Image(static_cast<ImTextureID>(m_Framebuffer->GetColourAttachmentIdAt(0)),
+            ImGui::Image(reinterpret_cast<ImTextureID>(m_Framebuffer->GetColourAttachmentIdAt(0)),
                          current_viewport_window_size, { 0, 1 }, { 1, 0 });
 
             m_ViewportFocused = ImGui::IsWindowFocused();

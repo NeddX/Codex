@@ -24,7 +24,7 @@ namespace codex {
         inline void                             SetOwner(const Entity entity) noexcept { m_Parent = entity; }
 
     public:
-        virtual ~NativeBehaviour() { lgx::Get("engine").Log(lgx::Level::Info, "~NativeBehaviour()"); };
+        virtual ~NativeBehaviour() { lgx::Get("engine").Log(lgx::Info, "~NativeBehaviour()"); };
 
     public:
         [[nodiscard]] Entity GetPrimaryCameraEntity() noexcept { return m_Parent.m_Scene->GetPrimaryCameraEntity(); }
