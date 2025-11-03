@@ -134,34 +134,40 @@ endif()
 # SDL
 if(ANDROID)
   find_package(SDL2 REQUIRED)
-  target_include_directories(CodexEngine PRIVATE ${SDL2_INCLUDE_DIRS})
-  target_link_libraries(CodexEngine ${SDL2_LIBRARIES})
+  target_include_directories(CodexEngine PUBLIC ${SDL2_INCLUDE_DIRS})
+  target_link_libraries(CodexEngine PUBLIC ${SDL2_LIBRARIES})
 
-  target_include_directories(CodexEngine-static PRIVATE ${SDL2_INCLUDE_DIRS})
-  target_link_libraries(CodexEngine-static ${SDL2_LIBRARIES})
+  target_include_directories(CodexEngine-static PUBLIC ${SDL2_INCLUDE_DIRS})
+  target_link_libraries(CodexEngine-static PUBLIC ${SDL2_LIBRARIES})
 else()
   add_subdirectory(vendor/SDL ${PROJECT_BINARY_DIR}/SDL EXCLUDE_FROM_ALL)
   set(SDL2_INCLUDE_DIRS vendor/SDL/include)
   set(SDL2_LIBRARIES SDL2 SDL2main)
 
-  target_include_directories(CodexEngine PRIVATE ${SDL2_INCLUDE_DIRS})
-  target_link_libraries(CodexEngine ${SDL2_LIBRARIES})
+  target_include_directories(CodexEngine PUBLIC ${SDL2_INCLUDE_DIRS})
+  target_link_libraries(CodexEngine PUBLIC ${SDL2_LIBRARIES})
   add_dependencies(CodexEngine SDL2 SDL2main)
 
-  target_include_directories(CodexEngine-static PRIVATE ${SDL2_INCLUDE_DIRS})
-  target_link_libraries(CodexEngine-static ${SDL2_LIBRARIES})
+  target_include_directories(CodexEngine-static PUBLIC ${SDL2_INCLUDE_DIRS})
+  target_link_libraries(CodexEngine-static PUBLIC ${SDL2_LIBRARIES})
 endif()
 
 # Logex
 add_subdirectory(vendor/Logex ${PROJECT_BINARY_DIR}/Logex EXCLUDE_FROM_ALL)
+# NOTE: FMT_INCLUDE_DIR comes from Logex, we re-include here for CodexEngine because
+# we link Logex as PRIVATE, therefore CodexEditor (or any other target using the engine)
+# won't be able to include {fmt}, but will be able to include Logex.h which will cause a
+# compiler error obviously.
+get_target_property(LOGEX_SOURCE_DIR Logex SOURCE_DIR)
+target_include_directories(CodexEngine PUBLIC ${LOGEX_SOURCE_DIR}/${FMT_INCLUDE_DIR})
 set(LOGEX_INCLUDE_DIRS vendor/Logex/include)
 set(LOGEX_LIBRARIES Logex)
 
 target_include_directories(CodexEngine PUBLIC ${LOGEX_INCLUDE_DIRS})
-target_link_libraries(CodexEngine ${LOGEX_LIBRARIES})
+target_link_libraries(CodexEngine PUBLIC ${LOGEX_LIBRARIES})
 
 target_include_directories(CodexEngine-static PUBLIC ${LOGEX_INCLUDE_DIRS})
-target_link_libraries(CodexEngine-static ${LOGEX_LIBRARIES})
+target_link_libraries(CodexEngine-static PUBLIC ${LOGEX_LIBRARIES})
 
 # nlohmann json
 add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json EXCLUDE_FROM_ALL)
@@ -169,10 +175,10 @@ set(JSON_INCLUDE_DIRS vendor/json/include)
 set(JSON_LIBRARIES nlohmann_json)
 
 target_include_directories(CodexEngine PUBLIC ${JSON_INCLUDE_DIRS})
-target_link_libraries(CodexEngine ${JSON_LIBRARIES})
+target_link_libraries(CodexEngine PRIVATE ${JSON_LIBRARIES})
 
 target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIRS})
-target_link_libraries(CodexEngine-static ${JSON_LIBRARIES})
+target_link_libraries(CodexEngine-static PRIVATE ${JSON_LIBRARIES})
 
 # glad
 add_subdirectory(vendor/glad ${PROJECT_BINARY_DIR}/glad EXCLUDE_FROM_ALL)
@@ -180,10 +186,10 @@ set(GLAD_INCLUDE_DIRS vendor/glad)
 set(GLAD_LIBRARIES glad)
 
 target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIRS})
-target_link_libraries(CodexEngine ${GLAD_LIBRARIES})
+target_link_libraries(CodexEngine PRIVATE ${GLAD_LIBRARIES})
 
 target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIRS})
-target_link_libraries(CodexEngine-static ${GLAD_LIBRARIES})
+target_link_libraries(CodexEngine-static PRIVATE ${GLAD_LIBRARIES})
 
 # ImGui
 
@@ -223,14 +229,14 @@ target_include_directories(CodexEngine-static PUBLIC ${IMGUI_INCLUDE_DIRS})
 
 # glm
 add_subdirectory(vendor/glm ${PROJECT_BINARY_DIR}/glm EXCLUDE_FROM_ALL)
-set(GLM_INCLUDE_DIRS vendor/glm/glm)
+set(GLM_INCLUDE_DIRS vendor/glm)
 set(GLM_LIBRARIES glm)
 
 target_include_directories(CodexEngine PUBLIC ${GLM_INCLUDE_DIRS})
-target_link_libraries(CodexEngine ${GLM_LIBRARIES})
+target_link_libraries(CodexEngine PRIVATE ${GLM_LIBRARIES})
 
 target_include_directories(CodexEngine-static PUBLIC ${GLM_INCLUDE_DIRS})
-target_link_libraries(CodexEngine-static ${GLM_LIBRARIES})
+target_link_libraries(CodexEngine-static PRIVATE ${GLM_LIBRARIES})
 
 # mgl
 add_subdirectory(vendor/MGL/MGL ${PROJECT_BINARY_DIR}/MGL EXCLUDE_FROM_ALL)
@@ -238,10 +244,10 @@ set(MGL_INCLUDE_DIRS vendor/MGL/include)
 set(MGL_LIBRARIES MGL)
 
 target_include_directories(CodexEngine PUBLIC ${MGL_INCLUDE_DIRS})
-target_link_libraries(CodexEngine ${MGL_LIBRARIES})
+target_link_libraries(CodexEngine PUBLIC ${MGL_LIBRARIES})
 
 target_include_directories(CodexEngine-static PUBLIC ${MGL_INCLUDE_DIRS})
-target_link_libraries(CodexEngine-static ${MGL_LIBRARIES})
+target_link_libraries(CodexEngine-static PUBLIC ${MGL_LIBRARIES})
 
 # box2d
 # Disable box2d's test sub-project, we don't need it.
@@ -252,10 +258,10 @@ set(BOX2D_INCLUDE_DIRS vendor/box2d/include)
 set(BOX2D_LIBRARIES box2d)
 
 target_include_directories(CodexEngine PUBLIC ${BOX2D_INCLUDE_DIRS})
-target_link_libraries(CodexEngine ${BOX2D_LIBRARIES})
+target_link_libraries(CodexEngine PRIVATE ${BOX2D_LIBRARIES})
 
 target_include_directories(CodexEngine-static PUBLIC ${BOX2D_INCLUDE_DIRS})
-target_link_libraries(CodexEngine-static ${BOX2D_LIBRARIES})
+target_link_libraries(CodexEngine-static PRIVATE ${BOX2D_LIBRARIES})
 
 # Net Native set(NETNT_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/NetNT/src)
 # target_include_directories(CodexEngine PUBLIC ${NETNT_INCLUDE_DIRS})
@@ -266,10 +272,10 @@ target_link_libraries(CodexEngine-static ${BOX2D_LIBRARIES})
 # Link OpenGL (IF UNIX LIKE)
 find_package(OpenGL REQUIRED)
 target_include_directories(CodexEngine PUBLIC ${OPENGL_INCLUDE_DIRS})
-target_link_libraries(CodexEngine ${OPENGL_LIBRARIES})
+target_link_libraries(CodexEngine PRIVATE ${OPENGL_LIBRARIES})
 
 target_include_directories(CodexEngine-static PUBLIC ${OPENGL_INCLUDE_DIRS})
-target_link_libraries(CodexEngine-static ${OPENGL_LIBRARIES})
+target_link_libraries(CodexEngine-static PRIVATE ${OPENGL_LIBRARIES})
 
 # entt
 set(ENTT_INCLUDE_DIRS vendor/entt)
@@ -278,8 +284,8 @@ target_include_directories(CodexEngine-static PUBLIC ${ENTT_INCLUDE_DIRS})
 
 # Threads (for pthreads on Nix systems)
 find_package(Threads REQUIRED)
-target_link_libraries(CodexEngine Threads::Threads)
-target_link_libraries(CodexEngine-static Threads::Threads)
+target_link_libraries(CodexEngine PRIVATE Threads::Threads)
+target_link_libraries(CodexEngine-static PRIVATE Threads::Threads)
 
 # ================================= # Configuration specific macros   #
 # ================================= #
@@ -332,8 +338,8 @@ set(CX_ENGINE_ASSET_PATH "${CMAKE_CURRENT_SOURCE_DIR}/assets" PARENT_SCOPE)
 
 # =============== # MISC # =============== #
 # Fix a dumb fucking linker bug on Ubuntu regarding dlopen.
-target_link_libraries(CodexEngine ${CMAKE_DL_LIBS})
-target_link_libraries(CodexEngine-static ${CMAKE_DL_LIBS})
+target_link_libraries(CodexEngine PRIVATE ${CMAKE_DL_LIBS})
+target_link_libraries(CodexEngine-static PRIVATE ${CMAKE_DL_LIBS})
 
 # Define standalone mode for the static library since the static version is
 # going to be used for shipping target_compile_definitions(CodexEngine-static
