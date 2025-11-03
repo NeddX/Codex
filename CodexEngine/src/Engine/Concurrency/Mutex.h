@@ -15,20 +15,41 @@ namespace codex::cc {
         class ScopedGuard;
 
     private:
-        T          m_Object;
-        std::mutex m_Mutex;
+        T                         m_Object;
+        mutable std::mutex        m_Mutex;
+        mutable std::atomic<bool> m_Locked;
+        mutable std::thread::id   m_OwnerThread;
 
     public:
         template <typename... TArgs>
         constexpr Mutex(TArgs&&... args)
             : m_Object(std::forward<TArgs>(args)...)
+            , m_Locked(false)
         {
         }
-        constexpr Mutex(const Mutex<T>& other) noexcept               = delete;
-        constexpr Mutex<T>& operator=(const Mutex<T>& other) noexcept = delete;
-        constexpr Mutex(Mutex<T>&& other) noexcept                    = delete;
-        constexpr Mutex<T>& operator=(Mutex<T>&& other) noexcept      = delete;
-        constexpr ~Mutex() noexcept                                   = default;
+        inline Mutex(const Mutex<T>& other)               = delete;
+        inline Mutex<T>& operator=(const Mutex<T>& other) = delete;
+        inline Mutex(Mutex<T>&& other) noexcept
+        {
+            if (this != &other)
+            {
+                const auto lock = other.Lock();
+
+                m_Object = std::move(other.m_Object);
+            }
+        }
+        constexpr Mutex<T>& operator=(Mutex<T>&& other) noexcept
+        {
+            Mutex<T>{ std::move(other) }.Swap(*this);
+            return *this;
+        }
+        constexpr ~Mutex() noexcept
+        {
+            if (IsLockedByCurrentThread())
+            {
+                MutexUnlock();
+            }
+        }
 
     public:
         [[nodiscard]] constexpr ScopedGuard       operator->() noexcept { return ScopedGuard(*this); }
@@ -43,20 +64,52 @@ namespace codex::cc {
         }
 
     private:
-        inline void TryLock() { m_Mutex.lock(); }
-        inline void Unlock() { m_Mutex.unlock(); }
+        inline void MutexLock() const noexcept
+        {
+            m_Mutex.lock();
+            m_OwnerThread = std::this_thread::get_id();
+            m_Locked.store(true, std::memory_order_release);
+        }
+        [[nodiscard]] inline bool MutexTryLock() const noexcept
+        {
+            if (m_Mutex.try_lock())
+            {
+                m_OwnerThread = std::this_thread::get_id();
+                m_Locked.store(true, std::memory_order_release);
+                return true;
+            }
+            return false;
+        }
+        inline void MutexUnlock() const noexcept
+        {
+            if (m_Locked.load(std::memory_order_acquire) && m_OwnerThread == std::this_thread::get_id())
+            {
+                m_Locked.store(false, std::memory_order_release);
+                m_OwnerThread = std::thread::id{};
+                m_Mutex.unlock();
+            }
+        }
 
     public:
-        [[nodiscard]] inline ScopedGuard Lock() { return ScopedGuard(*this); }
-        [[nodiscard]] inline ScopedGuard Lock(std::string func, std::string file, int line)
+        [[nodiscard]] inline bool IsLocked() const noexcept { return m_Locked.load(std::memory_order_acquire); }
+        [[nodiscard]] inline bool IsLockedByCurrentThread() const noexcept
         {
-            return ScopedGuard(*this, func, file, line);
+            return IsLocked() && m_OwnerThread == std::this_thread::get_id();
         }
-        [[nodiscard]] inline const ScopedGuard Lock(std::string func, std::string file, int line) const
+        [[nodiscard]] inline ScopedGuard Lock() noexcept { return ScopedGuard(*this); }
+        [[nodiscard]] inline ScopedGuard Lock(std::string func, std::string file, int line) noexcept
+            [[nodiscard]] inline const ScopedGuard Lock() const
         {
-            return const_cast<Mutex<T>*>(this)->Lock(func, file, line);
+            return const_cast<Mutex<T>*>(this)->Lock();
         }
-        [[nodiscard]] inline const ScopedGuard Lock() const { return const_cast<Mutex<T>*>(this)->Lock(); }
+        [[nodiscard]] inline const ScopedGuard Lock() const noexcept { return const_cast<Mutex<T>*>(this)->Lock(); }
+        inline void                            Swap(Mutex<T>& other) noexcept
+        {
+            const auto lock  = Lock();
+            const auto lock1 = other.Lock();
+
+            std::swap(m_Object, other.m_Object);
+        }
 
     public:
         template <typename... TArgs>
@@ -78,15 +131,17 @@ namespace codex::cc {
         constexpr ScopedGuard(Mutex<T>& mutex)
             : m_Mutex(mutex)
         {
-            m_Mutex.TryLock();
+            m_Mutex.MutexLock();
         }
 
     public:
-        constexpr ~ScopedGuard() { m_Mutex.Unlock(); }
+        constexpr ~ScopedGuard() noexcept { m_Mutex.MutexUnlock(); }
 
     public:
-        constexpr ScopedGuard(const ScopedGuard&) noexcept            = delete;
-        constexpr ScopedGuard& operator=(const ScopedGuard&) noexcept = delete;
+        ScopedGuard(const ScopedGuard&) noexcept            = delete;
+        ScopedGuard& operator=(const ScopedGuard&) noexcept = delete;
+        ScopedGuard(ScopedGuard&&) noexcept                 = delete;
+        ScopedGuard& operator=(ScopedGuard&&) noexcept      = delete;
 
     public:
         [[nodiscard]] constexpr T*       operator->() noexcept { return std::addressof(m_Mutex.m_Object); }
