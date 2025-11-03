@@ -96,13 +96,8 @@ namespace codex::cc {
         {
             return IsLocked() && m_OwnerThread == std::this_thread::get_id();
         }
-        [[nodiscard]] inline ScopedGuard Lock() noexcept { return ScopedGuard(*this); }
-        [[nodiscard]] inline ScopedGuard Lock(std::string func, std::string file, int line) noexcept
-            [[nodiscard]] inline const ScopedGuard Lock() const
-        {
-            return const_cast<Mutex<T>*>(this)->Lock();
-        }
-        [[nodiscard]] inline const ScopedGuard Lock() const noexcept { return const_cast<Mutex<T>*>(this)->Lock(); }
+        [[nodiscard]] inline ScopedGuard       Lock() noexcept { return ScopedGuard(*this); }
+        [[nodiscard]] inline const ScopedGuard Lock() const { return const_cast<Mutex<T>*>(this)->Lock(); }
         inline void                            Swap(Mutex<T>& other) noexcept
         {
             const auto lock  = Lock();
