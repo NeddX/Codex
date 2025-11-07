@@ -243,10 +243,10 @@ add_subdirectory(vendor/MGL/MGL ${PROJECT_BINARY_DIR}/MGL EXCLUDE_FROM_ALL)
 set(MGL_INCLUDE_DIR vendor/MGL/include)
 set(MGL_LIBRARIES MGL)
 
-target_include_directories(CodexEngine PUBLIC ${MGL_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${MGL_INCLUDE_DIR})
 target_link_libraries(CodexEngine PUBLIC ${MGL_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${MGL_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${MGL_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PUBLIC ${MGL_LIBRARIES})
 
 # box2d
@@ -297,8 +297,8 @@ endif()
 
 target_include_directories(CodexEngine PUBLIC ${FMOD_CORE_INCLUDE_DIR} ${FMOD_STUDIO_INCLUDE_DIR})
 target_include_directories(CodexEngine-static PUBLIC ${FMOD_CORE_INCLUDE_DIR} ${FMOD_STUDIO_INCLUDE_DIR})
-target_link_libraries(CodexEngine ${FMOD_CORE_LIB} ${FMOD_STUDIO_LIB})
-target_link_libraries(CodexEngine-static ${FMOD_CORE_LIB} ${FMOD_STUDIO_LIB})
+target_link_libraries(CodexEngine PRIVATE ${FMOD_CORE_LIB} ${FMOD_STUDIO_LIB})
+target_link_libraries(CodexEngine-static PRIVATE ${FMOD_CORE_LIB} ${FMOD_STUDIO_LIB})
 
 # Threads (for pthreads on Nix systems)
 find_package(Threads REQUIRED)
