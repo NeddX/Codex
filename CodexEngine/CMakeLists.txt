@@ -10,7 +10,9 @@ file(GLOB_RECURSE PLATFORM_OSX_SOURCES "src/Platform/OSX/*.cpp")
 
 # Export all symbols on Windows (NOTE TO SELF: Do not uncomment).
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-set(CX_ENGINE_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
+set(CX_ENGINE_ROOT_DIR
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    PARENT_SCOPE)
 
 add_library(CodexEngine SHARED ${ENGINE_HEADERS} ${ENGINE_SOURCES})
 add_library(CodexEngine-static STATIC ${ENGINE_HEADERS} ${ENGINE_SOURCES})
@@ -24,10 +26,14 @@ target_compile_definitions(CodexEngine PRIVATE CX_BUILD_SHARED)
 target_compile_definitions(CodexEngine-static PUBLIC CX_BUILD_STATIC)
 
 # Few things to export to the engine.
-target_compile_definitions(CodexEngine PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
-target_compile_definitions(CodexEngine-static PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
-target_compile_definitions(CodexEngine PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
-target_compile_definitions(CodexEngine-static PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
+target_compile_definitions(CodexEngine
+                           PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
+target_compile_definitions(CodexEngine-static
+                           PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
+target_compile_definitions(CodexEngine
+                           PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
+target_compile_definitions(CodexEngine-static
+                           PRIVATE CX_PROJECT_NAME="${CMAKE_PROJECT_NAME}")
 
 # Position independent code for shared libraries.
 if(DEFINED CX_PLATFORM_UNIX)
@@ -57,9 +63,9 @@ elseif(DEFINED CX_PLATFORM_OSX)
   target_sources(CodexEngine-static PRIVATE ${PLATFORM_POSIX_SOURCES})
 elseif(DEFINED CX_PLATFORM_WINDOWS)
   target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_WINDOWS
-        _CRT_SECURE_NO_WARNINGS)
+                                                _CRT_SECURE_NO_WARNINGS)
   target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_WINDOWS
-        _CRT_SECURE_NO_WARNINGS) 
+                                                       _CRT_SECURE_NO_WARNINGS)
   target_sources(CodexEngine PRIVATE ${PLATFORM_WINDOWS_SOURCES})
   target_sources(CodexEngine-static PRIVATE ${PLATFORM_WINDOWS_SOURCES})
 else()
@@ -67,28 +73,31 @@ else()
   target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_UNKNOWN)
 endif()
 
-#target_compile_definitions(CodexEngine PUBLIC CX_CPU_ARCH=\"${CX_CPU_ARCH}\")
+# target_compile_definitions(CodexEngine PUBLIC CX_CPU_ARCH=\"${CX_CPU_ARCH}\")
 
 if(DEFINED CX_COMPILER_GNUC)
-  if (DEFINED CX_BUILD_TYPE_RELEASE OR DEFINED CX_BUILD_TYPE_SHIPPING)
+  if(DEFINED CX_BUILD_TYPE_RELEASE OR DEFINED CX_BUILD_TYPE_SHIPPING)
     target_compile_options(CodexEngine PRIVATE -Wall -Wextra -Werror -pedantic)
-    target_compile_options(CodexEngine-static PRIVATE -Wall -Wextra -Werror -pedantic)
+    target_compile_options(CodexEngine-static PRIVATE -Wall -Wextra -Werror
+                                                      -pedantic)
   endif()
   target_compile_definitions(CodexEngine PUBLIC CX_COMPILER_GNUC)
   target_compile_definitions(CodexEngine-static PUBLIC CX_COMPILER_GNUC)
 elseif(DEFINED CX_COMPILER_CLANG)
-  if (DEFINED CX_BUILD_TYPE_RELEASE OR DEFINED CX_BUILD_TYPE_SHIPPING)
+  if(DEFINED CX_BUILD_TYPE_RELEASE OR DEFINED CX_BUILD_TYPE_SHIPPING)
     target_compile_options(CodexEngine PRIVATE -Wall -Wextra -Werror -pedantic)
-    target_compile_options(CodexEngine-static PRIVATE -Wall -Wextra -Werror -pedantic)
+    target_compile_options(CodexEngine-static PRIVATE -Wall -Wextra -Werror
+                                                      -pedantic)
   endif()
   target_compile_definitions(CodexEngine PUBLIC CX_COMPILER_CLANG)
   target_compile_definitions(CodexEngine-static PUBLIC CX_COMPILER_CLANG)
-  #target_compile_options(CodexEngine PUBLIC -fsanitize=address -fno-omit-frame-pointer)
-  #target_link_options(CodexEngine PUBLIC -fsanitize=address)
-  #target_compile_options(CodexEngine-static PUBLIC -fsanitize=address -fno-omit-frame-pointer)
-  #target_link_options(CodexEngine-static PUBLIC -fsanitize=address)
+  # target_compile_options(CodexEngine PUBLIC -fsanitize=address
+  # -fno-omit-frame-pointer) target_link_options(CodexEngine PUBLIC
+  # -fsanitize=address) target_compile_options(CodexEngine-static PUBLIC
+  # -fsanitize=address -fno-omit-frame-pointer)
+  # target_link_options(CodexEngine-static PUBLIC -fsanitize=address)
 elseif(DEFINED CX_COMPILER_MSVC)
-  if (DEFINED CX_BUILD_TYPE_RELEASE OR DEFINED CX_BUILD_TYPE_SHIPPING)
+  if(DEFINED CX_BUILD_TYPE_RELEASE OR DEFINED CX_BUILD_TYPE_SHIPPING)
     target_compile_options(CodexEngine PRIVATE /Wall /W4 /WX)
     target_compile_options(CodexEngine-static PRIVATE /Wall /W4 /WX)
   endif()
@@ -136,39 +145,40 @@ endif()
 # SDL
 if(ANDROID)
   find_package(SDL2 REQUIRED)
-  target_include_directories(CodexEngine PUBLIC ${SDL2_INCLUDE_DIRS})
+  target_include_directories(CodexEngine PUBLIC ${SDL2_INCLUDE_DIR})
   target_link_libraries(CodexEngine PUBLIC ${SDL2_LIBRARIES})
 
-  target_include_directories(CodexEngine-static PUBLIC ${SDL2_INCLUDE_DIRS})
+  target_include_directories(CodexEngine-static PUBLIC ${SDL2_INCLUDE_DIR})
   target_link_libraries(CodexEngine-static PUBLIC ${SDL2_LIBRARIES})
 else()
   add_subdirectory(vendor/SDL ${PROJECT_BINARY_DIR}/SDL EXCLUDE_FROM_ALL)
   set(SDL2_INCLUDE_DIR vendor/SDL/include)
   set(SDL2_LIBRARIES SDL2 SDL2main)
 
-  target_include_directories(CodexEngine PUBLIC ${SDL2_INCLUDE_DIRS})
+  target_include_directories(CodexEngine PUBLIC ${SDL2_INCLUDE_DIR})
   target_link_libraries(CodexEngine PUBLIC ${SDL2_LIBRARIES})
   add_dependencies(CodexEngine SDL2 SDL2main)
 
-  target_include_directories(CodexEngine-static PUBLIC ${SDL2_INCLUDE_DIRS})
+  target_include_directories(CodexEngine-static PUBLIC ${SDL2_INCLUDE_DIR})
   target_link_libraries(CodexEngine-static PUBLIC ${SDL2_LIBRARIES})
 endif()
 
 # Logex
 add_subdirectory(vendor/Logex ${PROJECT_BINARY_DIR}/Logex EXCLUDE_FROM_ALL)
-# NOTE: FMT_INCLUDE_DIR comes from Logex, we re-include here for CodexEngine because
-# we link Logex as PRIVATE, therefore CodexEditor (or any other target using the engine)
-# won't be able to include {fmt}, but will be able to include Logex.h which will cause a
-# compiler error obviously.
+# NOTE: FMT_INCLUDE_DIR comes from Logex, we re-include here for CodexEngine
+# because we link Logex as PRIVATE, therefore CodexEditor (or any other target
+# using the engine) won't be able to include {fmt}, but will be able to include
+# Logex.h which will cause a compiler error obviously.
 get_target_property(LOGEX_SOURCE_DIR Logex SOURCE_DIR)
-target_include_directories(CodexEngine PUBLIC ${LOGEX_SOURCE_DIR}/${FMT_INCLUDE_DIR})
-set(LOGEX_INCLUDE_DIRS vendor/Logex/include)
+target_include_directories(CodexEngine
+                           PUBLIC ${LOGEX_SOURCE_DIR}/${FMT_INCLUDE_DIR})
+set(LOGEX_INCLUDE_DIR vendor/Logex/include)
 set(LOGEX_LIBRARIES Logex)
 
-target_include_directories(CodexEngine PUBLIC ${LOGEX_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${LOGEX_INCLUDE_DIR})
 target_link_libraries(CodexEngine PUBLIC ${LOGEX_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${LOGEX_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${LOGEX_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PUBLIC ${LOGEX_LIBRARIES})
 
 # nlohmann json
@@ -176,19 +186,19 @@ add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json EXCLUDE_FROM_ALL)
 set(JSON_INCLUDE_DIR vendor/json/include)
 set(JSON_LIBRARIES nlohmann_json)
 
-target_include_directories(CodexEngine PUBLIC ${JSON_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${JSON_INCLUDE_DIR})
 target_link_libraries(CodexEngine PRIVATE ${JSON_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PRIVATE ${JSON_LIBRARIES})
 
 # glad
 set(GLAD_INCLUDE_DIR vendor/glad)
 
-target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIR})
 target_link_libraries(CodexEngine PRIVATE ${GLAD_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PRIVATE ${GLAD_LIBRARIES})
 
 # ImGui
@@ -200,7 +210,7 @@ target_compile_definitions(CodexEngine-static
                            PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
 
 set(IMGUI_INCLUDE_DIR vendor/imgui vendor/imgui/backends vendor/imgui/examples
-                       vendor/imgui/misc)
+                      vendor/imgui/misc)
 file(
   GLOB_RECURSE
   IMGUI_HEADER_FILES
@@ -229,13 +239,13 @@ target_include_directories(CodexEngine-static PUBLIC ${IMGUI_INCLUDE_DIR})
 
 # glm
 add_subdirectory(vendor/glm ${PROJECT_BINARY_DIR}/glm EXCLUDE_FROM_ALL)
-set(GLM_INCLUDE_DIRS vendor/glm)
+set(GLM_INCLUDE_DIR vendor/glm)
 set(GLM_LIBRARIES glm)
 
-target_include_directories(CodexEngine PUBLIC ${GLM_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${GLM_INCLUDE_DIR})
 target_link_libraries(CodexEngine PRIVATE ${GLM_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${GLM_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${GLM_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PRIVATE ${GLM_LIBRARIES})
 
 # mgl
@@ -249,18 +259,17 @@ target_link_libraries(CodexEngine PUBLIC ${MGL_LIBRARIES})
 target_include_directories(CodexEngine-static PUBLIC ${MGL_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PUBLIC ${MGL_LIBRARIES})
 
-# box2d
-# Disable box2d's test sub-project, we don't need it.
+# box2d Disable box2d's test sub-project, we don't need it.
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 set(BOX2D_BUILD_TESTBED OFF)
 add_subdirectory(vendor/box2d ${PROJECT_BINARY_DIR}/box2d EXCLUDE_FROM_ALL)
 set(BOX2D_INCLUDE_DIR vendor/box2d/include)
 set(BOX2D_LIBRARIES box2d)
 
-target_include_directories(CodexEngine PUBLIC ${BOX2D_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${BOX2D_INCLUDE_DIR})
 target_link_libraries(CodexEngine PRIVATE ${BOX2D_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${BOX2D_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${BOX2D_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PRIVATE ${BOX2D_LIBRARIES})
 
 # Net Native set(NETNT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/NetNT/src)
@@ -271,10 +280,10 @@ target_link_libraries(CodexEngine-static PRIVATE ${BOX2D_LIBRARIES})
 
 # Link OpenGL (IF UNIX LIKE)
 find_package(OpenGL REQUIRED)
-target_include_directories(CodexEngine PUBLIC ${OPENGL_INCLUDE_DIRS})
+target_include_directories(CodexEngine PUBLIC ${OPENGL_INCLUDE_DIR})
 target_link_libraries(CodexEngine PRIVATE ${OPENGL_LIBRARIES})
 
-target_include_directories(CodexEngine-static PUBLIC ${OPENGL_INCLUDE_DIRS})
+target_include_directories(CodexEngine-static PUBLIC ${OPENGL_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PRIVATE ${OPENGL_LIBRARIES})
 
 # entt
@@ -289,16 +298,24 @@ set(FMOD_DIR "${CMAKE_CURRENT_DIR}/vendor/fmod")
 set(FMOD_CORE_INCLUDE_DIR "${FMOD_DIR}/api/core/inc")
 set(FMOD_STUDIO_INCLUDE_DIR "${FMOD_DIR}/api/studio/inc")
 if(DEFINED CX_PLATFORM_LINUX)
-  set(FMOD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/fmodstudioapi20225linux")
-  set(FMOD_CORE_LIB "${FMOD_DIR}/api/core/lib/${CX_CPU_ARCH}/libfmod.so.${FMOD_VER_MAJ}.${FMOD_VER_MIN}")
-  set(FMOD_STUDIO_LIB "${FMOD_DIR}/api/studio/lib/${CX_CPU_ARCH}/libfmodstudio.so.${FMOD_VER_MAJ}.${FMOD_VER_MIN}")
+  set(FMOD_DIR
+      "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/fmodstudioapi20225linux")
+  set(FMOD_CORE_LIB
+      "${FMOD_DIR}/api/core/lib/${CX_CPU_ARCH}/libfmod.so.${FMOD_VER_MAJ}.${FMOD_VER_MIN}"
+  )
+  set(FMOD_STUDIO_LIB
+      "${FMOD_DIR}/api/studio/lib/${CX_CPU_ARCH}/libfmodstudio.so.${FMOD_VER_MAJ}.${FMOD_VER_MIN}"
+  )
   set(FMOD_CORE_LIB_LN "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/")
 endif()
 
-target_include_directories(CodexEngine PUBLIC ${FMOD_CORE_INCLUDE_DIR} ${FMOD_STUDIO_INCLUDE_DIR})
-target_include_directories(CodexEngine-static PUBLIC ${FMOD_CORE_INCLUDE_DIR} ${FMOD_STUDIO_INCLUDE_DIR})
+target_include_directories(CodexEngine PUBLIC ${FMOD_CORE_INCLUDE_DIR}
+                                              ${FMOD_STUDIO_INCLUDE_DIR})
+target_include_directories(CodexEngine-static PUBLIC ${FMOD_CORE_INCLUDE_DIR}
+                                                     ${FMOD_STUDIO_INCLUDE_DIR})
 target_link_libraries(CodexEngine PRIVATE ${FMOD_CORE_LIB} ${FMOD_STUDIO_LIB})
-target_link_libraries(CodexEngine-static PRIVATE ${FMOD_CORE_LIB} ${FMOD_STUDIO_LIB})
+target_link_libraries(CodexEngine-static PRIVATE ${FMOD_CORE_LIB}
+                                                 ${FMOD_STUDIO_LIB})
 
 # Threads (for pthreads on Nix systems)
 find_package(Threads REQUIRED)
@@ -320,11 +337,8 @@ target_compile_definitions(
 
 # ======================= # INSTALLATION # ======================= #
 if(DEFINED CX_PLATFORM_WINDOWS)
-    install(TARGETS SDL2 SDL2main glm nlohmann_json CodexEngine
-          DESTINATION bin)
-    install(FILES ${FMOD_LIB} 
-        ${FMOD_STUDIO_LIB}
-        DESTINATION bin)
+  install(TARGETS SDL2 SDL2main glm nlohmann_json CodexEngine DESTINATION bin)
+  install(FILES ${FMOD_LIB} ${FMOD_STUDIO_LIB} DESTINATION bin)
   install(TARGETS CodexEngine-static MGL DESTINATION "bin/Object Libraries")
 
   # Program Files (or same location as the binary) for unmodifiable file data.
@@ -344,15 +358,13 @@ elseif(DEFINED CX_PLATFORM_UNIX)
   install(
     FILES ${FMOD_CORE_LIB}
     DESTINATION lib
-    RENAME "libfmod.so.${FMOD_VER_MAJ}"
-  )
+    RENAME "libfmod.so.${FMOD_VER_MAJ}")
 
   # Same for fmod studio API.
   install(
     FILES ${FMOD_STUDIO_LIB}
     DESTINATION lib
-    RENAME "libfmodstudio.so.${FMOD_VER_MAJ}"
-  )
+    RENAME "libfmodstudio.so.${FMOD_VER_MAJ}")
 
   # /etc/appname for global configuration files. /usr/local/share/appname for
   # unmodifiable data. /usr/local/(lib, bin)/appname for unmodifiable and
@@ -360,18 +372,18 @@ elseif(DEFINED CX_PLATFORM_UNIX)
 endif()
 
 # Export the asset path.
-set(CX_ENGINE_ASSET_PATH "${CMAKE_CURRENT_SOURCE_DIR}/assets" PARENT_SCOPE)
-#if(DEFINED CX_PLATFORM_WINDOWS)
-# install(TARGETS CodexEngine CodexEngine-static DESTINATION bin)
-# install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION bin)
-#elseif(DEFINED CX_PLATFORM_UNIX)
-# install(TARGETS CodexEngine CodexEngine-static DESTINATION bin)
-# install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/"
-#         DESTINATION share/${PROJECT_NAME})
-#endif()
+set(CX_ENGINE_ASSET_PATH
+    "${CMAKE_CURRENT_SOURCE_DIR}/assets"
+    PARENT_SCOPE)
+# if(DEFINED CX_PLATFORM_WINDOWS) install(TARGETS CodexEngine CodexEngine-static
+# DESTINATION bin) install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/"
+# DESTINATION bin) elseif(DEFINED CX_PLATFORM_UNIX) install(TARGETS CodexEngine
+# CodexEngine-static DESTINATION bin) install(DIRECTORY
+# "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION share/${PROJECT_NAME})
+# endif()
 
-# =============== # MISC # =============== #
-# Fix a dumb fucking linker bug on Ubuntu regarding dlopen.
+# =============== # MISC # =============== # Fix a dumb fucking linker bug on
+# Ubuntu regarding dlopen.
 target_link_libraries(CodexEngine PRIVATE ${CMAKE_DL_LIBS})
 target_link_libraries(CodexEngine-static PRIVATE ${CMAKE_DL_LIBS})
 
@@ -401,8 +413,8 @@ target_include_directories(CodexEngine-static PRIVATE src/Platform)
 
 # Multicore compilation for MSVC if CX_PARALLEL is not 0.
 if(DEFINED CX_COMPILER_MSVC AND NOT CX_PARALLEL EQUAL 0)
-    target_compile_options(CodexEngine PRIVATE "/MP")
-    target_compile_options(CodexEngine-static PRIVATE "/MP")
+  target_compile_options(CodexEngine PRIVATE "/MP")
+  target_compile_options(CodexEngine-static PRIVATE "/MP")
 endif()
 
 # Treat all warnings as errors for QUALITY
@@ -413,7 +425,8 @@ else()
   # -Werror)
 endif()
 
-# Set this to be the startup project when generating a VS Solution and CEditor is disabled.
-if (NOT DEFINED CX_ENABLE_CEDITOR)
-    set_target_properties(CodexEngine PROPERTIES VS_STARTUP_PROJECT CodexEngine)
+# Set this to be the startup project when generating a VS Solution and CEditor
+# is disabled.
+if(NOT DEFINED CX_ENABLE_CEDITOR)
+  set_target_properties(CodexEngine PROPERTIES VS_STARTUP_PROJECT CodexEngine)
 endif()
