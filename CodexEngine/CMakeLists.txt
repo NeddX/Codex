@@ -1,5 +1,50 @@
 project("CodexEngine")
 
+# Enable fPIC on all linkable targets
+set(CMAKE_POSITION_INDEPENDENT_CODE on)
+set(BOX2D_BUILD_TESTBED
+    OFF
+    CACHE BOOL "" FORCE)
+set(BOX2D_BUILD_TESTBED
+    OFF
+    CACHE BOOL "" FORCE)
+set(BOX2D_BUILD_UNIT_TESTS
+    OFF
+    CACHE BOOL "" FORCE)
+set(BOX2D_BUILD_DOCS
+    OFF
+    CACHE BOOL "" FORCE)
+
+# Fetch modules
+FetchContent_Declare(
+  logex
+  GIT_REPOSITORY git@github.com:neddien/Logex
+  GIT_TAG master)
+FetchContent_Declare(
+  sdl
+  GIT_REPOSITORY git@github.com:libsdl-org/SDL
+  GIT_TAG release-2.32.10)
+FetchContent_Declare(
+  box2d
+  GIT_REPOSITORY git@github.com:erincatto/box2d
+  GIT_TAG v2.4.2)
+FetchContent_Declare(
+  imgui
+  GIT_REPOSITORY git@github.com:ocornut/imgui
+  GIT_TAG a028c2d)
+FetchContent_Declare(
+  json
+  GIT_REPOSITORY git@github.com:nlohmann/json
+  GIT_TAG v3.12.0)
+
+FetchContent_MakeAvailable(Logex)
+FetchContent_MakeAvailable(SDL)
+FetchContent_MakeAvailable(box2d)
+FetchContent_MakeAvailable(imgui)
+FetchContent_MakeAvailable(json)
+
+set(ENGINE_PLATFORM_DIR "src/Platform")
+
 # Fetch all the source and header files and the then add them automatically
 file(GLOB_RECURSE ENGINE_SOURCES "src/Engine/*.cpp")
 file(GLOB_RECURSE ENGINE_HEADERS "src/Engine/*.h")
@@ -52,6 +97,7 @@ if(DEFINED CX_PLATFORM_LINUX)
   target_sources(CodexEngine-static PRIVATE ${PLATFORM_LINUX_SOURCES})
   target_sources(CodexEngine PRIVATE ${PLATFORM_POSIX_SOURCES})
   target_sources(CodexEngine-static PRIVATE ${PLATFORM_POSIX_SOURCES})
+  set(CX_GRAPHICS_API "OpenGL")
 elseif(DEFINED CX_PLATFORM_OSX)
   target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_OSX)
   target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_UNIX)
@@ -61,6 +107,7 @@ elseif(DEFINED CX_PLATFORM_OSX)
   target_sources(CodexEngine-static PRIVATE ${PLATFORM_OSX_SOURCES})
   target_sources(CodexEngine PRIVATE ${PLATFORM_POSIX_SOURCES})
   target_sources(CodexEngine-static PRIVATE ${PLATFORM_POSIX_SOURCES})
+  set(CX_GRAPHICS_API "OpenGL")
 elseif(DEFINED CX_PLATFORM_WINDOWS)
   target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_WINDOWS
                                                 _CRT_SECURE_NO_WARNINGS)
@@ -68,9 +115,11 @@ elseif(DEFINED CX_PLATFORM_WINDOWS)
                                                        _CRT_SECURE_NO_WARNINGS)
   target_sources(CodexEngine PRIVATE ${PLATFORM_WINDOWS_SOURCES})
   target_sources(CodexEngine-static PRIVATE ${PLATFORM_WINDOWS_SOURCES})
+  set(CX_GRAPHICS_API "OpenGL")
 else()
   target_compile_definitions(CodexEngine PUBLIC CX_PLATFORM_UNKNOWN)
   target_compile_definitions(CodexEngine-static PUBLIC CX_PLATFORM_UNKNOWN)
+  set(CX_GRAPHICS_API "Unknown")
 endif()
 
 # target_compile_definitions(CodexEngine PUBLIC CX_CPU_ARCH=\"${CX_CPU_ARCH}\")
@@ -132,12 +181,27 @@ endif()
 message(":: Platform OS: ${CMAKE_SYSTEM_NAME}")
 message(":: Platform Compiler: ${CMAKE_CXX_COMPILER_ID}")
 message(":: CPU word size: ${CMAKE_SIZEOF_VOID_P} bytes")
+message(":: Graphics API: ${CX_GRAPHICS_API}")
 message("")
 
 if(DEFINED CX_COMPILER_CLANG OR DEFINED CX_COMPILER_GCC)
   # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address
   # -fno-omit-frame-pointer") set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}
   # -fsanitize=address -fno-omit-frame-pointer")
+endif()
+
+# ============= # Graphics API # ============= #
+if(CX_GRAPHICS_API STREQUAL "OpenGL")
+  add_subdirectory(${ENGINE_PLATFORM_DIR}/OpenGL/MGL/MGL
+                   ${PROJECT_BINARY_DIR}/MGL EXCLUDE_FROM_ALL)
+  set(MGL_INCLUDE_DIR ${ENGINE_PLATFORM_DIR}/OpenGL/MGL/include)
+  set(MGL_LIBRARIES MGL)
+
+  target_include_directories(CodexEngine PUBLIC ${MGL_INCLUDE_DIR})
+  target_link_libraries(CodexEngine PUBLIC ${MGL_LIBRARIES})
+
+  target_include_directories(CodexEngine-static PUBLIC ${MGL_INCLUDE_DIR})
+  target_link_libraries(CodexEngine-static PUBLIC ${MGL_LIBRARIES})
 endif()
 
 # ============= # Libraries   # ============= #
@@ -151,7 +215,7 @@ if(ANDROID)
   target_include_directories(CodexEngine-static PUBLIC ${SDL2_INCLUDE_DIR})
   target_link_libraries(CodexEngine-static PUBLIC ${SDL2_LIBRARIES})
 else()
-  add_subdirectory(vendor/SDL ${PROJECT_BINARY_DIR}/SDL EXCLUDE_FROM_ALL)
+  # add_subdirectory(vendor/SDL ${PROJECT_BINARY_DIR}/SDL EXCLUDE_FROM_ALL)
   set(SDL2_INCLUDE_DIR vendor/SDL/include)
   set(SDL2_LIBRARIES SDL2 SDL2main)
 
@@ -163,16 +227,16 @@ else()
   target_link_libraries(CodexEngine-static PUBLIC ${SDL2_LIBRARIES})
 endif()
 
-# Logex
-add_subdirectory(vendor/Logex ${PROJECT_BINARY_DIR}/Logex EXCLUDE_FROM_ALL)
-# NOTE: FMT_INCLUDE_DIR comes from Logex, we re-include here for CodexEngine
-# because we link Logex as PRIVATE, therefore CodexEditor (or any other target
-# using the engine) won't be able to include {fmt}, but will be able to include
-# Logex.h which will cause a compiler error obviously.
+# Logex add_subdirectory(vendor/Logex ${PROJECT_BINARY_DIR}/Logex
+# EXCLUDE_FROM_ALL) NOTE: FMT_INCLUDE_DIR comes from Logex, we re-include here
+# for CodexEngine because we link Logex as PRIVATE, therefore CodexEditor (or
+# any other target using the engine) won't be able to include {fmt}, but will be
+# able to include Logex.h which will cause a compiler error obviously.
 get_target_property(LOGEX_SOURCE_DIR Logex SOURCE_DIR)
 target_include_directories(CodexEngine
                            PUBLIC ${LOGEX_SOURCE_DIR}/${FMT_INCLUDE_DIR})
-set(LOGEX_INCLUDE_DIR vendor/Logex/include)
+
+set(LOGEX_INCLUDE_DIR ${logex_SOURCE_DIR}/include)
 set(LOGEX_LIBRARIES Logex)
 
 target_include_directories(CodexEngine PUBLIC ${LOGEX_INCLUDE_DIR})
@@ -181,9 +245,9 @@ target_link_libraries(CodexEngine PUBLIC ${LOGEX_LIBRARIES})
 target_include_directories(CodexEngine-static PUBLIC ${LOGEX_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PUBLIC ${LOGEX_LIBRARIES})
 
-# nlohmann json
-add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json EXCLUDE_FROM_ALL)
-set(JSON_INCLUDE_DIR vendor/json/include)
+# nlohmann json add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json
+# EXCLUDE_FROM_ALL)
+set(JSON_INCLUDE_DIR ${json_SOURCE_DIR}/include)
 set(JSON_LIBRARIES nlohmann_json)
 
 target_include_directories(CodexEngine PUBLIC ${JSON_INCLUDE_DIR})
@@ -192,14 +256,13 @@ target_link_libraries(CodexEngine PRIVATE ${JSON_LIBRARIES})
 target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PRIVATE ${JSON_LIBRARIES})
 
-# glad
-set(GLAD_INCLUDE_DIR vendor/glad)
-
-target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIR})
-target_link_libraries(CodexEngine PRIVATE ${GLAD_LIBRARIES})
-
-target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIR})
-target_link_libraries(CodexEngine-static PRIVATE ${GLAD_LIBRARIES})
+# glad set(GLAD_INCLUDE_DIR vendor/glad)
+#
+# target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIR})
+# target_link_libraries(CodexEngine PRIVATE ${GLAD_LIBRARIES})
+#
+# target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIR})
+# target_link_libraries(CodexEngine-static PRIVATE ${GLAD_LIBRARIES})
 
 # ImGui
 
@@ -209,27 +272,27 @@ target_compile_definitions(CodexEngine PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
 target_compile_definitions(CodexEngine-static
                            PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
 
-set(IMGUI_INCLUDE_DIR vendor/imgui vendor/imgui/backends vendor/imgui/examples
-                      vendor/imgui/misc)
+set(IMGUI_INCLUDE_DIR ${imgui_SOURCE_DIR}/ ${imgui_SOURCE_DIR}/backends
+                      ${imgui_SOURCE_DIR}/examples ${imgui_SOURCE_DIR}/misc)
 file(
   GLOB_RECURSE
   IMGUI_HEADER_FILES
-  "vendor/imgui/imconfig.h"
-  "vendor/imgui/imgui.h"
-  "vendor/imgui/imgui_internal.h"
-  "vendor/imgui/imstb_rectpack.h"
-  "vendor/imgui/imstb_textedit.h"
-  "vendor/imgui/imstb_truetype.h")
+  "${imgui_SOURCE_DIR}/imconfig.h"
+  "${imgui_SOURCE_DIR}/imgui.h"
+  "${imgui_SOURCE_DIR}/imgui_internal.h"
+  "${imgui_SOURCE_DIR}/imstb_rectpack.h"
+  "${imgui_SOURCE_DIR}/imstb_textedit.h"
+  "${imgui_SOURCE_DIR}/imstb_truetype.h")
 file(
   GLOB_RECURSE
   IMGUI_SOURCE_FILES
-  "vendor/imgui/imgui.cpp"
-  "vendor/imgui/imgui_widgets.cpp"
-  "vendor/imgui/imgui_draw.cpp"
-  "vendor/imgui/imgui_demo.cpp"
-  "vendor/imgui/imgui_tables.cpp"
-  "vendor/imgui/backends/imgui_impl_opengl3.cpp"
-  "vendor/imgui/backends/imgui_impl_sdl2.cpp")
+  "${imgui_SOURCE_DIR}/imgui.cpp"
+  "${imgui_SOURCE_DIR}/imgui_widgets.cpp"
+  "${imgui_SOURCE_DIR}/imgui_draw.cpp"
+  "${imgui_SOURCE_DIR}/imgui_demo.cpp"
+  "${imgui_SOURCE_DIR}/imgui_tables.cpp"
+  "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
+  "${imgui_SOURCE_DIR}/backends/imgui_impl_sdl2.cpp")
 target_sources(CodexEngine PUBLIC ${IMGUI_HEADER_FILES} ${IMGUI_SOURCE_FILES})
 target_sources(CodexEngine-static PUBLIC ${IMGUI_HEADER_FILES}
                                          ${IMGUI_SOURCE_FILES})
@@ -237,8 +300,7 @@ target_sources(CodexEngine-static PUBLIC ${IMGUI_HEADER_FILES}
 target_include_directories(CodexEngine PUBLIC ${IMGUI_INCLUDE_DIR})
 target_include_directories(CodexEngine-static PUBLIC ${IMGUI_INCLUDE_DIR})
 
-# glm
-add_subdirectory(vendor/glm ${PROJECT_BINARY_DIR}/glm EXCLUDE_FROM_ALL)
+# glm add_subdirectory(vendor/glm ${PROJECT_BINARY_DIR}/glm EXCLUDE_FROM_ALL)
 set(GLM_INCLUDE_DIR vendor/glm)
 set(GLM_LIBRARIES glm)
 
@@ -248,22 +310,11 @@ target_link_libraries(CodexEngine PRIVATE ${GLM_LIBRARIES})
 target_include_directories(CodexEngine-static PUBLIC ${GLM_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PRIVATE ${GLM_LIBRARIES})
 
-# mgl
-add_subdirectory(vendor/MGL/MGL ${PROJECT_BINARY_DIR}/MGL EXCLUDE_FROM_ALL)
-set(MGL_INCLUDE_DIR vendor/MGL/include)
-set(MGL_LIBRARIES MGL)
-
-target_include_directories(CodexEngine PUBLIC ${MGL_INCLUDE_DIR})
-target_link_libraries(CodexEngine PUBLIC ${MGL_LIBRARIES})
-
-target_include_directories(CodexEngine-static PUBLIC ${MGL_INCLUDE_DIR})
-target_link_libraries(CodexEngine-static PUBLIC ${MGL_LIBRARIES})
-
 # box2d Disable box2d's test sub-project, we don't need it.
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 set(BOX2D_BUILD_TESTBED OFF)
-add_subdirectory(vendor/box2d ${PROJECT_BINARY_DIR}/box2d EXCLUDE_FROM_ALL)
-set(BOX2D_INCLUDE_DIR vendor/box2d/include)
+# add_subdirectory(vendor/box2d ${PROJECT_BINARY_DIR}/box2d EXCLUDE_FROM_ALL)
+set(BOX2D_INCLUDE_DIR ${box2d_SOURCE_DIR}/include)
 set(BOX2D_LIBRARIES box2d)
 
 target_include_directories(CodexEngine PUBLIC ${BOX2D_INCLUDE_DIR})

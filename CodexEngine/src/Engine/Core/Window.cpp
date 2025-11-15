@@ -140,8 +140,7 @@ namespace codex {
         if (gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
         {
             const auto& logger = lgx::Get("engine");
-            gladLoadGL();
-            gladLoadGLLoader(SDL_GL_GetProcAddress);
+            // gladLoadGL();
             logger.Log(lgx::Info, "GLad loaded");
             logger.Log(lgx::Info, "Vendor:\t\t{}", (const char*)glGetString(GL_VENDOR));
             logger.Log(lgx::Info, "Renderer:\t\t{}", (const char*)glGetString(GL_RENDERER));
