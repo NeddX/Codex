@@ -1,26 +1,3 @@
-[submodule "CodexEngine/vendor/box2d"]
-	path = CodexEngine/vendor/box2d
-	url = https://github.com/erincatto/box2d
-[submodule "CodexEngine/vendor/SDL"]
-	path = CodexEngine/vendor/SDL
-	url = https://github.com/libsdl-org/SDL
-	branch = release-2.30.x
-[submodule "CodexEngine/vendor/MGL"]
-	path = CodexEngine/vendor/MGL
-	url = https://github.com/NeddX/MGL
-[submodule "CodexEngine/vendor/imgui"]
-	path = CodexEngine/vendor/imgui
-	url = https://github.com/ocornut/imgui
-	branch = docking
-[submodule "CodexEngine/vendor/json"]
-	path = CodexEngine/vendor/json
-	url = https://github.com/nlohmann/json
-[submodule "CodexEditor/vendor/ImGuizmo"]
-	path = CodexEditor/vendor/ImGuizmo
-	url = https://github.com/CedricGuillemet/ImGuizmo
-[submodule "CodexEngine/vendor/Logex"]
-	path = CodexEngine/vendor/Logex
-	url = https://github.com/NeddX/Logex
 [submodule "CodexEditor/assets/Projects/Umbra"]
 	path = CodexEditor/assets/Projects/Umbra
 	url = https://github.com/NeddX/Umbra
