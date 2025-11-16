@@ -33,7 +33,7 @@ namespace codex::sys {
         std::function<void(i32)>   onExit          = nullptr;
     };
 
-    class Process : public mem::SharedManagable<Process>
+    class CODEX_API Process : public mem::SharedManagable<Process>
     {
         friend class mem::Shared<Process>;
 

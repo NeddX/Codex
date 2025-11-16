@@ -8,7 +8,7 @@
 #include "Sprite.h"
 
 namespace codex {
-    class SpriteSheet
+    class CODEX_API SpriteSheet
     {
     private:
         ResRef<gfx::Texture2D> m_Texture;

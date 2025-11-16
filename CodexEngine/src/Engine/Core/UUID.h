@@ -2,7 +2,7 @@
 #define CODEX_CORE_UUID_H
 
 namespace codex {
-    class UUID
+    class CODEX_API UUID
     {
     private:
         u64 m_UUID;

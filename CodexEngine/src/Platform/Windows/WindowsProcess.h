@@ -6,7 +6,7 @@
 #include "../../src/Engine/System/Process.h"
 
 namespace codex::sys {
-    class NTProcess : public Process
+    class CODEX_API NTProcess : public Process
     {
         // So that Process::New() can create a Shared<NTProcess> with a custom deleter.
         friend class Process;

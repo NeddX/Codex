@@ -18,7 +18,7 @@ namespace codex::gfx {
     constexpr auto LINE2D_VERTEX_SIZE = LINE2D_VERTEX_COUNT * LINE2D_VERTEX_COMPONENT_COUNT; // The total count of the
                                                                                              // elements in the buffer
 
-    class DebugDraw
+    class CODEX_API DebugDraw
     {
     private:
         mem::Box<mgl::VertexArray>                             m_Vao;

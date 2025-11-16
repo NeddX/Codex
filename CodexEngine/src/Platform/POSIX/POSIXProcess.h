@@ -6,7 +6,7 @@
 #include "../../src/Engine/System/Process.h"
 
 namespace codex::sys {
-    class POSIXProcess : public Process
+    class CODEX_API POSIXProcess : public Process
     {
         // So that Process::New() can create a mem::Shared<POSIXProcess> with a custom deleter.
         friend class Process;

@@ -3,6 +3,8 @@
 
 #include <sdafx.h>
 
+#include <MGL.h>
+
 namespace codex::math {
     using Matrix4f = glm::mat4;
     using Matrix2f = glm::mat2;

@@ -2,6 +2,34 @@ cmake_minimum_required(VERSION 3.16)
 
 project("TestProj")
 
+# Fetch modules
+FetchContent_Declare(
+  logex
+  GIT_REPOSITORY git@github.com:neddien/Logex
+  GIT_TAG master)
+FetchContent_Declare(
+  sdl
+  GIT_REPOSITORY git@github.com:libsdl-org/SDL
+  GIT_TAG release-2.32.10)
+FetchContent_Declare(
+  box2d
+  GIT_REPOSITORY git@github.com:erincatto/box2d
+  GIT_TAG v2.4.2)
+FetchContent_Declare(
+  imgui
+  GIT_REPOSITORY git@github.com:ocornut/imgui
+  GIT_TAG a028c2d)
+FetchContent_Declare(
+  json
+  GIT_REPOSITORY git@github.com:nlohmann/json
+  GIT_TAG v3.12.0)
+
+FetchContent_MakeAvailable(Logex)
+FetchContent_MakeAvailable(SDL)
+FetchContent_MakeAvailable(box2d)
+FetchContent_MakeAvailable(imgui)
+FetchContent_MakeAvailable(json)
+
 # For LSPs.
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 

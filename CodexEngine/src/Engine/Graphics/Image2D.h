@@ -20,7 +20,7 @@ namespace codex::gfx {
     CX_CUSTOM_EXCEPTION(ImageLoadException, "Failed to load the image.")
 
     // Wrapper over stb_image.
-    class Image2D : public IResource
+    class CODEX_API Image2D : public IResource
     {
     private:
         u8*                   m_RawData  = nullptr;

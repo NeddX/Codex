@@ -19,6 +19,7 @@ SRC = None
 DEST = None
 ROOT_DIR = None
 BINARY_DIR = None
+VENDOR_DIRS = []
 HEADERS_EXT_LIST = ('.h', '.hpp', '.inl')
 
 if len(args) >= 2:
@@ -31,6 +32,10 @@ if len(args) >= 2:
             SRC = arg.split('=')[1]
         elif arg.startswith('--dest-dir='):
             DEST = arg.split('=')[1]
+        elif arg.startswith('--vendor-dirs='):
+            argv1 = arg.split('=')[1]
+            VENDOR_DIRS = argv1.split(',')
+            
 
 def create_folder_structure(src_path):
     if not os.path.exists(src_path):

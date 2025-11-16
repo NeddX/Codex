@@ -23,8 +23,8 @@ add_executable(CodexEditor ${CEDITOR_HEADER_FILES} ${CEDITOR_SOURCE_FILES}
 # Set the C++ Standard to 20 for this target
 set_property(TARGET CodexEditor PROPERTY CXX_STANDARD 20)
 
-target_link_libraries(CodexEditor CodexEngine)
-add_dependencies(CodexEditor CodexEngine)
+target_link_libraries(CodexEditor CodexEngine-static)
+add_dependencies(CodexEditor CodexEngine-static)
 
 get_target_property(CODEX_BUILD_DIR CodexEngine BINARY_DIR)
 
@@ -133,7 +133,7 @@ foreach(PROJECT_DIR ${PROJECT_DIRS})
           ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:fmt>"
           "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/${PROJECT_DIR}/lib/"
         COMMAND
-          ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:Logex>"
+          ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:Logex-static>"
           "${CMAKE_CURRENT_SOURCE_DIR}/assets/Projects/${PROJECT_DIR}/lib/"
         COMMENT ":: Copying object libraries to ${PROJECT_DIR}/lib/...")
     endif()

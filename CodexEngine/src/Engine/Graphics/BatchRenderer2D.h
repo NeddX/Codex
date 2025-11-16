@@ -25,7 +25,7 @@ namespace codex::gfx {
     // Forward decelerations
     class Renderer;
 
-    class BatchRenderer2D
+    class CODEX_API BatchRenderer2D
     {
         friend class Renderer;
 

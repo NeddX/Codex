@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-#ifndef CX_CONFIG_DEBUG // FIXME: Okay so CX_CONFIG_DEBUG is defined from CMake how is it not defined here?
+#ifndef CX_CONFIG_DEBUG
 template <typename T, typename... TArgs>
 inline void cx_throw_trap(TArgs&&... args)
 {

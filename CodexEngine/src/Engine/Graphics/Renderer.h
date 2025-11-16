@@ -10,7 +10,7 @@
 
 namespace codex::gfx {
     // TODO: This is bad... fix it please.
-    class Renderer
+    class CODEX_API Renderer
     {
     private:
         static i32            m_Width;

@@ -6,6 +6,8 @@
 #include <Engine/Core/IResource.h>
 #include <Engine/Memory/Memory.h>
 
+#include <MGL.h>
+
 namespace codex::gfx {
     using TextureProperties     = mgl::TextureProperties;
     using TextureFilterMode     = mgl::TextureFilterMode;

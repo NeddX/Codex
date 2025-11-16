@@ -9,6 +9,10 @@
 #include "Exception.h"
 #include "Geomtryd.h"
 
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <SDL_syswm.h>
+
 namespace codex {
     // Forward declerations
     class Application;

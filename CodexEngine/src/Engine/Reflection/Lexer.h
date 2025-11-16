@@ -129,7 +129,7 @@ namespace codex::rf {
 
     using TokenList = std::vector<Token>;
 
-    class Lexer
+    class CODEX_API Lexer
     {
     private:
         std::string_view m_Source{};

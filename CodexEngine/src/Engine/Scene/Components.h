@@ -98,7 +98,7 @@ namespace codex {
     CX_CUSTOM_EXCEPTION(ScriptException, "An unknown behaviour exception occured.")
     CX_CUSTOM_EXCEPTION(DuplicateBehaviourException, "Cnnaot have more than one type of behaviour on a single entity.")
 
-    struct NativeBehaviourComponent : public Component
+    struct CODEX_API NativeBehaviourComponent : public Component
     {
         CX_COMPONENT
 

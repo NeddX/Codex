@@ -585,18 +585,20 @@ namespace codex::editor {
 #elif defined(CX_PLATFORM_OSX)
         p_info.command = "python3 Scripts/build.py --preset=osx-any-debug --build";
 #endif
+        /*
         p_info.onExit = [this](i32 exitCode)
         {
-            try
+            if (exitCode == 0)
             {
                 auto& d = m_Descriptor;
                 Scene::LoadScriptModule(d->scriptModulePath);
+                ConsoleMan::AppendMessage("-- Script build finished.");
             }
-            catch (...)
-            {
+            else {
+                throw new InvalidOperationException("Project failed to compile!");
             }
-            ConsoleMan::AppendMessage("-- Script build finished.");
         };
+        */
 
 #ifndef CX_PLATFORM_UNIX
         p_info.redirectStdOut = true;
@@ -706,19 +708,35 @@ namespace codex::editor {
         d->scriptModulePath = d->currentProjectPath / stdfs::path("lib/libNBMan.dll");
         d->activeScene      = d->editorScene;
 
-        CompileProject(true);
+        try
+        {
+            if (CompileProject(true) == 0) {
+                Scene::LoadScriptModule(d->scriptModulePath);
+                ConsoleMan::AppendMessage("-- Script build finished.");
 
-        d->scripts.clear();
-        const auto files = fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
-        d->scripts.reserve(files.size());
+                ConsoleMan::AppendMessage("-- Generating metadata...");
+                const auto files =
+                    fs::GetAllFilesWithExtensions(d->currentProjectPath / "Assets/", { ".h", ".hpp", ".hh" });
+                d->scripts.reserve(files.size());
 
-        const auto output_path = stdfs::absolute(d->currentProjectPath / "int/");
-        if (!stdfs::exists(output_path))
-            stdfs::create_directories(output_path);
+                const auto output_path = stdfs::absolute(d->currentProjectPath / "int/");
+                if (!stdfs::exists(output_path))
+                    stdfs::create_directories(output_path);
 
-        for (const auto& f : files)
-            d->scripts.emplace_back(f).Parse().EmitMetadata(output_path);
-        rf::RFScript::EmitBaseClass(output_path, d->scripts);
+                for (const auto& f : files)
+                    d->scripts.emplace_back(f).Parse().EmitMetadata(output_path);
+                rf::RFScript::EmitBaseClass(output_path, d->scripts);
+
+                ConsoleMan::AppendMessage("-- Metadata generation finished");
+            }
+            else {
+                cx_throw(InvalidOperationException, "Project failed to compile");
+            }
+        }
+        catch (const CodexException& ex)
+        {
+            lgx::Get("editor").Log(lgx::Error, "Failed to load compile and load NBMan: {}", ex.to_string());
+        }
 
         Serializer::DeserializeScene(cxproj, *d->editorScene);
 
@@ -733,6 +751,7 @@ namespace codex::editor {
         d->selectedEntity.Deselect();
 
         Scene::UnloadScriptModule();
+        d->scripts.clear();
     }
 
     void SceneEditorView::RenderGrid(gfx::DebugDraw& renderer, const scene::EditorCamera& camera,

@@ -37,8 +37,8 @@ FetchContent_Declare(
   GIT_REPOSITORY git@github.com:nlohmann/json
   GIT_TAG v3.12.0)
 
-FetchContent_MakeAvailable(Logex)
-FetchContent_MakeAvailable(SDL)
+FetchContent_MakeAvailable(logex)
+FetchContent_MakeAvailable(sdl)
 FetchContent_MakeAvailable(box2d)
 FetchContent_MakeAvailable(imgui)
 FetchContent_MakeAvailable(json)
@@ -54,7 +54,7 @@ file(GLOB_RECURSE PLATFORM_POSIX_SOURCES "src/Platform/POSIX/*.cpp")
 file(GLOB_RECURSE PLATFORM_OSX_SOURCES "src/Platform/OSX/*.cpp")
 
 # Export all symbols on Windows (NOTE TO SELF: Do not uncomment).
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+#set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(CX_ENGINE_ROOT_DIR
     ${CMAKE_CURRENT_SOURCE_DIR}
     PARENT_SCOPE)
@@ -215,11 +215,8 @@ if(ANDROID)
   target_include_directories(CodexEngine-static PUBLIC ${SDL2_INCLUDE_DIR})
   target_link_libraries(CodexEngine-static PUBLIC ${SDL2_LIBRARIES})
 else()
-  # add_subdirectory(vendor/SDL ${PROJECT_BINARY_DIR}/SDL EXCLUDE_FROM_ALL)
-  set(SDL2_INCLUDE_DIR vendor/SDL/include)
   set(SDL2_LIBRARIES SDL2 SDL2main)
 
-  target_include_directories(CodexEngine PUBLIC ${SDL2_INCLUDE_DIR})
   target_link_libraries(CodexEngine PUBLIC ${SDL2_LIBRARIES})
   add_dependencies(CodexEngine SDL2 SDL2main)
 
@@ -227,45 +224,20 @@ else()
   target_link_libraries(CodexEngine-static PUBLIC ${SDL2_LIBRARIES})
 endif()
 
-# Logex add_subdirectory(vendor/Logex ${PROJECT_BINARY_DIR}/Logex
-# EXCLUDE_FROM_ALL) NOTE: FMT_INCLUDE_DIR comes from Logex, we re-include here
-# for CodexEngine because we link Logex as PRIVATE, therefore CodexEditor (or
-# any other target using the engine) won't be able to include {fmt}, but will be
-# able to include Logex.h which will cause a compiler error obviously.
-get_target_property(LOGEX_SOURCE_DIR Logex SOURCE_DIR)
-target_include_directories(CodexEngine
-                           PUBLIC ${LOGEX_SOURCE_DIR}/${FMT_INCLUDE_DIR})
-
-set(LOGEX_INCLUDE_DIR ${logex_SOURCE_DIR}/include)
-set(LOGEX_LIBRARIES Logex)
-
-target_include_directories(CodexEngine PUBLIC ${LOGEX_INCLUDE_DIR})
+# Logex
+set(LOGEX_LIBRARIES Logex-static)
 target_link_libraries(CodexEngine PUBLIC ${LOGEX_LIBRARIES})
-
-target_include_directories(CodexEngine-static PUBLIC ${LOGEX_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PUBLIC ${LOGEX_LIBRARIES})
 
-# nlohmann json add_subdirectory(vendor/json ${PROJECT_BINARY_DIR}/json
-# EXCLUDE_FROM_ALL)
+# nlohmann json
 set(JSON_INCLUDE_DIR ${json_SOURCE_DIR}/include)
 set(JSON_LIBRARIES nlohmann_json)
-
 target_include_directories(CodexEngine PUBLIC ${JSON_INCLUDE_DIR})
 target_link_libraries(CodexEngine PRIVATE ${JSON_LIBRARIES})
-
 target_include_directories(CodexEngine-static PUBLIC ${JSON_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PRIVATE ${JSON_LIBRARIES})
 
-# glad set(GLAD_INCLUDE_DIR vendor/glad)
-#
-# target_include_directories(CodexEngine PUBLIC ${GLAD_INCLUDE_DIR})
-# target_link_libraries(CodexEngine PRIVATE ${GLAD_LIBRARIES})
-#
-# target_include_directories(CodexEngine-static PUBLIC ${GLAD_INCLUDE_DIR})
-# target_link_libraries(CodexEngine-static PRIVATE ${GLAD_LIBRARIES})
-
 # ImGui
-
 # Define these so ImGui doesn't try and load OpenGL functions because we have
 # GLAD for that.
 target_compile_definitions(CodexEngine PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
@@ -301,29 +273,22 @@ target_include_directories(CodexEngine PUBLIC ${IMGUI_INCLUDE_DIR})
 target_include_directories(CodexEngine-static PUBLIC ${IMGUI_INCLUDE_DIR})
 
 # glm add_subdirectory(vendor/glm ${PROJECT_BINARY_DIR}/glm EXCLUDE_FROM_ALL)
-set(GLM_INCLUDE_DIR vendor/glm)
 set(GLM_LIBRARIES glm)
-
-target_include_directories(CodexEngine PUBLIC ${GLM_INCLUDE_DIR})
 target_link_libraries(CodexEngine PRIVATE ${GLM_LIBRARIES})
-
-target_include_directories(CodexEngine-static PUBLIC ${GLM_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PRIVATE ${GLM_LIBRARIES})
 
 # box2d Disable box2d's test sub-project, we don't need it.
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 set(BOX2D_BUILD_TESTBED OFF)
-# add_subdirectory(vendor/box2d ${PROJECT_BINARY_DIR}/box2d EXCLUDE_FROM_ALL)
 set(BOX2D_INCLUDE_DIR ${box2d_SOURCE_DIR}/include)
 set(BOX2D_LIBRARIES box2d)
-
 target_include_directories(CodexEngine PUBLIC ${BOX2D_INCLUDE_DIR})
 target_link_libraries(CodexEngine PRIVATE ${BOX2D_LIBRARIES})
-
 target_include_directories(CodexEngine-static PUBLIC ${BOX2D_INCLUDE_DIR})
 target_link_libraries(CodexEngine-static PRIVATE ${BOX2D_LIBRARIES})
 
-# Net Native set(NETNT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/NetNT/src)
+# Net Native 
+# set(NETNT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/NetNT/src)
 # target_include_directories(CodexEngine PUBLIC ${NETNT_INCLUDE_DIR})
 # target_link_libraries(CodexEngine NetNT)
 # target_include_directories(CodexEngine-static PUBLIC ${NETNT_INCLUDE_DIR})

@@ -172,10 +172,13 @@ namespace codex {
                 auto& nc = entity.AddComponent<NativeBehaviourComponent>();
                 for (const auto& e : cj.at("AttachedScripts"))
                 {
-                    const auto class_name     = e.get<std::string>();
-                    auto*      class_instance = entity.m_Scene->CreateBehaviour(class_name.c_str(), entity);
-                    class_instance->SetOwner(entity);
-                    nc.Attach(std::move(class_instance));
+                    const auto class_name = e.get<std::string>();
+                    if (Scene::IsScriptModuleLoaded())
+                    {
+                        auto* class_instance = entity.m_Scene->CreateBehaviour(class_name.c_str(), entity);
+                        class_instance->SetOwner(entity);
+                        nc.Attach(std::move(class_instance));
+                    }
                 }
             }
             else if (auto cj = is_component(c, "CameraComponent"); !cj.empty())

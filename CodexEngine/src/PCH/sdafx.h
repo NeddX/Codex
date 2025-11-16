@@ -45,9 +45,6 @@
 #include <unordered_map>
 #include <vector>
 
-// GLAD
-#include <glad.h>
-
 // Platform specific
 #ifdef CX_PLATFORM_UNIX
 #include <cxxabi.h>
@@ -85,17 +82,13 @@
 #include "../Engine/Math/Math.h"
 
 // Library specific
-#include <Logex.h>
+#include <Logger.h>
 #include <fmt/core.h>
 #include <fmt/format.h>
 #include <fmt/color.h>
 #include <fmt/args.h>
 #include <fmt/chrono.h>
 #define SDL_MAIN_HANDLED
-#include <MGL.h>
-#include <SDL.h>
-#include <SDL_opengl.h>
-#include <SDL_syswm.h>
 #include <glm/ext/matrix_clip_space.hpp> // glm::perspective
 #include <glm/ext/matrix_transform.hpp>  // glm::translate, glm::rotate, glm::scale
 #include <glm/ext/scalar_constants.hpp>  // glm::pi

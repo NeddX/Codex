@@ -119,10 +119,11 @@ namespace codex {
         void OnSimulationUpdate(const f32 deltaTime, scene::EditorCamera& camera);
 
     public:
-        static NativeBehaviour* CreateBehaviour(const char* className, Entity parent);
-        static bool             BehaviourExists(const char* className);
-        static void             LoadScriptModule(std::filesystem::path modulePath);
-        static void             UnloadScriptModule();
+        [[nodiscard]] static bool             IsScriptModuleLoaded();
+        static void                           LoadScriptModule(std::filesystem::path modulePath);
+        static void                           UnloadScriptModule();
+        [[nodiscard]] static NativeBehaviour* CreateBehaviour(const char* className, Entity parent);
+        [[nodiscard]] static bool             BehaviourExists(const char* className);
 
     private:
         static void OnFixedUpdate(Scene& self) noexcept;

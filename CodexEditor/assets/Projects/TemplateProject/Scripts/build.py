@@ -132,7 +132,7 @@ if action == Action.Build:
 
     com.Chrono.begin()
     com.log("CMake generation started.")
-    res = com.run(f"cmake --preset={preset}", stdout=stdoutput, stderr=stdoutput)
+    res = com.run(f"cmake --preset={preset} -DCMAKE_POLICY_VERSION_MINIMUM=3.5", stdout=stdoutput, stderr=stdoutput)
     if res.returncode != 0:
         if not preset in com.get_cmake_presets():
             com.panic(f"Build failed because '{preset}' is not an actual preset.")

@@ -6,7 +6,7 @@
 #include "Camera.h"
 
 namespace codex::scene {
-    class EditorCamera : public Camera
+    class CODEX_API EditorCamera : public Camera
     {
     private:
         Vector3f         m_Pos        = Vector3f(0.0f);

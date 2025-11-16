@@ -7,7 +7,7 @@
 #include "../Graphics/Texture2D.h"
 
 namespace codex {
-    class Sprite
+    class CODEX_API Sprite
     {
     private:
         ResRef<gfx::Texture2D> m_Texture = nullptr;

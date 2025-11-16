@@ -11,7 +11,7 @@ namespace codex::gfx {
     CX_CUSTOM_EXCEPTION(ShaderException, "Bad shader.")
     CX_CUSTOM_EXCEPTION(ShaderNotFoundException, "Shader file was not found.")
 
-    class Shader : public IResource
+    class CODEX_API Shader : public IResource
     {
         friend class ResourceHandler;
 

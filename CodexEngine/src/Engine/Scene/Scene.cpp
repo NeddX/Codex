@@ -540,20 +540,29 @@ namespace codex {
 
     NativeBehaviour* Scene::CreateBehaviour(const char* className, Entity parent)
     {
-        auto* ptr = RF_INSTANCE_CREATE(s_ScriptModule, className, parent);
-        if (ptr)
-            s_PossibleAttachedScripts[parent] = className;
-        return ptr;
+        if (IsScriptModuleLoaded())
+        {
+            auto* ptr = RF_INSTANCE_CREATE(s_ScriptModule, className, parent);
+            if (ptr)
+                s_PossibleAttachedScripts[parent] = className;
+            return ptr;
+        }
+        return nullptr;
     }
 
     bool Scene::BehaviourExists(const char* className)
     {
-        return RF_INSTANCE_CHECK(s_ScriptModule, className);
+        return (IsScriptModuleLoaded()) ? RF_INSTANCE_CHECK(s_ScriptModule, className) : false;
+    }
+
+    bool Scene::IsScriptModuleLoaded()
+    {
+        return s_ScriptModule;
     }
 
     void Scene::LoadScriptModule(std::filesystem::path modulePath)
     {
-        if (s_ScriptModule)
+        if (IsScriptModuleLoaded())
             UnloadScriptModule();
         s_ScriptModule = mem::Box<sys::DLib>::New(std::move(modulePath));
 
@@ -578,6 +587,9 @@ namespace codex {
 
     void Scene::UnloadScriptModule()
     {
+        if (!IsScriptModuleLoaded())
+            return;
+
         // When unloading we need to check for possible attached scripts, if any script is attached then record its
         // name so that we can attached them back (that is if they still exist) when the module is loaded back.
         for (auto& [entity, name] : s_PossibleAttachedScripts)

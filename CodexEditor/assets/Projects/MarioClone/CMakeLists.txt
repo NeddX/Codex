@@ -2,6 +2,36 @@ cmake_minimum_required(VERSION 3.16)
 
 project("MarioClone")
 
+include(FetchContent)
+
+# Fetch modules
+FetchContent_Declare(
+  logex
+  GIT_REPOSITORY git@github.com:neddien/Logex
+  GIT_TAG master)
+FetchContent_Declare(
+  sdl
+  GIT_REPOSITORY git@github.com:libsdl-org/SDL
+  GIT_TAG release-2.32.10)
+FetchContent_Declare(
+  box2d
+  GIT_REPOSITORY git@github.com:erincatto/box2d
+  GIT_TAG v2.4.2)
+FetchContent_Declare(
+  imgui
+  GIT_REPOSITORY git@github.com:ocornut/imgui
+  GIT_TAG a028c2d)
+FetchContent_Declare(
+  json
+  GIT_REPOSITORY git@github.com:nlohmann/json
+  GIT_TAG v3.12.0)
+
+FetchContent_Populate(logex)
+FetchContent_Populate(sdl)
+FetchContent_Populate(box2d)
+FetchContent_Populate(imgui)
+FetchContent_Populate(json)
+
 # For LSPs.
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
@@ -105,17 +135,16 @@ add_custom_command(
 
 # Expose Codex's dependencies.
 # TODO: Automate this please cause we have to add an entry here everytime we add a new library.
-target_include_directories(NBMan PUBLIC Engine/vendor/SDL/include)
-target_include_directories(NBMan PUBLIC Engine/vendor/MGL/include)
-target_include_directories(NBMan PUBLIC Engine/vendor/json/include)
-target_include_directories(NBMan PUBLIC Engine/vendor/imgui)
-target_include_directories(NBMan PUBLIC Engine/vendor/glm)
-target_include_directories(NBMan PUBLIC Engine/vendor/fmt/include)
+target_include_directories(NBMan PUBLIC ${sdl_SOURCE_DIR}/include)
+target_include_directories(NBMan PUBLIC Engine/src/Platform/OpenGL/MGL/include)
+target_include_directories(NBMan PUBLIC ${json_SOURCE_DIR}/include)
+target_include_directories(NBMan PUBLIC ${imgui_SOURCE_DIR}/imgui)
+target_include_directories(NBMan PUBLIC ${glm_SOURCE_DIR}/glm)
+target_include_directories(NBMan PUBLIC ${logex_SOURCE_DIR}/Logger/vendor/fmt/include)
 target_include_directories(NBMan PUBLIC Engine/vendor/entt)
-target_include_directories(NBMan PUBLIC Engine/vendor/glad)
-target_include_directories(NBMan PUBLIC Engine/vendor/box2d/include)
-target_include_directories(NBMan PUBLIC Engine/vendor/Logex/include)
-target_include_directories(NBMan PUBLIC Engine/vendor/Logex/Logger/vendor/fmt/include)
+#target_include_directories(NBMan PUBLIC Engine/vendor/glad)
+target_include_directories(NBMan PUBLIC ${box2d_SOURCE_DIR}/include)
+target_include_directories(NBMan PUBLIC ${logex_SOURCE_DIR}/Logger)
 target_include_directories(NBMan PUBLIC Engine/src/PCH)
 
 # For ease of use.

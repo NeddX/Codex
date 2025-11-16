@@ -6,7 +6,7 @@
 #include "../Core/Geomtryd.h"
 
 namespace codex::scene {
-    class Camera
+    class CODEX_API Camera
     {
     public:
         enum class ProjectionType
