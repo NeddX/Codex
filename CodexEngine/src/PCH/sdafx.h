@@ -17,13 +17,13 @@
 #include <iostream>
 #include <memory>
 #include <numeric>
+#include <random>
 #include <regex>
 #include <sstream>
 #include <type_traits>
 #include <typeinfo>
 #include <utility>
 #include <variant>
-#include <random>
 
 // Concurrency
 #include <atomic>
@@ -46,7 +46,7 @@
 #include <vector>
 
 // Platform specific
-#ifdef CX_PLATFORM_UNIX
+#if defined(CX_PLATFORM_UNIX)
 #include <cxxabi.h>
 #include <dlfcn.h>
 #include <fcntl.h>
@@ -55,23 +55,15 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#ifdef CX_PLATFORM_OSX
-#include <GLUT/glut.h>
-#include <OpenGL/gl.h>
-
-#else
-#include <GL/gl.h>
-
-#endif
-
 #elif defined(CX_PLATFORM_WINDOWS)
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
+
 #define WIN32_LEAN_AND_MEAN
 #include <ShlObj.h>
 #include <windows.h>
-#ifdef CreateWindow
+#if defined(CreateWindow)
 #undef CreateWindow
 #endif
 
@@ -83,11 +75,11 @@
 
 // Library specific
 #include <Logger.h>
-#include <fmt/core.h>
-#include <fmt/format.h>
-#include <fmt/color.h>
 #include <fmt/args.h>
 #include <fmt/chrono.h>
+#include <fmt/color.h>
+#include <fmt/core.h>
+#include <fmt/format.h>
 #define SDL_MAIN_HANDLED
 #include <glm/ext/matrix_clip_space.hpp> // glm::perspective
 #include <glm/ext/matrix_transform.hpp>  // glm::translate, glm::rotate, glm::scale
@@ -112,12 +104,7 @@
 #include <nlohmann/ordered_map.hpp>
 
 // Project specific
-#include "../Engine/Utils/include/Util.h"
 #include "../Engine/Utils/Math.h"
-
-// Stupid define by X11.
-#ifdef None
-#undef None
-#endif
+#include "../Engine/Utils/include/Util.h"
 
 #endif // CODEX_PCH_H
