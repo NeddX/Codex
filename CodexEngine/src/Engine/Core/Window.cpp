@@ -1,12 +1,11 @@
 #include "Window.h"
 
+#include "Core/Application.h"
+
 #include <Engine/Events/ApplicationEvent.h>
 #include <Engine/Events/KeyEvent.h>
 #include <Engine/Events/MouseEvent.h>
 #include <Engine/Graphics/DebugDraw.h>
-
-#include "Application.h"
-#include "Input.h"
 
 #include <imgui.h>
 #include <imgui_impl_sdl2.h>

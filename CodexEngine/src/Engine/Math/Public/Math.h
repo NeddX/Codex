@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Core/CommonDef.h"
+#include <Engine/Core/Public/CommonDef.h>
 
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/vec2.hpp>

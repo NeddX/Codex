@@ -3,13 +3,14 @@
 #include <sdafx.h>
 
 #ifdef CX_PLATFORM_WINDOWS
-#include "../../Platform/Windows/WindowsProcess.h"
+#include <Platform/Windows/WindowsProcess.h>
 #elif defined(CX_PLATFORM_UNIX)
-#include "../../Platform/POSIX/POSIXProcess.h"
+#include <Platform/POSIX/POSIXProcess.h>
 #endif
 
 namespace codex::sys {
-    Process::Process(ProcessInfo info) noexcept : m_Info(std::move(info))
+    Process::Process(ProcessInfo info) noexcept
+        : m_Info(std::move(info))
     {
     }
 

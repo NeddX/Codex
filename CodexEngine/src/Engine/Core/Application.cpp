@@ -1,14 +1,16 @@
 #include "Application.h"
-#include "../Events/ApplicationEvent.h"
-#include "../Events/KeyEvent.h"
-#include "../Events/MouseEvent.h"
-#include "../Scene/Scene.h"
-#include "Exception.h"
-#include "Input.h"
-#include <Debug/Profiler.h>
-#include <Debug/TimeScope.h>
 
 #include <sdafx.h>
+
+#include <Engine/Debug/Public/Profiler.h>
+#include <Engine/Debug/Public/TimeScope.h>
+#include <Engine/Events/ApplicationEvent.h>
+#include <Engine/Events/KeyEvent.h>
+#include <Engine/Events/MouseEvent.h>
+#include <Engine/Scene/Public/Scene.h>
+
+#include "Public/Exception.h"
+#include "Public/Input.h"
 
 namespace codex {
     namespace stdfs = std::filesystem;
@@ -28,7 +30,7 @@ namespace codex {
                                .defaultWarnStyle  = fmt::fg(fmt::color::yellow),
                                .defaultErrorStyle = fmt::fg(fmt::color::red) | fmt::emphasis::italic,
                                .defaultFatalStyle = fmt::fg(fmt::color::dark_red) | fmt::emphasis::italic } } };
-        m_Logger = &lgx::Get("engine");
+        m_Logger           = &lgx::Get("engine");
 
         try
         {

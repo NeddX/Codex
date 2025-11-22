@@ -1,12 +1,14 @@
 #include "Input.h"
-#include "../Events/KeyEvent.h"
-#include "../Events/MouseEvent.h"
+
+#include <Engine/Events/KeyEvent.h>
+#include <Engine/Events/MouseEvent.h>
 
 namespace codex {
     using namespace codex::events;
 
     const char* KeyToString(const Key key) noexcept
     {
+        // TODO: Use magic_enum brother
         static const std::unordered_map<Key, const char*> key_str_map = {
             { Key::Unknown, "Unknown" },
             { Key::Return, "Return" },

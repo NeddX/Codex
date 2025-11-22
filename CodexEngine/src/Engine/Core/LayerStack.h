@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-#include "Layer.h"
+#include "Core/Layer.h"
 
 namespace codex {
     class CODEX_API LayerStack

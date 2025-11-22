@@ -4,7 +4,7 @@
 #include <sdafx.h>
 
 #include "Application.h"
-#include "Geomtryd.h"
+#include "Public/Geomtryd.h"
 
 namespace codex {
     // Forward decelrations.

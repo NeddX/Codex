@@ -3,11 +3,12 @@
 
 #include <sdafx.h>
 
-#include "../Events/Event.h"
-#include "../Graphics/Renderer.h"
-#include "CommonDef.h"
-#include "Exception.h"
-#include "Geomtryd.h"
+#include "Public/CommonDef.h"
+#include "Public/Exception.h"
+#include "Public/Geomtryd.h"
+
+#include <Engine/Events/Event.h>
+#include <Engine/Graphics/Renderer.h>
 
 #include <SDL.h>
 #include <SDL_opengl.h>

@@ -3,6 +3,8 @@
 
 #include <sdafx.h>
 
+#include "CommonInternal.h"
+
 namespace codex {
     // Forward declerations.
     class Scene;

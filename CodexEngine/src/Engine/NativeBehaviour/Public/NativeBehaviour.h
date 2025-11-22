@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-#include <Engine/Scene/ECS.h>
+#include <Engine/Scene/Public/ECS.h>
 
 namespace codex {
     // Forward declarations.

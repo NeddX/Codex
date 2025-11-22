@@ -3,10 +3,11 @@
 
 #include <sdafx.h>
 
-#include "../Graphics/Shader.h"
-#include "../Graphics/Texture2D.h"
-#include "Exception.h"
-#include "IResource.h"
+#include "Public/Exception.h"
+#include "Public/IResource.h"
+
+#include <Engine/Graphics/Public/Shader.h>
+#include <Engine/Graphics/Public/Texture2D.h>
 
 namespace codex {
     class ResourceException : public CodexException
@@ -38,10 +39,10 @@ namespace codex {
         static void Destroy();
 
     private:
-        static ResRef<gfx::Texture2D> Load_Texture2D(const std::filesystem::path       filePath,
-                                                          const gfx::TextureProperties props = {});
+        static ResRef<gfx::Texture2D> Load_Texture2D(const std::filesystem::path  filePath,
+                                                     const gfx::TextureProperties props = {});
         static ResRef<gfx::Shader>    Load_Shader(const std::filesystem::path filePath,
-                                                       const std::string_view      version = "330 core");
+                                                  const std::string_view      version = "330 core");
 
     public:
         template <typename T, typename... TArgs>

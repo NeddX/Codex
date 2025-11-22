@@ -13,7 +13,11 @@ namespace codex::events {
         i32 m_Height;
 
     public:
-        WindowResizeEvent(const i32 width, const i32 height) : m_Width(width), m_Height(height) {}
+        WindowResizeEvent(const i32 width, const i32 height)
+            : m_Width(width)
+            , m_Height(height)
+        {
+        }
 
     public:
         inline i32         GetWidth() const noexcept { return m_Width; }

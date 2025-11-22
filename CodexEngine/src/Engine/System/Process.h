@@ -3,8 +3,8 @@
 
 #include <sdafx.h>
 
-#include "../Core/Exception.h"
-#include "../Memory/Memory.h"
+#include <Engine/Core/Public/Exception.h>
+#include <Engine/Memory/Public/Memory.h>
 
 namespace codex::sys {
     CX_CUSTOM_EXCEPTION(ProcessException, "Could not create process.")

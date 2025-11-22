@@ -1,15 +1,15 @@
 #include "Scene.h"
 
-#include <Debug/Profiler.h>
-#include <Debug/TimeScope.h>
+#include <Debug/Public/Profiler.h>
+#include <Debug/Public/TimeScope.h>
 #include <Engine/Graphics/Renderer.h>
-#include <Engine/NativeBehaviour/NativeBehaviour.h>
+#include <Engine/NativeBehaviour/Public/NativeBehaviour.h>
 #include <Engine/Reflection/Reflector.h>
 #include <Engine/Utils/Box2DUtils.h>
-#include <Engine/Utils/Math.h>
+#include <Engine/Utils/Public/Math.h>
 
-#include "Components.h"
-#include "ECS.h"
+#include "Public/Components.h"
+#include "Public/ECS.h"
 
 namespace codex {
     // TODO: NBMan is shared across all scenes, Scene being the owner of NBMan does not seem correct.

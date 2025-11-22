@@ -3,16 +3,16 @@
 
 #include <sdafx.h>
 
-#include "Camera.h"
+#include "Public/Camera.h"
 
 namespace codex::scene {
     class CODEX_API EditorCamera : public Camera
     {
     private:
-        Vector3f         m_Pos        = Vector3f(0.0f);
+        Vector3f m_Pos = Vector3f(0.0f);
         // TODO: Uncomment for perspective camera.
-        //Vector3f         m_Rotation   = Vector3f(0.0f);
-        //Vector3f         m_FocalPoint = Vector3f(0.0f);
+        // Vector3f         m_Rotation   = Vector3f(0.0f);
+        // Vector3f         m_FocalPoint = Vector3f(0.0f);
         mutable Matrix4f m_ViewMat;
 
     public:

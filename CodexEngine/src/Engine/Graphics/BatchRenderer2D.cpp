@@ -1,9 +1,9 @@
 #include "BatchRenderer2D.h"
 
 #include <Engine/Core/Application.h>
-#include <Engine/Core/ResourceHandler.h>
-#include <Engine/Debug/Debug.h>
-#include <Engine/Scene/Components.h>
+#include <Engine/Core/Public/ResourceHandler.h>
+#include <Engine/Debug/Public/Debug.h>
+#include <Engine/Scene/Public/Components.h>
 
 namespace codex::gfx {
     namespace stdfs = std::filesystem;

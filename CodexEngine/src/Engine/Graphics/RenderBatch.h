@@ -3,16 +3,15 @@
 
 #include <sdafx.h>
 
-#include "../Core/Geomtryd.h"
+#include <Engine/Core/Public/Geomtryd.h>
+
 #include "Shader.h"
 #include "Texture2D.h"
 
 namespace codex::gfx {
     constexpr auto QUAD2D_VERTEX_COUNT = 4; // How many vertices does the buffer have?
 
-    CX_PACKED(
-    struct QuadVertex
-    {
+    CX_PACKED(struct QuadVertex {
         Matrix4f model;
         Vector4f vertex;
         Vector4f colour;

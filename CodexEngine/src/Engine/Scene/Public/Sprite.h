@@ -1,10 +1,10 @@
 #ifndef CODEX_SCENE_SPRITE_H
 #define CODEX_SCENE_SPRITE_H
 
-#include "../Core/Geomtryd.h"
-#include "../Core/IResource.h"
-#include "../Core/ResourceHandler.h"
-#include "../Graphics/Texture2D.h"
+#include <Engine/Core/Public/Geomtryd.h>
+#include <Engine/Core/Public/IResource.h>
+#include <Engine/Core/Public/ResourceHandler.h>
+#include <Engine/Graphics/Public/Texture2D.h"
 
 namespace codex {
     class CODEX_API Sprite

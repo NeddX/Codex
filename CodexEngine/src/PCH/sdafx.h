@@ -69,18 +69,22 @@
 
 #endif
 
+// Define these
+#define SDL_MAIN_HANDLED
+#define IMGUI_DEFINE_MATH_OPERATORS
+
 // Codex specific
-#include "../Engine/Core/CommonDef.h"
-#include "../Engine/Math/Math.h"
+#include <Engine/Core/Public/CommonDef.h>
+#include <Engine/Math/Public/Math.h>
 
 // Library specific
+/*
 #include <Logger.h>
 #include <fmt/args.h>
 #include <fmt/chrono.h>
 #include <fmt/color.h>
 #include <fmt/core.h>
 #include <fmt/format.h>
-#define SDL_MAIN_HANDLED
 #include <glm/ext/matrix_clip_space.hpp> // glm::perspective
 #include <glm/ext/matrix_transform.hpp>  // glm::translate, glm::rotate, glm::scale
 #include <glm/ext/scalar_constants.hpp>  // glm::pi
@@ -93,18 +97,18 @@
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
 // #include <NetNative.h>
-#include <entt.hpp>
-#define IMGUI_DEFINE_MATH_OPERATORS
 #include <box2d/box2d.h>
+#include <entt.hpp>
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include <nlohmann/json.hpp>
 #include <nlohmann/json_fwd.hpp>
 #include <nlohmann/ordered_map.hpp>
+*/
 
 // Project specific
-#include "../Engine/Utils/Math.h"
-#include "../Engine/Utils/include/Util.h"
+#include "../Engine/Utils/Public/Math.h"
+#include "../Engine/Utils/Public/Util.h"
 
 #endif // CODEX_PCH_H

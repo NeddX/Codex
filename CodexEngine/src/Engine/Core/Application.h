@@ -3,13 +3,13 @@
 
 #include <sdafx.h>
 
+#include "Core/LayerStack.h"
+#include "Core/Public/CommonDef.h"
+#include "Core/Public/Exception.h"
+#include "Core/Window.h"
+
 #include <Engine/Events/Event.h>
 #include <Engine/ImGui/ImGuiLayer.h>
-
-#include "CommonDef.h"
-#include "Exception.h"
-#include "LayerStack.h"
-#include "Window.h"
 
 int main(int argc, char** argv);
 
@@ -108,7 +108,7 @@ namespace codex {
         auto OnWindowResize_Event(const events::WindowResizeEvent& event) -> bool;
 
     public:
-        virtual auto OnInit() -> void {};
+        virtual auto OnInit() -> void{};
 
     public:
         auto Run() -> void;

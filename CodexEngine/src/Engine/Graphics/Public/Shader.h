@@ -3,9 +3,9 @@
 
 #include <sdafx.h>
 
-#include "../Core/Exception.h"
-#include "../Core/IResource.h"
-#include "../Memory/Memory.h"
+#include <Engine/Core/Public/Exception.h>
+#include <Engine/Core/Public/IResource.h>
+#include <Engine/Memory/Public/Memory.h>
 
 namespace codex::gfx {
     CX_CUSTOM_EXCEPTION(ShaderException, "Bad shader.")

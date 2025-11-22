@@ -3,8 +3,8 @@
 
 #include <sdafx.h>
 
-#include <Engine/Core/IResource.h>
-#include <Engine/Memory/Memory.h>
+#include <Engine/Core/Public/IResource.h>
+#include <Engine/Memory/Public/Memory.h>
 
 #include <MGL.h>
 

@@ -1,4 +1,4 @@
-#include "Math.h"
+#include "Public/Math.h"
 
 namespace codex::math {
     bool TransformDecompose(const glm::mat4& transform, glm::vec3& translation, glm::vec3& rotation, glm::vec3& scale)

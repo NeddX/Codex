@@ -1,19 +1,18 @@
-#include "Exception.h"
+#include "Public/Exception.h"
 
 namespace codex {
-    CodexException::CodexException(const std::string_view message) noexcept :
-        m_Message(message)
+    CodexException::CodexException(const std::string_view message) noexcept
+        : m_Message(message)
     {
-
     }
 
-    CodexException::CodexException(const std::string_view message, const char* file, const char* function, const u32 line) noexcept :
-        m_Message(message),
-        m_File(file),
-        m_Function(function),
-        m_Line(line)
+    CodexException::CodexException(const std::string_view message, const char* file, const char* function,
+                                   const u32 line) noexcept
+        : m_Message(message)
+        , m_File(file)
+        , m_Function(function)
+        , m_Line(line)
     {
-
     }
 
     const char* CodexException::what() const noexcept

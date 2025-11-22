@@ -3,7 +3,9 @@
 
 #include <sdafx.h>
 
-#include "Application.h"
+#include "Core/Application.h"
+
+#include <imgui.h>
 
 extern codex::Application* codex::CreateApplication(ApplicationCLIArgs args);
 
@@ -15,7 +17,7 @@ int main(int argc, char** argv)
     try
     {
         auto app = codex::CreateApplication({ argc, argv });
-        GImGui = codex::Application::GetImGuiLayer()->GetImGuiContext();
+        GImGui   = codex::Application::GetImGuiLayer()->GetImGuiContext();
         app->OnInit();
         app->Run();
         delete app;

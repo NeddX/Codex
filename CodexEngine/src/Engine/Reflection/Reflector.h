@@ -3,8 +3,8 @@
 
 #include <sdafx.h>
 
-#include <Engine/Core/Exception.h>
-#include <Engine/NativeBehaviour/NativeBehaviour.h>
+#include <Engine/Core/Public/Exception.h>
+#include <Engine/Public/NativeBehaviour/NativeBehaviour.h>
 
 #include "Lexer.h"
 

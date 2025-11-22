@@ -1,9 +1,9 @@
 #include "DebugDraw.h"
 
 #include <Engine/Core/Application.h>
-#include <Engine/Core/Geomtryd.h>
+#include <Engine/Core/Public/Geomtryd.h>
 #include <Engine/Core/Window.h>
-#include <Engine/Scene/Scene.h>
+#include <Engine/Scene/Public/Scene.h>
 
 namespace codex::gfx {
     namespace stdfs = std::filesystem;

@@ -1,6 +1,6 @@
 #include "Reflector.h"
 
-#include <Engine/Core/Exception.h>
+#include <Engine/Core/Public/Exception.h>
 
 #include "Lexer.h"
 
@@ -356,7 +356,8 @@ namespace codex::rf {
 
             // Rf_CreateInstance()
             {
-                fs << "codex::NativeBehaviour* Rf_CreateInstance(const char* className, codex::Entity parent) noexcept\n{\n";
+                fs << "codex::NativeBehaviour* Rf_CreateInstance(const char* className, codex::Entity parent) "
+                      "noexcept\n{\n";
 
                 bool first_if = true;
                 for (const auto& f : files)

@@ -3,7 +3,8 @@
 
 #include <sdafx.h>
 
-#include "../Core/Input.h"
+#include <Engine/Core/Input.h>
+
 #include "Event.h"
 
 namespace codex::events {
@@ -38,7 +39,8 @@ namespace codex::events {
     public:
         [[nodiscard]] std::string ToString() const noexcept override
         {
-            return fmt::format("MouseMoveEvent: Button: {}, Pos: ({}, {})", MouseToString(m_Button), m_MouseX, m_MouseY);
+            return fmt::format("MouseMoveEvent: Button: {}, Pos: ({}, {})", MouseToString(m_Button), m_MouseX,
+                               m_MouseY);
         }
 
         EVENT_CLASS_TYPE(MouseMove)

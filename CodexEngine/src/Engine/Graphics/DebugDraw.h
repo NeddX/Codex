@@ -3,9 +3,9 @@
 
 #include <sdafx.h>
 
-#include <Engine/Scene/Camera.h>
-#include <Engine/Scene/Components.h>
 #include <Engine/Scene/EditorCamera.h>
+#include <Engine/Scene/Public/Camera.h>
+#include <Engine/Scene/Public/Components.h>
 
 #include "Line2D.h"
 #include "Shader.h"

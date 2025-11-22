@@ -3,14 +3,14 @@
 
 #include <sdafx.h>
 
-#include <Engine/Core/Geomtryd.h>
-#include <Engine/Core/UUID.h>
-#include <Engine/Memory/Memory.h>
-#include <Engine/NativeBehaviour/NativeBehaviour.h>
-#include <Engine/Physics/PhysicsMaterial2D.h>
+#include <Engine/Core/Public/Geomtryd.h>
+#include <Engine/Core/Public/UUID.h>
+#include <Engine/Memory/Public/Memory.h>
+#include <Engine/NativeBehaviour/Public/NativeBehaviour.h>
+#include <Engine/Physics/Public/PhysicsMaterial2D.h>
 
-#include "Camera.h"
-#include "Sprite.h"
+#include "Public/Camera.h"
+#include "Public/Sprite.h"
 
 namespace codex {
     // Forward decelerations

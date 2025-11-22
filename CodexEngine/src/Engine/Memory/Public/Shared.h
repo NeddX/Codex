@@ -3,7 +3,8 @@
 
 #include <sdafx.h>
 
-#include "../Core/Exception.h"
+#include <Engine/Core/Public/Exception.h>
+
 #include "Sharable.h"
 
 namespace codex::mem {
@@ -61,7 +62,10 @@ namespace codex::mem {
 
     public:
         constexpr Shared() = default;
-        constexpr Shared(std::nullptr_t) : Shared() {}
+        constexpr Shared(std::nullptr_t)
+            : Shared()
+        {
+        }
 
         Shared(const Pointer ptr)
         {
@@ -83,7 +87,8 @@ namespace codex::mem {
     public:
         template <typename U>
             requires(std::is_convertible_v<U, T> || std::is_base_of_v<T, U>)
-        Shared(U* const ptr) : Shared((const Pointer)ptr)
+        Shared(U* const ptr)
+            : Shared((const Pointer)ptr)
         {
         }
         template <typename U, typename Deleter>
@@ -169,7 +174,7 @@ namespace codex::mem {
     public:
         inline Shared<T>& Reset(Pointer&& ptr = nullptr)
         {
-            Shared<T>{std::move(ptr)}.Swap(*this);
+            Shared<T>{ std::move(ptr) }.Swap(*this);
             return *this;
         }
 

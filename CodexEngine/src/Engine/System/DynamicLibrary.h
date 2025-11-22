@@ -3,7 +3,7 @@
 
 #include <sdafx.h>
 
-#include "../Core/Exception.h"
+#include <Engine/Core/Public/Exception.h>
 
 namespace codex::sys {
     CX_CUSTOM_EXCEPTION(DynamicLibraryLoadException, "Failed to load dynamic library.")

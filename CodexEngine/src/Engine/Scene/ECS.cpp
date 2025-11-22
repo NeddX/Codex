@@ -1,5 +1,6 @@
-#include "ECS.h"
-#include "Components.h"
+#include "Public/ECS.h"
+
+#include "Public/Components.h"
 
 namespace codex {
     [[nodiscard]] UUID Entity::GetUUID() const noexcept

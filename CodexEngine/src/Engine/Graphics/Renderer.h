@@ -3,9 +3,9 @@
 
 #include <sdafx.h>
 
-#include "../Core/Geomtryd.h"
-#include "../Scene/Sprite.h"
-#include "BatchRenderer2D.h"
+#include <Engine/Public/Core/Geomtryd.h>
+#include <Engine/Public/Scene/Sprite.h>
+
 #include "Shader.h"
 
 namespace codex::gfx {

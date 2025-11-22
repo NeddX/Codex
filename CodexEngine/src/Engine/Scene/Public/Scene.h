@@ -1,15 +1,15 @@
 #ifndef CODEX_SCENE_H
 #define CODEX_SCENE_H
 
-#include <Engine/Concurrency/Mutex.h>
-#include <Engine/Core/Input.h>
-#include <Engine/Core/ResourceHandler.h>
-#include <Engine/Core/UUID.h>
+#include <Engine/Concurrency/Public/Mutex.h>
+#include <Engine/Core/Public/Input.h>
+#include <Engine/Core/Public/ResourceHandler.h>
+#include <Engine/Core/Public/UUID.h>
 #include <Engine/Graphics/Renderer.h>
-#include <Engine/Memory/Memory.h>
-#include <Engine/Scene/Camera.h>
+#include <Engine/Memory/Public/Memory.h>
 #include <Engine/Scene/EditorCamera.h>
-#include <Engine/Scene/SpriteSheet.h>
+#include <Engine/Scene/Public/Camera.h>
+#include <Engine/Scene/Public/SpriteSheet.h>
 #include <Engine/System/DynamicLibrary.h>
 
 namespace codex {

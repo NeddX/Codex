@@ -3,7 +3,8 @@
 
 #include <sdafx.h>
 
-#include "../Core/Exception.h"
+#include <Engine/Core/Public/Exception.h>
+
 #include "Sharable.h"
 
 namespace codex::mem {

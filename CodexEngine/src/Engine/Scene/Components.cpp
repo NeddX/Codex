@@ -5,7 +5,7 @@
 #include <Engine/Graphics/DebugDraw.h>
 #include <Engine/Utils/Box2DUtils.h>
 
-#include "ECS.h"
+#include "Public/ECS.h"
 
 namespace codex {
     using namespace codex::gfx;

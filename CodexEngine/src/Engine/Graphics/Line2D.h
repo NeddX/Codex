@@ -1,7 +1,7 @@
 #ifndef CODEX_RENDERER_LINE_2D_H
 #define CODEX_RENDERER_LINE_2D_H
 
-#include <Engine/Core/Geomtryd.h>
+#include <Engine/Core/Public/Geomtryd.h>
 
 namespace codex::gfx {
     class CODEX_API Line2D

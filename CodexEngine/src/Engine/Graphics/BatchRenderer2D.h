@@ -3,13 +3,12 @@
 
 #include <sdafx.h>
 
-#include <Engine/Core/Geomtryd.h>
-#include <Engine/Memory/Memory.h>
-#include <Engine/Scene/Camera.h>
+#include <Engine/Core/Public/Geomtryd.h>
+#include <Engine/Memory/Public/Memory.h>
 #include <Engine/Scene/EditorCamera.h>
-#include <Engine/Scene/Sprite.h>
+#include <Engine/Scene/Public/Camera.h>
+#include <Engine/Scene/Public/Sprite.h>
 
-#include "RenderBatch.h"
 #include "Shader.h"
 #include "Texture2D.h"
 

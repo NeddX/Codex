@@ -3,9 +3,9 @@
 
 #include <sdafx.h>
 
-#include "../Core/Exception.h"
-#include "../Core/IResource.h"
-#include "../Memory/Memory.h"
+#include <Engine/Core/Public/Exception.h>
+#include <Engine/Core/Public/IResource.h>
+#include <Engine/Memory/Public/Memory.h>
 
 namespace codex::gfx {
     // Forward declerations.
@@ -38,8 +38,8 @@ namespace codex::gfx {
 
     public:
         constexpr operator bool() const noexcept;
-        Image2D& operator=(const Image2D& other);
-        Image2D& operator=(Image2D&& other) noexcept;
+        Image2D&  operator=(const Image2D& other);
+        Image2D&  operator=(Image2D&& other) noexcept;
 
     public:
         u8*                          GetRaw() noexcept { return m_RawData; }

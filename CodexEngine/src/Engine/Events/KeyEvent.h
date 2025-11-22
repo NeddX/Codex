@@ -3,7 +3,8 @@
 
 #include <sdafx.h>
 
-#include "../Core/Input.h"
+#include <Engine/Core/Public/Input.h>
+
 #include "Event.h"
 
 namespace codex::events {
@@ -13,7 +14,8 @@ namespace codex::events {
         Key m_Key;
 
     protected:
-        KeyEvent(const Key key) : m_Key(key){};
+        KeyEvent(const Key key)
+            : m_Key(key){};
 
     public:
         inline Key GetKey() const noexcept { return m_Key; }
@@ -27,7 +29,11 @@ namespace codex::events {
         bool m_IsRepeat;
 
     public:
-        KeyDownEvent(const Key key, const bool isRepeat) : KeyEvent(key), m_IsRepeat(isRepeat) {}
+        KeyDownEvent(const Key key, const bool isRepeat)
+            : KeyEvent(key)
+            , m_IsRepeat(isRepeat)
+        {
+        }
 
     public:
         bool        IsRepeat() const noexcept { return m_IsRepeat; }
@@ -42,13 +48,13 @@ namespace codex::events {
     class CODEX_API KeyUpEvent : public KeyEvent
     {
     public:
-        KeyUpEvent(const Key key) : KeyEvent(key) {}
+        KeyUpEvent(const Key key)
+            : KeyEvent(key)
+        {
+        }
 
     public:
-        std::string ToString() const noexcept override
-        {
-            return fmt::format("KeyUpEvent: Key({})", m_Key);
-        }
+        std::string ToString() const noexcept override { return fmt::format("KeyUpEvent: Key({})", m_Key); }
 
         EVENT_CLASS_TYPE(KeyUp);
     };

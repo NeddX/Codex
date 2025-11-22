@@ -1,7 +1,7 @@
 #ifndef CODEX_UTILS_MATH_H
 #define CODEX_UTILS_MATH_H
 
-#include <Engine/Core/Geomtryd.h>
+#include <Engine/Core/Public/Geomtryd.h>
 
 namespace codex::utils {
     [[nodiscard]] inline auto ToVec3f(const Vector2f& vec) noexcept
